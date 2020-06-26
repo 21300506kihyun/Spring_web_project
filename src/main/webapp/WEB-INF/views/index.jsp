@@ -21,7 +21,7 @@
         <p>|</p>
         <a href="#">회원가입</a>
         <p>|</p>
-        <a href="#">리셀러 회원신청</a>
+        <a href="mailForm">리셀러 회원신청</a>
     </div>
     <div class="p2_menu01" id="p1_menu01">
         <p>고용량 오메가3</p>

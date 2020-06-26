@@ -21,7 +21,7 @@
         <p>|</p>
         <a href="#">회원가입</a>
         <p>|</p>
-        <a href="#">리셀러 회원신청</a>
+        <a href="mailForm">리셀러 회원신청</a>
     </div>
     <div class="p2_menu01">
         <p>고용량 오메가3</p>
@@ -99,7 +99,7 @@
             </p>
             <p class="p1_fo_p1">Copyright (C) <span>OMERANMALL</span> All right reserved.</p>
             <p class="p1_fo_p2">엠투테크(주)</p>
-            <p class="p1_fo_p3">광주광역시 북구 추암로 249, 3D 융합상용화지원센터 303호</p>
+            <p class="p1_fo_p3">	</p>
             <p class="p1_fo_p4">Tel. 062-955-262 Fax.062-955-2623</p>
         </li>
     </ul>
