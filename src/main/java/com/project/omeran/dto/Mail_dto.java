@@ -43,3 +43,4 @@ public class Mail_dto {
         return "EmailDTO [senderName=" + senderName + ", senderMail=" + senderMail + ", receiveMail=" + receiveMail
                 + ", subject=" + subject + ", message=" + message + "]";
     }
+}

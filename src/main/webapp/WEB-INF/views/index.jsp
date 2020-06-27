@@ -14,6 +14,41 @@
 <div id="omeran_pc_all">
 
 <header id="p2_header">
+	
+	<div class="dim-layer">
+	    <div class="dimBg" style="cursor: pointer" onclick="$('.dim-layer').fadeOut()"></div>
+	    <div id="form-mail-popup" class="pop-layer">
+	        <div class="pop-container">
+	            <div class="pop-conts">
+	                <!--content //-->
+	                <div class="popup-container">
+					  <h4>메일 보내기</h4>
+					  <form action="${pageContext.request.contextPath}/mailSending" method="post">
+					    <div align="center"><!-- 받는 사람 이메일 -->
+					      <input type="text" name="tomail" value="21300506@handong.edu" class="form-control" >
+					    </div>
+					    <div align="center"><!-- 제목 -->
+					      <input type="text" name="title" placeholder="제목을 입력해주세요" class="form-control" >
+					    </div>
+					    <p>
+					    <div align="center"><!-- 내용 --> 
+					      <textarea name="content" cols="12" rows="12" placeholder="보내시는 분 메일과, 번호 , 문의사항을 입력해주세요" class="form-control"></textarea>
+					    </div>
+					    <p>
+					    <div align="center">
+					      <input type="submit" value="메일 보내기" class="popup-submit">
+					      <a href="#" class="btn-layerClose">닫기</a>
+					    </div>
+					  </form>
+					</div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+
+
+
     <img src="img/p1_top_banner.png" class="p2_top_banner">
     <a href="index" class="p2_top_logo" id="p1_top_logoc"><img src="img/p1_top_logo.png" alt=""></a>
     <div class="p2_util p1_util">
@@ -21,7 +56,7 @@
         <p>|</p>
         <a href="#">회원가입</a>
         <p>|</p>
-        <a href="mailForm">리셀러 회원신청</a>
+        <a href="#form-mail-popup" class="btn-example">리셀러 회원신청</a>
     </div>
     <div class="p2_menu01" id="p1_menu01">
         <p>고용량 오메가3</p>
