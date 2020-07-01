@@ -6,7 +6,7 @@ $(document).ready(function(){
 })
 
 $(document).ready(function(){
-	$('.btn-example').click(function(){
+	$('.popup-btn').click(function(){
         var $href = $(this).attr('href');
         layer_popup($href);
     });

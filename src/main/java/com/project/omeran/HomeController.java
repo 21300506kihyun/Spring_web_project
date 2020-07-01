@@ -75,7 +75,7 @@ public class HomeController {
 	  @RequestMapping(value = "/mailSending")
 	  public String mailSending(HttpServletRequest request) {
 	   
-	    String setfrom = "21300506@gmail.com";         
+	    String setfrom = "21700633@handong.edu";         
 	    String tomail  = request.getParameter("tomail");     // 받는 사람 이메일
 	    String title   = request.getParameter("title");      // 제목
 	    String content = request.getParameter("content");    // 내용
