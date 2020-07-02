@@ -14,14 +14,18 @@
 <div id="omeran_pc_all">
 
 <header id="p2_header">
+
+	<%-- <jsp:include page="/WEB-INF/views/popupMail.jsp"></jsp:include> --%>
+	<jsp:include page="./popupMail.jsp"></jsp:include>
+	
     <img src="img/p3_top_banner.png" class="p2_top_banner">
     <a href="index" class="p2_top_logo"><img src="img/p3_top_logo.png" alt=""></a>
     <div class="p2_util">
-        <a href="#">로그인</a>
+        <a href="#form-mail-popup" class="popup-btn">로그인</a>
         <p>|</p>
-        <a href="#">회원가입</a>
+        <a href="#form-mail-popup" class="popup-btn">회원가입</a>
         <p>|</p>
-        <a href="mailForm">리셀러 회원신청</a>
+        <a href="#form-mail-popup" class="popup-btn">리셀러 회원신청</a>
     </div>
     <div class="p2_menu01">
         <p>고용량 오메가3</p>
@@ -84,7 +88,7 @@ WHO가 권장하는 4:1수준으로 낮춰야 할 필요성이 강하게 제기�
                 <li><p>|</p></li>
                 <li><a href="#">개인정보 제공내역 공지</a></li>
                 <li><p>|</p></li>
-                <li><a href="#">정고공개안내</a></li>
+                <li><a href="#">정보공개안내</a></li>
                 <li><p>|</p></li>
                 <li><a href="#">이메일무단수집거부</a></li>
             </ul>
@@ -168,33 +172,3 @@ WHO가 권장하는 4:1수준으로 낮춰야 할 필요성이 강하게 제기�
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
