@@ -6,7 +6,8 @@
 <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<link href="css/common.css" rel="stylesheet" type="text/css">
+<!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
+<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/common.js"></script>
 </head>
@@ -56,7 +57,7 @@
         <p>|</p>
         <a href="#">회원가입</a>
         <p>|</p>
-        <a href="#form-mail-popup" class="btn-example">리셀러 회원신청</a>
+        <a href="mailForm" class="btn-example">리셀러 회원신청</a>
     </div>
     <div class="p2_menu01" id="p1_menu01">
         <p>고용량 오메가3</p>
@@ -111,7 +112,7 @@
 </footer>
 </div>
 
-<!-- 모바일 시작 -->
+<!— 모바일 시작 —>
 <div id="omeran_mob_all">
 <div id="m_index">
 <img src="img/m_index.png" id="m_main_img">
@@ -158,35 +159,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
