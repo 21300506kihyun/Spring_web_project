@@ -1,5 +1,6 @@
 package com.project.omeran;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Handles requests for the application home page.
@@ -97,6 +99,24 @@ public class HomeController {
 	   
 	    return "redirect:index";
 	  }
+	  
+	    @ResponseBody
+	    @RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST)
+	    public int VerifyRecaptcha(HttpServletRequest request) {
+	        VerifyRecaptcha.setSecretKey("6LcYU6wZAAAAAEi4rXL-A97f2QL7ZAWK8YAtIMsc");
+	        String gRecaptchaResponse = request.getParameter("recaptcha");
+	        System.out.println(gRecaptchaResponse);
+	        //0 = 성공, 1 = 실패, -1 = 오류
+	        try {
+	            if(VerifyRecaptcha.verify(gRecaptchaResponse))
+	                return 0;
+	            else return 1;
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return -1;
+	        }
+	    }
+
 
 	
 }
