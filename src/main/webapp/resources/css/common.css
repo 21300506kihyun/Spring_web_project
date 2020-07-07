@@ -285,6 +285,10 @@ h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input
 
 
 
+/* index */
+.m_index_main{
+	font-size: 10px !important;
+}
 
 /* Pop-up Layer */
 .pop-layer .pop-container {

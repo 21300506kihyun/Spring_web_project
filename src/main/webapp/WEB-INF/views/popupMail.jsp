@@ -54,7 +54,7 @@
           <!--content //-->
           <div class="popup-container">
             <h4 class="popup-title">문의하기</h4>
-            <p class="popup-content">오메란 웹 사이트의 회원 신청이 비활성화 되었습니다. 관리자에게 문의 바랍니다.</p>
+            <p class="popup-content">열람하시려는 사이트는 개발중에 있습니다. <br>FAQ 게시글을 참고해주시고 그 외 궁금하신 점은 아래 내용과 함께 <br>메일 주시면 남겨주신 메일주소로 회신 드리겠습니다. </p>
 
             <form id="mailForm" onsubmit="return check('mailForm')" action="${pageContext.request.contextPath}/mailSending" method="post" >
               <div align="center">
