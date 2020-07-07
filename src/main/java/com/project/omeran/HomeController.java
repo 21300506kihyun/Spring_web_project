@@ -103,7 +103,7 @@ public class HomeController {
 	  }
 	  
 	    @ResponseBody
-	    @RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST)
+	    @RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST,produces="application/json")
 	    public int VerifyRecaptcha(HttpServletRequest request) {
 	        VerifyRecaptcha.setSecretKey("6LcYU6wZAAAAAEi4rXL-A97f2QL7ZAWK8YAtIMsc");
 	        String gRecaptchaResponse = request.getParameter("recaptcha");
