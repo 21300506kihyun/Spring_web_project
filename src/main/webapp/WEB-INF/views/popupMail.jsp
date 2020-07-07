@@ -19,7 +19,7 @@
     $(document).ready(function() {
       $("#test_btn").click(function() {
         $.ajax({
-          url: '/omeran/VerifyRecaptcha',
+          url: 'VerifyRecaptcha',
           type: 'post',
           data: {
             recaptcha: $("#g-recaptcha-response").val()
@@ -74,12 +74,12 @@
                 <!-- 내용 -->
                 <textarea name="content" cols="12" rows="12" placeholder="문의사항을 입력해주세요" class="form-control"></textarea>
               </div>
-            
+
                 <!--recaptcha -->
               <div class="g-recaptcha" data-sitekey="6LcYU6wZAAAAAD3_mJDSd6KCwmAWIPSc5yeV9QGj"></div>
               <button id="test_btn">테스트 버튼</button>
               <div align="center">
-                <div id="captcha">
+                <div id="captcha" style="display:none">
                   <input type="submit" id="smbt" value="메일 보내기" class="popup-submit">
                 </div>
                 <a href="#" class="btn-layerClose">닫기</a>
@@ -92,7 +92,7 @@
       </div>
     </div>
   </div>
-  
+
   <script>
 	  function check(formName){
 	  	var valid = true;
@@ -109,7 +109,7 @@
 	  			else if(type == "fromMail"){
 	  				text = "보낼 이메일을 입력해주세요";
 	  				valid = false;
-	  				
+
 	  			}
 	  			else if(type == "content"){
 	  				text = "내용을 입력해주세요";
@@ -134,7 +134,7 @@
 	  	}
 	  	return false;
 	  }
-	
+
 	  function isEmpty(val){
 	  	if(val == null || typeof val == "undefind" || val.trim().length < 1){
 	  		return true;
