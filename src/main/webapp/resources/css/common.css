@@ -361,6 +361,14 @@ a.btn-layerClose:hover {
 	background-color: #1f326a;
 	color: #fff;
 }
+.popup-title{
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 1%;
+}
+.popup-content{
+	margin-bottom: 1%;
+}
 .popup-container{
 	padding: 1em;
 }
@@ -391,28 +399,3 @@ a.btn-layerClose:hover {
 	color: #fff;
 	cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

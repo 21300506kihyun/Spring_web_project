@@ -1,5 +1,6 @@
 package com.project.omeran;
 
+import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class HomeController {
 		
 		return "index";
 	}
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	@RequestMapping(value = {"/index", "/p1.html"}, method = RequestMethod.GET)
 	public String home_2() {
 		
 		return "index";
@@ -77,10 +78,11 @@ public class HomeController {
 	  @RequestMapping(value = "/mailSending")
 	  public String mailSending(HttpServletRequest request) {
 	   
-	    String setfrom = "21700633@handong.edu";         
+	    String setfrom = request.getParameter("fromMail");   // 보내는 사람 이메일
 	    String tomail  = request.getParameter("tomail");     // 받는 사람 이메일
 	    String title   = request.getParameter("title");      // 제목
-	    String content = request.getParameter("content");    // 내용
+	    String content = "omeranmall.com을 통해 [ " + request.getParameter("fromMail") + " ] 의 계정에서 질문한 문의입니다.\n\n"
+	    		+ "문의의 내용은 아래와 같습니다.\n\n\n=======[ 아래 ]======\n\n" + request.getParameter("content");    // 내용
 	   
 	    try {
 	      MimeMessage message = mailSender.createMimeMessage();
