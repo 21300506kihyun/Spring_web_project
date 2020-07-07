@@ -31,6 +31,8 @@
         <jsp:include page="./menuRight.jsp"></jsp:include>
       </div>
     </header>
+    
+    <jsp:include page="./login.jsp"></jsp:include>
 
     <div id="p4_mid">
       <img src="img/p4_mid_img.png" alt="" class="p4_mid_img">

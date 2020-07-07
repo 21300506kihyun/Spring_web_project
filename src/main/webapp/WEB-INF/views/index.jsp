@@ -32,6 +32,8 @@
         <jsp:include page="./menuRight.jsp"></jsp:include>
       </div>
     </header>
+    
+    <jsp:include page="./login.jsp"></jsp:include>
 
     <div id="p1_mid">
       <div class="p1_thro_line"></div>

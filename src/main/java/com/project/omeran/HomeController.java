@@ -67,6 +67,11 @@ public class HomeController {
 		
 		return "p5";
 	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login() {
+		return "login";
+	}
 	 // mailForm
 	  @RequestMapping(value = "/mailForm")
 	  public String mailForm() {

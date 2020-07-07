@@ -319,6 +319,8 @@ h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input
 	height: auto;
 	background-color: #fff;
 	border: 5px solid #3571B5;
+	/* border: 5px solid #eeb885; */
+	/* border: 3px solid #95c11f; */
 	z-index: 10;
 }
 
@@ -369,6 +371,8 @@ a.btn-layerClose:hover {
 	font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 1%;
+	border-bottom: 1px solid #bbb;
+	padding-bottom: 2px;
 }
 .popup-content{
 	margin-bottom: 1%;
@@ -402,4 +406,100 @@ a.btn-layerClose:hover {
 	background-color: #1f326a;
 	color: #fff;
 	cursor: pointer;
+}
+
+/* login */
+.login-mid{
+	/* position:relative; */ 
+	/* width:100%; */
+	/* margin-top: -32%; */
+	/* margin-bottom: 32%; */
+	margin-top: 1em;
+	margin-bottom: 2em;
+	text-align: center;
+}
+.login-mid-line{
+	position:relative; 
+	width:90%; 
+	border-top:2px solid #f9c194; 
+	margin:0 auto; 
+	margin-bottom: 5%;
+	margin-top: 1%;
+	/* top:25px; */
+}
+.login-mid-menu{
+	/* position:relative; */ 
+	width:80%; 
+	margin:0 auto; 
+	/* height:50px;  */
+	text-align:center; 
+	border:2px solid #f9c194; 
+	border-radius:50px; 
+	background-color:#FFF; 
+	box-sizing:border-box;
+	padding: 2%;
+	/* padding-top: 2em;
+	padding-bottom: 2em; */
+}
+.login-title{
+	display:inline-block; 
+	color:#eeb885; 
+	font-size:35px; 
+	font-weight:600; 
+	line-height:48px;
+}
+.login-font{
+	 
+	/* color:#eeb885;  */
+	color: #888;
+	font-size:15px; 
+	font-weight:600; 
+	line-height:30px;
+}
+.login-div{
+
+	padding: 1%;
+}
+.login-input{
+	width: 89%;
+	padding: 0.5%;
+  	border: 1px solid #bbb;
+	border-radius: 3px;
+}
+.login-submit{
+	width: 90% !important;
+	padding: 0.7%;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	background-color:#f3a244; 
+	color: white;
+	margin-bottom: 1%;
+}
+.login-submit:hover{
+	cursor: pointer;
+}
+.login-dim-layer {
+	display: none;
+	position: fixed;
+	_position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+.login-dim-layer .login-dimBg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: .5;
+	filter: alpha(opacity=50);
+}
+
+.login-dim-layer .pop-layer {
+	display: block;
 }

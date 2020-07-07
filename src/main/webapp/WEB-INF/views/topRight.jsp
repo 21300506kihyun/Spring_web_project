@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <a href="#form-mail-popup" class="popup-btn">로그인</a>
+  <a href="#login" class="popup-btn">로그인</a>
   <p>|</p>
   <a href="#form-mail-popup" class="popup-btn">회원가입</a>
   <p>|</p>
