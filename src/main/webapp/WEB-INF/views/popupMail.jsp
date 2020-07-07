@@ -79,10 +79,10 @@
               <div class="g-recaptcha" data-sitekey="6LcYU6wZAAAAAD3_mJDSd6KCwmAWIPSc5yeV9QGj"></div>
               <button id="test_btn">테스트 버튼</button>
               <div align="center">
-                <div id="captcha" style="display:none">
-                  <input type="submit" id="smbt" value="메일 보내기" class="popup-submit">
+                <div>
+                  <input type="submit" id="captcha" value="메일 보내기" class="popup-submit" style="display:none">
+                  <a href="#" class="btn-layerClose">닫기</a>
                 </div>
-                <a href="#" class="btn-layerClose">닫기</a>
               </div>
             </form>
 
