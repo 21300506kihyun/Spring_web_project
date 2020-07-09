@@ -72,57 +72,62 @@ public class HomeController {
 	public String login() {
 		return "login";
 	}
-	 // mailForm
-	  @RequestMapping(value = "/mailForm")
-	  public String mailForm() {
-	   
-	    return "mailForm";
-	  }  
+	
+	@RequestMapping(value = "/faq", method = RequestMethod.GET)
+	public String faq() {
+		return "faq";
+	}
+	
+	// mailForm
+	@RequestMapping(value = "/mailForm")
+	public String mailForm() {
+		return "mailForm";
+	}  
 	 
-	  // mailSending 코드
-	  @RequestMapping(value = "/mailSending")
-	  public String mailSending(HttpServletRequest request) {
+	// mailSending 코드
+	@RequestMapping(value = "/mailSending")
+	public String mailSending(HttpServletRequest request) {
 	   
-	    String setfrom = request.getParameter("fromMail");   // 보내는 사람 이메일
-	    String tomail  = request.getParameter("tomail");     // 받는 사람 이메일
-	    String title   = request.getParameter("title");      // 제목
-	    String content = "omeranmall.com을 통해 [ " + request.getParameter("fromMail") + " ] 의 계정에서 질문한 문의입니다.\n\n"
-	    		+ "문의의 내용은 아래와 같습니다.\n\n\n=======[ 아래 ]======\n\n" + request.getParameter("content");    // 내용
-	   
-	    try {
-	      MimeMessage message = mailSender.createMimeMessage();
-	      MimeMessageHelper messageHelper 
-	                        = new MimeMessageHelper(message, true, "UTF-8");
-	 
-	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
-	      messageHelper.setTo(tomail);     // 받는사람 이메일
-	      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
-	      messageHelper.setText(content);  // 메일 내용
-	     
-	      mailSender.send(message);
-	    } catch(Exception e){
-	      System.out.println(e);
-	    }
-	   
-	    return "redirect:index";
-	  }
+	  String setfrom = request.getParameter("fromMail");   // 보내는 사람 이메일
+	  String tomail  = request.getParameter("tomail");     // 받는 사람 이메일
+	  String title   = request.getParameter("title");      // 제목
+	  String content = "omeranmall.com을 통해 [ " + request.getParameter("fromMail") + " ] 의 계정에서 질문한 문의입니다.\n\n"
+	  		+ "문의의 내용은 아래와 같습니다.\n\n\n=======[ 아래 ]======\n\n" + request.getParameter("content");    // 내용
 	  
-	    @ResponseBody
-	    @RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST,produces="application/json")
-	    public int VerifyRecaptcha(HttpServletRequest request) {
-	        VerifyRecaptcha.setSecretKey("6LcYU6wZAAAAAEi4rXL-A97f2QL7ZAWK8YAtIMsc");
-	        String gRecaptchaResponse = request.getParameter("recaptcha");
-	        System.out.println(gRecaptchaResponse);
-	        //0 = 성공, 1 = 실패, -1 = 오류
-	        try {
-	            if(VerifyRecaptcha.verify(gRecaptchaResponse))
-	                return 0;
-	            else return 1;
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            return -1;
-	        }
-	    }
+	  try {
+	    MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper messageHelper 
+	                      = new MimeMessageHelper(message, true, "UTF-8");
+	 
+	    messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	    messageHelper.setTo(tomail);     // 받는사람 이메일
+	    messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	    messageHelper.setText(content);  // 메일 내용
+	     
+	    mailSender.send(message);
+	  } catch(Exception e){
+	    System.out.println(e);
+	  }
+	   
+	  return "redirect:index";
+	}
+	  
+    @ResponseBody
+    @RequestMapping(value = "/VerifyRecaptcha", method = RequestMethod.POST,produces="application/json")
+    public int VerifyRecaptcha(HttpServletRequest request) {
+        VerifyRecaptcha.setSecretKey("6LcYU6wZAAAAAEi4rXL-A97f2QL7ZAWK8YAtIMsc");
+        String gRecaptchaResponse = request.getParameter("recaptcha");
+        System.out.println(gRecaptchaResponse);
+        //0 = 성공, 1 = 실패, -1 = 오류
+        try {
+            if(VerifyRecaptcha.verify(gRecaptchaResponse))
+                return 0;
+            else return 1;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 
 
 	

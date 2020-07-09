@@ -5,6 +5,7 @@ $(document).ready(function(){
     })
 })
 
+// popup
 $(document).ready(function(){
 	$('.popup-btn').click(function(){
         var $href = $(this).attr('href');
@@ -45,6 +46,7 @@ $(document).ready(function(){
     }
 })
 
+// login
 $(document).ready(function(){
 	$('.popup-btn').click(function(){
         var $href = $(this).attr('href');
@@ -84,3 +86,6 @@ $(document).ready(function(){
 
     }
 })
+
+// faq write
+

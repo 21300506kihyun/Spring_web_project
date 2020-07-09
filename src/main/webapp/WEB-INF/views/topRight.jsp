@@ -11,6 +11,8 @@
 </head>
 
 <body>
+  <a href="faq" class="popup-btn">FAQ</a>
+  <p>|</p>
   <a href="#login" class="popup-btn">로그인</a>
   <p>|</p>
   <a href="#form-mail-popup" class="popup-btn">회원가입</a>
