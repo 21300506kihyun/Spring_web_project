@@ -6,7 +6,7 @@
 a{display:block; text-decoration:none}
 li{list-style:none}
 img{border:none}
-h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input
+h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input,textarea
 {font-size:16px; color:#333; font-family: 'Noto Sans KR'; font-weight:normal; letter-spacing:-0.07em; word-break: keep-all; }
 
 /************************************* PC 버젼 시작 *************************************/
@@ -354,9 +354,10 @@ a.btn-layerClose {
 	display: inline-block;
 	height: 25px;
 	padding: 0 14px 0;
-	border: 1px solid #304a8a;
+	/* border: 1px solid #304a8a; */
+	border: 1px solid #bbb;
 	border-radius: 3px;
-	background-color: #3f5a9d;
+	background-color: #f3a244;	/* #3f5a9d; */
 	font-size: 13px;
 	color: #fff;
 	line-height: 25px;
@@ -368,14 +369,33 @@ a.btn-layerClose:hover {
 	color: #fff;
 }
 .popup-title{
-	font-size: 25px;
+	/* font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 1%;
 	border-bottom: 1px solid #bbb;
-	padding-bottom: 2px;
+	padding-bottom: 2px; */
+	
+	display:inline-block; 
+	color:#eeb885; 
+	font-size:35px; 
+	font-weight:600; 
+	line-height:48px;
+}
+.popup-mid-line{
+	position:relative; 
+	width:100%; 
+	border-top:2px solid #f9c194; 
+	margin:0 auto; 
+	margin-bottom: 1%;
+	margin-top: 1%;
+	/* top:25px; */
 }
 .popup-content{
 	margin-bottom: 1%;
+	color: #888;
+	font-size:15px; 
+	font-weight:600; 
+	line-height:30px;
 }
 .popup-container{
 	padding: 1em;
