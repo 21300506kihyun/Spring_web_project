@@ -541,7 +541,7 @@ a.btn-layerClose:hover {
 	margin:0 auto; 
 	margin-bottom: 2%;
 	margin-top: 1%;
-	float: left;
+	/* float: left; */
 	/* top:25px; */
 }
 .faq-mid-menu{
@@ -565,7 +565,7 @@ a.btn-layerClose:hover {
 	font-weight:600; 
 	line-height:48px;
 	text-align: left !important;
-	float: left;
+	/* float: left; */
 	width: 100%;
 }
 .faq-font{
@@ -631,3 +631,32 @@ th {
 	font-weight: bold;
 	text-decoration: underline;
 }
+
+/* faq Write */
+.faq-write-container{
+	border: 1px solid #bbb;
+	border-radius: 3px; 
+	padding: 1em;
+}
+.faq-input-container{ 
+	text-align: left; 
+	padding: 0.2em 1em; 
+	margin-bottom: 1em;
+}
+.faq-label{
+	color: #888;
+	font-size:18px; 
+	font-weight:400; 
+	/* line-height:30px; */
+}
+.faq-form-input{
+	width: 99%; 
+	border: 1px solid #bbb; 
+	border-radius: 3px; 
+	padding: 0.2em;
+}
+.faq-btn-container{
+	text-align: center; 
+	padding: 0.2em 1em; 
+}
+

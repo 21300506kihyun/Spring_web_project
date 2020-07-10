@@ -37,45 +37,50 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home() {
 		
 		return "index";
 	}
-	@RequestMapping(value = {"/index", "/p1.html"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/index", "/p1.html"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
 		
 		return "index";
 	}
-	@RequestMapping(value = "/p2", method = RequestMethod.GET)
+	@RequestMapping(value = "/p2", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home2() {
 		
 		return "p2";
 	}
-	@RequestMapping(value = "/p3", method = RequestMethod.GET)
+	@RequestMapping(value = "/p3", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home3() {
 		
 		return "p3";
 	}
-	@RequestMapping(value = "/p4", method = RequestMethod.GET)
+	@RequestMapping(value = "/p4", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home4() {
 		
 		return "p4";
 	}
-	@RequestMapping(value = "/p5", method = RequestMethod.GET)
+	@RequestMapping(value = "/p5", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home5() {
 		
 		return "p5";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login() {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/faq", method = RequestMethod.GET)
+	@RequestMapping(value = "/faq", method = { RequestMethod.GET, RequestMethod.POST })
 	public String faq() {
 		return "faq";
+	}
+	
+	@RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
+	public String faqWrite() {
+		return "faqWrite";
 	}
 	
 	// mailForm
