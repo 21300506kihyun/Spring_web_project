@@ -54,7 +54,7 @@ Q. '[결제관련] 결제는 어떻게 진행되나요?' 의 답변입니다.
 A. 질문에 대한 답변을 달아주세요." class="faq-form-input"></textarea>
 			</div>
 			<div class="faq-btn-container">
-				<input type="button" class="faq-submit" value="뒤로가기" onclick="location.href='faq'">
+				<input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">
 				<input type="submit" class="faq-submit" value="글쓰기">
 			</div>
 		  </form>

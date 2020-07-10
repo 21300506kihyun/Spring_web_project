@@ -88,4 +88,21 @@ $(document).ready(function(){
 })
 
 // faq write
+function moveAjax(toUrl){
+	// ajax option
+    var ajaxOption = {
+            url : toUrl,
+            async : true,
+            type : "POST",
+            dataType : "html",
+            cache : false
+    };
+    
+    $.ajax(ajaxOption).done(function(data){
+        // Contents 영역 삭제
+        $('#omeran_pc_all').children().remove();
+        // Contents 영역 교체
+        $('#omeran_pc_all').html(data);
+    });
 
+}

@@ -44,7 +44,7 @@
 	      <form id="faqSearch" action="">
   	        <input type="text" id="input_id" class="faq-input" placeholder="제목을 검색해주세요.">
 	        <input type="submit" class="faq-submit" value="검색하기">
-	        <input type="button" class="faq-submit" value="글쓰기" onclick="location.href='faqWrite'">
+	        <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
 	      </form>
 	    </div>
         
