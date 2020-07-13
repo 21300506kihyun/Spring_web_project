@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.omeran.dao.MemberDAO">
+  	<select id="getEmail" resultType="String">
+	  select name from user_table where u_id = #{id}
+	</select>
+  
+	<select id="getUserInfoStr" resultType="HashMap">
+		<!-- SELECT name AS userName FROM user_table WHERE id = #{id} AND pw = #{pw} -->
+		SELECT * FROM user_table WHERE id = #{id} AND pw = #{pw} 
+	</select>
+	
+	<select id="getUserInfoTime" resultType="HashMap">
+		<!-- SELECT name AS userName FROM user_table WHERE id = #{id} AND pw = #{pw} -->
+		SELECT register_date, modify_date, recent_visit FROM user_table WHERE id = #{id} AND pw = #{pw} 
+	</select>
+	
+	<select id="getUserInfoInt" resultType="HashMap">
+		<!-- SELECT name AS userName FROM user_table WHERE id = #{id} AND pw = #{pw} -->
+		SELECT u_id, status FROM user_table WHERE id = #{id} AND pw = #{pw} 
+	</select>
+	
+	<update id="updateRecentLogin">
+		UPDATE user_table SET modify_date=CURRENT_TIMESTAMP, recent_visit=CURRENT_TIMESTAMP WHERE u_id = #{u_id};
+	</update>
+	
+	<select id="viewMember" resultType="com.project.omeran.dto.MemberVO">
+		SELECT 
+			u_id AS u_id,
+			id AS userId,
+			name AS userName,
+			email AS userEmail,
+			register_date AS registerDate,
+			modify_date AS modifyDate,
+			recent_visit AS recentVisit
+		FROM user_table
+		WHERE id = #{userId} AND pw = #{userPw}
+	</select>
+
+</mapper>
+
+<!-- <mapper namespace="member">
+	<select id="getEmail" resultType="String">
+	  select id from user_table where u_id = #{id}
+	</select>
+  
+	<select id="loginCheck" resultType="String">
+		SELECT name AS userName FROM user_table WHERE id = #{userID} AND pw = #{userPw}
+	</select>
+	
+	<select id="viewMember" resultType="com.project.omeran.dto.MemberVO">
+		SELECT 
+			u_id AS u_id,
+			id AS userId,
+			name AS userName,
+			email AS userEmail,
+			register_date AS registerDate,
+			modify_date AS modifyDate,
+			recent_visit AS recentVisit
+		FROM user_table
+		WHERE id = #{userID} AND pw = #{userPw}
+	</select>
+</mapper> -->
