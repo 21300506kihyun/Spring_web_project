@@ -10,6 +10,6 @@ public interface MemberService {
 	// 로그인 체크
 	public boolean loginCheck(MemberVO vo, String id, String pw, HttpSession session);
 	
-	// 회원 정보 가져오기
-	public MemberVO viewMember(MemberVO vo);
+	// 로그아웃 
+	public void logout(HttpSession session, MemberVO vo);
 }

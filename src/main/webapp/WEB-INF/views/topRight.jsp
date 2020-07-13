@@ -14,16 +14,24 @@
 <body>
   <a href="faq" class="popup-btn">FAQ</a>
   <p>|</p>
-  <c:choose>
-  	<c:when test="${login == 'success'}">
+  <% String userName = (String)session.getAttribute("userName"); 
+  if(userName != null){ %>
+  	<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
+	<p>|</p>
+	<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>
+  <% }else{ %>
+   	<a href="#login" class="popup-btn">로그인</a>
+  <% } %>
+  <%-- <c:choose>
+  	<c:when test="${userVO.loginValidity == true}">
   	  <a href="#mypage">${userVO.userName} 님</a>
   	  <p>|</p>
-	  <a href="#login" class="popup-btn">로그아웃</a>
+	  <a href="logout.do" class="popup-btn">로그아웃</a>
   	</c:when>
   	<c:otherwise>
 	  <a href="#login" class="popup-btn">로그인</a>
   	</c:otherwise>
-  </c:choose>
+  </c:choose> --%>
   <p>|</p>
   <a href="#form-mail-popup" class="popup-btn">회원가입</a>
   <p>|</p>

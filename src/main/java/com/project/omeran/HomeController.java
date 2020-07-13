@@ -44,6 +44,16 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	// session Test
+	public boolean sessionTest(HttpSession session) {
+		if(session.getAttribute("loginValidity") != null) {
+			if((boolean)session.getAttribute("loginValidity") == true) {
+				return true;				
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -53,7 +63,7 @@ public class HomeController {
 	}
 	@RequestMapping(value = {"/index", "/p1.html"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
-		System.out.println(memberService.getEmail("1"));
+		
 		
 		return "index";
 	}
@@ -80,21 +90,37 @@ public class HomeController {
 	
 	// 로그인 체크
 	@RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView login(@ModelAttribute MemberVO vo, HttpSession session, @RequestParam("id")String id, @RequestParam("pw")String pw) {
+	public ModelAndView login(@ModelAttribute MemberVO vo, HttpSession session, @RequestParam("id")String id, @RequestParam("pw")String pw,
+			HttpServletRequest request) {
 		boolean result = memberService.loginCheck(vo, id, pw, session);
 		ModelAndView mav = new ModelAndView();
-		System.out.println("login.do: "+ vo );
+		// System.out.println("login.do: "+ vo );
 		
 		if(result == true) {
-			mav.setViewName("index");
-			mav.addObject("login", "success");
-			mav.addObject("userVO", vo);
+			mav.setViewName("moveWithoutAlert");
+			String referer = request.getHeader("referer");
+			mav.addObject("url", referer);
 		}
 		else {
-			mav.setViewName("index");
-			mav.addObject("login", "failure");
+			mav.setViewName("moveWithAlert");
+			String referer = request.getHeader("referer");
+			// System.out.println("else / referer: "+referer);
+			String msg = "로그인에 실패하였습니다. 정보를 다시 확인해주세요.";
+			mav.addObject("msg", msg);
+			mav.addObject("url", referer);
 		}
-		System.out.println(memberService.getEmail("1"));
+		return mav;
+	}
+	
+	// 로그아웃 
+	@RequestMapping(value = "/logout.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView logout(HttpSession session, @ModelAttribute MemberVO vo, HttpServletRequest request) {
+		memberService.logout(session, vo);
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("moveWithoutAlert");
+		String referer = request.getHeader("referer");
+		mav.addObject("url", referer);
 		return mav;
 	}
 	
@@ -104,8 +130,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
-	public String faqWrite() {
-		return "faqWrite";
+	public String faqWrite(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			return "faqWrite";
+		}
+		return "faq";
 	}
 	
 	// mailForm

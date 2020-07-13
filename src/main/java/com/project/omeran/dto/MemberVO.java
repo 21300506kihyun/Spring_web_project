@@ -12,6 +12,14 @@ public class MemberVO {
 	private Timestamp recentVisit;
 	private int u_id;
 	private int status;
+	private boolean loginValidity;
+	
+	public boolean isLoginValidity() {
+		return loginValidity;
+	}
+	public void setLoginValidity(boolean loginValidity) {
+		this.loginValidity = loginValidity;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -70,8 +78,9 @@ public class MemberVO {
 	public String toString() {
 		return "MemberVO [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", userEmail="
 				+ userEmail + ", registerDate=" + registerDate + ", modifyDate=" + modifyDate + ", recentVisit="
-				+ recentVisit + ", u_id=" + u_id + ", status=" + status + "]";
+				+ recentVisit + ", u_id=" + u_id + ", status=" + status + ", loginValidity=" + loginValidity + "]";
 	}
+	
 	
 	
 }

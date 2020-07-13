@@ -33,7 +33,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 	    <property name="url"
-	              value="jdbc:mysql://omeranmall.com:3306/m2tech1?useSSL=false&amp;serverTimezone=UTC">
+	              value="jdbc:mysql://omeranmall.com:3306/m2tech1?useSSL=false&amp;serverTimezone=Asia/Seoul">
 	    </property>
 	    <property name="username" value="m2tech1"></property>
 	    <property name="password" value="M2tech!!"></property>
