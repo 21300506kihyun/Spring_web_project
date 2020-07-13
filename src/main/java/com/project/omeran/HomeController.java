@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.omeran.service.MemberService;
+
 /**
  * Handles requests for the application home page.
  */
@@ -81,6 +83,14 @@ public class HomeController {
 	@RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
 	public String faqWrite() {
 		return "faqWrite";
+	}
+	
+	@Autowired
+    MemberService memberService;
+	
+	@RequestMapping(value = "/test", method = { RequestMethod.GET, RequestMethod.POST })
+	public void test() {
+		System.out.println(memberService.getEmail("1"));
 	}
 	
 	// mailForm
