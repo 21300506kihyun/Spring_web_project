@@ -14,35 +14,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- 여기에 스크립트 추가 -->
   <script src='https://www.google.com/recaptcha/api.js'></script>
-
-  <script>
-    $(document).ready(function() {
-      $("#test_btn").click(function() {
-        $.ajax({
-          url: 'VerifyRecaptcha',
-          type: 'post',
-          data: {
-            recaptcha: $("#g-recaptcha-response").val()
-          },
-          success: function(data) {
-            switch (data) {
-              case 0:
-                alert("자동 가입 방지 봇 통과");
-                document.getElementById("captcha").style.display = "";
-                break;
-              case 1:
-                alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
-                break;
-              default:
-                alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
-                break;
-            }
-          }
-        });
-      });
-    });
-  </script>
-
 </head>
 
 <body>
@@ -65,28 +36,27 @@
               </div>
               <div align="center">
                 <!-- 제목 -->
-                <input type="text" name="title" placeholder="제목을 입력해주세요." class="form-control">
+                <input id="mailTitle" type="text" name="title" placeholder="제목을 입력해주세요." class="form-control">
               </div>
               <div align="center">
                 <!-- 보내는 사람 -->
-                <input type="text" name="fromMail" placeholder="본인의 메일 주소를 입력해주세요." class="form-control">
+                <input id="fromMail" type="text" name="fromMail" placeholder="본인의 메일 주소를 입력해주세요." class="form-control">
               </div>
               <div align="center">
                 <!-- 내용 -->
-                <textarea name="content" cols="12" rows="12" placeholder="문의사항을 입력해주세요." class="form-control"></textarea>
+                <textarea id="mailContent" name="content" cols="12" rows="12" placeholder="문의사항을 입력해주세요." class="form-control"></textarea>
               </div>
 
                 <!--recaptcha -->
-              <div class="g-recaptcha" data-sitekey="6LcYU6wZAAAAAD3_mJDSd6KCwmAWIPSc5yeV9QGj"></div>
-              <button id="test_btn">테스트 버튼</button>
+              <div id="google-recaptcha" class="g-recaptcha" data-sitekey="6LcYU6wZAAAAAD3_mJDSd6KCwmAWIPSc5yeV9QGj"></div>
+              <%-- <button id="test_btn">테스트 버튼</button> --%>
               <div align="center">
                 <div>
-                  <input type="submit" id="captcha" value="메일 보내기" class="popup-submit" style="display:none">
-                  <a href="#" class="btn-layerClose">닫기</a>
+                  <input type="submit" id="captcha" value="메일 보내기" class="popup-submit">
+                  <input type="button" href="#" class="btn-layerClose popup-submit" value="닫기">
                 </div>
               </div>
             </form>
-
 
           </div>
         </div>
@@ -99,21 +69,50 @@
 	  	var valid = true;
 	  	var form = $('#' + formName);
 	  	var text = "곧 문의가 접수됩니다...";
+
+      // 리캡챠 체크
+      $.ajax({
+        url: 'VerifyRecaptcha',
+        type: 'post',
+        async: false,
+        data:{
+          recaptcha: $("#g-recaptcha-response").val()
+        },
+        success: function(data){
+          switch(data){
+            case 0:
+              break;
+            case 1:
+              valid = false;
+              text = "자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.";
+              break;
+            case 2:
+              valid = false;
+              text = "자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.";
+              break;
+          }
+        }
+      });
+
+      // 폼 체크
 	  	form.find('input, textarea').each(function(key){
 	  		var obj = $(this);
 	  		var type = obj.prop("name");
 	  		if(isEmpty(obj.val())){
 	  			if(type == "title"){
 	  				text = "제목을 입력해주세요";
+	  				$("#mailTitle").focus();	// 입력 포커스 이동
 	  				valid = false;
 	  			}
 	  			else if(type == "fromMail"){
 	  				text = "보낼 이메일을 입력해주세요";
+	  				$("#fromMail").focus();	// 입력 포커스 이동
 	  				valid = false;
 
 	  			}
 	  			else if(type == "content"){
 	  				text = "내용을 입력해주세요";
+	  				$("#mailContent").focus();	// 입력 포커스 이동
 	  				valid = false;
 	  			}
 	  			return false;
@@ -123,12 +122,14 @@
 	  				var emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	  				if(!emailCheck.test(obj.prop("value"))){
 	  					text = "이메일 형식이 올바르지 않습니다.";
+	  					$("#fromMail").focus();	// 입력 포커스 이동
 	  					valid = false;
 	  					return false;
 	  				}
 	  			}
 	  		}
 	  	});
+
 	  	alert(text);
 	  	if(valid){
 	  		return true;

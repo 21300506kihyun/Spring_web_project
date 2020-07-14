@@ -48,7 +48,9 @@ public class HomeController {
 	public boolean sessionTest(HttpSession session) {
 		if(session.getAttribute("loginValidity") != null) {
 			if((boolean)session.getAttribute("loginValidity") == true) {
-				return true;				
+				if((int)session.getAttribute("status") == -1) {
+					return true;									
+				}
 			}
 		}
 		return false;

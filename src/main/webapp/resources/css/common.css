@@ -321,9 +321,10 @@ h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input,textarea
 	width: 50%;
 	height: auto;
 	background-color: #fff;
-	border: 5px solid #3571B5;
+	/* border: 5px solid #3571B5; */
 	/* border: 5px solid #eeb885; */
 	/* border: 3px solid #95c11f; */
+	border: 5px solid #6edac1;
 	z-index: 10;
 }
 
@@ -416,20 +417,22 @@ a.btn-layerClose:hover {
 .popup-submit{
 	display: inline-block;
 	padding: 0 14px;
-	border: 1px solid #304a8a;
+	border: 1px solid #bbb;
 	border-radius: 3px;
-	background-color: #3f5a9d;
+	background-color: #f3a244;
 	font-size: 13px;
 	color: #fff;
 	line-height: 25px;
+	curosr: pointer;
+	margin-top: 1%;
 }
 
 .popup-submit:hover {
-	border: 1px solid #091940;
-	background-color: #1f326a;
+	border: 1px solid #bbb;
+	background-color: #f3a244;
 	color: #fff;
 	cursor: pointer;
-}
+} 
 
 /* login */
 .login-mid{
