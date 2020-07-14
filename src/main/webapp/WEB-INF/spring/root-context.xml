@@ -13,22 +13,23 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-  <!-- 메일보내기 -->
-   <bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
-      <property name="host" value="smtp.gmail.com" />
-      <property name="port" value="587" />
-      <property name="username" value="wnaks9901@gmail.com" />
-      <property name="password" value="aktkzk123*-" />
-      <property name="javaMailProperties">
-         <props>
-               <prop key="mail.transport.protocol">smtp</prop>
-               <prop key="mail.smtp.auth">true</prop>
-               <prop key="mail.smtp.starttls.enable">true</prop>
-               <prop key="mail.debug">true</prop>
-         </props>
-      </property>
- 
-   </bean>
+
+  	<!-- 메일보내기 -->
+	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
+	   <property name="host" value="smtp.gmail.com" />
+	   <property name="port" value="587" />
+	   <property name="username" value="wnaks9901@gmail.com" />
+	   <property name="password" value="aktkzk123*-" />
+	   <property name="javaMailProperties">
+	      <props>
+	            <prop key="mail.transport.protocol">smtp</prop>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+	            <prop key="mail.debug">true</prop>
+	      </props>
+	   </property>
+	</bean>
+
    
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -39,13 +40,11 @@
 	    <property name="username" value="m2tech1"></property>
 	    <property name="password" value="M2tech!!"></property>
 	</bean>  
-	
+
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource" />
 	    <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 	<mybatis-spring:scan base-package="com.project.omeran.dao"/>
-
-
 
 </beans>

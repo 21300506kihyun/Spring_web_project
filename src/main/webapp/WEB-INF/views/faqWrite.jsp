@@ -49,7 +49,7 @@
 			</div>
 			<div class="faq-input-container">
 				<p class="faq-label">FAQ 답변</p>
-				<textarea name="content" rows="6" cols="50" placeholder="ex)
+				<textarea name="content" rows="8" cols="50" placeholder="ex)
 Q. '[결제관련] 결제는 어떻게 진행되나요?' 의 답변입니다.
 A. 질문에 대한 답변을 달아주세요." class="faq-form-input"></textarea>
 			</div>

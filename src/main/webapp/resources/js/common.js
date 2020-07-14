@@ -46,7 +46,7 @@ $(document).ready(function(){
     }
 })
 
-// login
+// login pop-up
 $(document).ready(function(){
 	$('.popup-btn').click(function(){
         var $href = $(this).attr('href');

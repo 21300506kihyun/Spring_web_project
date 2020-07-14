@@ -7,9 +7,7 @@
   <title>자연방사유정란 오메란: 로그인 페이지 </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/common.js"></script>
+  <%@ include file="./header.jsp" %>
 </head>
 
 <body>
@@ -43,7 +41,7 @@
               <p class="login-title">로그인 </p>
               <p class="login-font">*해당 사이트는 개발중에 있습니다.<br>현재는 관리자만 로그인 할 수 있습니다.</p>
               <div class="login-mid-line"></div>
-              <form id="loginForm" action="" onsubmit="return loginCheck('loginForm')" >
+              <form id="loginForm" action="login.do" method="post" onsubmit="return loginCheck('loginForm')" >
                 <div class="login-div">
                   <input name="id" type="text" id="input_id" class="login-input" placeholder="아이디를 입력해주세요">
                 </div>
@@ -73,13 +71,14 @@
 	  			if(type == "id"){
 	  				text = "아이디를 입력해주세요";
 	  				alert(text);
+	  				$("#input_id").focus();	// 입력 포커스 이동
 	  				valid = false;
 	  			}
 	  			else if(type == "pw"){
 	  				text = "비밀번호를 입력해주세요";
 	  				alert(text);
+	  				$("#input_pw").focus();	// 입력 포커스 이동
 	  				valid = false;
-
 	  			}
 	  			return false;
 	  		}

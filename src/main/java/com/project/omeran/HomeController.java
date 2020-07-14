@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,15 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.project.omeran.dto.MemberVO;
+import com.project.omeran.service.MemberService;
 
 import com.project.omeran.service.MemberService;
 
@@ -34,6 +41,9 @@ public class HomeController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	@Autowired
+	MemberService memberService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
@@ -41,11 +51,11 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home() {
-		
 		return "index";
 	}
 	@RequestMapping(value = {"/index", "/p1.html"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
+		System.out.println(memberService.getEmail("1"));
 		
 		return "index";
 	}
@@ -70,9 +80,24 @@ public class HomeController {
 		return "p5";
 	}
 	
-	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-	public String login() {
-		return "login";
+	// 로그인 체크
+	@RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView login(@ModelAttribute MemberVO vo, HttpSession session, @RequestParam("id")String id, @RequestParam("pw")String pw) {
+		boolean result = memberService.loginCheck(vo, id, pw, session);
+		ModelAndView mav = new ModelAndView();
+		System.out.println("login.do: "+ vo );
+		
+		if(result == true) {
+			mav.setViewName("index");
+			mav.addObject("login", "success");
+			mav.addObject("userVO", vo);
+		}
+		else {
+			mav.setViewName("index");
+			mav.addObject("login", "failure");
+		}
+		System.out.println(memberService.getEmail("1"));
+		return mav;
 	}
 	
 	@RequestMapping(value = "/faq", method = { RequestMethod.GET, RequestMethod.POST })
@@ -84,10 +109,7 @@ public class HomeController {
 	public String faqWrite() {
 		return "faqWrite";
 	}
-	
-	@Autowired
-    MemberService memberService;
-	
+
 	@RequestMapping(value = "/test", method = { RequestMethod.GET, RequestMethod.POST })
 	public void test() {
 		System.out.println(memberService.getEmail("1"));
