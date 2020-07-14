@@ -605,6 +605,9 @@ a.btn-layerClose:hover {
 }
 .faq-table{
 	text-align: center;
+	border: 1px solid #bbb;
+	padding: 2m;
+	padding-top: 0.5em;
 	padding: 1%;
 }
 table {
@@ -637,6 +640,7 @@ th {
 	font-weight: bold;
 	text-decoration: underline;
 }
+
 
 /* faq Write */
 .faq-write-container{
