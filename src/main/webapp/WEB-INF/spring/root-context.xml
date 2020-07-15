@@ -13,6 +13,7 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+
   	<!-- 메일보내기 -->
 	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
 	   <property name="host" value="smtp.gmail.com" />
@@ -28,6 +29,7 @@
 	      </props>
 	   </property>
 	</bean>
+
    
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -44,6 +46,5 @@
 	    <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 	<mybatis-spring:scan base-package="com.project.omeran.dao"/>
-	
-	
+
 </beans>

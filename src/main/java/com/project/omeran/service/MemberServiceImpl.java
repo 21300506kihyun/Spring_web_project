@@ -1,8 +1,10 @@
 package com.project.omeran.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,9 @@ import org.springframework.stereotype.Service;
 import com.project.omeran.dao.MemberDAO;
 import com.project.omeran.dto.MemberVO;
 
-@Service
+@Service("memberService") // 이 객체의 이름을 memberService라고지정, 다른 곳에서 memberServic이라는 bean사용할수 있도록
 public class MemberServiceImpl implements MemberService{
-	@Autowired
+	@Autowired // 의존성 주입 즉 MemberDAO 객체를 여기서 사용할 수 있게끔 해줌
     MemberDAO memberDao;
     
     @Override
@@ -73,5 +75,12 @@ public class MemberServiceImpl implements MemberService{
 		session.setAttribute("userName", null);
 		session.invalidate();
 	}
+	
+
+	@Override 
+	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception { 
+		return memberDao.selectBoardList(map);
+	}
+
 
 }

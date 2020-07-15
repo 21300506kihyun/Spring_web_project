@@ -6,58 +6,24 @@
 
 <head>
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
   <style>
-    input[id*="faq-answer"] {
-     display: none;
-    }
-
-    input[id*="faq-answer"]+label {
-      display: block;
-      padding: 20px;
-      border-bottom: 1px solid #bbb;
-      color: #000;
-      background: #fdfdfd;
-      cursor: pointer;
-      position: relative;
-      text-align: left;
-      font-size: 20px;
-    }
-    
-    input[id*="faq-answer"] + label em {
-    position:absolute;top:30%;left:10px;width:50px;
-    height:50px;margin-top:-15px;display:inline-block;
-    margin-right: 50px;
-    background:url('img/qna.png') 0 0 no-repeat;
-    /*img source: https://www.clipartmax.com/middle/m2i8Z5b1K9G6N4K9_question-and-answer-icon-png-personal-injury/ */
-    background-size: contain;}
-    
-    input[id*="faq-answer"] + label p{
-      margin-left: 50px;
-      font-size: 20px;
-    }
-
-    input[id*="faq-answer"]+label+div {
-      max-height: 0;
-      transition: all .35s;
-      overflow: hidden;
-      background: #eee;
-    }
-
-    input[id*="faq-answer"]+label+div p {
-      text-align: left;
-      display: inline-block;
-      padding: 25px;
-    }
-
-    input[id*="faq-answer"]:checked+label+div {
-      max-height: 1000px;
-    }
+    input[id*="faq-answer"] {display: none;}
+    input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb;
+    	color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
+    input[id*="faq-answer"] + label em { position:absolute;top:30%;left:10px;width:50px; height:50px; margin-top:-15px;
+    display:inline-block; margin-right: 50px; background:url('img/qna.png') 0 0 no-repeat;  background-size: contain;;
+    /*img source: https://www.clipartmax.com/middle/m2i8Z5b1K9G6N4K9_question-and-answer-icon-png-personal-injury/ */}
+    input[id*="faq-answer"] + label p{ margin-left: 50px; font-size: 20px;}
+    input[id*="faq-answer"]+label+div { max-height: 0; transition: all .35s; overflow: hidden; background: #eee;}
+    input[id*="faq-answer"]+label+div p { text-align: left; display: inline-block; padding: 25px;}
+    input[id*="faq-answer"]:checked+label+div { max-height: 1000px; }
   </style>
 </head>
 
@@ -95,7 +61,7 @@
 
             <% if(session.getAttribute("status") != null){
   				if((int)session.getAttribute("status") == -1){%>
-            	  <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
+            <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
             <%  }
   			   } %>
           </form>
@@ -103,69 +69,26 @@
 
         <div class="faq-table">
           <div class="accordion">
-            <input type="checkbox" name="accordion" id="faq-answer01">
-            <label for="faq-answer01"><em></em><p>FAQ 1번 질문입니다.</p></label>
-            <div>
-              <% if(session.getAttribute("status") != null){ 
-              		if((int)session.getAttribute("status") == -1){%>
-              		  <textarea class="admin-input" rows="8" cols="50">여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</textarea>
-			          <div class="admin-btn-container">
-				        <a class="admin-btn" onclick="faqModify('delete', 3)">삭제하기</a>
-				        <a class="admin-btn" onclick="faqModify('modify', 4)">수정하기</a>
-			          </div>
-              <% 	} 
-              	}else{ %>
-              		<p>여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</p>
-              <% } %>
-            </div>
 
-            <input type="checkbox" name="accordion" id="faq-answer02">
-            <label for="faq-answer02"><em></em><p>ex) 오메란 사이트가 개발중인 현재, 오메란에 관심이 있는 경우에는 어떻게 연락해야 하나요?</p></label>
-            <div>
-              <% if(session.getAttribute("status") != null){ 
-              		if((int)session.getAttribute("status") == -1){%>
-              		  <textarea class="admin-input" rows="8" cols="50">여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</textarea>
-			          <div class="admin-btn-container">
-				        <a class="admin-btn" onclick="faqModify('delete', 3)">삭제하기</a>
-				        <a class="admin-btn" onclick="faqModify('modify', 4)">수정하기</a>
-			          </div>
-              <% 	} 
-              	}else{ %>
-              		<p>여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</p>
-              <% } %>
-            </div>
-
-            <input type="checkbox" name="accordion" id="faq-answer03">
-            <label for="faq-answer03"><em></em><p>FAQ 3번 질문입니다.</p></label>
-            <div>
-              <% if(session.getAttribute("status") != null){ 
-              		if((int)session.getAttribute("status") == -1){%>
-              		  <textarea class="admin-input" rows="8" cols="50">여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</textarea>
-			          <div class="admin-btn-container">
-				        <a class="admin-btn" onclick="faqModify('delete', 3)">삭제하기</a>
-				        <a class="admin-btn" onclick="faqModify('modify', 4)">수정하기</a>
-			          </div>
-              <% 	} 
-              	}else{ %>
-              		<p>여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</p>
-              <% } %>
-            </div>
-
-            <input type="checkbox" name="accordion" id="faq-answer04">
-            <label for="faq-answer04"><em></em><p>FAQ 4번 질문입니다.</p></label>
-            <div>
-              <% if(session.getAttribute("status") != null){ 
-              		if((int)session.getAttribute("status") == -1){%>
-              		  <textarea class="admin-input" rows="8" cols="50">여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</textarea>
-			          <div class="admin-btn-container">
-				        <a class="admin-btn" onclick="faqModify('delete', 3)">삭제하기</a>
-				        <a class="admin-btn" onclick="faqModify('modify', 4)">수정하기</a>
-			          </div>
-              <% 	} 
-              	}else{ %>
-              		<p>여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.여기에 추가되는 부분이 자주묻는 질문의 답변 내용이 들어갑니다.</p>
-              <% } %>
-            </div>
+            <c:forEach items="${list}" var="row">
+              <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
+              <label for="faq-answer${row.faq_id}"><em></em>
+                <p>${row.title}</p>
+              </label>
+              <div>
+                <% if(session.getAttribute("status") != null){
+	              		if((int)session.getAttribute("status") == -1){%>
+                <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
+                <div class="admin-btn-container">
+                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">삭제하기</a>
+                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">수정하기</a>
+                </div>
+                <% 	}
+	              	}else{ %>
+                <p>${row.content}</p>
+                <% } %>
+              </div>
+            </c:forEach>
           </div>
           <div>
             <ul>

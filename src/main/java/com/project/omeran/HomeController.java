@@ -4,8 +4,11 @@ import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.service.MemberService;
+
 
 /**
  * Handles requests for the application home page.
@@ -126,10 +130,6 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/faq", method = { RequestMethod.GET, RequestMethod.POST })
-	public String faq() {
-		return "faq";
-	}
 	
 	@RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
 	public String faqWrite(HttpSession session) {
@@ -139,6 +139,7 @@ public class HomeController {
 		}
 		return "faq";
 	}
+
 	
 	// mailForm
 	@RequestMapping(value = "/mailForm")
@@ -190,6 +191,25 @@ public class HomeController {
             return -1;
         }
     }
+    
+    //Logger log = Logger.getLogger(this.getClass()); 
+    
+//    @Resource(name="memberService") //@Resource어노테이션을 통해서 필요한 빈(bean)을 수동으로 등록하는것이다. 
+//    								//그리고 수동으로 등록할 빈의 이름이 memberService"이고, 
+//    								//이는 @Service("memberService")라고 선언했을 때의 그 이름인것을 확인한다. 
+    
+    @RequestMapping(value="/faq") // requestMapping은 url의 개념(주소)
+    public ModelAndView openSampleBoardList(Map<String,Object> commandMap) throws Exception{ 
+    	ModelAndView mv = new ModelAndView("faq"); 
+    	
+    	List<Map<String,Object>> list = memberService.selectBoardList(commandMap); 
+    	//System.out.println(list);
+    	mv.addObject("list", list); 
+    	return mv; 
+    	
+    }
+
+
 
 
 	

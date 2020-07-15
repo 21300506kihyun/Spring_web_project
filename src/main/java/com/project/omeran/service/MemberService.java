@@ -1,5 +1,9 @@
 package com.project.omeran.service;
 
+
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import com.project.omeran.dto.MemberVO;
@@ -12,4 +16,8 @@ public interface MemberService {
 	
 	// 로그아웃 
 	public void logout(HttpSession session, MemberVO vo);
+	
+	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
+
 }
+
