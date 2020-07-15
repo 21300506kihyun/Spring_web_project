@@ -40,6 +40,15 @@
 		WHERE id = #{userId} AND pw = #{userPw}
 	</select>
 
+			<!--쿼리의 id -->
+	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap"> 
+		<![CDATA[ 
+		SELECT faq_id, title ,content,writer 
+		FROM Faq_table
+		WHERE faq_id = 1 
+		]]> 
+	</select>
+
 </mapper>
 
 <!-- <mapper namespace="member">

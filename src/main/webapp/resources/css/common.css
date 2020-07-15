@@ -291,6 +291,9 @@ h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input,textarea
 }
 
 /* Pop-up Layer */
+.popup-btn{
+	cursor: pointer;
+}
 .pop-layer .pop-container {
   	/* padding: 20px 25px; */
   	padding: 5%;

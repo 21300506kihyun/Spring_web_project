@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
-<html lang="ko">
+<html>
 
 <head>
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
@@ -44,14 +45,26 @@
 	      <form id="faqSearch" action="">
   	        <input type="text" id="input_id" class="faq-input" placeholder="제목을 검색해주세요.">
 	        <input type="submit" class="faq-submit" value="검색하기">
-	        <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
+	        
+	        <%-- <% if((int)session.getAttribute("status") == -1){ %> 
+	        	<!-- <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')"> -->
+	        <% }else{
+	        	
+	        } %> --%>
+	        
+	        <% String userName = (String)session.getAttribute("userName");
+  			if(session.getAttribute("status") != null){ 
+  				if((int)session.getAttribute("status") == -1){%>
+		        <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
+		        <% } 
+  			} %>
 	      </form>
 	    </div>
         
         <div class="faq-table">
           <table>
 	          <tr>
-			    <th>글 번호</th>
+			    <th>${userName}글 번호</th>
 			    <th>질문 내용</th>
 			   	<th>글쓴이</th>
 			    <th>조회수</th>

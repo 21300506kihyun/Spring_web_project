@@ -41,7 +41,7 @@
               <p class="login-title">로그인 </p>
               <p class="login-font">*해당 사이트는 개발중에 있습니다.<br>현재는 관리자만 로그인 할 수 있습니다.</p>
               <div class="login-mid-line"></div>
-              <form id="loginForm" action="login.do" method="post" onsubmit="return loginCheck('loginForm')" >
+              <form id="loginForm" action="login.do" method="post" onsubmit="return loginCheck('loginForm') && $('.login-dim-layer').fadeOut()" >
                 <div class="login-div">
                   <input name="id" type="text" id="input_id" class="login-input" placeholder="아이디를 입력해주세요">
                 </div>
