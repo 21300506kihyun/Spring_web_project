@@ -606,31 +606,33 @@ a.btn-layerClose:hover {
 .faq-table{
 	text-align: center;
 	border: 1px solid #bbb;
-	padding: 2m;
-	padding-top: 0.5em;
-	padding: 1%;
+	margin-top: 1em;
+	padding: 6%;
+	/* padding-top: 3%;
+	padding-bottom: 3%; */
 }
-table {
-  /* border-collapse: collapse; */
-  	width: 100%; 
+.accordion{
+	border-top: 3px solid #f5b11f;
 }
-
-th, td {
-  	text-align: center;
-  	padding: 8px;
+.admin-input{
+	width: 95%;
+	margin-top: 2%; 
+	border: 1px solid #bbb; 
+	border-radius: 3px; 
+	padding: 0.2em;
 }
-
-th:nth-child(1){width: 10%}
-th:nth-child(2){width: 60%}
-th:nth-child(3){width: 10%}
-th:nth-child(4){width: 10%}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-th {
-  	/* background-color: #fCAF50; *//* f3a244 *//* 95c11f */
-  	background-color: #f5b11f;
-  	color: white;
+.admin-btn-container{
+}
+.admin-btn{
+	display: inline-block;
+	margin: 0.5em;
+	margin-right: 1em;
+	cursor: pointer;
+}
+.admin-btn:hover{
+	color: #888;
+	/* font-weight: bold; */
+	/* text-decoration: underline; */
 }
 .page-num{
 	display:inline-block;
