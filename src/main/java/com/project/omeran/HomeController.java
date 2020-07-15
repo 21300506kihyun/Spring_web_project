@@ -52,7 +52,9 @@ public class HomeController {
 	public boolean sessionTest(HttpSession session) {
 		if(session.getAttribute("loginValidity") != null) {
 			if((boolean)session.getAttribute("loginValidity") == true) {
-				return true;				
+				if((int)session.getAttribute("status") == -1) {
+					return true;									
+				}
 			}
 		}
 		return false;
@@ -128,10 +130,6 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/faq", method = { RequestMethod.GET, RequestMethod.POST })
-	public String faq() {
-		return "faq";
-	}
 	
 	@RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
 	public String faqWrite(HttpSession session) {
@@ -200,9 +198,9 @@ public class HomeController {
 //    								//그리고 수동으로 등록할 빈의 이름이 memberService"이고, 
 //    								//이는 @Service("memberService")라고 선언했을 때의 그 이름인것을 확인한다. 
     
-    @RequestMapping(value="/test") // requestMapping은 url의 개념(주소)
+    @RequestMapping(value="/faq") // requestMapping은 url의 개념(주소)
     public ModelAndView openSampleBoardList(Map<String,Object> commandMap) throws Exception{ 
-    	ModelAndView mv = new ModelAndView("test"); 
+    	ModelAndView mv = new ModelAndView("faq"); 
     	
     	List<Map<String,Object>> list = memberService.selectBoardList(commandMap); 
     	//System.out.println(list);

@@ -43,9 +43,8 @@
 			<!--쿼리의 id -->
 	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap"> 
 		<![CDATA[ 
-		SELECT faq_id, title ,content,writer 
+		SELECT * 
 		FROM Faq_table
-		WHERE faq_id = 1 
 		]]> 
 	</select>
 

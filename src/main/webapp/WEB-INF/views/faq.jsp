@@ -6,12 +6,22 @@
 
 <head>
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
+  <style>
+	input[id*="faq-answer"] {display:none;}
+	input[id*="faq-answer"] + label {border-radius: 5px; margin-top: 2%; display:block; padding:20px; border-bottom: 1px solid #bbb; color:#fff; 
+	background:#f5b11f; cursor:pointer; position:relative; text-align: left; font-size: 20px}
+	input[id*="faq-answer"] + label + div {border-radius: 5px; max-height:0; transition: all .35s; overflow:hidden; background:#eee; }
+	input[id*="faq-answer"] + label + div p {display:inline-block; padding: 25px;}
+	input[id*="faq-answer"]:checked + label + div {max-height:1000px;} 
+  </style>
 </head>
 
 <body>
@@ -38,19 +48,13 @@
 
     <div class="faq-mid">
       <div class="faq-mid-menu">
-        <p class="faq-title">FAQ </p>
+        <p class="faq-title">FAQ: 자주 묻는 질문</p>
         <div class="faq-mid-line"></div>
         
 	    <div class="faq-div">
 	      <form id="faqSearch" action="">
-  	        <input type="text" id="input_id" class="faq-input" placeholder="제목을 검색해주세요.">
+  	        <input type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요.">
 	        <input type="submit" class="faq-submit" value="검색하기">
-	        
-	        <%-- <% if((int)session.getAttribute("status") == -1){ %> 
-	        	<!-- <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')"> -->
-	        <% }else{
-	        	
-	        } %> --%>
 	        
 	        <% String userName = (String)session.getAttribute("userName");
   			if(session.getAttribute("status") != null){ 
@@ -62,62 +66,16 @@
 	    </div>
         
         <div class="faq-table">
-          <table>
-	          <tr>
-			    <th>${userName}글 번호</th>
-			    <th>질문 내용</th>
-			   	<th>글쓴이</th>
-			    <th>조회수</th>
-			  </tr>
-			  <tr>
-			    <td>8</td>
-			    <td>[결재/배송] 결재/배송 관련 테스트 질문입니다.</td>
-			    <td>관리자 </td>
-			    <td>25</td>
-			  </tr>
-			  <tr>
-			    <td>7</td>
-			    <td>[회원가입] 회원가입 관련 테스트 질문입니다. </td>
-			    <td>관리자</td>
-			    <td>25</td>
-			  </tr>
-			  <tr>
-			    <td>6</td>
-			    <td>[회원가입] 회원가입 관련 테스트 질문입니다. </td>
-			    <td>관리자</td>
-			    <td>82</td>
-			  </tr>
-			  <tr>
-			    <td>5</td>
-			    <td>[기타] 기타 질문입니다. </td>
-			    <td>관리자</td>
-			    <td>83</td>
-			  </tr>
-			  <tr>
-			    <td>4</td>
-			    <td>[결재/배송] 결재/배송 관련 테스트 질문입니다.</td>
-			    <td>관리자 </td>
-			    <td>25</td>
-			  </tr>
-			  <tr>
-			    <td>3</td>
-			    <td>[회원가입] 회원가입 관련 테스트 질문입니다. </td>
-			    <td>관리자</td>
-			    <td>25</td>
-			  </tr>
-			  <tr>
-			    <td>2</td>
-			    <td>[회원가입] 회원가입 관련 테스트 질문입니다. </td>
-			    <td>관리자</td>
-			    <td>82</td>
-			  </tr>
-			  <tr>
-			    <td>1</td>
-			    <td>[기타] 기타 질문입니다. </td>
-			    <td>관리자</td>
-			    <td>83</td>
-			  </tr>
-          </table>
+        	<div class="accordion">
+ 
+
+
+			<c:forEach items="${list}" var="row">
+				<input type="checkbox" name="accordion" id="faq-answer01">
+        		<label for="faq-answer01"><c:out value="${row.title}" /></label>
+				<div><p><c:out value="${row.content}" /></p></div>
+			</c:forEach>
+			</div>
           <div>
 	         <ul>
 		         <li class="page-num"><a class="page-num-selected" href="#"> 1 </a></li>
