@@ -11,8 +11,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/common.js"></script>
   <style>
     input[id*="faq-answer"] {display: none;}
     input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb;
@@ -25,6 +23,30 @@
     input[id*="faq-answer"]+label+div p { text-align: left; display: inline-block; padding: 25px;}
     input[id*="faq-answer"]:checked+label+div { max-height: 1000px; }
   </style>
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+  	function moveFormAjax(toUrl){
+	  var formData = $("#faqSearch").serialize();
+	 
+	  // ajax option
+      var ajaxOption = {
+        url : toUrl,
+        async : true,
+        type : "POST",
+        data : formData,
+        dataType : "html",
+        cache : false
+      };
+    
+      $.ajax(ajaxOption).done(function(data){
+        // Contents 영역 삭제
+        $('#omeran_pc_all').children().remove();
+        // Contents 영역 교체
+        $('#omeran_pc_all').html(data);
+      });
+	}
+  </script>
 </head>
 
 <body>
@@ -55,10 +77,9 @@
         <div class="faq-mid-line"></div>
 
         <div class="faq-div">
-          <form id="faqSearch" action="">
-            <input type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요.">
+          <form id="faqSearch" method="post" action="faq.search" onsubmit="moveFormAjax('faq.search'); return false;">
+            <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
             <input type="submit" class="faq-submit" value="검색하기">
-
             <% if(session.getAttribute("status") != null){
   				if((int)session.getAttribute("status") == -1){%>
             <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
@@ -80,8 +101,8 @@
 	              		if((int)session.getAttribute("status") == -1){%>
                 <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
                 <div class="admin-btn-container">
-                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">삭제하기</a>
-                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">수정하기</a>
+                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">글 삭제하기</a>
+                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 수정하기</a>
                 </div>
                 <% 	}
 	              	}else{ %>

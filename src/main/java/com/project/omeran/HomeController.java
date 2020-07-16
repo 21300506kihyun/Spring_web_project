@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Resource;
+//import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -208,7 +208,18 @@ public class HomeController {
     	return mv; 
     	
     }
-
+    
+    @RequestMapping(value = "/faq.search", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView faqSearch(HttpSession session, @RequestParam("faqKeyword")String keyword) throws Exception{
+    	
+    	List<Map<String, Object>> searchList = memberService.getFaqList(keyword);
+    	
+    	ModelAndView mav = new ModelAndView();
+    	mav.addObject("list", searchList);
+    	mav.addObject("keyword", keyword);
+    	mav.setViewName("faq");
+    	return mav;
+	}
 
 
 

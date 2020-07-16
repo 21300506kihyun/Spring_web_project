@@ -4,30 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.omeran.dao.MemberDAO">
 
+	<sql id="login">
+		<if test="1 == 1">
+			user_table WHERE id=#{id} AND pw = #{pw}
+		</if>
+	</sql>
+
   	<select id="getEmail" resultType="String">
 	  select name from user_table where u_id = #{id}
 	</select>
   
 	<select id="getUserInfoStr" resultType="HashMap">
-		<!-- SELECT name AS userName FROM user_table WHERE id = #{id} AND pw = #{pw} -->
-		SELECT * FROM user_table WHERE id = #{id} AND pw = #{pw} 
+		SELECT * FROM <include refid="login"></include>  
 	</select>
 	
 	<select id="getUserInfoTime" resultType="HashMap">
-		<!-- SELECT name AS userName FROM user_table WHERE id = #{id} AND pw = #{pw} -->
-		SELECT register_date, modify_date, recent_visit FROM user_table WHERE id = #{id} AND pw = #{pw} 
+		SELECT register_date, modify_date, recent_visit FROM <include refid="login"></include>  
 	</select>
 	
 	<select id="getUserInfoInt" resultType="HashMap">
-		<!-- SELECT name AS userName FROM user_table WHERE id = #{id} AND pw = #{pw} -->
-		SELECT u_id, status FROM user_table WHERE id = #{id} AND pw = #{pw} 
+		SELECT u_id, status FROM <include refid="login"></include>  
 	</select>
 	
 	<update id="updateRecentLogin">
 		UPDATE user_table SET modify_date=CURRENT_TIMESTAMP, recent_visit=CURRENT_TIMESTAMP WHERE u_id = #{u_id};
 	</update>
 	
-	<select id="viewMember" resultType="com.project.omeran.dto.MemberVO">
+	<!-- <select id="viewMember" resultType="com.project.omeran.dto.MemberVO">
 		SELECT 
 			u_id AS u_id,
 			id AS userId,
@@ -38,7 +41,7 @@
 			recent_visit AS recentVisit
 		FROM user_table
 		WHERE id = #{userId} AND pw = #{userPw}
-	</select>
+	</select> -->
 
 			<!--쿼리의 id -->
 	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap"> 
@@ -47,29 +50,9 @@
 		FROM Faq_table
 		]]> 
 	</select>
+	
+	<select id="getFaqList" resultType="HashMap">
+		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%";
+	</select>
 
 </mapper>
-
-<!-- <mapper namespace="member">
-	<select id="getEmail" resultType="String">
-	  select id from user_table where u_id = #{id}
-	</select>
-  
-	<select id="loginCheck" resultType="String">
-		SELECT name AS userName FROM user_table WHERE id = #{userID} AND pw = #{userPw}
-	</select>
-	
-	<select id="viewMember" resultType="com.project.omeran.dto.MemberVO">
-		SELECT 
-			u_id AS u_id,
-			id AS userId,
-			name AS userName,
-			email AS userEmail,
-			register_date AS registerDate,
-			modify_date AS modifyDate,
-			recent_visit AS recentVisit
-		FROM user_table
-		WHERE id = #{userID} AND pw = #{userPw}
-	</select>
-</mapper> -->
-

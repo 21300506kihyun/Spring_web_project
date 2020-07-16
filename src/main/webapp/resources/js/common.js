@@ -104,6 +104,7 @@ function faqModify(objective, faq_id){
 	}
 }
 
+
 // faq write
 function moveAjax(toUrl){
 	// ajax option

@@ -28,7 +28,8 @@ public interface MemberDAO {
 
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	
-	
+	// FAQ search
+	public List<Map<String, Object>> getFaqList(@Param("keyword")String keyword);
 
 }
 
