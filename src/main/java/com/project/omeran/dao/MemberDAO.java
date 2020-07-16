@@ -28,6 +28,10 @@ public interface MemberDAO {
 
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	
+	public void insertBoard(Map<String, Object> map); 
+	
+
+	
 	
 
 }

@@ -18,6 +18,9 @@ public interface MemberService {
 	public void logout(HttpSession session, MemberVO vo);
 	
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
+	
+	void insertBoard(Map<String, Object> map) throws Exception;
+
 
 }
 

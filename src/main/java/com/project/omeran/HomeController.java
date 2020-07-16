@@ -4,9 +4,11 @@ import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
@@ -21,12 +23,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.omeran.common.CommandMap;
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.service.MemberService;
 
@@ -208,6 +212,40 @@ public class HomeController {
     	return mv; 
     	
     }
+    
+  
+    @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
+    public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception{ 
+    	//System.out.println("kwefwef");
+    	ModelAndView mv = new ModelAndView(""); 
+    	if(commandMap.isEmpty() == false){ 
+    		Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator(); 
+    		Entry<String,Object> entry = null; 
+    		while(iterator.hasNext()){ 
+    			entry = iterator.next(); 
+    			System.out.println("key : "+entry.getKey()+", value : "+entry.getValue()); 
+    		} 
+    	} 
+    	//System.out.println("key : "); 
+    	return mv; 
+    }
+    
+    @RequestMapping(value="/boardWrite") 
+    public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception{ 
+    	ModelAndView mv = new ModelAndView("boardWrite"); 
+    	return mv; 
+    }
+    
+    @RequestMapping(value="/insertBoard", method = RequestMethod.POST) 
+    public ModelAndView insertBoard(@RequestParam Map<String,Object> commandMap) throws Exception{
+    	System.out.println(commandMap);
+    	ModelAndView mv = new ModelAndView("redirect:/faq"); 
+    	memberService.insertBoard(commandMap); 
+    	return mv; 
+    }
+
+
+
 
 
 

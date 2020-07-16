@@ -81,6 +81,12 @@ public class MemberServiceImpl implements MemberService{
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception { 
 		return memberDao.selectBoardList(map);
 	}
+	
+	@Override 
+	public void insertBoard(Map<String, Object> map) throws Exception { 
+		memberDao.insertBoard(map); 
+	}
+
 
 
 }
