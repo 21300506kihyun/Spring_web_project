@@ -29,7 +29,12 @@ public interface MemberDAO {
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	
 	// FAQ search
-	public List<Map<String, Object>> getFaqList(@Param("keyword")String keyword);
+	public int getFaqCount(@Param("keyword")String keyword);
+	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
+	
+	// FAQ paging
+//	public int getFaqCount();
+//	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage);
 
 }
 

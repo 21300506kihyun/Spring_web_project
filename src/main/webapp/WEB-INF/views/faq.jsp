@@ -26,7 +26,8 @@
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
   <script>
-  	function moveFormAjax(toUrl){
+	// faq search
+  	function faqSearch(toUrl){
 	  var formData = $("#faqSearch").serialize();
 	 
 	  // ajax option
@@ -77,7 +78,7 @@
         <div class="faq-mid-line"></div>
 
         <div class="faq-div">
-          <form id="faqSearch" method="post" action="faq.search" onsubmit="moveFormAjax('faq.search'); return false;">
+          <form id="faqSearch" method="post" action="faq" onsubmit="faqSearch('${curURL}'); return false;">
             <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
             <input type="submit" class="faq-submit" value="검색하기">
             <% if(session.getAttribute("status") != null){
@@ -106,26 +107,38 @@
                 </div>
                 <% 	}
 	              	}else{ %>
-                <p>${row.content}</p>
+                <pre><p>${row.content}</p></pre>
                 <% } %>
               </div>
             </c:forEach>
           </div>
           <div>
             <ul>
-              <li class="page-num"><a class="page-num-selected" href="#"> 1 </a></li>
-              <li class="page-num"><a href="#"> 2 </a></li>
-              <li class="page-num"><a href="#"> 3 </a></li>
-              <li class="page-num"><a href="#"> 4 </a></li>
-              <li class="page-num"><a href="#"> 5 </a></li>
-              <li class="page-num"><a href="#"> 6 </a></li>
-              <li class="page-num"><a href="#"> 7 </a></li>
-              <li class="page-num"><a href="#"> 8 </a></li>
-              <li class="page-num"><a href="#"> 9 </a></li>
-              <li class="page-num"><a href="#"> 10 </a></li>
-              <li class="page-num"><a href="#"> 다음 </a></li>
+              <c:if test="${pagination.curRange != 1}">
+              	<li class="page-num"><a onclick="paging('${curURL}', '1', '${keyword}')"> [처음] </a></li>
+              </c:if>
+              <c:if test="${pagination.curPage != 1}">
+              	<li class="page-num"><a onclick="paging('${curURL}', '${pagination.prevPage}', '${keyword}')"> [이전] </a></li>
+              </c:if>
+              <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+              	<c:choose>
+              		<c:when test="${pageNum == pagination.curPage}">
+              		  <li class="page-num"><a class="page-num-selected" onclick="paging('${curURL}', ${pageNum}, '${keyword}')"> ${pageNum} </a></li>
+              		</c:when>
+              		<c:otherwise>
+              		  <li class="page-num"><a onclick="paging('${curURL}', ${pageNum}, '${keyword}')"> ${pageNum} </a></li>
+              		</c:otherwise>
+            	</c:choose>
+              </c:forEach>
+              <c:if test="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+              	<li class="page-num"><a onclick="paging('${curURL}', '${pagination.nextPage}', '${keyword}')"> [다음] </a></li>
+              </c:if>
+              <c:if test="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+                <li class="page-num"><a onclick="paging('${curURL}', '${pagination.pageCnt}', '${keyword}')"> [끝] </a></li>
+              </c:if>
             </ul>
           </div>
+          [FOR DEBUG] 총 게시글 수 : ${pagination.listCnt} / 총 페이지수 : ${pagination.pageCnt} / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
         </div>
       </div>
     </div>

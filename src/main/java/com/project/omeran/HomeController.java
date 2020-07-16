@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.dto.MemberVO;
+import com.project.omeran.dto.PaginationVO;
 import com.project.omeran.service.MemberService;
 
 
@@ -198,30 +199,86 @@ public class HomeController {
 //    								//그리고 수동으로 등록할 빈의 이름이 memberService"이고, 
 //    								//이는 @Service("memberService")라고 선언했을 때의 그 이름인것을 확인한다. 
     
-    @RequestMapping(value="/faq") // requestMapping은 url의 개념(주소)
-    public ModelAndView openSampleBoardList(Map<String,Object> commandMap) throws Exception{ 
-    	ModelAndView mv = new ModelAndView("faq"); 
+//    @RequestMapping(value="/faq") // requestMapping은 url의 개념(주소)
+//    public ModelAndView openSampleBoardList(Map<String,Object> commandMap) throws Exception{ 
+//    	ModelAndView mv = new ModelAndView("faq"); 
+//    	
+//    	List<Map<String,Object>> list = memberService.selectBoardList(commandMap); 
+//    	//System.out.println(list);
+//    	mv.addObject("list", list); 
+//    	return mv; 
+//    }
+    
+//    @RequestMapping(value="/faq", method = { RequestMethod.GET, RequestMethod.POST })
+//    public ModelAndView openFaq(Map<String,Object> commandMap, @RequestParam(defaultValue="1")int curPage,
+//    				HttpServletRequest request) throws Exception{ 
+//    	ModelAndView mv = new ModelAndView("faq"); 
+//    	
+//    	// 전체 리스트 개수 
+//    	int listCnt = memberService.getFaqCount();
+//    	
+//    	PaginationVO pagination = new PaginationVO(listCnt, curPage);
+//    	
+//    	int startIndex = pagination.getStartIndex();
+//    	int cntPerPage = pagination.getPageSize();
+//    	
+//    	List<Map<String, Object>> list = memberService.getFaqList(startIndex, cntPerPage);
+//    	
+//    	mv.addObject("listCnt", listCnt);
+//    	mv.addObject("list", list); 
+//    	mv.addObject("pagination", pagination);
+//    	mv.addObject("curURL", "faq");
+//    	
+//    	return mv; 
+//    }
+    
+//    @RequestMapping(value = "/faqSearch", method = { RequestMethod.GET, RequestMethod.POST })
+//    public ModelAndView faqSearch(HttpSession session, @RequestParam(defaultValue="1")int curPage, @RequestParam("faqKeyword")String keyword) throws Exception{
+//    	ModelAndView mav = new ModelAndView("faq");
+//    	
+//    	System.out.println("curPage : "+curPage);
+//    	
+//    	// 검색된 리스트 개수 
+//    	int listCnt = memberService.getFaqCount(keyword);
+//    	
+//    	PaginationVO pagination = new PaginationVO(listCnt, curPage);
+//    	
+//    	int startIndex = pagination.getStartIndex();
+//    	int cntPerPage = pagination.getPageSize();
+//    	
+//    	List<Map<String, Object>> list = memberService.getFaqList(startIndex, cntPerPage, keyword);
+//    	
+//    	mav.addObject("listCnt", listCnt);
+//    	mav.addObject("list", list); 
+//    	mav.addObject("pagination", pagination);
+//    	mav.addObject("keyword", keyword);
+//    	mav.addObject("curURL", "faqSearch");
+//
+//    	return mav;
+//	}
+    
+    @RequestMapping(value="/faq", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView viewFaq(@RequestParam(value="curPage", defaultValue="1")int curPage, 
+    		@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
+    	ModelAndView mav = new ModelAndView("faq");
     	
-    	List<Map<String,Object>> list = memberService.selectBoardList(commandMap); 
-    	//System.out.println(list);
-    	mv.addObject("list", list); 
-    	return mv; 
+    	// FAQ 리스트 개수 불러오기 (검색결과, 페이징)
+    	int listCnt = memberService.getFaqCount(keyword);
     	
+    	PaginationVO pagination = new PaginationVO(listCnt, curPage);
+    	
+    	int startIndex = pagination.getStartIndex();
+    	int cntPerPage = pagination.getPageSize();
+    	
+    	List<Map<String, Object>> list = memberService.getFaqList(startIndex, cntPerPage, keyword);
+    	
+    	mav.addObject("listCnt", listCnt);
+    	mav.addObject("list", list);
+    	mav.addObject("pagination", pagination);
+    	mav.addObject("keyword", keyword);
+    	mav.addObject("curURL", "faq");
+    	
+    	return mav;
     }
     
-    @RequestMapping(value = "/faq.search", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView faqSearch(HttpSession session, @RequestParam("faqKeyword")String keyword) throws Exception{
-    	
-    	List<Map<String, Object>> searchList = memberService.getFaqList(keyword);
-    	
-    	ModelAndView mav = new ModelAndView();
-    	mav.addObject("list", searchList);
-    	mav.addObject("keyword", keyword);
-    	mav.setViewName("faq");
-    	return mav;
-	}
-
-
-
-	
 }

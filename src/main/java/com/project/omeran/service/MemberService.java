@@ -20,7 +20,13 @@ public interface MemberService {
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 	
 	// FAQ Search
-	List<Map<String, Object>> getFaqList(String keyword);
+	int getFaqCount(String keyword);
+	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);
+	
+	// FAQ Paging
+//	int getFaqCount();
+//	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage);
+	
 
 }
 
