@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.common.CommandMap;
 import com.project.omeran.dto.MemberVO;
+import com.project.omeran.dto.PaginationVO;
 import com.project.omeran.service.MemberService;
 
 
@@ -195,29 +196,35 @@ public class HomeController {
             return -1;
         }
     }
-    
-    //Logger log = Logger.getLogger(this.getClass()); 
-    
-//    @Resource(name="memberService") //@Resource어노테이션을 통해서 필요한 빈(bean)을 수동으로 등록하는것이다. 
-//    								//그리고 수동으로 등록할 빈의 이름이 memberService"이고, 
-//    								//이는 @Service("memberService")라고 선언했을 때의 그 이름인것을 확인한다. 
-    
-    @RequestMapping(value="/faq") // requestMapping은 url의 개념(주소)
-    public ModelAndView openSampleBoardList(Map<String,Object> commandMap) throws Exception{ 
-    	ModelAndView mv = new ModelAndView("faq"); 
+ 
+    @RequestMapping(value="/faq", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView viewFaq(@RequestParam(value="curPage", defaultValue="1")int curPage, 
+    		@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
+    	ModelAndView mav = new ModelAndView("faq");
     	
-    	List<Map<String,Object>> list = memberService.selectBoardList(commandMap); 
-    	//System.out.println(list);
-    	mv.addObject("list", list); 
-    	return mv; 
+    	// FAQ 리스트 개수 불러오기 (검색결과, 페이징)
+    	int listCnt = memberService.getFaqCount(keyword);
     	
+    	PaginationVO pagination = new PaginationVO(listCnt, curPage);
+    	
+    	int startIndex = pagination.getStartIndex();
+    	int cntPerPage = pagination.getPageSize();
+
+		List<Map<String, Object>> list = memberService.getFaqList(startIndex, cntPerPage, keyword);
+    	
+    	mav.addObject("listCnt", listCnt);
+    	mav.addObject("list", list);
+    	mav.addObject("pagination", pagination);
+    	mav.addObject("keyword", keyword);
+    	mav.addObject("curURL", "faq");
+    	
+    	return mav;
     }
     
 
   
     @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
     public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception{ 
-    	//System.out.println("kwefwef");
     	ModelAndView mv = new ModelAndView(""); 
     	if(commandMap.isEmpty() == false){ 
     		Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator(); 
@@ -226,8 +233,7 @@ public class HomeController {
     			entry = iterator.next(); 
     			System.out.println("key : "+entry.getKey()+", value : "+entry.getValue()); 
     		} 
-    	} 
-    	//System.out.println("key : "); 
+    	}  
     	return mv; 
     }
     
@@ -245,29 +251,12 @@ public class HomeController {
     	return mv; 
     }
 
-    @RequestMapping(value = "/faq.search", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView faqSearch(HttpSession session, @RequestParam("faqKeyword")String keyword) throws Exception{
-    	
-    	List<Map<String, Object>> searchList = memberService.getFaqList(keyword);
-    	
-    	ModelAndView mav = new ModelAndView();
-    	mav.addObject("list", searchList);
-    	mav.addObject("keyword", keyword);
-    	mav.setViewName("faq");
-    	return mav;
-	}
-    
+
     @RequestMapping(value="updateBoard") 
     public ModelAndView updateBoard(@RequestParam Map<String,Object> commandMap) throws Exception{ //map은 key와 value로 구성 여기서는 key= title, value = title 내용
     	ModelAndView mv = new ModelAndView("redirect:/faq"); 
     	memberService.updateBoard(commandMap);
-    	mv.addObject("faq_id", commandMap.get("faq_id"));
     	return mv; 
     }
 
-
-
-
-
-	
 }

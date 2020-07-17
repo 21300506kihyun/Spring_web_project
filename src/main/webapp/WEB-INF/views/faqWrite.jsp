@@ -7,7 +7,6 @@
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
@@ -93,8 +92,7 @@
 			<div class="faq-input-container">
 				<p class="faq-label">FAQ 답변</p>
 				<textarea name="CONTENTS" rows="8" cols="50" placeholder="ex)
-A. 질문에 대한 답변을 달아주세요.
-줄바꿈을 원하실 때에는 <br> 태그를 써주세요." class="faq-form-input"></textarea>
+A. 질문에 대한 답변을 달아주세요." class="faq-form-input"></textarea>
 			</div>
 			<div class="faq-btn-container">
 				<input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">

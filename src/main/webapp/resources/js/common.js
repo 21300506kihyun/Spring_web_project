@@ -104,16 +104,37 @@ function faqModify(objective, faq_id){
 	}
 }
 
+// paging
+function paging(toUrl, curPage, keyword){
+	var destination = toUrl + "?curPage="+curPage+"&faqKeyword="+keyword;
+	
+	var ajaxOption = {
+		url : destination,
+		async : true,
+		type : "POST",
+		data : curPage,
+		dataType : "html",
+		cache : false
+	};
+	
+	$.ajax(ajaxOption).done(function(data){
+		// Contents 영역 삭제
+		$('#omeran_pc_all').children().remove();
+		// Contents 영역 교체
+		$('#omeran_pc_all').html(data);	
+	});
+}
+
 
 // faq write
 function moveAjax(toUrl){
 	// ajax option
     var ajaxOption = {
-            url : toUrl,
-            async : true,
-            type : "POST",
-            dataType : "html",
-            cache : false
+        url : toUrl,
+        async : true,
+        type : "POST",
+        dataType : "html",
+        cache : false
     };
     
     $.ajax(ajaxOption).done(function(data){
@@ -159,6 +180,8 @@ function ComSubmit(opt_formId) {
 		frm.submit(); 
 	}; 
 }
+
+
 
 
 

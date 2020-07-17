@@ -637,6 +637,7 @@ a.btn-layerClose:hover {
 .page-num{
 	display:inline-block;
 	margin: 10px;
+	cursor: pointer;
 }
 .page-num-selected{
 	font-weight: bold;

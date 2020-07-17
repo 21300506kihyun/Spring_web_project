@@ -14,7 +14,7 @@
   <style>
     input[id*="faq-answer"] {display: none;}
     input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb;
-    	color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
+      color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
     input[id*="faq-answer"] + label em { position:absolute;top:30%;left:10px;width:50px; height:50px; margin-top:-15px;
     display:inline-block; margin-right: 50px; background:url('img/qna.png') 0 0 no-repeat;  background-size: contain;;
     /*img source: https://www.clipartmax.com/middle/m2i8Z5b1K9G6N4K9_question-and-answer-icon-png-personal-injury/ */}
@@ -26,21 +26,11 @@
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
   <script>
-	$(document).ready(function(){ 
-		$("#update").on("click", function(e){ 
-			e.preventDefault(); 
-			fn_updateBoardList(); 
-		}); 
-		
-		$("#delete").on("click", function(e){ //작성하기 버튼 
-			e.preventDefault(); 
-			fn_deleteBoard(); 
-		}); 
-	}); 
-	
-  	function moveFormAjax(toUrl){
+  	var idx = 1; // form 번호 구분하기 위함
+  	// faq search
+  	function faqSearch(toUrl){
 	  var formData = $("#faqSearch").serialize();
-	 
+
 	  // ajax option
       var ajaxOption = {
         url : toUrl,
@@ -50,27 +40,43 @@
         dataType : "html",
         cache : false
       };
-    
+
       $.ajax(ajaxOption).done(function(data){
         // Contents 영역 삭제
         $('#omeran_pc_all').children().remove();
         // Contents 영역 교체
         $('#omeran_pc_all').html(data);
       });
-	}
+
+
+	  }
+  	function fn_updateBoard(id){
+  		var comSubmit = new ComSubmit("faqContent"+id);
+  		comSubmit.setUrl("<c:url value='/updateBoard' />");
+  		comSubmit.submit();
+  	}
+  	function fn_deleteBoard(){
+  		var comSubmit = new ComSubmit();
+  		comSubmit.setUrl("<c:url value='deleteBoard' />");
+  		comSubmit.submit();
+  	}
   	
-	function fn_updateBoard(){ 
-		var comSubmit = new ComSubmit("frm"); 
-		comSubmit.setUrl("<c:url value='/updateBoard' />"); 
-		comSubmit.addParam("faq_id", $("#IDX").val());
-		comSubmit.submit(); 
-	} 
-	function fn_deleteBoard(){ 
-		var comSubmit = new ComSubmit(); 
-		comSubmit.setUrl("<c:url value='deleteBoard' />");  
-		comSubmit.submit(); 
-	}₩1
-  </script>
+  	function mysubmit(id) {
+  	    var myform = document.forms['faqContent'+id];
+  	    alert(myform['title'].value);
+  	    if( myform['title'].value.length < 1) {
+  	        alert('제목 입력하세요.');
+  	        return false;
+  	    }
+  	    if( myform['content'].value.length < 1) {
+  	        alert( '내용을 입력하세요.');
+  	        return false;
+  	    }
+  	    fn_updateBoard(id);
+  	    return true;
+  	}
+</script>
+
 </head>
 
 <body>
@@ -102,7 +108,7 @@
 
 
         <div class="faq-div">
-          <form id="faqSearch" method="post" action="faq.search" onsubmit="moveFormAjax('faq.search'); return false;">
+          <form id="faqSearch" method="post" action="faq" onsubmit="faqSearch('${curURL}'); return false;">
             <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
             <input type="submit" class="faq-submit" value="검색하기">
             <% if(session.getAttribute("status") != null){
@@ -115,7 +121,6 @@
 
         <div class="faq-table">
           <div class="accordion">
-
             <c:forEach items="${list}" var="row">
               <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
               <label for="faq-answer${row.faq_id}"><em></em>
@@ -124,36 +129,48 @@
               <div>
                 <% if(session.getAttribute("status") != null){
 	              		if((int)session.getAttribute("status") == -1){%>
-                <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
+	             <form name="faqContent${row.faq_id}" id ="faqContent${row.faq_id}" onsubmit="return mysubmit('${row.faq_id}')" action="" method="post">
+		            <input type="text" class="admin-input" name="title" value="${row.title}">
+		            <input type="hidden" id="faq_id" name="faq_id" value="${row.faq_id}">
+	                <textarea class="admin-input" name="content" rows="8" cols="50">${row.content}</textarea>
                 <div class="admin-btn-container">
-                  <a class="admin-btn" onclick="fn_updateBoard(${row.faq_id})">글 수정하기</a>
-                 <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 삭제하기</a>
-                  <a href="#this" class="btn" id="update">저장하기</a> 
-                  <a href="#this" class="btn" id="delete">삭제하기</a> 
-
+                	<input type="submit"  class="faq-submit" value="수정하기">
                 </div>
+                </form>
                 <% 	}
 	              	}else{ %>
-                <p>${row.content}</p>
+                <pre><p>${row.content}</p></pre>
                 <% } %>
               </div>
             </c:forEach>
           </div>
           <div>
             <ul>
-              <li class="page-num"><a class="page-num-selected" href="#"> 1 </a></li>
-              <li class="page-num"><a href="#"> 2 </a></li>
-              <li class="page-num"><a href="#"> 3 </a></li>
-              <li class="page-num"><a href="#"> 4 </a></li>
-              <li class="page-num"><a href="#"> 5 </a></li>
-              <li class="page-num"><a href="#"> 6 </a></li>
-              <li class="page-num"><a href="#"> 7 </a></li>
-              <li class="page-num"><a href="#"> 8 </a></li>
-              <li class="page-num"><a href="#"> 9 </a></li>
-              <li class="page-num"><a href="#"> 10 </a></li>
-              <li class="page-num"><a href="#"> 다음 </a></li>
+              <c:if test="${pagination.curRange != 1}">
+              	<li class="page-num"><a onclick="paging('${curURL}', '1', '${keyword}')"> [처음] </a></li>
+              </c:if>
+              <c:if test="${pagination.curPage != 1}">
+              	<li class="page-num"><a onclick="paging('${curURL}', '${pagination.prevPage}', '${keyword}')"> [이전] </a></li>
+              </c:if>
+              <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+              	<c:choose>
+              		<c:when test="${pageNum == pagination.curPage}">
+              		  <li class="page-num"><a class="page-num-selected" onclick="paging('${curURL}', ${pageNum}, '${keyword}')"> ${pageNum} </a></li>
+              		</c:when>
+              		<c:otherwise>
+              		  <li class="page-num"><a onclick="paging('${curURL}', ${pageNum}, '${keyword}')"> ${pageNum} </a></li>
+              		</c:otherwise>
+            	</c:choose>
+              </c:forEach>
+              <c:if test="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+              	<li class="page-num"><a onclick="paging('${curURL}', '${pagination.nextPage}', '${keyword}')"> [다음] </a></li>
+              </c:if>
+              <c:if test="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+                <li class="page-num"><a onclick="paging('${curURL}', '${pagination.pageCnt}', '${keyword}')"> [끝] </a></li>
+              </c:if>
             </ul>
           </div>
+          [FOR DEBUG] 총 게시글 수 : ${pagination.listCnt} / 총 페이지수 : ${pagination.pageCnt} / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
         </div>
       </div>
     </div>

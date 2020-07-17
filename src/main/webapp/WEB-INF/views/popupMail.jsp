@@ -40,7 +40,7 @@
               </div>
               <div align="center">
                 <!-- 보내는 사람 -->
-                <input id="fromMail" type="text" name="fromMail" placeholder="본인의 메일 주소를 입력해주세요." class="form-control">
+                <input id="fromMail" type="email" name="fromMail" placeholder="본인의 메일 주소를 입력해주세요." class="form-control">
               </div>
               <div align="center">
                 <!-- 내용 -->

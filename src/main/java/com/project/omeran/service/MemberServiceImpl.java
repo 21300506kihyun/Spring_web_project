@@ -94,10 +94,27 @@ public class MemberServiceImpl implements MemberService{
 
 
 
+//	@Override
+//	public int getFaqCount() {
+//		return memberDao.getFaqCount();
+//	}
+	
 	@Override
-	public List<Map<String, Object>> getFaqList(String keyword) {
-		return memberDao.getFaqList(keyword);
+	public int getFaqCount(String keyword) {
+		return memberDao.getFaqCount(keyword);
 	}
+
+//	@Override
+//	public List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage) {
+//		return memberDao.getFaqList(startIndex, cntPerPage);
+//	}
+
+	@Override
+	public List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword) {
+		return memberDao.getFaqList(startIndex, cntPerPage, keyword);
+	}
+
+	
 
 
 }
