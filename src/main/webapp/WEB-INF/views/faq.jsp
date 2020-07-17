@@ -114,30 +114,39 @@
         </div>
 
         <div class="faq-table">
-          <div class="accordion">
-            <c:forEach items="${list}" var="row">
-              <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
-              <label for="faq-answer${row.faq_id}"><em></em>
-                <p>${row.title}</p>
-              </label>
-              <div>
-                <% if(session.getAttribute("status") != null){
-	              		if((int)session.getAttribute("status") == -1){%>
-	            <input type="text" class="admin-input" value="${row.title}">
-                <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
-                <div class="admin-btn-container">
-                  <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
-                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">글 삭제하기</a>
-                  <!-- <a href="#this" class="btn" id="update">저장하기</a>
-                  <a href="#this" class="btn" id="delete">삭제하기</a> -->
-                </div>
-                <% 	}
-	              	}else{ %>
-                <pre><p>${row.content}</p></pre>
-                <% } %>
-              </div>
-            </c:forEach>
-          </div>
+          	<c:choose>
+          		<c:when test="${pagination.listCnt != 0}">
+          		  <div class="accordion">
+	          		<c:forEach items="${list}" var="row">
+		              <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
+		              <label for="faq-answer${row.faq_id}"><em></em>
+		                <p>${row.title}</p>
+		              </label>
+		              <div>
+		                <% if(session.getAttribute("status") != null){
+			              		if((int)session.getAttribute("status") == -1){%>
+			            <input type="text" class="admin-input" value="${row.title}">
+		                <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
+		                <div class="admin-btn-container">
+		                  <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
+		                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">글 삭제하기</a>
+		                  <!-- <a href="#this" class="btn" id="update">저장하기</a>
+		                  <a href="#this" class="btn" id="delete">삭제하기</a> -->
+		                </div>
+		                <% 	}
+			              	}else{ %>
+		                <pre><p>${row.content}</p></pre>
+		                <% } %>
+		              </div>
+		            </c:forEach>
+		          </div>
+          		</c:when>
+          		<c:otherwise>
+          		  <div class="no-accordion">
+          			<p class="faq-no-result">검색된 자료가 없습니다 :(</p>
+          		  </div>
+          		</c:otherwise>
+        	</c:choose>
           <div>
             <ul>
               <c:if test="${pagination.curRange != 1}">
@@ -164,7 +173,7 @@
               </c:if>
             </ul>
           </div>
-          [FOR DEBUG] 총 게시글 수 : ${pagination.listCnt} / 총 페이지수 : ${pagination.pageCnt} / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
+          <%-- [FOR DEBUG] 총 게시글 수 : ${pagination.listCnt} / 총 페이지수 : ${pagination.pageCnt} / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt } --%>
         </div>
       </div>
     </div>

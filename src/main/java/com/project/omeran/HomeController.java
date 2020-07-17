@@ -230,7 +230,7 @@ public class HomeController {
     		return viewFaq(1, "");
     	}
     	else {
-    		String referer = request.getHeader("referer");
+    		String referer = "faq";
         	String msg = "권한이 없습니다.";
     		
     		mav.setViewName("moveWithAlert");

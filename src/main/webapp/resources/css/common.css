@@ -574,6 +574,18 @@ a.btn-layerClose:hover {
 	/* float: left; */
 	width: 100%;
 }
+.no-accordion{
+	
+}
+.faq-no-result{
+	display:inline-block; 
+	color:#eeb885; 
+	font-size:35px; 
+	font-weight:600; 
+	line-height:48px;
+	text-align: center;
+	width: 100%;
+}
 .faq-font{
 	 
 	/* color:#eeb885;  */
