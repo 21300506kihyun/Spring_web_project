@@ -59,35 +59,17 @@
       });
 	}
   	
-  	function resend(){
-  	    
-  	    var param = [];
-  	 
-  	    //resendChk 클래스를 상속받은 체크박스 중 checked 인 것들만 가져와 for문과 같은 역할의 each 함수 사용
-  	    $(".resendChk:checked").each(function(i) {
-  	 
-  	        var data = {
-  	            memberId        : $(this).parents('tr').find("td.paramMemberId").text(),
-  	            memberIdSeq        : $(this).parents('tr').find("td.paramMemberIdSeq").text(),
-  	            resendToken        : $(this).parents('tr').find("td input").val(),
-  	            serverId        : $(this).parents('tr').find("td.paramServerId").text()
-  	        };
-  	        
-  	  //param 배열에 data 오브젝트를 담는다.
-  	        param.push(data);
-  	    });
-  	
-	function fn_updateBoard(faq_id){ 
+	function fn_updateBoard(){ 
 		var comSubmit = new ComSubmit("frm"); 
 		comSubmit.setUrl("<c:url value='/updateBoard' />"); 
-		comSubmit.addParam("faq_id", faq_id);
+		comSubmit.addParam("faq_id", $("#IDX").val());
 		comSubmit.submit(); 
 	} 
 	function fn_deleteBoard(){ 
 		var comSubmit = new ComSubmit(); 
 		comSubmit.setUrl("<c:url value='deleteBoard' />");  
 		comSubmit.submit(); 
-	}
+	}₩1
   </script>
 </head>
 
@@ -144,10 +126,10 @@
 	              		if((int)session.getAttribute("status") == -1){%>
                 <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
                 <div class="admin-btn-container">
-                  <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
- <%--                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 삭제하기</a>
+                  <a class="admin-btn" onclick="fn_updateBoard(${row.faq_id})">글 수정하기</a>
+                 <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 삭제하기</a>
                   <a href="#this" class="btn" id="update">저장하기</a> 
-                  <a href="#this" class="btn" id="delete">삭제하기</a> --%>
+                  <a href="#this" class="btn" id="delete">삭제하기</a> 
 
                 </div>
                 <% 	}
