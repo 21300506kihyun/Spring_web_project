@@ -84,6 +84,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override  // 게시글 입력 
 	public void insertBoard(Map<String, Object> map) throws Exception { 
+		//nt u_id = (int)session.getAttribute("u_id");
 		memberDao.insertBoard(map); 
 	}
 	
@@ -93,25 +94,20 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 
-
-//	@Override
-//	public int getFaqCount() {
-//		return memberDao.getFaqCount();
-//	}
-	
 	@Override
 	public int getFaqCount(String keyword) {
 		return memberDao.getFaqCount(keyword);
 	}
 
-//	@Override
-//	public List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage) {
-//		return memberDao.getFaqList(startIndex, cntPerPage);
-//	}
 
 	@Override
 	public List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword) {
 		return memberDao.getFaqList(startIndex, cntPerPage, keyword);
+	}
+
+	@Override
+	public void deleteFaq(int faq_id) {
+		memberDao.deleteFaqBoard(faq_id);
 	}
 
 	

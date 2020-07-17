@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -33,14 +35,11 @@ public interface MemberDAO {
 	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
 	
 	// FAQ paging
-//	public int getFaqCount();
-//	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage);
 	public void insertBoard(Map<String, Object> map); // 게시글 입력
 	
 	public void updateBoard(Map<String, Object> map); // 게시글 수정
 
-	
-	// public List<Map<String, Object>> getFaqList(@Param("keyword")String keyword);
+	public void deleteFaqBoard(@Param("faq_id")int faq_id);
 
 
 }

@@ -48,10 +48,10 @@
         $('#omeran_pc_all').html(data);
       });
 
-
-	  }
+	}
   	function fn_updateBoard(id){
   		var comSubmit = new ComSubmit("faqContent"+id);
+
   		comSubmit.setUrl("<c:url value='/updateBoard' />");
   		comSubmit.submit();
   	}
@@ -63,17 +63,18 @@
   	
   	function mysubmit(id) {
   	    var myform = document.forms['faqContent'+id];
-  	    alert(myform['title'].value);
-  	    if( myform['title'].value.length < 1) {
-  	        alert('제목 입력하세요.');
-  	        return false;
+  	    if(confirm("수정하시겠습니까?")){
+	  	    if( myform['title'].value.length < 1) {
+	  	        alert('제목 입력하세요.');
+	  	        return false;
+	  	    }
+	  	    if( myform['content'].value.length < 1) {
+	  	        alert( '내용을 입력하세요.');
+	  	        return false;
+	  	    }
+	  	    fn_updateBoard(id);
+	  	    return true;
   	    }
-  	    if( myform['content'].value.length < 1) {
-  	        alert( '내용을 입력하세요.');
-  	        return false;
-  	    }
-  	    fn_updateBoard(id);
-  	    return true;
   	}
 </script>
 
@@ -129,12 +130,15 @@
               <div>
                 <% if(session.getAttribute("status") != null){
 	              		if((int)session.getAttribute("status") == -1){%>
+
 	             <form name="faqContent${row.faq_id}" id ="faqContent${row.faq_id}" onsubmit="return mysubmit('${row.faq_id}')" action="" method="post">
 		            <input type="text" class="admin-input" name="title" value="${row.title}">
-		            <input type="hidden" id="faq_id" name="faq_id" value="${row.faq_id}">
+		            <input type="hidden" name="faq_id" value="${row.faq_id}">
+		            <input type="hidden" name="u_id" value="${row.faq_id}">
 	                <textarea class="admin-input" name="content" rows="8" cols="50">${row.content}</textarea>
                 <div class="admin-btn-container">
                 	<input type="submit"  class="faq-submit" value="수정하기">
+                	<input type="button" class="faq-submit" value="삭제하기" onclick="faqModify('delete', ${row.faq_id})">
                 </div>
                 </form>
                 <% 	}

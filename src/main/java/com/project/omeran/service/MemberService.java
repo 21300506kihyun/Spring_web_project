@@ -28,6 +28,7 @@ public interface MemberService {
 	// FAQ load 
 	int getFaqCount(String keyword);
 	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);	
+	void deleteFaq(int faq_id);
 
 
 }

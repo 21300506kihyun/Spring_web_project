@@ -45,23 +45,27 @@
 	</select>
 	
 	<select id="getFaqList" resultType="HashMap">
-		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1 LIMIT #{startIndex}, #{cntPerPage};
+		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1 ORDER BY faq_id DESC LIMIT #{startIndex}, #{cntPerPage};
 	</select>
 	
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
-			Faq_table(title,content) 
-			values (#{TITLE}, #{CONTENTS});
+			Faq_table(title,content,upload_date) 
+			values (#{TITLE}, #{CONTENTS},CURRENT_TIMESTAMP);
 		]]> 
 	</select>
 
 	<update id="updateBoard" parameterType="hashmap"> 
 		<![CDATA[ 
-			UPDATE Faq_table SET title = #{title}, 
+			UPDATE Faq_table SET title = #{title},
 			content = #{content}
 			where faq_id = #{faq_id}
 		]]>
+	</update>
+	
+	<update id="deleteFaqBoard">
+		UPDATE Faq_table SET modify_date=CURRENT_TIMESTAMP, status=-1 WHERE faq_id = #{faq_id} LIMIT 1;
 	</update>
 
 
