@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Resource;
+//import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -213,6 +213,7 @@ public class HomeController {
     	
     }
     
+
   
     @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
     public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception{ 
@@ -244,7 +245,25 @@ public class HomeController {
     	return mv; 
     }
 
-
+    @RequestMapping(value = "/faq.search", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView faqSearch(HttpSession session, @RequestParam("faqKeyword")String keyword) throws Exception{
+    	
+    	List<Map<String, Object>> searchList = memberService.getFaqList(keyword);
+    	
+    	ModelAndView mav = new ModelAndView();
+    	mav.addObject("list", searchList);
+    	mav.addObject("keyword", keyword);
+    	mav.setViewName("faq");
+    	return mav;
+	}
+    
+    @RequestMapping(value="updateBoard") 
+    public ModelAndView updateBoard(@RequestParam Map<String,Object> commandMap) throws Exception{ //map은 key와 value로 구성 여기서는 key= title, value = title 내용
+    	ModelAndView mv = new ModelAndView("redirect:/faq"); 
+    	memberService.updateBoard(commandMap);
+    	mv.addObject("faq_id", commandMap.get("faq_id"));
+    	return mv; 
+    }
 
 
 

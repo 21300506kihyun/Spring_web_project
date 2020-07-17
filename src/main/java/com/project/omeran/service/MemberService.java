@@ -19,7 +19,15 @@ public interface MemberService {
 	
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 	
+
 	void insertBoard(Map<String, Object> map) throws Exception;
+	
+	void updateBoard(Map<String, Object> map) throws Exception;
+
+
+
+	// FAQ Search
+	List<Map<String, Object>> getFaqList(String keyword);
 
 
 }

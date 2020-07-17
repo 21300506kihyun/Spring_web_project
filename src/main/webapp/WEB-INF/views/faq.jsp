@@ -6,22 +6,89 @@
 
 <head>
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
-  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
+  <style>
+    input[id*="faq-answer"] {display: none;}
+    input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb;
+    	color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
+    input[id*="faq-answer"] + label em { position:absolute;top:30%;left:10px;width:50px; height:50px; margin-top:-15px;
+    display:inline-block; margin-right: 50px; background:url('img/qna.png') 0 0 no-repeat;  background-size: contain;;
+    /*img source: https://www.clipartmax.com/middle/m2i8Z5b1K9G6N4K9_question-and-answer-icon-png-personal-injury/ */}
+    input[id*="faq-answer"] + label p{ margin-left: 50px; font-size: 20px;}
+    input[id*="faq-answer"]+label+div { max-height: 0; transition: all .35s; overflow: hidden; background: #eee;}
+    input[id*="faq-answer"]+label+div p { text-align: left; display: inline-block; padding: 25px;}
+    input[id*="faq-answer"]:checked+label+div { max-height: 1000px; }
+  </style>
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
-  <style>
-	input[id*="faq-answer"] {display:none;}
-	input[id*="faq-answer"] + label {border-radius: 5px; margin-top: 2%; display:block; padding:20px; border-bottom: 1px solid #bbb; color:#fff; 
-	background:#f5b11f; cursor:pointer; position:relative; text-align: left; font-size: 20px}
-	input[id*="faq-answer"] + label + div {border-radius: 5px; max-height:0; transition: all .35s; overflow:hidden; background:#eee; }
-	input[id*="faq-answer"] + label + div p {display:inline-block; padding: 25px;}
-	input[id*="faq-answer"]:checked + label + div {max-height:1000px;} 
-  </style>
+  <script>
+	$(document).ready(function(){ 
+		$("#update").on("click", function(e){ 
+			e.preventDefault(); 
+			fn_updateBoardList(); 
+		}); 
+		
+		$("#delete").on("click", function(e){ //작성하기 버튼 
+			e.preventDefault(); 
+			fn_deleteBoard(); 
+		}); 
+	}); 
+	
+  	function moveFormAjax(toUrl){
+	  var formData = $("#faqSearch").serialize();
+	 
+	  // ajax option
+      var ajaxOption = {
+        url : toUrl,
+        async : true,
+        type : "POST",
+        data : formData,
+        dataType : "html",
+        cache : false
+      };
+    
+      $.ajax(ajaxOption).done(function(data){
+        // Contents 영역 삭제
+        $('#omeran_pc_all').children().remove();
+        // Contents 영역 교체
+        $('#omeran_pc_all').html(data);
+      });
+	}
+  	
+  	function resend(){
+  	    
+  	    var param = [];
+  	 
+  	    //resendChk 클래스를 상속받은 체크박스 중 checked 인 것들만 가져와 for문과 같은 역할의 each 함수 사용
+  	    $(".resendChk:checked").each(function(i) {
+  	 
+  	        var data = {
+  	            memberId        : $(this).parents('tr').find("td.paramMemberId").text(),
+  	            memberIdSeq        : $(this).parents('tr').find("td.paramMemberIdSeq").text(),
+  	            resendToken        : $(this).parents('tr').find("td input").val(),
+  	            serverId        : $(this).parents('tr').find("td.paramServerId").text()
+  	        };
+  	        
+  	  //param 배열에 data 오브젝트를 담는다.
+  	        param.push(data);
+  	    });
+  	
+	function fn_updateBoard(faq_id){ 
+		var comSubmit = new ComSubmit("frm"); 
+		comSubmit.setUrl("<c:url value='/updateBoard' />"); 
+		comSubmit.addParam("faq_id", faq_id);
+		comSubmit.submit(); 
+	} 
+	function fn_deleteBoard(){ 
+		var comSubmit = new ComSubmit(); 
+		comSubmit.setUrl("<c:url value='deleteBoard' />");  
+		comSubmit.submit(); 
+	}
+  </script>
 </head>
 
 <body>
@@ -43,53 +110,67 @@
         <jsp:include page="./menuRight.jsp"></jsp:include>
       </div>
     </header>
-    
+
     <jsp:include page="./login.jsp"></jsp:include>
 
     <div class="faq-mid">
       <div class="faq-mid-menu">
         <p class="faq-title">FAQ: 자주 묻는 질문</p>
         <div class="faq-mid-line"></div>
-        
-	    <div class="faq-div">
-	      <form id="faqSearch" action="">
-  	        <input type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요.">
-	        <input type="submit" class="faq-submit" value="검색하기">
-	        
-	        <% String userName = (String)session.getAttribute("userName");
-  			if(session.getAttribute("status") != null){ 
+
+
+        <div class="faq-div">
+          <form id="faqSearch" method="post" action="faq.search" onsubmit="moveFormAjax('faq.search'); return false;">
+            <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
+            <input type="submit" class="faq-submit" value="검색하기">
+            <% if(session.getAttribute("status") != null){
   				if((int)session.getAttribute("status") == -1){%>
-		        <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
-		        <% } 
-  			} %>
-	      </form>
-	    </div>
-        
+            <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
+            <%  }
+  			   } %>
+          </form>
+        </div>
+
         <div class="faq-table">
-        	<div class="accordion">
- 
+          <div class="accordion">
 
+            <c:forEach items="${list}" var="row">
+              <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
+              <label for="faq-answer${row.faq_id}"><em></em>
+                <p>${row.title}</p>
+              </label>
+              <div>
+                <% if(session.getAttribute("status") != null){
+	              		if((int)session.getAttribute("status") == -1){%>
+                <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
+                <div class="admin-btn-container">
+                  <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
+ <%--                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 삭제하기</a>
+                  <a href="#this" class="btn" id="update">저장하기</a> 
+                  <a href="#this" class="btn" id="delete">삭제하기</a> --%>
 
-			<c:forEach items="${list}" var="row">
-				<input type="checkbox" name="accordion" id="faq-answer01">
-        		<label for="faq-answer01"><c:out value="${row.title}" /></label>
-				<div><p><c:out value="${row.content}" /></p></div>
-			</c:forEach>
-			</div>
+                </div>
+                <% 	}
+	              	}else{ %>
+                <p>${row.content}</p>
+                <% } %>
+              </div>
+            </c:forEach>
+          </div>
           <div>
-	         <ul>
-		         <li class="page-num"><a class="page-num-selected" href="#"> 1 </a></li>
-		         <li class="page-num"><a href="#"> 2 </a></li>
-		         <li class="page-num"><a href="#"> 3 </a></li>
-		         <li class="page-num"><a href="#"> 4 </a></li>
-		         <li class="page-num"><a href="#"> 5 </a></li>
-		         <li class="page-num"><a href="#"> 6 </a></li>
-		         <li class="page-num"><a href="#"> 7 </a></li>
-		         <li class="page-num"><a href="#"> 8 </a></li>
-		         <li class="page-num"><a href="#"> 9 </a></li>
-		         <li class="page-num"><a href="#"> 10 </a></li>
-		         <li class="page-num"><a href="#"> 다음 </a></li>
-	         </ul>
+            <ul>
+              <li class="page-num"><a class="page-num-selected" href="#"> 1 </a></li>
+              <li class="page-num"><a href="#"> 2 </a></li>
+              <li class="page-num"><a href="#"> 3 </a></li>
+              <li class="page-num"><a href="#"> 4 </a></li>
+              <li class="page-num"><a href="#"> 5 </a></li>
+              <li class="page-num"><a href="#"> 6 </a></li>
+              <li class="page-num"><a href="#"> 7 </a></li>
+              <li class="page-num"><a href="#"> 8 </a></li>
+              <li class="page-num"><a href="#"> 9 </a></li>
+              <li class="page-num"><a href="#"> 10 </a></li>
+              <li class="page-num"><a href="#"> 다음 </a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -99,7 +180,7 @@
   </div>
 
   <!-- 모바일 시작 -->
-  <div id="omeran_mob_all">  
+  <div id="omeran_mob_all">
     <div id="m_index">
       <img src="img/m_index.png" id="m_main_img">
       <a href="p1.html" id="m_logo_area"></a>
@@ -111,9 +192,13 @@
       <div id="m_p1_foo_menu">
         <ul>
           <li><a href="#" class="m_index_main">오메란의 특별한 생산환경</a></li>
-          <li><p>|</p></li>
+          <li>
+            <p>|</p>
+          </li>
           <li><a href="#" class="m_index_main">오메란의 오메가 함유</a></li>
-          <li><p>|</p></li>
+          <li>
+            <p>|</p>
+          </li>
           <li><a href="#" class="m_index_main">오메가3의 장점</a></li>
         </ul>
       </div>

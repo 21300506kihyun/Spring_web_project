@@ -32,7 +32,7 @@
               <div align="center">
                 <!-- 받는 사람 이메일 -->
                 <!-- <input type="hidden" name="tomail" placeholder="보낼 사람의 이메일을 입력해 주세요" value="21300506@handong.edu" class="form-control"> -->
-                <input type="hidden" name="tomail" placeholder="보낼 사람의 이메일을 입력해 주세요." value="21700633@handong.edu" class="form-control">
+                <input type="hidden" name="tomail" placeholder="보낼 사람의 이메일을 입력해 주세요." value="m2tech.co.kr@gmail.com" class="form-control">
               </div>
               <div align="center">
                 <!-- 제목 -->

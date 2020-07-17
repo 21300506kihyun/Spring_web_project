@@ -22,16 +22,6 @@
   <% }else{ %>
    	<a href="#login" class="popup-btn">로그인</a>
   <% } %>
-  <%-- <c:choose>
-  	<c:when test="${userVO.loginValidity == true}">
-  	  <a href="#mypage">${userVO.userName} 님</a>
-  	  <p>|</p>
-	  <a href="logout.do" class="popup-btn">로그아웃</a>
-  	</c:when>
-  	<c:otherwise>
-	  <a href="#login" class="popup-btn">로그인</a>
-  	</c:otherwise>
-  </c:choose> --%>
   <p>|</p>
   <a href="#form-mail-popup" class="popup-btn">회원가입</a>
   <p>|</p>

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
+//import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,11 +82,22 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectBoardList(map);
 	}
 	
-	@Override 
+	@Override  // 게시글 입력 
 	public void insertBoard(Map<String, Object> map) throws Exception { 
 		memberDao.insertBoard(map); 
 	}
+	
+	@Override //게시글 수정
+	public void updateBoard(Map<String, Object> map) throws Exception{ 
+		memberDao.updateBoard(map); 
+	}
 
+
+
+	@Override
+	public List<Map<String, Object>> getFaqList(String keyword) {
+		return memberDao.getFaqList(keyword);
+	}
 
 
 }

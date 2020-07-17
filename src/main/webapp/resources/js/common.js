@@ -87,6 +87,24 @@ $(document).ready(function(){
     }
 })
 
+// faq modify, delete
+function faqModify(objective, faq_id){
+	if(objective == "delete"){
+		if(confirm("해당 글을 삭제하시겠습니까?")){
+			alert("delete: FAQ("+faq_id+")");
+		}
+	}
+	else if(objective == "modify"){
+		if(confirm("해당 글을 수정하시겠습니까?")){
+			alert("modify: FAQ("+faq_id+")");			
+		}
+	}
+	else{
+		alert("error");
+	}
+}
+
+
 // faq write
 function moveAjax(toUrl){
 	// ajax option

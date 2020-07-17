@@ -28,11 +28,13 @@ public interface MemberDAO {
 
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	
-	public void insertBoard(Map<String, Object> map); 
+	public void insertBoard(Map<String, Object> map); // 게시글 입력
 	
+	public void updateBoard(Map<String, Object> map); // 게시글 수정
 
 	
-	
+	public List<Map<String, Object>> getFaqList(@Param("keyword")String keyword);
+
 
 }
 
