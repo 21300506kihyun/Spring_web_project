@@ -19,6 +19,13 @@ public interface MemberService {
 	
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 	
+
+	void insertBoard(Map<String, Object> map) throws Exception;
+	
+	void updateBoard(Map<String, Object> map) throws Exception;
+
+
+
 	// FAQ Search
 	int getFaqCount(String keyword);
 	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);
@@ -27,6 +34,7 @@ public interface MemberService {
 //	int getFaqCount();
 //	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage);
 	
+
 
 }
 

@@ -37,6 +37,7 @@
 		FROM Faq_table
 		]]> 
 	</select>
+
 	
 	<select id="getFaqCount" resultType="int">
 		SELECT COUNT(*) FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1;
@@ -51,7 +52,22 @@
 		SELECT * FROM Faq_table WHERE status = 1 LIMIT ${startIndex}, ${cntPerPage}
 	</select> -->
 	
-	
-	
+	<select id="insertBoard" parameterType="hashmap"> 
+		<![CDATA[ 
+			INSERT into 
+			Faq_table(title,content) 
+			values (#{TITLE}, #{CONTENTS});
+		]]> 
+	</select>
+
+	<update id="updateBoard" parameterType="hashmap"> 
+		<![CDATA[ 
+			UPDATE Faq_table SET title = #{TITLE}, 
+			content = #{CONTENTS}
+			where faq_id = #{faq_id}
+		]]>
+	</update>
+
 
 </mapper>
+

@@ -11,7 +11,50 @@
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 </head>
+
+<script type="text/javascript"> 
+
+	$(document).ready(function(){ 
+		$("#list").on("click", function(e){ 
+			e.preventDefault(); 
+			fn_openBoardList(); 
+		}); 
+		
+		$("#write").on("click", function(e){ //작성하기 버튼 
+			e.preventDefault(); 
+			fn_insertBoard(); 
+		}); 
+	}); 
+	function fn_openBoardList(){ 
+		var comSubmit = new ComSubmit(); 
+		comSubmit.setUrl("<c:url value='faq' />"); 
+		comSubmit.submit(); 
+	} 
+	
+	function fn_insertBoard(){ 
+		var comSubmit = new ComSubmit("frm"); 
+		comSubmit.setUrl("<c:url value='/insertBoard' />"); 
+		comSubmit.submit(); 
+	}
+
+	function mysubmit() {
+	    var myform = document.forms['faq-write'];
+	    if( myform['TITLE'].value.length < 1) {
+	        alert('제목 입력하세요.');
+	        return false;
+	    }
+	    if( myform['CONTENTS'].value.length < 1) {
+	        alert( '내용을 입력하세요.');
+	        return false;
+	    }
+	    fn_insertBoard();
+	    return true;
+	}
+
+</script>
 
 <body>
   <div id="omeran_pc_all">
@@ -41,26 +84,29 @@
         <div class="faq-mid-line"></div>
 
 		<div class="faq-write-container">
-		  <form name="faq-write" action="" method="post">
+		  <form name="faq-write" id ="frm" onsubmit="return mysubmit()" action="" method="post">
 		  	<input type="hidden" name="writer" value="관리자">
 			<div class="faq-input-container">
 				<p class="faq-label">제목</p>
-				<input name="title" type="text" class="faq-form-input" placeholder="FAQ 게시판에 노출될 질문의 제목을 입력해주세요. ex) [결제관련] 결제는 어떻게 진행되나요?">
+				<input name="TITLE" type="text" class="faq-form-input" placeholder="FAQ 게시판에 노출될 질문의 제목을 입력해주세요. ex) [결제관련] 결제는 어떻게 진행되나요?">
 			</div>
 			<div class="faq-input-container">
 				<p class="faq-label">FAQ 답변</p>
-				<textarea name="content" rows="8" cols="50" placeholder="ex)
+				<textarea name="CONTENTS" rows="8" cols="50" placeholder="ex)
 A. 질문에 대한 답변을 달아주세요." class="faq-form-input"></textarea>
 			</div>
 			<div class="faq-btn-container">
 				<input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">
-				<input type="submit" class="faq-submit" value="글쓰기">
+				<input type="submit"  class="faq-submit" value="글쓰기">
 			</div>
 		  </form>
 		</div>
         
       </div>
     </div>
+
+
+
 
     <jsp:include page="./footer.jsp"></jsp:include>
   </div>

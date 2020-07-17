@@ -81,6 +81,18 @@ public class MemberServiceImpl implements MemberService{
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception { 
 		return memberDao.selectBoardList(map);
 	}
+	
+	@Override  // 게시글 입력 
+	public void insertBoard(Map<String, Object> map) throws Exception { 
+		memberDao.insertBoard(map); 
+	}
+	
+	@Override //게시글 수정
+	public void updateBoard(Map<String, Object> map) throws Exception{ 
+		memberDao.updateBoard(map); 
+	}
+
+
 
 //	@Override
 //	public int getFaqCount() {

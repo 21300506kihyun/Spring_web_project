@@ -14,7 +14,7 @@
   <style>
     input[id*="faq-answer"] {display: none;}
     input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb;
-    	color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
+      color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
     input[id*="faq-answer"] + label em { position:absolute;top:30%;left:10px;width:50px; height:50px; margin-top:-15px;
     display:inline-block; margin-right: 50px; background:url('img/qna.png') 0 0 no-repeat;  background-size: contain;;
     /*img source: https://www.clipartmax.com/middle/m2i8Z5b1K9G6N4K9_question-and-answer-icon-png-personal-injury/ */}
@@ -26,10 +26,22 @@
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
   <script>
-	// faq search
+  	$(document).ready(function(){
+  		$("#update").on("click", function(e){
+  			e.preventDefault();
+  			fn_updateBoardList();
+  		});
+
+  		$("#delete").on("click", function(e){ //작성하기 버튼
+  			e.preventDefault();
+  			fn_deleteBoard();
+  		});
+  	});
+
+  	// faq search
   	function faqSearch(toUrl){
 	  var formData = $("#faqSearch").serialize();
-	 
+
 	  // ajax option
       var ajaxOption = {
         url : toUrl,
@@ -39,15 +51,26 @@
         dataType : "html",
         cache : false
       };
-    
+
       $.ajax(ajaxOption).done(function(data){
         // Contents 영역 삭제
         $('#omeran_pc_all').children().remove();
         // Contents 영역 교체
         $('#omeran_pc_all').html(data);
       });
-	}
-  </script>
+	  }
+  	function fn_updateBoard(faq_id){
+  		var comSubmit = new ComSubmit("frm");
+  		comSubmit.setUrl("<c:url value='/updateBoard' />");
+  		comSubmit.addParam("faq_id", faq_id);
+  		comSubmit.submit();
+  	}
+  	function fn_deleteBoard(){
+  		var comSubmit = new ComSubmit();
+  		comSubmit.setUrl("<c:url value='deleteBoard' />");
+  		comSubmit.submit();
+  	}
+</script>
 </head>
 
 <body>
@@ -77,6 +100,7 @@
         <p class="faq-title">FAQ: 자주 묻는 질문</p>
         <div class="faq-mid-line"></div>
 
+
         <div class="faq-div">
           <form id="faqSearch" method="post" action="faq" onsubmit="faqSearch('${curURL}'); return false;">
             <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
@@ -91,7 +115,6 @@
 
         <div class="faq-table">
           <div class="accordion">
-
             <c:forEach items="${list}" var="row">
               <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
               <label for="faq-answer${row.faq_id}"><em></em>
@@ -102,8 +125,10 @@
 	              		if((int)session.getAttribute("status") == -1){%>
                 <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
                 <div class="admin-btn-container">
-                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">글 삭제하기</a>
-                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 수정하기</a>
+                  <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
+ <%--                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 삭제하기</a>
+                  <a href="#this" class="btn" id="update">저장하기</a>
+                  <a href="#this" class="btn" id="delete">삭제하기</a> --%>
                 </div>
                 <% 	}
 	              	}else{ %>
