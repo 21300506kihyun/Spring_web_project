@@ -7,7 +7,6 @@
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
   <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>

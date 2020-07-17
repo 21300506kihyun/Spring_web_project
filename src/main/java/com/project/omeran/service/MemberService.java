@@ -25,15 +25,9 @@ public interface MemberService {
 	void updateBoard(Map<String, Object> map) throws Exception;
 
 
-
-	// FAQ Search
+	// FAQ load 
 	int getFaqCount(String keyword);
-	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);
-	
-	// FAQ Paging
-//	int getFaqCount();
-//	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage);
-	
+	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);	
 
 
 }

@@ -48,10 +48,6 @@
 		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1 LIMIT #{startIndex}, #{cntPerPage};
 	</select>
 	
-	<!-- <select id="getFaqList" resultType="HashMap">
-		SELECT * FROM Faq_table WHERE status = 1 LIMIT ${startIndex}, ${cntPerPage}
-	</select> -->
-	
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
