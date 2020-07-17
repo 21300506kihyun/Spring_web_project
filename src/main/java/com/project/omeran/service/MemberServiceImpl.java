@@ -84,6 +84,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override  // 게시글 입력 
 	public void insertBoard(Map<String, Object> map) throws Exception { 
+		//nt u_id = (int)session.getAttribute("u_id");
 		memberDao.insertBoard(map); 
 	}
 	

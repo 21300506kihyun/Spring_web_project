@@ -91,7 +91,6 @@ $(document).ready(function(){
 function faqModify(objective, faq_id){
 	if(objective == "delete"){
 		if(confirm("해당 글을 삭제하시겠습니까?")){
-			alert("delete: FAQ("+faq_id+")");
 			var destination = "faq.delete?faq_id="+faq_id;
 			
 			var ajaxOption = {
@@ -109,11 +108,6 @@ function faqModify(objective, faq_id){
 				// Contents 영역 교체
 				$('#omeran_pc_all').html(data);	
 			});
-		}
-	}
-	else if(objective == "modify"){
-		if(confirm("해당 글을 수정하시겠습니까?")){
-			alert("modify: FAQ("+faq_id+")");			
 		}
 	}
 	else{
@@ -197,6 +191,8 @@ function ComSubmit(opt_formId) {
 		frm.submit(); 
 	}; 
 }
+
+
 
 
 

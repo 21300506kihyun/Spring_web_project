@@ -626,26 +626,28 @@ a.btn-layerClose:hover {
 .accordion{
 	border-top: 3px solid #f5b11f;
 }
-.admin-input{
+.faq-admin-input{
 	width: 95%;
 	margin-top: 2%; 
 	border: 1px solid #bbb; 
 	border-radius: 3px; 
 	padding: 0.2em;
 }
-.admin-btn-container{
+.faq-admin-btn-container{
+	padding: 0.5em;
 }
-.admin-btn{
-	display: inline-block;
-	margin: 0.5em;
-	margin-right: 1em;
+.faq-admin-btn{
+	/* width: 90% !important; */
+	padding: 0.5% 1%;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	background-color:#f3a244; 
+	color: white;
+	margin-bottom: 1%;
 	cursor: pointer;
+	margin-right: 0.5em;
 }
-.admin-btn:hover{
-	color: #888;
-	/* font-weight: bold; */
-	/* text-decoration: underline; */
-}
+
 .page-num{
 	display:inline-block;
 	margin: 10px;

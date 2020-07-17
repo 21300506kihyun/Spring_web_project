@@ -51,15 +51,15 @@
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
-			Faq_table(title,content) 
-			values (#{TITLE}, #{CONTENTS});
+			Faq_table(title,content,upload_date) 
+			values (#{TITLE}, #{CONTENTS},CURRENT_TIMESTAMP);
 		]]> 
 	</select>
 
 	<update id="updateBoard" parameterType="hashmap"> 
 		<![CDATA[ 
-			UPDATE Faq_table SET title = #{TITLE}, 
-			content = #{CONTENTS}
+			UPDATE Faq_table SET title = #{title},
+			content = #{content}
 			where faq_id = #{faq_id}
 		]]>
 	</update>

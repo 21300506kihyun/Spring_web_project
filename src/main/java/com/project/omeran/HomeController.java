@@ -265,8 +265,7 @@ public class HomeController {
     }
     
     @RequestMapping(value="/insertBoard", method = RequestMethod.POST) 
-    public ModelAndView insertBoard(@RequestParam Map<String,Object> commandMap) throws Exception{
-    	System.out.println(commandMap);
+    public ModelAndView insertBoard( @RequestParam Map<String,Object> commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("redirect:/faq"); 
     	memberService.insertBoard(commandMap); 
     	return mv; 
@@ -277,7 +276,6 @@ public class HomeController {
     public ModelAndView updateBoard(@RequestParam Map<String,Object> commandMap) throws Exception{ //map은 key와 value로 구성 여기서는 key= title, value = title 내용
     	ModelAndView mv = new ModelAndView("redirect:/faq"); 
     	memberService.updateBoard(commandMap);
-    	mv.addObject("faq_id", commandMap.get("faq_id"));
     	return mv; 
     }
 

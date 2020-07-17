@@ -26,18 +26,7 @@
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="js/common.js"></script>
   <script>
-  	$(document).ready(function(){
-  		$("#update").on("click", function(e){
-  			e.preventDefault();
-  			fn_updateBoardList();
-  		});
-
-  		$("#delete").on("click", function(e){ //작성하기 버튼
-  			e.preventDefault();
-  			fn_deleteBoard();
-  		});
-  	});
-
+  	var idx = 1; // form 번호 구분하기 위함
   	// faq search
   	function faqSearch(toUrl){
 	  var formData = $("#faqSearch").serialize();
@@ -58,11 +47,12 @@
         // Contents 영역 교체
         $('#omeran_pc_all').html(data);
       });
+
 	}
-  	function fn_updateBoard(faq_id){
-  		var comSubmit = new ComSubmit("frm");
+  	function fn_updateBoard(id){
+  		var comSubmit = new ComSubmit("faqContent"+id);
+
   		comSubmit.setUrl("<c:url value='/updateBoard' />");
-  		comSubmit.addParam("faq_id", faq_id);
   		comSubmit.submit();
   	}
   	function fn_deleteBoard(){
@@ -70,7 +60,24 @@
   		comSubmit.setUrl("<c:url value='deleteBoard' />");
   		comSubmit.submit();
   	}
+  	
+  	function mysubmit(id) {
+  	    var myform = document.forms['faqContent'+id];
+  	    if(confirm("수정하시겠습니까?")){
+	  	    if( myform['title'].value.length < 1) {
+	  	        alert('제목 입력하세요.');
+	  	        return false;
+	  	    }
+	  	    if( myform['content'].value.length < 1) {
+	  	        alert( '내용을 입력하세요.');
+	  	        return false;
+	  	    }
+	  	    fn_updateBoard(id);
+	  	    return true;
+  	    }
+  	}
 </script>
+
 </head>
 
 <body>
@@ -117,7 +124,7 @@
           	<c:choose>
           		<c:when test="${pagination.listCnt != 0}">
           		  <div class="accordion">
-	          		<c:forEach items="${list}" var="row">
+		            <c:forEach items="${list}" var="row">
 		              <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
 		              <label for="faq-answer${row.faq_id}"><em></em>
 		                <p>${row.title}</p>
@@ -125,14 +132,17 @@
 		              <div>
 		                <% if(session.getAttribute("status") != null){
 			              		if((int)session.getAttribute("status") == -1){%>
-			            <input type="text" class="admin-input" value="${row.title}">
-		                <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
-		                <div class="admin-btn-container">
-		                  <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
-		                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">글 삭제하기</a>
-		                  <!-- <a href="#this" class="btn" id="update">저장하기</a>
-		                  <a href="#this" class="btn" id="delete">삭제하기</a> -->
-		                </div>
+		
+			             <form name="faqContent${row.faq_id}" id ="faqContent${row.faq_id}" onsubmit="return mysubmit('${row.faq_id}')" action="" method="post">
+				            <input type="text" class="faq-admin-input" name="title" value="${row.title}">
+				            <input type="hidden" name="faq_id" value="${row.faq_id}">
+				            <input type="hidden" name="u_id" value="${row.faq_id}">
+			                <textarea class="faq-admin-input" name="content" rows="8" cols="50">${row.content}</textarea>
+			                <div class="faq-admin-btn-container">
+			                	<input type="submit"  class="faq-admin-btn" value="수정하기">
+			                	<input type="button" class="faq-admin-btn" value="삭제하기" onclick="faqModify('delete', ${row.faq_id})">
+			                </div>
+		                </form>
 		                <% 	}
 			              	}else{ %>
 		                <pre><p>${row.content}</p></pre>
