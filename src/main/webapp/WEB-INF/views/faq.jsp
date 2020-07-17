@@ -58,7 +58,7 @@
         // Contents 영역 교체
         $('#omeran_pc_all').html(data);
       });
-	  }
+	}
   	function fn_updateBoard(faq_id){
   		var comSubmit = new ComSubmit("frm");
   		comSubmit.setUrl("<c:url value='/updateBoard' />");
@@ -123,12 +123,13 @@
               <div>
                 <% if(session.getAttribute("status") != null){
 	              		if((int)session.getAttribute("status") == -1){%>
+	            <input type="text" class="admin-input" value="${row.title}">
                 <textarea class="admin-input" rows="8" cols="50">${row.content}</textarea>
                 <div class="admin-btn-container">
                   <a class="admin-btn" onclick="moveAjax('faqWri')"">글 수정하기</a>
- <%--                  <a class="admin-btn" onclick="faqModify('modify', ${row.faq_id})">글 삭제하기</a>
-                  <a href="#this" class="btn" id="update">저장하기</a>
-                  <a href="#this" class="btn" id="delete">삭제하기</a> --%>
+                  <a class="admin-btn" onclick="faqModify('delete', ${row.faq_id})">글 삭제하기</a>
+                  <!-- <a href="#this" class="btn" id="update">저장하기</a>
+                  <a href="#this" class="btn" id="delete">삭제하기</a> -->
                 </div>
                 <% 	}
 	              	}else{ %>

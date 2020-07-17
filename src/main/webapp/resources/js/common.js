@@ -92,6 +92,23 @@ function faqModify(objective, faq_id){
 	if(objective == "delete"){
 		if(confirm("해당 글을 삭제하시겠습니까?")){
 			alert("delete: FAQ("+faq_id+")");
+			var destination = "faq.delete?faq_id="+faq_id;
+			
+			var ajaxOption = {
+				url : destination,
+				async : true,
+				type : "post",
+				data : faq_id,
+				dataType : "html",
+				cache : false
+			};
+			
+			$.ajax(ajaxOption).done(function(data){
+				// Contents 영역 삭제
+				$('#omeran_pc_all').children().remove();
+				// Contents 영역 교체
+				$('#omeran_pc_all').html(data);	
+			});
 		}
 	}
 	else if(objective == "modify"){

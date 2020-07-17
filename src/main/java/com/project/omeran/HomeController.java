@@ -221,6 +221,27 @@ public class HomeController {
     	return mav;
     }
     
+    @RequestMapping(value="/faq.delete", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView faqDelete(HttpServletRequest request, HttpSession session, @RequestParam(value="faq_id")int faq_id) throws Exception{
+    	ModelAndView mav = new ModelAndView();
+    	
+    	if(sessionTest(session)) {
+    		memberService.deleteFaq(faq_id);
+    		return viewFaq(1, "");
+    	}
+    	else {
+    		String referer = request.getHeader("referer");
+        	String msg = "권한이 없습니다.";
+    		
+    		mav.setViewName("moveWithAlert");
+    		mav.addObject("msg", msg);
+    		mav.addObject("url", referer);	
+    	}
+    	
+    	return mav;
+    }
+    
+    
 
   
     @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
