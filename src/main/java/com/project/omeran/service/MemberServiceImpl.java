@@ -89,7 +89,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override //게시글 수정
-	public void updateBoard(Map<String, Object> map) throws Exception{ 
+	public void updateBoard(Map<String, Object> map) throws Exception{
 		memberDao.updateBoard(map); 
 	}
 

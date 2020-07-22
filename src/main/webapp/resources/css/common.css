@@ -616,7 +616,7 @@ a.btn-layerClose:hover {
 	cursor: pointer;
 }
 .faq-table{
-	text-align: center;
+	/* text-align: center; */
 	border: 1px solid #bbb;
 	margin-top: 1em;
 	padding: 6%;
@@ -633,7 +633,15 @@ a.btn-layerClose:hover {
 	border-radius: 3px; 
 	padding: 0.2em;
 }
+.faq-admin-textarea-div{
+	display: inline-block;
+	width: 96%;
+	background-color: #fff;
+	margin-top: 10px;
+	background-size: contain;
+}
 .faq-admin-btn-container{
+	text-align: center;
 	padding: 0.5em;
 }
 .faq-admin-btn{

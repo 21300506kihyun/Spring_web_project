@@ -12,6 +12,9 @@
   <script src="js/common.js"></script>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+  <!-- 스마트에디터 -->
+  <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/smartEditor/js/service/HuskyEZCreator.js" charset="utf-8"></script> --%>
+  <script type="text/javascript" src="<%=request.getContextPath() %>/smartEditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 
 <script type="text/javascript"> 
@@ -83,7 +86,7 @@
         <div class="faq-mid-line"></div>
 
 		<div class="faq-write-container">
-		  <form name="faq-write" id ="frm" onsubmit="return mysubmit()" action="" method="post">
+		  <form name="faq-write" id ="frm" onsubmit="return editorToTextarea() & mysubmit()" action="" method="post">
 		  	<input type="hidden" name="writer" value="관리자">
 			<div class="faq-input-container">
 				<p class="faq-label">제목</p>
@@ -91,8 +94,7 @@
 			</div>
 			<div class="faq-input-container">
 				<p class="faq-label">FAQ 답변</p>
-				<textarea name="CONTENTS" rows="8" cols="50" placeholder="ex)
-A. 질문에 대한 답변을 달아주세요." class="faq-form-input"></textarea>
+				<textarea style="width: 100%" id="CONTENTS" name="CONTENTS" rows="8" cols="50" placeholder="질문에 대한 답변을 달아주세요."></textarea>	
 			</div>
 			<div class="faq-btn-container">
 				<input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">
@@ -137,6 +139,24 @@ A. 질문에 대한 답변을 달아주세요." class="faq-form-input"></textare
     </div>
   </div>
 
+
+<script type="text/javascript">
+  var oEditors = [];
+  nhn.husky.EZCreator.createInIFrame({
+	  oAppRef: oEditors,
+	  elPlaceHolder: "CONTENTS",
+	  sSkinURI: "<%=request.getContextPath() %>/smartEditor/SmartEditor2Skin.html",
+	  fCreator: "createSEditor2"
+  });
+</script>
+<script type="text/javascript">
+  function editorToTextarea(){
+	  // 에디터의 내용이 textarea에 적용된다.
+	  oEditors.getById["CONTENTS"].exec("UPDATE_CONTENTS_FIELD", []);
+	  
+	  return true;
+  }
+</script>
 </body>
 
 </html>
