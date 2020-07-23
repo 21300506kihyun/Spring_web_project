@@ -27,7 +27,7 @@
 		
 		$("#write").on("click", function(e){ //작성하기 버튼 
 			e.preventDefault(); 
-			fn_insertBoard(); 
+			fn_updateBoard(); 
 		}); 
 	}); 
 	function fn_openBoardList(){ 
@@ -36,23 +36,23 @@
 		comSubmit.submit(); 
 	} 
 	
-	function fn_insertBoard(){ 
+	function fn_updateBoard(){ 
 		var comSubmit = new ComSubmit("frm"); 
-		comSubmit.setUrl("<c:url value='/insertBoard' />"); 
+		comSubmit.setUrl("<c:url value='/faq.modify' />"); 
 		comSubmit.submit(); 
 	}
 
 	function mysubmit() {
-	    var myform = document.forms['faq-write'];
-	    if( myform['TITLE'].value.length < 1) {
+	    var myform = document.forms['faq-modify'];
+	    if( myform['title'].value.length < 1) {
 	        alert('제목 입력하세요.');
 	        return false;
 	    }
-	    if( myform['CONTENTS'].value.length < 1) {
+	    if( myform['contents'].value.length < 1) {
 	        alert( '내용을 입력하세요.');
 	        return false;
 	    }
-	    fn_insertBoard();
+	    fn_updateBoard();
 	    return true;
 	}
 
@@ -82,19 +82,20 @@
 
     <div class="faq-mid">
       <div class="faq-mid-menu">
-        <p class="faq-title">FAQ 글쓰기 (관리자 전용)</p>
+        <p class="faq-title">FAQ 글수정하기 (관리자 전용)</p>
         <div class="faq-mid-line"></div>
 
 		<div class="faq-write-container">
-		  <form name="faq-write" id ="frm" onsubmit="return editorToTextarea() & mysubmit()" action="" method="post">
+		  <form name="faq-modify" id ="frm" onsubmit="return editorToTextarea() & mysubmit()" action="" method="post">
 		  	<input type="hidden" name="writer" value="<% out.println(session.getAttribute("u_id")); %>">
+		  	<input type="hidden" name="faq_id" value="${faq_id}">
 			<div class="faq-input-container">
 				<p class="faq-label">제목</p>
-				<input name="TITLE" type="text" class="faq-form-input" placeholder="FAQ 게시판에 노출될 질문의 제목을 입력해주세요.">
+				<input name="title" type="text" class="faq-form-input" placeholder="FAQ 게시판에 노출될 질문의 제목을 입력해주세요." value="${title}">
 			</div>
 			<div class="faq-input-container">
 				<p class="faq-label">FAQ 답변</p>
-				<textarea style="width: 100%" id="CONTENTS" name="CONTENTS" rows="8" cols="50" placeholder="질문에 대한 답변을 달아주세요."></textarea>	
+				<textarea style="width: 100%" id="contents" name="contents" rows="8" cols="50" placeholder="질문에 대한 답변을 달아주세요.">${content}</textarea>	
 			</div>
 			<div class="faq-btn-container">
 				<input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">
@@ -144,7 +145,7 @@
   var oEditors = [];
   nhn.husky.EZCreator.createInIFrame({
 	  oAppRef: oEditors,
-	  elPlaceHolder: "CONTENTS",
+	  elPlaceHolder: "contents",
 	  sSkinURI: "<%=request.getContextPath() %>/smartEditor/SmartEditor2Skin.html",
 	  fCreator: "createSEditor2"
   });
@@ -152,7 +153,7 @@
 <script type="text/javascript">
   function editorToTextarea(){
 	  // 에디터의 내용이 textarea에 적용된다.
-	  oEditors.getById["CONTENTS"].exec("UPDATE_CONTENTS_FIELD", []);
+	  oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 	  
 	  return true;
   }

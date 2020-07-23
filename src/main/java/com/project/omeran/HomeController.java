@@ -135,17 +135,6 @@ public class HomeController {
 		return mav;
 	}
 	
-	
-	@RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
-	public String faqWrite(HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		if(sessionTest(session)) {
-			return "faqWrite";
-		}
-		return "faq";
-	}
-
-	
 	// mailForm
 	@RequestMapping(value = "/mailForm")
 	public String mailForm() {
@@ -221,10 +210,22 @@ public class HomeController {
     	return mav;
     }
     
+    @RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView faqWrite(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			mav.setViewName("faqWrite");
+			return mav;
+		}
+		else {
+			return viewFaq(1, "");			
+		}
+	}
+    
     @RequestMapping(value="/faq.delete", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView faqDelete(HttpServletRequest request, HttpSession session, @RequestParam(value="faq_id")int faq_id) throws Exception{
+    public ModelAndView faqDeleteAction(HttpServletRequest request, HttpSession session, @RequestParam(value="faq_id")int faq_id) throws Exception{
     	ModelAndView mav = new ModelAndView();
-    	
+
     	if(sessionTest(session)) {
     		memberService.deleteFaq(faq_id);
     		return viewFaq(1, "");
@@ -240,6 +241,53 @@ public class HomeController {
     	
     	return mav;
     }
+    
+    @RequestMapping(value="/faqModify", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView faqModify(HttpServletRequest request, HttpSession session, @RequestParam(value="title")String title,
+    		@RequestParam(value="faq_id")int faq_id, @RequestParam(value="content")String content) throws Exception{
+    	ModelAndView mav = new ModelAndView();
+    	
+    	if(sessionTest(session)) {
+    		mav.setViewName("faqModify");
+    		mav.addObject("title", title);
+    		mav.addObject("faq_id", faq_id);
+    		mav.addObject("content", content);
+    		return mav;
+    	}
+    	else {
+    		String referer = "faq";
+        	String msg = "권한이 없습니다.";
+    		
+    		mav.setViewName("moveWithAlert");
+    		mav.addObject("msg", msg);
+    		mav.addObject("url", referer);	
+    	}
+    	
+    	return mav;
+    }
+    
+    @RequestMapping(value="/faq.modify", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView faqModifyAction(HttpSession session, @RequestParam Map<String,Object> commandMap) throws Exception{
+    	ModelAndView mav = new ModelAndView();
+    	System.out.println(".modify : "+commandMap);
+    	if(sessionTest(session)) {
+    		mav.setViewName("faq");    		
+        	memberService.updateFaq(commandMap);
+    		return viewFaq(1, "");
+    	}
+    	else {
+    		String referer = "faq";
+        	String msg = "권한이 없습니다.";
+    		
+    		mav.setViewName("moveWithAlert");
+    		mav.addObject("msg", msg);
+    		mav.addObject("url", referer);	
+    	}
+    	
+    	return mav;
+    }
+    
+    
     
     
 

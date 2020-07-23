@@ -67,6 +67,17 @@
 	<update id="deleteFaqBoard">
 		UPDATE Faq_table SET modify_date=CURRENT_TIMESTAMP, status=-1 WHERE faq_id = #{faq_id} LIMIT 1;
 	</update>
+	
+	<update id="updateFaqBoard" parameterType="hashmap"> 
+		<![CDATA[ 
+			UPDATE Faq_table 
+			SET title = #{title},
+				content = #{contents},
+				writer = #{writer}
+			WHERE faq_id = #{faq_id}
+			LIMIT 1
+		]]>
+	</update>
 
 
 </mapper>

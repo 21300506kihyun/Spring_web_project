@@ -40,6 +40,7 @@ public interface MemberDAO {
 	public void updateBoard(Map<String, Object> map); // 게시글 수정
 
 	public void deleteFaqBoard(@Param("faq_id")int faq_id);
+	public void updateFaqBoard(Map<String, Object> map);
 
 
 }

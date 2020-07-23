@@ -110,6 +110,12 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.deleteFaqBoard(faq_id);
 	}
 
+	@Override
+	public void updateFaq(Map<String, Object> map) {
+		memberDao.updateFaqBoard(map);
+		
+	}
+
 	
 
 

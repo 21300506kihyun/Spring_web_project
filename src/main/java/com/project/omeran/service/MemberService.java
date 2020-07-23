@@ -25,10 +25,11 @@ public interface MemberService {
 	void updateBoard(Map<String, Object> map) throws Exception;
 
 
-	// FAQ load 
+	// FAQ 
 	int getFaqCount(String keyword);
 	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);	
 	void deleteFaq(int faq_id);
+	void updateFaq(Map<String, Object> map);
 
 
 }
