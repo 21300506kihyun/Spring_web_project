@@ -72,7 +72,7 @@ public class HomeController {
 	public String home() {
 		return "index";
 	}
-	@RequestMapping(value = {"/index", "/p1.html"}, method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = {"/index", "/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
 		
 		

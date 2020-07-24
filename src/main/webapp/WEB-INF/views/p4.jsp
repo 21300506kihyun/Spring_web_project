@@ -81,11 +81,14 @@
 
   <!-- 모바일 시작 -->
   <div id="omeran_mob_all">
+  	<jsp:include page="./mobSidebar.jsp"></jsp:include>
+  	
     <div id="m_p3_all">
 
       <div id="m_index">
+      	<jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
         <img src="img/m_p4.png" id="m_p3_img">
-        <a href="p1.html" id="m_logo_area" class="m_logo_area_p4"></a>
+        <a href="index" id="m_logo_area" class="m_logo_area_p4"></a>
 
         <div id="m_p1_header" class="m_p3_header_only">
           <jsp:include page="./mobMenu.jsp"></jsp:include>

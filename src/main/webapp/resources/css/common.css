@@ -413,7 +413,6 @@ a.btn-layerClose:hover {
 	width: 100%;
 	font-size: 15px;
 }
-
 .popup-submit{
 	display: inline-block;
 	padding: 0 14px;
@@ -426,13 +425,36 @@ a.btn-layerClose:hover {
 	curosr: pointer;
 	margin-top: 1%;
 }
-
 .popup-submit:hover {
 	border: 1px solid #bbb;
 	background-color: #f3a244;
 	color: #fff;
 	cursor: pointer;
 } 
+.m-pop-layer{
+	padding: 5%;
+color: #666;
+line-height: 25px;
+width: 100%;
+	margin: 10px 0 20px;
+	padding-top: 10px;
+	/* border-top: 1px solid #DDD; */
+	text-align: right;
+display: none;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	/* width: 410px; */
+	width: 50%;
+	height: auto;
+	background-color: #fff;
+	/* border: 5px solid #3571B5; */
+	/* border: 5px solid #eeb885; */
+	/* border: 3px solid #95c11f; */
+	border: 5px solid #6edac1;
+	z-index: 10;
+display: block;
+}
 
 /* login */
 .login-mid{
