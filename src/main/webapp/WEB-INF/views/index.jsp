@@ -8,9 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
-  <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" />
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/common.js"></script>
+  <%@ include file="./header.jsp" %>
 </head>
 
 <body>
@@ -51,9 +49,15 @@
 
   <!-- 모바일 시작 -->
   <div id="omeran_mob_all">  
+	<jsp:include page="./mobSidebar.jsp"></jsp:include>		
+    <jsp:include page="./popupMail.jsp"></jsp:include>
+    <jsp:include page="./login.jsp"></jsp:include>
+
     <div id="m_index">
+  	  <jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
       <img src="img/m_index.png" id="m_main_img">
-      <a href="p1.html" id="m_logo_area"></a>
+      <a href="index" id="m_logo_area"></a>
+      
 
       <div id="m_p1_header">
         <jsp:include page="./mobMenu.jsp"></jsp:include>
@@ -75,6 +79,34 @@
       <jsp:include page="./mobFooter.jsp"></jsp:include>
     </div>
   </div>
+  
+  <%-- <!-- 모바일 시작 -->
+  <div id="omeran_mob_all">  
+    <div id="m_index">
+      <img src="img/m_index.png" id="m_main_img">
+      <a href="index" id="m_logo_area"></a>
+      
+
+      <div id="m_p1_header">
+        <jsp:include page="./mobMenu.jsp"></jsp:include>
+      </div>
+
+      <div id="m_p1_foo_menu">
+        <ul>
+          <li><a href="#" class="m_index_main">오메란의 특별한 생산환경</a></li>
+          <li><p>|</p></li>
+          <li><a href="#" class="m_index_main">오메란의 오메가 함유</a></li>
+          <li><p>|</p></li>
+          <li><a href="#" class="m_index_main">오메가3의 장점</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div id="m_p1_footer">
+      <jsp:include page="./mobFooter.jsp"></jsp:include>
+    </div>
+  </div> --%>
 
 </body>
 

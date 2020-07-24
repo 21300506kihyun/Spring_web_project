@@ -32,7 +32,7 @@
 
   <div class="login-dim-layer">
     <div class="login-dimBg" style="cursor: pointer" onclick="$('.login-dim-layer').fadeOut()"></div>
-    <div id=login class="pop-layer">
+    <div id=login class="m-pop-layer "><!-- TODO: m-pop-layer vs pop-layer -->
       <div class="pop-container">
         <div class="pop-conts">
           <!--content //-->
