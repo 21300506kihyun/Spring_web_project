@@ -12,9 +12,10 @@
   <script src="js/common.js"></script>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-  <!-- 스마트에디터 -->
-  <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/smartEditor/js/service/HuskyEZCreator.js" charset="utf-8"></script> --%>
-  <script type="text/javascript" src="<%=request.getContextPath() %>/smartEditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+  <!-- Smart Editor -->
+  <script type="text/javascript" src="<%=request.getContextPath()%>/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/se2/photo_uploader/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>
+
 </head>
 
 <script type="text/javascript"> 
@@ -143,10 +144,10 @@
 <script type="text/javascript">
   var oEditors = [];
   nhn.husky.EZCreator.createInIFrame({
-	  oAppRef: oEditors,
-	  elPlaceHolder: "CONTENTS",
-	  sSkinURI: "<%=request.getContextPath() %>/smartEditor/SmartEditor2Skin.html",
-	  fCreator: "createSEditor2"
+      oAppRef: oEditors,
+      elPlaceHolder: "CONTENTS",
+      sSkinURI: "<%=request.getContextPath()%>/se2/SmartEditor2Skin.html",
+      fCreator: "createSEditor2"
   });
 </script>
 <script type="text/javascript">
@@ -155,6 +156,12 @@
 	  oEditors.getById["CONTENTS"].exec("UPDATE_CONTENTS_FIELD", []);
 	  
 	  return true;
+  }
+  
+//textArea에 이미지 첨부
+  function pasteHTML(filepath){
+      var sHTML = '<img src="<%=request.getContextPath()%>/uploadFolder/'+filepath+'">';
+      oEditors.getById["CONTENTS"].exec("PASTE_HTML", [sHTML]);
   }
 </script>
 </body>
