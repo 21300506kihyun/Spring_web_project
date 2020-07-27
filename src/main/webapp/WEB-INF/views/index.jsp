@@ -6,8 +6,6 @@
 <head>
   <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <!--<link href="css/common.css" rel="stylesheet" type="text/css">-->
   <%@ include file="./header.jsp" %>
 </head>
 

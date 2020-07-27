@@ -431,30 +431,15 @@ a.btn-layerClose:hover {
 	color: #fff;
 	cursor: pointer;
 } 
-.m-pop-layer{
-	padding: 5%;
-color: #666;
-line-height: 25px;
-width: 100%;
-	margin: 10px 0 20px;
-	padding-top: 10px;
-	/* border-top: 1px solid #DDD; */
-	text-align: right;
-display: none;
-	position: absolute;
-	top: 10%;
-	left: 10%;
-	/* width: 410px; */
-	width: 50%;
-	height: auto;
-	background-color: #fff;
-	/* border: 5px solid #3571B5; */
-	/* border: 5px solid #eeb885; */
-	/* border: 3px solid #95c11f; */
-	border: 5px solid #6edac1;
-	z-index: 10;
-display: block;
+@media screen and (max-width:768px) {
+    .pop-layer{
+    	top: 2%;
+    	left: 5%;
+    	width: 90%;
+    	padding: 1%;
+    }
 }
+
 
 /* login */
 .login-mid{
@@ -718,3 +703,51 @@ display: block;
 	padding: 0.2em 1em; 
 }
 
+/* 모바일 사이드 햄버거 바 */
+.mob-hamburger-div{
+	position: absolute;
+	width: 100%;
+	z-index: 2;
+	text-align: right;
+	padding: 1px;
+}
+.mob-hamburger-icon{
+	display: inline-block;
+	padding: 0.5em;
+	font-size: 20px;
+}
+.mob-nav{
+	border-left: 2px solid #f3b646; 
+	z-index: 3; 
+	width: 250px; 
+	right: 0;
+}
+.mob-nav-container{
+	margin-top: -25px;
+}
+.mob-nav-close{
+	display: inline-block; 
+	width: 100%; 
+	background-color: #f3b646;
+}
+.mob-nav-closeIcon{
+	display: inline-block;
+}
+.mob-nav-first-container{
+	margin: 2px; 
+	padding: 1em; 
+	text-align: center;
+}
+.mob-nav-first-content{
+	padding: 0.5em; 
+	border: 1px solid #bbb;
+}
+.mob-nav-second-container{
+	padding: 0.5em; 
+	text-align: center;
+}
+.mob-nav-second-content{
+	width: 100%; 
+	border: 1px solid #bbb; 
+	margin-bottom: 1em;
+}

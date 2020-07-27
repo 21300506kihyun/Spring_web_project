@@ -6,10 +6,7 @@
 <head>
   <title>p2</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <link href="css/common.css" rel="stylesheet" type="text/css">
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/common.js"></script>
+  <%@ include file="./header.jsp" %>
 </head>
 
 <body>
@@ -45,6 +42,8 @@
   <!-- 모바일 시작 -->
   <div id="omeran_mob_all">
     <jsp:include page="./mobSidebar.jsp"></jsp:include>
+    <jsp:include page="./popupMail.jsp"></jsp:include>
+    <jsp:include page="./login.jsp"></jsp:include>
     
     <div id="m_index">
       <jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
