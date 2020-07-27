@@ -11,28 +11,10 @@
 </head>
 
 <body>
-  <!-- 로그인 -->
-  <!-- <div class="login-mid">
-      <div class="login-mid-menu">
-        <p class="login-title">로그인 </p>
-        <div class="login-mid-line"></div>
-        <form action="">
-	      <div class="login-div">
-  	        <input type="text" id="input_id" class="login-input" placeholder="아이디를 입력해주세요">
-	      </div>
-	      <div class="login-div">
-	        <input type="password" id="input_pw" class="login-input" placeholder="비밀번호를 입력해주세요">
-	      </div>
-	      <div class="login-div">
-	        <input type="submit" class="login-submit" value="로그인">
-	      </div>
-        </form>
-      </div>
-    </div> -->
 
   <div class="login-dim-layer">
     <div class="login-dimBg" style="cursor: pointer" onclick="$('.login-dim-layer').fadeOut()"></div>
-    <div id=login class="m-pop-layer "><!-- TODO: m-pop-layer vs pop-layer -->
+    <div id=login class="pop-layer "><!-- TODO: m-pop-layer vs pop-layer -->
       <div class="pop-container">
         <div class="pop-conts">
           <!--content //-->
@@ -50,7 +32,7 @@
                 </div>
                 <div class="login-div">
                   <input type="submit" class="login-submit" value="로그인">
-                  <input type="button" class="btn-login-submit login-submit" value="닫기">
+                  <input type="button" class="btn-login-submit login-submit" value="닫기" onclick="$('.login-dim-layer').fadeOut()"> 
                 </div>
               </form>
             </div>

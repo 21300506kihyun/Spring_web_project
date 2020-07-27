@@ -53,7 +53,7 @@
               <div align="center">
                 <div>
                   <input type="submit" id="captcha" value="메일 보내기" class="popup-submit">
-                  <input type="button" href="#" class="btn-layerClose popup-submit" value="닫기">
+                  <input type="button" href="#" class="btn-layerClose popup-submit" value="닫기" onclick="$('.dim-layer').fadeOut()">
                 </div>
               </div>
             </form>
