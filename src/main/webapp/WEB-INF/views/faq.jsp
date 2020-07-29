@@ -44,11 +44,6 @@
         $('#omeran_pc_all').children().remove();
         // Contents 영역 교체
         $('#omeran_pc_all').html(data);
-        
-     	// Contents 영역 삭제
-        $('#omeran_mob_all').children().remove();
-        // Contents 영역 교체
-        $('#omeran_mob_all').html(data);
       });
 	}
   	
@@ -75,34 +70,6 @@
       	});
   	  }
 	}
-  	
-  	function fn_updateBoard(id){
-  		var comSubmit = new ComSubmit("faqContent"+id);
-
-  		comSubmit.setUrl("<c:url value='/updateBoard' />");
-  		comSubmit.submit();
-  	}
-  	function fn_deleteBoard(){
-  		var comSubmit = new ComSubmit();
-  		comSubmit.setUrl("<c:url value='deleteBoard' />");
-  		comSubmit.submit();
-  	}
-  	
-  	function mysubmit(id) {
-  	    var myform = document.forms['faqContent'+id];
-  	    if(confirm("수정하시겠습니까?")){
-	  	    if( myform['title'].value.length < 1) {
-	  	        alert('제목 입력하세요.');
-	  	        return false;
-	  	    }
-	  	    if( myform['content'].value.length < 1) {
-	  	        alert( '내용을 입력하세요.');
-	  	        return false;
-	  	    }
-	  	    fn_updateBoard(id);
-	  	    return true;
-  	    }
-  	}
 </script>
 
 </head>
@@ -157,7 +124,7 @@
 		                <p>${row.title}</p>
 		              </label>
 		              <div>
-		              	<div style="text-align: left;">${row.content}</div>
+		              	<div style="text-align: left;"><p>${row.content}</p></div>
 		                <% if(session.getAttribute("status") != null){
 			              		if((int)session.getAttribute("status") == -1){%>
 			              <form name="faqContent${row.faq_id}" id ="faqContent${row.faq_id}" onsubmit="faqModify('faqModify', '${row.faq_id}'); return false;" action="" method="post">

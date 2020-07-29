@@ -22,11 +22,11 @@
 	  		
 	  	</div>
 	  	<div class="w3-bar-block mob-nav-second-container">
-	  	  <a href="faq" class="w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">FAQ</a>
-	  	  <a href="#form-mail-popup" class="w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">회원가입</a>
-	  	  <a href="#form-mail-popup" class="w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">리셀러 회원신청</a>
+	  	  <!-- <a href="faq" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">FAQ</a> -->
+	  	  <a href="#form-mail-popup" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">회원가입</a>
+	  	  <a href="#form-mail-popup" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">리셀러 회원신청</a>
 	  	  <%if(session.getAttribute("userName") != null){ %>
-	  	  	<a onclick="moveAjax('logout.do')" class="w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">로그아웃</a>
+	  	  	<a onclick="moveAjax('logout.do')" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">로그아웃</a>
 	  	  <% }%>
 	  	</div>
 	  </div>

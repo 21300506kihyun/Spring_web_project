@@ -51,8 +51,8 @@
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
-			Faq_table(title,content,upload_date) 
-			values (#{TITLE}, #{CONTENTS},CURRENT_TIMESTAMP);
+			Faq_table(title,content, writer, upload_date) 
+			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP);
 		]]> 
 	</select>
 

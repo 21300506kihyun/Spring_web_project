@@ -438,6 +438,12 @@ a.btn-layerClose:hover {
     	width: 90%;
     	padding: 1%;
     }
+    .pop-container{
+    	padding: 1%;
+    }
+    .popup-container{
+    	padding: 0;
+    }
 }
 
 

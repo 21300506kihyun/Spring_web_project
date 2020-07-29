@@ -44,11 +44,11 @@
               </div>
               <div align="center">
                 <!-- 내용 -->
-                <textarea id="mailContent" name="content" cols="12" rows="12" placeholder="문의사항을 입력해주세요." class="form-control"></textarea>
+                <textarea id="mailContent" name="content" cols="12" rows="6" placeholder="문의사항을 입력해주세요." class="form-control"></textarea>
               </div>
 
                 <!--recaptcha -->
-              <div id="google-recaptcha" class="g-recaptcha" data-sitekey="6LcYU6wZAAAAAD3_mJDSd6KCwmAWIPSc5yeV9QGj"></div>
+              <div id="google-recaptcha" class="g-recaptcha" style="width: 40%;" data-sitekey="6LcYU6wZAAAAAD3_mJDSd6KCwmAWIPSc5yeV9QGj"></div>
               <%-- <button id="test_btn">테스트 버튼</button> --%>
               <div align="center">
                 <div>
