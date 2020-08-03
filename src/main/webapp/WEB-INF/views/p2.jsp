@@ -28,7 +28,7 @@
         <jsp:include page="./menuRight.jsp"></jsp:include>
       </div>
     </header>
-    
+
     <jsp:include page="./login.jsp"></jsp:include>
 
     <div id="p2_mid" class="p2_mid_only">
@@ -44,7 +44,7 @@
     <jsp:include page="./mobSidebar.jsp"></jsp:include>
     <jsp:include page="./popupMail.jsp"></jsp:include>
     <jsp:include page="./login.jsp"></jsp:include>
-    
+
     <div id="m_index">
       <jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
       <img src="img/m_p2.png" id="m_p2_img">

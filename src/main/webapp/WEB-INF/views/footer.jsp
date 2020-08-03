@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <footer id="p2_footer">
+  <!-- <footer id="p2_footer"> -->
     <ul>
       <li>
           <img src="img/p2_footer_logo.png" alt="">
@@ -31,7 +31,7 @@
           <p class="p1_fo_p4">Tel. 062-955-2622 Fax.062-955-2623</p>
       </li>
     </ul>
-  </footer>
+  <!-- </footer> -->
 </body>
 
 </html>

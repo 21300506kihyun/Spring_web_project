@@ -11,7 +11,7 @@
 <body>
   <a href="faq" class="popup-btn">FAQ</a>
   <p>|</p>
-  <% String userName = (String)session.getAttribute("userName"); 
+  <% String userName = (String)session.getAttribute("userName");
   if(userName != null){ %>
   	<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
 	<p>|</p>
