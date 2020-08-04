@@ -110,9 +110,9 @@ function faqDelete(faq_id) {
 
     $.ajax(ajaxOption).done(function(data) {
       // Contents 영역 삭제
-      $('#omeran_pc_all').children().remove();
+      $('#body_wrapper').children().remove();
       // Contents 영역 교체
-      $('#omeran_pc_all').html(data);
+      $('#body_wrapper').html(data);
     });
   }
 }
@@ -132,9 +132,9 @@ function paging(toUrl, curPage, keyword) {
 
   $.ajax(ajaxOption).done(function(data) {
     // Contents 영역 삭제
-    $('#omeran_pc_all').children().remove();
+    $('#body_wrapper').children().remove();
     // Contents 영역 교체
-    $('#omeran_pc_all').html(data);
+    $('#body_wrapper').html(data);
   });
 }
 
@@ -152,9 +152,9 @@ function moveAjax(toUrl) {
 
   $.ajax(ajaxOption).done(function(data) {
     // Contents 영역 삭제
-    $('#omeran_pc_all').children().remove();
+    $('#body_wrapper').children().remove();
     // Contents 영역 교체
-    $('#omeran_pc_all').html(data);
+    $('#body_wrapper').html(data);
   });
 
 }

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div id="body_wrapper" style="border: 1px solid black;">
+  <div id="body_wrapper">
     <jsp:include page="./popupMail.jsp"></jsp:include>
     <jsp:include page="./mobSidebar.jsp"></jsp:include>
     <jsp:include page="./login.jsp"></jsp:include>
@@ -40,35 +40,20 @@
       </div>
     </header>
 
-    <!-- PC only content -->
-    <div id="p1_mid" class="only-pc">
+    <!-- p1 content(반응형) -->
+    <div id="p1_mid">
       <div class="p1_thro_line"></div>
       <div class="p1_mid_menu">
-        <a href="#">오메란의 특별한 생산환경</a>
-        <p>|</p>
-        <a href="#">오메란의 오메가 함유</a>
-        <p>|</p>
-        <a href="#">오메가3의 장점</a>
-      </div>
-    </div>
-
-    <!-- Mobile only content -->
-    <div id="m_index" class="only-mobile">
-      <div id="m_p1_foo_menu">
         <ul>
-          <li><a href="#" class="m_index_main">오메란의 특별한 생산환경</a></li>
-          <li>
-            <p>|</p>
-          </li>
-          <li><a href="#" class="m_index_main">오메란의 오메가 함유</a></li>
-          <li>
-            <p>|</p>
-          </li>
-          <li><a href="#" class="m_index_main">오메가3의 장점</a></li>
+          <li><a href="#">오메란의 특별한 생산환경</a></li>
+          <li><p>|</p></li>
+          <li><a href="#">오메란의 오메가 함유</a></li>
+          <li><p>|</p></li>
+          <li><a href="#">오메가3의 장점</a></li>
         </ul>
       </div>
     </div>
-
+    
     <!-- PC only footer -->
     <footer id="p2_footer" class="only-pc">
       <jsp:include page="./footer.jsp"></jsp:include>
