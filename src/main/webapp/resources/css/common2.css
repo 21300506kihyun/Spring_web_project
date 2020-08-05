@@ -220,6 +220,7 @@ h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input,textarea
 /** m p2 시작 **/
 #m_index #m_p2_img{position:relative; width:100%}
 .m_p2_header_only{top:13.88% !important; background-color:rgba(243,146,0,1) !important}
+.m_p2_header_only_v2{top:38.4% !important; background-color:rgba(243,146,0,1) !important}
 .m_p2_foot_only{position:relative !important; max-width:768px; margin:100px auto}
 
 /** m p3 시작 **/
@@ -374,6 +375,11 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 	#p1_mid>.p1_mid_menu>ul>li>a,#p1_mid>.p1_mid_menu>ul>li>p{display:inline-block; color:#eeb885; font-size:10px; font-weight:600; line-height:41px}
 	#p1_mid>.p1_mid_menu>ul>li>p{margin:0 }
 	#p1_mid>.p1_thro_line{display: none;}
+	
+	/** 4. p3 content **/
+	.p3_pra01{position:relative; width:100%; margin:0 auto; text-align:center; padding:5% 0; max-width: 768px; text-align: left;}
+	.p3_pra01>p{font-size: 16px; position:relative; width:90%; margin:0 auto 15px auto; color:#333}
+	.p3_pra01>p>span{color:#e84e1b; font-weight:400; font-size:16px}
 	
 }
 

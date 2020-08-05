@@ -33,10 +33,7 @@
       <img src="img/m_index.png" class="p2_top_banner only-mobile">
       <a href="index" id="m_logo_area" class="only-mobile"></a>
       <div id="m_p1_header" class="only-mobile">
-        <a href="p2">오메란은? </a>
-        <a href="p4">오메란 제품소개 </a>
-        <a href="p3">오메가의 효능 </a>
-        <a href="p5">오메란 쇼핑몰</a>
+        <jsp:include page="./mobMenu.jsp"></jsp:include>
       </div>
     </header>
 
