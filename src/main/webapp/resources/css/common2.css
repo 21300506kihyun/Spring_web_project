@@ -376,19 +376,24 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 	#p1_mid>.p1_mid_menu>ul>li>p{margin:0 }
 	#p1_mid>.p1_thro_line{display: none;}
 	
-	/** 4. p3 content **/
+	/** 4. p2 **/
+	.p2_mid_only{padding-bottom: 10%;}
+	
+	/** 5. p3 content **/
 	.p3_pra01{position:relative; width:100%; margin:0 auto; text-align:center; padding:5% 0; max-width: 768px; text-align: left;}
 	.p3_pra01>p{font-size: 16px; position:relative; width:90%; margin:0 auto 15px auto; color:#333}
 	.p3_pra01>p>span{color:#e84e1b; font-weight:400; font-size:16px}
 	.p3_pra01>p>br{display: none;}
 	
-	/** 5. p4 content **/
+	/** 6. p4 content **/
 	#p4_mid .p5_pra01{position:relative; width:90%; margin:0 auto; padding:3% 0; text-align:center}
 	#p4_mid .p5_pra01>.p5_pra_title{font-size:26px;}
 	#p4_mid .p5_pra01>.p5_pra_sub{font-size:16px;}
 	#p4_mid .p5_pra01>p>br{display: none;}
 	#p4_mid .p5_spec_si{width: 100%; padding:3% 5%; box-sizing: border-box}
 	#p4_mid .p5_pra01_fin{margin-bottom: 12%;}
+	
+	
 
 	
 }
