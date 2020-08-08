@@ -329,7 +329,7 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 
 /** 2. 모바일 사이드 햄버거 바 **/
 .mob-hamburger-div{display: none; position: absolute;width: 100%;z-index: 2;text-align: right;padding: 1px;}
-.mob-hamburger-icon{display: inline-block;padding: 0.5em;font-size: 20px;}
+.mob-hamburger-icon{display: inline-block;padding: 0.5em;font-size: 20px; cursor: pointer}
 .mob-nav{border-left: 2px solid #f3b646; z-index: 3; width: 250px; right: 0; display:none;}
 .mob-nav-container{margin-top: -25px;}
 .mob-nav-close{display: inline-block; width: 100%; background-color: #f3b646;}
@@ -380,6 +380,16 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 	.p3_pra01{position:relative; width:100%; margin:0 auto; text-align:center; padding:5% 0; max-width: 768px; text-align: left;}
 	.p3_pra01>p{font-size: 16px; position:relative; width:90%; margin:0 auto 15px auto; color:#333}
 	.p3_pra01>p>span{color:#e84e1b; font-weight:400; font-size:16px}
+	.p3_pra01>p>br{display: none;}
+	
+	/** 5. p4 content **/
+	#p4_mid .p5_pra01{position:relative; width:90%; margin:0 auto; padding:3% 0; text-align:center}
+	#p4_mid .p5_pra01>.p5_pra_title{font-size:26px;}
+	#p4_mid .p5_pra01>.p5_pra_sub{font-size:16px;}
+	#p4_mid .p5_pra01>p>br{display: none;}
+	#p4_mid .p5_spec_si{width: 100%; padding:3% 5%; box-sizing: border-box}
+	#p4_mid .p5_pra01_fin{margin-bottom: 12%;}
+
 	
 }
 

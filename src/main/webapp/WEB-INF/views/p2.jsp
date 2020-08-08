@@ -30,7 +30,7 @@
       </div>
       
       <!-- Mobile only 헤더 -->      
-      <div id="m_index">
+      <div id="m_index" class="only-mobile">
         <img src="img/m_p2_header.png" id="m_p3_img">
         <a href="index" id="m_logo_area" class="m_logo_area_p3"></a>
 
