@@ -124,8 +124,8 @@
             <% if(session.getAttribute("status") != null){
   				        if((int)session.getAttribute("status") == -1){%>
             <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
-              <%  }
-  			       } %>
+              		<%  }
+		       } %>
           </form>
         </div>
 
@@ -153,8 +153,8 @@
                         <input type="button" class="faq-admin-btn" value="삭제하기" onclick="faqDelete(${row.faq_id})">
                       </div>
                     </form>
-                    <% 	}
-			              }%>
+                    		<% 	}
+		              }%>
                   </div>
                 </c:forEach>
               </div>
@@ -206,157 +206,6 @@
       <jsp:include page="./mobFooter.jsp"></jsp:include>
     </div>
   </div>
-
-
-  <%--
-  <div id="omeran_pc_all">
-
-    <header id="p2_header">
-
-      <jsp:include page="./popupMail.jsp"></jsp:include>
-
-      <img src="img/p1_top_banner.png" class="p2_top_banner">
-      <a href="index" class="p2_top_logo" id="p1_top_logoc"><img src="img/p1_top_logo.png" alt=""></a>
-      <div class="p2_util p1_util">
-        <jsp:include page="./topRight.jsp"></jsp:include>
-      </div>
-      <div class="p2_menu01" id="p1_menu01">
-        <jsp:include page="./menuLeft.jsp"></jsp:include>
-      </div>
-      <div class="p2_menu02" id="p1_menu02">
-        <jsp:include page="./menuRight.jsp"></jsp:include>
-      </div>
-    </header>
-
-    <jsp:include page="./login.jsp"></jsp:include>
-
-    <div class="faq-mid">
-      <div class="faq-mid-menu">
-        <p class="faq-title">FAQ: 자주 묻는 질문</p>
-        <div class="faq-mid-line"></div>
-
-
-        <div class="faq-div">
-          <form id="faqSearch" method="post" action="faq" onsubmit="faqSearch('${curURL}'); return false;">
-            <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
-            <input type="submit" class="faq-submit" value="검색하기">
-            <% if(session.getAttribute("status") != null){
-  				if((int)session.getAttribute("status") == -1){%>
-  <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
-  <%  }
-  			   } %>
-  </form>
-  </div>
-
-  <div class="faq-table">
-    <c:choose>
-      <c:when test="${pagination.listCnt != 0}">
-        <div class="accordion">
-          <c:forEach items="${list}" var="row">
-            <input type="checkbox" name="accordion" id="faq-answer${row.faq_id}">
-            <label for="faq-answer${row.faq_id}"><em></em>
-              <p>${row.title}</p>
-            </label>
-            <div>
-              <div style="text-align: left;">
-                <p>${row.content}</p>
-              </div>
-              <% if(session.getAttribute("status") != null){
-			              		if((int)session.getAttribute("status") == -1){%>
-              <form name="faqContent${row.faq_id}" id="faqContent${row.faq_id}" onsubmit="faqModify('faqModify', '${row.faq_id}'); return false;" action="" method="post">
-                <input type="hidden" class="faq-admin-input" name="title" value="${row.title}">
-                <input type="hidden" name="faq_id" value="${row.faq_id}">
-                <textarea style="display: none" name="content">${row.content}</textarea>
-                <div class="faq-admin-btn-container">
-                  <input type="submit" class="faq-admin-btn" value="수정하기">
-                  <input type="button" class="faq-admin-btn" value="삭제하기" onclick="faqDelete(${row.faq_id})">
-                </div>
-              </form>
-              <% 	}
-			              }%>
-            </div>
-
-          </c:forEach>
-        </div>
-      </c:when>
-      <c:otherwise>
-        <div class="no-accordion">
-          <p class="faq-no-result">검색된 자료가 없습니다 :(</p>
-        </div>
-      </c:otherwise>
-    </c:choose>
-    <div>
-      <ul>
-        <c:if test="${pagination.curRange != 1}">
-          <li class="page-num"><a onclick="paging('${curURL}', '1', '${keyword}')"> [처음] </a></li>
-        </c:if>
-        <c:if test="${pagination.curPage != 1}">
-          <li class="page-num"><a onclick="paging('${curURL}', '${pagination.prevPage}', '${keyword}')"> [이전] </a></li>
-        </c:if>
-        <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
-          <c:choose>
-            <c:when test="${pageNum == pagination.curPage}">
-              <li class="page-num"><a class="page-num-selected" onclick="paging('${curURL}', ${pageNum}, '${keyword}')"> ${pageNum} </a></li>
-            </c:when>
-            <c:otherwise>
-              <li class="page-num"><a onclick="paging('${curURL}', ${pageNum}, '${keyword}')"> ${pageNum} </a></li>
-            </c:otherwise>
-          </c:choose>
-        </c:forEach>
-        <c:if test="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-          <li class="page-num"><a onclick="paging('${curURL}', '${pagination.nextPage}', '${keyword}')"> [다음] </a></li>
-        </c:if>
-        <c:if test="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-          <li class="page-num"><a onclick="paging('${curURL}', '${pagination.pageCnt}', '${keyword}')"> [끝] </a></li>
-        </c:if>
-      </ul>
-    </div>
-    [FOR DEBUG] 총 게시글 수 : ${pagination.listCnt} / 총 페이지수 : ${pagination.pageCnt} / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
-  </div>
-  </div>
-  </div>
-
-  <jsp:include page="./footer.jsp"></jsp:include>
-  </div>
-
-  --%>
-
-
-  <%-- <!-- 모바일 시작 -->
-  <div id="omeran_mob_all">
-    <jsp:include page="./mobSidebar.jsp"></jsp:include>
-    <jsp:include page="./popupMail.jsp"></jsp:include>
-    <jsp:include page="./login.jsp"></jsp:include>
-
-    <div id="m_index">
-      <jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
-      <img src="img/m_index.png" id="m_main_img">
-      <a href="index" id="m_logo_area"></a>
-
-      <div id="m_p1_header">
-        <jsp:include page="./mobMenu.jsp"></jsp:include>
-      </div>
-
-      <div id="m_p1_foo_menu">
-        <ul>
-          <li><a href="#" class="m_index_main">오메란의 특별한 생산환경</a></li>
-          <li>
-            <p>|</p>
-          </li>
-          <li><a href="#" class="m_index_main">오메란의 오메가 함유</a></li>
-          <li>
-            <p>|</p>
-          </li>
-          <li><a href="#" class="m_index_main">오메가3의 장점</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div id="m_p1_footer">
-      <jsp:include page="./mobFooter.jsp"></jsp:include>
-    </div>
-  </div> --%>
 
 </body>
 

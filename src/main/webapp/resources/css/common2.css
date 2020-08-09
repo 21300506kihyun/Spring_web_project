@@ -373,6 +373,13 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 .page-num{display:inline-block;margin: 10px;cursor: pointer;}
 .page-num-selected{font-weight: bold;text-decoration: underline;}
 
+/* 8. FAQ Write */
+.faq-write-container{border: 1px solid #bbb;border-radius: 3px;padding: 1em;}
+.faq-input-container{text-align: left;padding: 0.2em 1em;margin-bottom: 1em;}
+.faq-label{color: #888;font-size:18px;font-weight:400;	/* line-height:30px; */}
+.faq-form-input{width: 99%;border: 1px solid #bbb;border-radius: 3px;padding: 0.2em;}
+.faq-btn-container{text-align: center;padding: 0.2em 1em;}
+
 
 /************************************* 모바일 반응형 2020.08.09 *************************************/
 @media screen and (max-width:768px) {
@@ -413,7 +420,7 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 	#p4_mid .p5_pra01>p>br{display: none;}
 	#p4_mid .p5_spec_si{width: 100%; padding:3% 5%; box-sizing: border-box}
 	#p4_mid .p5_pra01_fin{margin-bottom: 12%;}
-	
+
 	/* 7. FAQ */
 	.faq-mid{margin-top: -87% !important; margin-bottom: 0}
 	.faq-mid-line{border-top:1px solid #f9c194; width: 90%;}
@@ -429,42 +436,15 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 	.footer-disable-background{background-color: #FFF; margin:0 !important; padding: 20% 0}
 	.page-num-selected{font-size: 14px; font-weight: bold;text-decoration: underline;}
 	.faq-table>div>ul{padding-top: 10%; padding-bottom: 0;}
-	
+
+	/* 8. FAQ Write */
+	.faq-write-container{border: 0px solid #bbb;border-radius: 3px;padding: 0;}
+	.faq-input-container{text-align: left;padding: 1%;margin-bottom: 1em;}
+	.faq-label{color: #888;font-size:16px;font-weight:400;	/* line-height:30px; */}
+	.faq-form-input{width: 99%;border: 1px solid #bbb;border-radius: 3px;padding: 0.2em; font-size:14px;}
+	.faq-btn-container{text-align: center;padding: 0.2em 1em;}
 
 
 
-}
 
-
-
-
-
-
-
-/* faq Write */
-.faq-write-container{
-	border: 1px solid #bbb;
-	border-radius: 3px;
-	padding: 1em;
-}
-.faq-input-container{
-	text-align: left;
-	padding: 0.2em 1em;
-	margin-bottom: 1em;
-}
-.faq-label{
-	color: #888;
-	font-size:18px;
-	font-weight:400;
-	/* line-height:30px; */
-}
-.faq-form-input{
-	width: 99%;
-	border: 1px solid #bbb;
-	border-radius: 3px;
-	padding: 0.2em;
-}
-.faq-btn-container{
-	text-align: center;
-	padding: 0.2em 1em;
 }
