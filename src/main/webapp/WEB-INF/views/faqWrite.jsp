@@ -118,62 +118,6 @@
     </div>
   </div>
 
-
-  <%-- <div id="omeran_pc_all">
-
-    <header id="p2_header">
-
-      <jsp:include page="./popupMail.jsp"></jsp:include>
-
-      <img src="img/p1_top_banner.png" class="p2_top_banner">
-      <a href="index" class="p2_top_logo" id="p1_top_logoc"><img src="img/p1_top_logo.png" alt=""></a>
-      <div class="p2_util p1_util">
-        <jsp:include page="./topRight.jsp"></jsp:include>
-      </div>
-      <div class="p2_menu01" id="p1_menu01">
-        <jsp:include page="./menuLeft.jsp"></jsp:include>
-      </div>
-      <div class="p2_menu02" id="p1_menu02">
-        <jsp:include page="./menuRight.jsp"></jsp:include>
-      </div>
-    </header>
-
-    <jsp:include page="./login.jsp"></jsp:include>
-
-    <div class="faq-mid">
-      <div class="faq-mid-menu">
-        <p class="faq-title">FAQ 글쓰기 (관리자 전용)</p>
-        <div class="faq-mid-line"></div>
-
-		<div class="faq-write-container">
-		  <form name="faq-write" id ="frm" onsubmit="return editorToTextarea() & mysubmit()" action="" method="post">
-		  	<input type="hidden" name="writer" value="<% out.println(session.getAttribute("u_id")); %>">
-  <div class="faq-input-container">
-    <p class="faq-label">제목</p>
-    <input name="TITLE" type="text" class="faq-form-input" placeholder="FAQ 게시판에 노출될 질문의 제목을 입력해주세요.">
-  </div>
-  <div class="faq-input-container">
-    <p class="faq-label">FAQ 답변</p>
-    <textarea style="width: 100%" id="CONTENTS" name="CONTENTS" rows="8" cols="50" placeholder="질문에 대한 답변을 달아주세요."></textarea>
-  </div>
-  <div class="faq-btn-container">
-    <input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">
-    <input type="submit" class="faq-submit" value="글쓰기">
-  </div>
-  </form>
-  </div>
-
-  </div>
-  </div>
-
-
-
-
-  <jsp:include page="./footer.jsp"></jsp:include>
-  </div> --%>
-
-
-
   <script type="text/javascript">
     var oEditors = [];
     nhn.husky.EZCreator.createInIFrame({

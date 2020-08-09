@@ -83,7 +83,7 @@
     <!-- FAQ Modify Content -->
     <div class="faq-mid">
       <div class="faq-mid-menu">
-        <p class="faq-title">FAQ 글수정하기 (관리자 전용)</p>
+        <p class="faq-title">FAQ 글수정하기</p>
         <div class="faq-mid-line"></div>
 
         <div class="faq-write-container">
@@ -117,97 +117,6 @@
       <jsp:include page="./mobFooter.jsp"></jsp:include>
     </div>
   </div>
-
-  <%--  <div id="omeran_pc_all">
-
-    <header id="p2_header">
-
-      <jsp:include page="./popupMail.jsp"></jsp:include>
-
-      <img src="img/p1_top_banner.png" class="p2_top_banner">
-      <a href="index" class="p2_top_logo" id="p1_top_logoc"><img src="img/p1_top_logo.png" alt=""></a>
-      <div class="p2_util p1_util">
-        <jsp:include page="./topRight.jsp"></jsp:include>
-      </div>
-      <div class="p2_menu01" id="p1_menu01">
-        <jsp:include page="./menuLeft.jsp"></jsp:include>
-      </div>
-      <div class="p2_menu02" id="p1_menu02">
-        <jsp:include page="./menuRight.jsp"></jsp:include>
-      </div>
-    </header>
-
-    <jsp:include page="./login.jsp"></jsp:include>
-
-    <div class="faq-mid">
-      <div class="faq-mid-menu">
-        <p class="faq-title">FAQ 글수정하기 (관리자 전용)</p>
-        <div class="faq-mid-line"></div>
-
-		<div class="faq-write-container">
-		  <form name="faq-modify" id ="frm" onsubmit="return editorToTextarea() & mysubmit()" action="" method="post">
-		  	<input type="hidden" name="writer" value="<% out.println(session.getAttribute("u_id")); %>">
-  <input type="hidden" name="faq_id" value="${faq_id}">
-  <div class="faq-input-container">
-    <p class="faq-label">제목</p>
-    <input name="title" type="text" class="faq-form-input" placeholder="FAQ 게시판에 노출될 질문의 제목을 입력해주세요." value="${title}">
-  </div>
-  <div class="faq-input-container">
-    <p class="faq-label">FAQ 답변</p>
-    <textarea style="width: 100%" id="contents" name="contents" rows="8" cols="50" placeholder="질문에 대한 답변을 달아주세요.">${content}</textarea>
-  </div>
-  <div class="faq-btn-container">
-    <input type="button" class="faq-submit" value="뒤로가기" onclick="moveAjax('faq')">
-    <input type="submit" class="faq-submit" value="수정하기">
-  </div>
-  </form>
-  </div>
-
-  </div>
-  </div>
-
-
-
-
-  <jsp:include page="./footer.jsp"></jsp:include>
-  </div>
-
-  <!-- 모바일 시작 -->
-  <div id="omeran_mob_all">
-    <jsp:include page="./mobSidebar.jsp"></jsp:include>
-    <jsp:include page="./popupMail.jsp"></jsp:include>
-    <jsp:include page="./login.jsp"></jsp:include>
-
-    <div id="m_index">
-      <jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
-      <img src="img/m_index.png" id="m_main_img">
-      <a href="index" id="m_logo_area"></a>
-
-      <div id="m_p1_header">
-        <jsp:include page="./mobMenu.jsp"></jsp:include>
-      </div>
-
-      <div id="m_p1_foo_menu">
-        <ul>
-          <li><a href="#" class="m_index_main">오메란의 특별한 생산환경</a></li>
-          <li>
-            <p>|</p>
-          </li>
-          <li><a href="#" class="m_index_main">오메란의 오메가 함유</a></li>
-          <li>
-            <p>|</p>
-          </li>
-          <li><a href="#" class="m_index_main">오메가3의 장점</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div id="m_p1_footer">
-      <jsp:include page="./mobFooter.jsp"></jsp:include>
-    </div>
-  </div> --%>
-
 
   <script type="text/javascript">
     var oEditors = [];

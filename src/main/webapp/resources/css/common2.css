@@ -438,11 +438,10 @@ a.btn-layerClose:hover {border: 1px solid #091940; background-color: #1F326A; co
 	.faq-table>div>ul{padding-top: 10%; padding-bottom: 0;}
 
 	/* 8. FAQ Write */
-	.faq-write-container{border: 0px solid #bbb;border-radius: 3px;padding: 0;}
-	.faq-input-container{text-align: left;padding: 1%;margin-bottom: 1em;}
-	.faq-label{color: #888;font-size:16px;font-weight:400;	/* line-height:30px; */}
-	.faq-form-input{width: 99%;border: 1px solid #bbb;border-radius: 3px;padding: 0.2em; font-size:14px;}
-	.faq-btn-container{text-align: center;padding: 0.2em 1em;}
+	.faq-write-container{border: 0px solid #bbb;padding: 0;}
+	.faq-input-container{padding: 1%;margin-bottom: 1em;}
+	.faq-label{font-size:16px;}
+	.faq-form-input{font-size:14px;}
 
 
 
