@@ -23,7 +23,7 @@
             <form id="mailForm" onsubmit="return check('mailForm')" action="${pageContext.request.contextPath}/mailSending" method="post">
               <div align="center">
                 <!-- 받는 사람 이메일 -->
-                <!-- <input type="hidden" name="tomail" placeholder="보낼 사람의 이메일을 입력해 주세요" value="21300506@handong.edu" class="form-control"> -->
+                <!-- <input type="hidden" name="tomail" placeholder="보낼 사람의 이메일을 입력해 주세요" value="21700633@handong.edu" class="form-control"> -->
                 <input type="hidden" name="tomail" placeholder="보낼 사람의 이메일을 입력해 주세요." value="m2tech.co.kr@gmail.com" class="form-control">
               </div>
               <div align="center">
@@ -59,7 +59,7 @@
   <script>
     function check(formName) {
       var valid = true;
-      var form = $('#' + formName);
+      /* var form = $('#' + formName);
       var text = "곧 문의가 접수됩니다...";
       // 리캡챠 체크
       $.ajax({
@@ -83,7 +83,7 @@
               break;
           }
         }
-      });
+      }); */
       // 폼 체크
       form.find('input, textarea').each(function(key) {
         var obj = $(this);
