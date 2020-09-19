@@ -14,7 +14,7 @@
     <jsp:include page="./mobSidebar.jsp"></jsp:include>
     <jsp:include page="./login.jsp"></jsp:include>
     <jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
-    
+
     <header id="p2_header">
 	  <!-- PC only header -->
       <img src="img/p4_top_banner.png" class="p2_top_banner only-pc">
@@ -28,8 +28,8 @@
       <div class="p2_menu02 only-pc">
         <jsp:include page="./menuRight.jsp"></jsp:include>
       </div>
-      
-      <!-- Mobile only 헤더 -->      
+
+      <!-- Mobile only 헤더 -->
       <div id="m_index" class="only-mobile">
       	<jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
         <img src="img/m_p4.png" id="m_p3_img">
@@ -40,12 +40,12 @@
         </div>
       </div>
     </header>
-    
+
     <!-- p4 content -->
     <div id="p4_mid">
       <img src="img/p4_mid_img.png" alt="" class="p4_mid_img">
       <img src="img/p4_mid_img2.png" alt="" class="p4_mid_img2">
-      
+
       <div class="p5_pra01">
         <p class="p5_pra_title">닭이 자라는 환경은?</p>
         <p class="p5_pra_sub">
@@ -83,7 +83,7 @@
         </p>
       </div>
     </div>
-    
+
     <!-- PC only footer -->
     <footer id="p2_footer" class="only-pc">
       <jsp:include page="./footer.jsp"></jsp:include>

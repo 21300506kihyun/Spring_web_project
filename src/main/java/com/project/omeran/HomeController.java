@@ -288,10 +288,6 @@ public class HomeController {
     }
     
     
-    
-    
-
-  
     @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
     public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception{ 
     	ModelAndView mv = new ModelAndView(""); 
@@ -327,4 +323,20 @@ public class HomeController {
     	return mv; 
     }
 
+    
+    // 관리자 페이지
+    @RequestMapping(value = "/admin", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView goAdminPage(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			mav.setViewName("admin");
+			return mav;
+		}
+		else {
+			//TODO: 권한이 없습니다. VS 404 페이지?
+			mav.setViewName("admin");
+//			mav.setViewName("404 NOT FOUND");
+			return mav;	
+		}
+	}
 }
