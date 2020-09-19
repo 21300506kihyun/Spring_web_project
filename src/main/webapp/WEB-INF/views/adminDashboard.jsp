@@ -4,31 +4,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<style>
-		.adminDashboard_card{
-			box-shadow:0 1px 0px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
-			background-color: #fff;
-			border-radius: 2px;
-			padding: 1em;
-		}
-		.adminDashboard_spacer{
-			margin-bottom: 2em;
-		}
-		.adminDashboard_halfBox{
-			display: flex;
-			justify-content: space-between;
-		}
-		.adminDashboard_half{
-			width: 49%;
-			display: inline-block;
-		}
-		.adminDashboard_cardTitle{
-			font-size: 20px;
-			font-weight: 500;
-			margin-bottom: 10px;
-		}
-		
-	</style>
 </head>
 <body>
 	<!-- 관리자 정보 -->

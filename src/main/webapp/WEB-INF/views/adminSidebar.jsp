@@ -4,87 +4,18 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<style>
-		.adminSide_container{
-			background-color: rgb(55,55,55);
-			width: 300px;
-			color: #ddd;
-			padding-top: 10px;
-			
-			transition: all 0.2s ease-in-out;
-			-webkit-transition: all 0.2s ease-in-out;
-			-moz-transition: all 0.2s ease-in-out;
-			-o-transition: all 0.2s ease-in-out;		
-		}
-		.adminSide_logoDiv{
-			padding: 5px;
-			overflow: hidden;
-			width: 260px;
-		}
-		.adminSide_logo{
-			height: 65px;
-			max-width: 180px;
-			padding: 0 20px;
-			cursor: pointer;
-		}
-		.adminSide_closeBtn{
-			display: inline-block; 
-			vertical-align: middle; 
-			text-align: right; 
-			width: 45px; 
-			color: #dedede;
-		}
-		.adminSide_symlink{
-			border-bottom: 1px solid #888;
-			margin: 30px 10px; 
-			text-align: center; 
-			color: #eee; 
-			padding: 1em;
-			font-size: 20px;
-		}
-		.adminSide_menu_icons{
-			width: 30px;
-			margin-right: 15px;
-		}
-		.adminSide_menus{
-			font-size: 16px;
-			padding: 15px;
-			
-			transition: all 0.15s ease-in-out;
-			-webkit-transition: all 0.15s ease-in-out;
-			-moz-transition: all 0.15s ease-in-out;
-			-o-transition: all 0.15s ease-in-out;			
-		}
-			.adminSide_menus:hover{
-				background-color: rgb(44,44,44);
-				color: #fff;
-				font-weight: 500;
-			}
-		.adminSide_menuActive{
-			font-size: 16px;
-			padding: 15px;
-			background-color: #e08600;
-		}
-		.adminSide_menuText{
-			display: inline-block;
-		}
-		.adminSide_openBtn{
-			margin-top: -10px;
-			margin-bottom: 10px;
-			display: none;
-			cursor: pointer;
-		}
-	</style>
 	<script>
 		function adminSide_hide(){
-			$("#adminSide").css("width", "50px");
+			$("#adminSide").removeClass("adminSide_openWidth");
+			$("#adminSide").addClass("adminSide_closeWidth");
 			$("#adminSide_logoDiv").css("display", "none");
 			$("#adminSide_symlink").css("display", "none");
 			$(".adminSide_menuText").css("display", "none");
 			$(".adminSide_openBtn").css("display", "block");
 		}
 		function adminSide_show(){
-			$("#adminSide").css("width", "260px");
+			$("#adminSide").removeClass("adminSide_closeWidth");
+			$("#adminSide").addClass("adminSide_openWidth");
 			$("#adminSide_logoDiv").css("display", "block");
 			$("#adminSide_symlink").css("display", "block");
 			$(".adminSide_menuText").css("display", "inline-block");
