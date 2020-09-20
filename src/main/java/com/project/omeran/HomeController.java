@@ -323,19 +323,118 @@ public class HomeController {
     	return mv; 
     }
 
+
     
-    // 관리자 페이지
-    @RequestMapping(value = "/admin", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView goAdminPage(HttpSession session) throws Exception {
+    /*********** [ 관리자 페이지 ] ***********/
+    
+    public ModelAndView go404() {
+    	ModelAndView mav = new ModelAndView("PageNotFound");
+    	return mav;
+    }
+    
+    // 관리자 페이지: 대시보드 
+    @RequestMapping(value = {"/admin", "/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminDashboard(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
-			mav.setViewName("admin");
+			session.setAttribute("adminNowPage", "대시보드");
+			mav.setViewName("adminDashboard");
 			return mav;
 		}
 		else {
 			//TODO: 권한이 없습니다. VS 404 페이지?
-			mav.setViewName("admin");
-//			mav.setViewName("404 NOT FOUND");
+			// return go404();
+			mav.setViewName("adminDashboard");
+			return mav;	
+		}
+	}
+    
+    // 관리자 페이지: 상품관리 
+    @RequestMapping(value = "/adminProduct", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminProduct(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminNowPage", "상품관리");
+			mav.setViewName("adminProduct");
+			return mav;
+		}
+		else {
+			mav.setViewName("adminProduct");
+			return mav;	
+		}
+	}
+    
+    // 관리자 페이지: 주문관리 
+    @RequestMapping(value = "/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminOrder(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminNowPage", "주문관리");
+			mav.setViewName("adminOrder");
+			return mav;
+		}
+		else {
+			mav.setViewName("adminOrder");
+			return mav;	
+		}
+	}
+    
+    // 관리자 페이지: 배송관리 
+    @RequestMapping(value = "/adminDelivery", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminDelivery(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminNowPage", "배송관리");
+			mav.setViewName("adminDelivery");
+			return mav;
+		}
+		else {
+			mav.setViewName("adminDelivery");
+			return mav;	
+		}
+	}
+    
+    // 관리자 페이지: 고객관리 
+    @RequestMapping(value = "/adminConsumer", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminConsumer(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminNowPage", "고객관리");
+			mav.setViewName("adminConsumer");
+			return mav;
+		}
+		else {
+			mav.setViewName("adminConsumer");
+			return mav;	
+		}
+	}
+    
+    // 관리자 페이지: 배송자관리 
+    @RequestMapping(value = "/adminDeliveryman", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminDeliveryman(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminNowPage", "배송자관리");
+			mav.setViewName("adminDeliveryman");
+			return mav;
+		}
+		else {
+			mav.setViewName("adminDeliveryman");
+			return mav;	
+		}
+	}
+    
+    // 관리자 페이지: 사이트관리  
+    @RequestMapping(value = "/adminSite", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminSite(HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminNowPage", "사이트관리");
+			mav.setViewName("adminSite");
+			return mav;
+		}
+		else {
+			mav.setViewName("adminSite");
 			return mav;	
 		}
 	}

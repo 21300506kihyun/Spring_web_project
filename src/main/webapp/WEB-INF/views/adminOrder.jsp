@@ -21,7 +21,7 @@
 		  	
 		  	<!-- content -->
 		  	<div class="admin_content">
-			  	<jsp:include page="./adminDashboard.jsp"></jsp:include>
+			  	NOTHING: adminOrder
 		  	</div>
 		 </div>
 	</div>
