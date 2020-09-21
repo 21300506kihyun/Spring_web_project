@@ -126,6 +126,38 @@ body{
 	padding: 5px;
 	color: #535858;
 }
+.adminTop_btnContainer{
+	display: inline-block;
+	vertical-align: middle;
+	float: right;
+	text-align: right;
+}
+.adminTop_btn{
+	font-size: 15px;
+	padding: 8px 30px;
+	border-radius: 2px;
+	display: inline-block;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;		
+}
+.adminTop_btnBlue{
+	background-color: #1a6dff;
+	color: #fff;	
+}
+	.adminTop_btnBlue:hover{
+		background-color: #294ef5;
+	}
+.adminTop_btnWhite{
+	background-color: #fff;
+	border: 1px solid #bbb;
+	color: #000;	
+}
+	.adminTop_btnWhite:hover{
+		background-color: #f6f6f6;
+	}
 
 
 
@@ -218,9 +250,28 @@ body{
 	.adminTop_card{
 	}
 	.adminTop_container{
+		padding: 10px 5px;
 	}
 	.adminTop_currentPage{
 	}
+	.adminTop_btnContainer{
+		padding-top: 4px;
+	}
+	.adminTop_btn{
+		font-size: 13px;
+		padding: 6px 15px;
+	}
+	.adminTop_btnBlue{
+		
+	}
+		.adminTop_btnBlue:hover{
+			
+		}
+	.adminTop_btnWhite{
+			
+	}
+		.adminTop_btnWhite:hover{
+		}
 	
 	
 	

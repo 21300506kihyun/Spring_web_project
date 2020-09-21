@@ -337,7 +337,8 @@ public class HomeController {
 	public ModelAndView adminDashboard(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
-			session.setAttribute("adminNowPage", "대시보드");
+			session.setAttribute("adminSideState", "대시보드");
+			session.setAttribute("adminSideState", "대시보드");
 			mav.setViewName("adminDashboard");
 			return mav;
 		}
@@ -354,6 +355,7 @@ public class HomeController {
 	public ModelAndView adminProduct(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "상품관리");
 			session.setAttribute("adminNowPage", "상품관리");
 			mav.setViewName("adminProduct");
 			return mav;
@@ -369,6 +371,7 @@ public class HomeController {
 	public ModelAndView adminOrder(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "주문관리");
 			session.setAttribute("adminNowPage", "주문관리");
 			mav.setViewName("adminOrder");
 			return mav;
@@ -384,6 +387,7 @@ public class HomeController {
 	public ModelAndView adminDelivery(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "배송관리");
 			session.setAttribute("adminNowPage", "배송관리");
 			mav.setViewName("adminDelivery");
 			return mav;
@@ -399,6 +403,7 @@ public class HomeController {
 	public ModelAndView adminConsumer(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "고객관리");
 			session.setAttribute("adminNowPage", "고객관리");
 			mav.setViewName("adminConsumer");
 			return mav;
@@ -414,6 +419,7 @@ public class HomeController {
 	public ModelAndView adminDeliveryman(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "배송자관리");
 			session.setAttribute("adminNowPage", "배송자관리");
 			mav.setViewName("adminDeliveryman");
 			return mav;
@@ -429,6 +435,7 @@ public class HomeController {
 	public ModelAndView adminSite(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "사이트관리");
 			session.setAttribute("adminNowPage", "사이트관리");
 			mav.setViewName("adminSite");
 			return mav;

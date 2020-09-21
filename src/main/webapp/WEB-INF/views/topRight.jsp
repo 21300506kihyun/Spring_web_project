@@ -13,7 +13,7 @@
   <p>|</p>
   <% String userName = (String)session.getAttribute("userName");
   if(userName != null){ %>
-  	<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
+  	<a href="/omeran/admin"><% out.println(session.getAttribute("userName")); %> 님</a>
 	<p>|</p>
 	<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>
   <% }else{ %>

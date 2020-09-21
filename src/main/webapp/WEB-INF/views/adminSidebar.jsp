@@ -43,7 +43,7 @@
 	 	
 	 	<!-- 메인(대시보드) -->
 	 	<a href="./adminDashboard" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "대시보드"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "대시보드"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -52,7 +52,7 @@
 
 	 	<!-- 상품관리 -->
 	 	<a href="./adminProduct" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "상품관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "상품관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -61,7 +61,7 @@
 
 	 	<!-- 주문관리 -->
 	 	<a href="./adminOrder" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "주문관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "주문관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -70,7 +70,7 @@
 
 	 	<!-- 배송관리 -->
 	 	<a href="./adminDelivery" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "배송관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "배송관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -79,7 +79,7 @@
 
 	 	<!-- 고객관리 -->
 	 	<a href="./adminConsumer" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "고객관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "고객관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -88,7 +88,7 @@
 	 	
 	 	<!-- 배송자관리 -->
 	 	<a href="./adminDeliveryman" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "배송자관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "배송자관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -97,7 +97,7 @@
 	 	
 	 	<!-- 사이트관리 -->
 	 	<a href="./adminSite" class="
-		 	<% if((String)session.getAttribute("adminNowPage") == "사이트관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "사이트관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
