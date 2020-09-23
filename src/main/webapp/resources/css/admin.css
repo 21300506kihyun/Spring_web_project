@@ -29,23 +29,30 @@ body{
 	padding: 2em;
 }
 
+
 /** [ adminSidebar.jsp ] **/
 .adminSide_container{
 	background-color: rgb(55,55,55);
-	width: 300px;
+	width: 260px;
 	color: #ddd;
 	padding-top: 10px;
 	
 	transition: all 0.2s ease-in-out;
 	-webkit-transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
-	-o-transition: all 0.2s ease-in-out;		
+	-o-transition: all 0.2s ease-in-out;
 }
+	.adminSide_container_hide{
+		width: 50px;
+	}
 .adminSide_logoDiv{
 	padding: 5px;
 	overflow: hidden;
 	width: 260px;
 }
+	.adminSide_logoDiv_hide{
+		display: none;
+	}
 .adminSide_logo{
 	height: 65px;
 	max-width: 180px;
@@ -67,6 +74,19 @@ body{
 	padding: 1em;
 	font-size: 20px;
 }
+	.adminSide_symlnk_hide{
+		display: none;
+	}
+
+.adminSide_openBtn{
+	margin-top: -10px;
+	margin-bottom: 10px;
+	display: none;
+	cursor: pointer;
+}
+	.adminSide_openBtn_hide{
+		display: block;
+	}
 .adminSide_menu_icons{
 	width: 30px;
 	margin-right: 15px;
@@ -78,7 +98,7 @@ body{
 	transition: all 0.15s ease-in-out;
 	-webkit-transition: all 0.15s ease-in-out;
 	-moz-transition: all 0.15s ease-in-out;
-	-o-transition: all 0.15s ease-in-out;			
+	-o-transition: all 0.15s ease-in-out;	
 }
 	.adminSide_menus:hover{
 		background-color: rgb(44,44,44);
@@ -93,19 +113,16 @@ body{
 .adminSide_menuText{
 	display: inline-block;
 }
-.adminSide_openBtn{
-	margin-top: -10px;
-	margin-bottom: 10px;
-	display: none;
-	cursor: pointer;
-}
+	.adminSide_menuText_hide{
+		display: none;
+	}
+
 .adminSide_openWidth{
 	width: 260px;
 }
 .adminSide_closeWidth{
 	width: 50px;
 }
-
 
 
 
@@ -213,9 +230,13 @@ body{
 		min-height: 100vh;
 		width: 50px;
 	}
+		.adminSide_container_hide{
+		}
 	.adminSide_logoDiv{
 		display: none;
 	}
+		.adminSide_logoDiv_hide{
+		}
 	.adminSide_logo{
 	}
 	.adminSide_closeBtn{
@@ -224,6 +245,13 @@ body{
 	.adminSide_symlink{
 		display: none;
 	}
+		.adminSide_symlnk_hide{
+		}
+	.adminSide_openBtn{
+		display: block;
+	}
+		.adminSide_openBtn_hide{
+		}
 	.adminSide_menu_icons{
 	}
 	.adminSide_menus{
@@ -235,9 +263,9 @@ body{
 	.adminSide_menuText{
 		display: none;
 	}
-	.adminSide_openBtn{
-		display: block;
-	}
+		.adminSide_menuText_hide{
+		
+		}
 	.adminSide_openWidth{
 		width: 240px;
 	}
