@@ -8,7 +8,6 @@
 <body>
 	<div class="adminTop_container adminTop_card">
   		<p class="adminTop_currentPage"><% out.println(session.getAttribute("adminNowPage")); %></p>
-  		<p class="adminTop_currentPage">${isOpen}</p>
   		<div class="adminTop_btnContainer">
 		 	<% if((String)session.getAttribute("adminNowPage") == "상품관리"){ %>  
 		 		<a href="#addProduct" class="adminTop_btn adminTop_btnBlue">상품등록</a>
