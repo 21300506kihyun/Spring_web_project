@@ -93,10 +93,10 @@ public class HomeController {
 		
 		return "p4";
 	}
-	@RequestMapping(value = "/p5", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/mall", method = { RequestMethod.GET, RequestMethod.POST })
 	public String home5() {
 		
-		return "p5";
+		return "mall";
 	}
 	
 	// 로그인 체크

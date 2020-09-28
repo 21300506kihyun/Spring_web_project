@@ -12,7 +12,7 @@ h1,h2,h3,h4,h5,h6,p,a,li,div,header,section,footer,label,span,ul,input,textarea
 /************************************* PC 버젼 시작 *************************************/
 
 /** p2 시작 **/
-#p2_header{position:relative; width:100%}
+#p2_header{position:relative; width:100%;heigth:300px;}
 #p2_header>.p2_top_banner{position:relative; width:100%}
 #p2_header>.p2_top_logo{position:absolute; top:17%; left:50%; width:333px; height:156px; margin-left:-166.5px}
 #p2_header>.p2_top_logo>img{width:100%}
