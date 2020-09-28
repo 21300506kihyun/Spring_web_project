@@ -333,8 +333,8 @@ public class HomeController {
     	isOpen = isSideOpen;
     }
     
-    public ModelAndView go404() {
-    	ModelAndView mav = new ModelAndView("PageNotFound");
+    public ModelAndView goHome() {
+    	ModelAndView mav = new ModelAndView(home());
     	return mav;
     }
     
@@ -356,8 +356,7 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			//TODO: 권한이 없습니다. VS 404 페이지?
-			// return go404();
+			// return goHome();
 			mav.setViewName("adminDashboard");
 			return mav;	
 		}
