@@ -1,0 +1,327 @@
+@charset "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+
+*{margin:0; padding:0}
+a{display:block; text-decoration:none}
+li{list-style:none}
+img{border:none}
+font-family: 'Nanum Gothic', sans-serif;
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, 'Nanum Gothic', sans-serif;
+}
+
+
+/************************************* 관리자 페이지 *************************************/
+
+/** [ admin.jsp ] **/
+.admin_wrapper{
+	display: flex;
+	min-height: 100vh;
+	background-color: #f6f6f6;
+	color: #212121;
+}
+.admin_right{
+	float: left;
+	width: 100%;
+}
+.admin_content{
+	padding: 1em;
+}
+
+
+/** [ adminSidebar.jsp ] **/
+.adminSide_container{
+	background-color: rgb(55,55,55);
+	width: 260px;
+	color: #ddd;
+	padding-top: 10px;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+	.adminSide_container_hide{
+		width: 50px;
+	}
+.adminSide_logoDiv{
+	padding: 5px;
+	overflow: hidden;
+	width: 260px;
+}
+	.adminSide_logoDiv_hide{
+		display: none;
+	}
+.adminSide_logo{
+	height: 65px;
+	max-width: 180px;
+	padding: 0 20px;
+	cursor: pointer;
+}
+.adminSide_closeBtn{
+	display: inline-block; 
+	vertical-align: middle; 
+	text-align: right; 
+	width: 45px; 
+	color: #dedede;
+}
+.adminSide_symlink{
+	border-bottom: 1px solid #888;
+	margin: 30px 10px; 
+	text-align: center; 
+	color: #eee; 
+	padding: 1em;
+	font-size: 20px;
+}
+	.adminSide_symlnk_hide{
+		display: none;
+	}
+
+.adminSide_openBtn{
+	margin-top: -10px;
+	margin-bottom: 10px;
+	display: none;
+	cursor: pointer;
+}
+	.adminSide_openBtn_hide{
+		display: block;
+	}
+.adminSide_menu_icons{
+	width: 30px;
+	margin-right: 15px;
+}
+.adminSide_menus{
+	font-size: 16px;
+	padding: 15px;
+	
+	transition: all 0.15s ease-in-out;
+	-webkit-transition: all 0.15s ease-in-out;
+	-moz-transition: all 0.15s ease-in-out;
+	-o-transition: all 0.15s ease-in-out;	
+}
+	.adminSide_menus:hover{
+		background-color: rgb(44,44,44);
+		color: #fff;
+		font-weight: 500;
+	}
+.adminSide_menuActive{
+	font-size: 16px;
+	padding: 15px;
+	background-color: #e08600;
+}
+.adminSide_menuText{
+	display: inline-block;
+}
+	.adminSide_menuText_hide{
+		display: none;
+	}
+
+.adminSide_openWidth{
+	width: 260px;
+}
+.adminSide_closeWidth{
+	width: 50px;
+}
+
+
+
+/** [ adminTop.jsp ] **/
+.adminTop_card{
+	box-shadow:0 1px 2px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)
+}
+.adminTop_container{
+	box-sizing: border-box;
+	height: 60px;
+	padding: 10px 1em;
+	background-color: #fff;
+}
+.adminTop_currentPage{
+	font-size: 20px;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 5px;
+	color: #535858;
+}
+.adminTop_btnContainer{
+	display: inline-block;
+	vertical-align: middle;
+	float: right;
+	text-align: right;
+}
+.adminTop_btn{
+	font-size: 15px;
+	padding: 8px 30px;
+	border-radius: 2px;
+	display: inline-block;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;		
+}
+.adminTop_btnBlue{
+	background-color: #1a6dff;
+	color: #fff;	
+}
+	.adminTop_btnBlue:hover{
+		background-color: #294ef5;
+	}
+.adminTop_btnWhite{
+	background-color: #fff;
+	border: 1px solid #bbb;
+	color: #000;	
+}
+	.adminTop_btnWhite:hover{
+		background-color: #f6f6f6;
+	}
+
+
+
+
+/** [ adminDashboard.jsp ] **/
+.adminDashboard_card{
+	box-shadow:0 1px 0px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	background-color: #fff;
+	border-radius: 2px;
+	padding: 1em;
+}
+.adminDashboard_spacer{
+	margin-bottom: 2em;
+}
+.adminDashboard_halfBox{
+	display: flex;
+	justify-content: space-between;
+}
+.adminDashboard_half{
+	width: 49%;
+	display: inline-block;
+}
+.adminDashboard_cardTitle{
+	font-size: 20px;
+	font-weight: 500;
+	margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+/******************************* 모바일 반응형 2020.09.20 (일) *************************/
+@media screen and (max-width:768px) {
+	/** [ admin.jsp ] **/
+	.admin_wrapper{
+	}
+	.admin_right{
+		margin-left: 50px;
+	}
+	.admin_content{
+		padding: 5px;
+	}
+	
+	
+	/** [ adminSidebar.jsp ] **/
+	.adminSide_container{
+		position: absolute;
+		min-height: 100vh;
+		width: 50px;
+	}
+		.adminSide_container_hide{
+		}
+	.adminSide_logoDiv{
+		display: none;
+	}
+		.adminSide_logoDiv_hide{
+		}
+	.adminSide_logo{
+	}
+	.adminSide_closeBtn{
+		text-align: left;
+	}
+	.adminSide_symlink{
+		display: none;
+	}
+		.adminSide_symlnk_hide{
+		}
+	.adminSide_openBtn{
+		display: block;
+	}
+		.adminSide_openBtn_hide{
+		}
+	.adminSide_menu_icons{
+	}
+	.adminSide_menus{
+	}
+		.adminSide_menus:hover{
+		}
+	.adminSide_menuActive{
+	}
+	.adminSide_menuText{
+		display: none;
+	}
+		.adminSide_menuText_hide{
+		
+		}
+	.adminSide_openWidth{
+		width: 240px;
+	}
+	.adminSide_closeWidth{
+	}
+	
+	
+	
+	/** [ adminTop.jsp ] **/
+	.adminTop_card{
+	}
+	.adminTop_container{
+		padding: 10px 5px;
+	}
+	.adminTop_currentPage{
+	}
+	.adminTop_btnContainer{
+		padding-top: 4px;
+	}
+	.adminTop_btn{
+		font-size: 13px;
+		padding: 6px 15px;
+	}
+	.adminTop_btnBlue{
+		
+	}
+		.adminTop_btnBlue:hover{
+			
+		}
+	.adminTop_btnWhite{
+			
+	}
+		.adminTop_btnWhite:hover{
+		}
+	
+	
+	
+	/** [ adminDashboard.jsp ] **/
+	.adminDashboard_card{
+		
+	}
+	.adminDashboard_spacer{
+		
+	}
+	.adminDashboard_halfBox{
+		
+	}
+	.adminDashboard_half{
+		
+	}
+	.adminDashboard_cardTitle{
+		
+	}
+}
+
+
+
+
+
