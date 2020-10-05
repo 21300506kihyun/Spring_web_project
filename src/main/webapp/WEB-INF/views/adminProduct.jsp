@@ -72,13 +72,16 @@
 	  -o-transform: scale(1.1); /* Opera */
   	}
   	
-  	.adminProduct_searchContainer{  		
+  	.adminProduct_cardContainer{
   		box-sizing: border-box;
 		box-shadow:0 1px 1px 0 rgba(0,0,0,0.16),0 1px 5px 0 rgba(0,0,0,0.12);
 		border-radius: 1px;
-		padding: 10px;
+		/* padding: 10px; */
 		background-color: #fff;
 		margin-bottom: 10px;
+  	}
+  	.adminProduct_searchContainer{  		
+  		padding: 10px;
   	}
 	.adminProduct_searchInput{
 		padding: 3px;
@@ -101,13 +104,7 @@
 		background-size: contain;
 	}
   	.adminProduct_productContainer{
-  		/* adminProduct_searchContainer와 padding 빼고 동일 */
-  		box-sizing: border-box;
-		box-shadow:0 1px 1px 0 rgba(0,0,0,0.16),0 1px 5px 0 rgba(0,0,0,0.12);
-		border-radius: 1px;
-		padding: 0;/* 10px; */
-		background-color: #fff;
-		margin-bottom: 10px;
+		padding: 0;
   	}
   	.adminProduct_table{
   		width: 100%;
@@ -127,15 +124,51 @@
   	}
   	.adminProduct_table td{
   		padding: 15px 5px;
-  		font-size: 13px;
+  		font-size: 14px;
   	}
   	.adminProduct_itemCheckbox{
   	
   	}
+  	.productStatus_basic{
+  	}
   	.productStatus_extend{
-  		display: none;
+  		display: flex;
+  		overflow: hidden;
+  		padding: 0;
+  		height: 0px;
+  		
+
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
   	}
   	.adminProduct_checkAll{
+  	}
+  	.adminProduct_statusText{
+  		padding: 5px;
+  		margin-right: 10px;
+  	}
+  	.adminProduct_statusBtn{
+  		padding: 5px 10px;
+  		border: 1px solid #bbb;
+  		border-radius: 1px;
+  		margin-right: 10px;
+  		curosr: pointer;
+  		
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+  	}
+  		.adminProduct_statusBtn:hover{
+  			background-color: #eee;
+  		}
+  	.adminProduct_btnDelete:hover{
+  		background-color: #ff3b1f;
+  		color: #fff;
   	}
   	
   	
@@ -171,8 +204,22 @@
 	  	
   	}
   </style>
-  <script>
-  	/* Tap Controller */
+<!-- <script>
+  	function adminProduct_moveTap(moveUrl){
+  		var ajaxOption = {
+			url: moveUrl,
+			async: false,
+ 	        type: "POST",
+ 	        dataType: "html",
+ 	        cache: false
+  		}
+  		$.ajax(ajaxOption).done(function(data) {
+	       // Contents 영역 삭제
+	       $('#adminProduct_content').children().remove();
+	       // Contents 영역 교체
+	       $('#adminProduct_content').html(data);
+	     });
+  	}
   	$(document).ready(function(){
   		$('.adminProduct_tapMenus').on('click', function(){
   			$(this).addClass('on');
@@ -180,106 +227,37 @@
   		});
   		
   		$("#adminProduct_tap01").click(function(){
-  			$(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content01").css("display", "block");
+  			/* $(".adminProduct_content").css("display", "none");
+  			$("#adminProduct_content01").css("display", "block"); */
+  			
+  			adminProduct_moveTap("adminProduct.tap01");
   	  	});
   		$("#adminProduct_tap02").click(function(){
-  			$(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content02").css("display", "block");
+  			/* $(".adminProduct_content").css("display", "none");
+  			$("#adminProduct_content02").css("display", "block"); */
+	  		
+  			adminProduct_moveTap("adminProduct.tap02");
   	  	});	
   		
   		$("#adminProduct_tap03").click(function(){
-  			$(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content03").css("display", "block");
+  			/* $(".adminProduct_content").css("display", "none");
+  			$("#adminProduct_content03").css("display", "block"); */
+  			adminProduct_moveTap("adminProduct.tap03");
   	  	});	
   		
   		$("#adminProduct_tap04").click(function(){
-  			$(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content04").css("display", "block");
+  			/* $(".adminProduct_content").css("display", "none");
+  			$("#adminProduct_content04").css("display", "block"); */
+  			adminProduct_moveTap("adminProduct.tap04");
   	  	});	
   		
   		$("#adminProduct_tap05").click(function(){
-  			$(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content05").css("display", "block");
+  			/* $(".adminProduct_content").css("display", "none");
+  			$("#adminProduct_content05").css("display", "block"); */
+  			adminProduct_moveTap("adminProduct.tap05");
   	  	});	
-  		
-  		/* table > checkbox 리스트화 */
-		$("#selectBtn").click(function(){
-			var rowData = new Array();
-			var tdArr = new Array();
-			var checkbox = $("input[name=productItem]:checked");
-			
-			// 체크된 체크박스 값을 가져온다
-			checkbox.each(function(i) {
-	
-				// checkbox.parent() : checkbox의 부모는 <td>이다.
-				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-				var tr = checkbox.parent().parent().eq(i);
-				var td = tr.children();
-				
-				// 체크된 row의 모든 값을 배열에 담는다.
-				rowData.push(tr.text());
-				
-				// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-				var no = td.eq(1).text()+"/ ";
-				var productCode = td.eq(2).text()+"/ ";
-				var productName = td.eq(3).text()+"/ ";
-				var initialPrice = td.eq(4).text()+"/ ";
-				var discountRate = td.eq(5).text()+"/ ";
-				var finalPrice = td.eq(6).text()+"/ ";
-				var modDate = td.eq(7).text()+"/ ";
-				var state = td.eq(8).text()+"/ <br>";
-				
-				// 가져온 값을 배열에 담는다.
-				tdArr.push(no);
-				tdArr.push(productCode);
-				tdArr.push(productName);
-				tdArr.push(initialPrice);
-				tdArr.push(discountRate);
-				tdArr.push(finalPrice);
-				tdArr.push(modDate);
-				tdArr.push(state);
-				
-				//console.log("no : " + no);
-			});
-			
-			$("#ex3_Result1").html(" * 체크된 Row의 모든 데이터 = <br>"+rowData);	
-			$("#ex3_Result2").html(tdArr);	
-		});
-  		
-  		/* 상품 체크박스들 클릭시 상단 메뉴 노출 */
-  		$(".adminProduct_itemCheckbox").change(function(){
-  			if($("input[name='productItem']:checked").length == 4){	//TODO: list의 개수만큼 length일 때,
-  				$(".adminProduct_checkAll").prop("checked", true);
-  			}
-  			else{
-  				$(".adminProduct_checkAll").prop("checked", false);
-  			}
-  			if($(".adminProduct_itemCheckbox").is(":checked")){
-  				$("#productStatus_basic").css("display", "none");
-  	  			$("#productStatus_extend").css("display", "table-row");
-  			}
-  			else{
-  				$("#productStatus_basic").css("display", "table-row");
-  	  			$("#productStatus_extend").css("display", "none");
-  			}
-  		});
-  		
-  		/* all checkbox 클릭시 전체 체크  */
-  		$(".adminProduct_checkAll").change(function(){
-  			if($(".adminProduct_checkAll").is(":checked")){
-  				/* $(".adminProduct_itemCheckbox").attr("checked", true); */
-  				$(".adminProduct_itemCheckbox").prop("checked", true);
-  			}
-  			else{
-  				/* $(".adminProduct_itemCheckbox").attr("checked", false); */
-  				$(".adminProduct_itemCheckbox").prop("checked", false);
-  				$("#productStatus_basic").css("display", "table-row");
-  	  			$("#productStatus_extend").css("display", "none");
-  			}
-  		});
   	});
-</script>
+</script> -->
 </head>
 <body>
   	<div id="body_wrapper" class="admin_wrapper">
@@ -302,91 +280,11 @@
 		  			<span class="adminProduct_tapBar"></span>
 		  		</div>
 		  		
-		  		<div id="adminProduct_content01" class="adminProduct_content adminProduct_contentShow">
-	  				<div class="adminProduct_searchContainer">
-	  					<form name="adminProduct_searchForm" action="" method="get">
-		  					<input class="adminProduct_searchInput" type="text" name="adminProduct_search" placeholder="상품명을 검색해주세요"
-		  						autocomplete="off" spellcheck="false">
-		  					<input class="adminProduct_searchSubmit" type="submit" value="">
-	  					</form>
-	  				</div>
-	  				<div class="adminProduct_productContainer">
-						<table id="productList_all" class="adminProduct_table">
-							<thead>
-								<tr id="productStatus_basic">
-									<th></th>
-									<th>No.</th>
-									<th>상품코드</th>
-									<th>상품명</th>
-									<th>원가</th>
-									<th>할인율</th>
-									<th>판매가</th>
-									<th>수정일</th>
-									<th>상태</th>
-								</tr>
-							</thead>
-							<thead>
-								<tr id="productStatus_extend" class="productStatus_extend">
-									<th><input type="checkbox" name="" class="adminProduct_checkAll"></th>
-									<th colspan="8" style="text-align: left;">
-										체크박스 클릭시 나타날 메뉴들
-									</th>
-								</tr>
-							</thead>
-							<tbody>				
-								<tr>
-									<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-									<td>1</td>
-									<td>OM1001</td>
-									<td>오메란 A세트</td>
-									<td>₩10,000</td>
-									<td>10%</td>
-									<td>₩9,000</td>
-									<td>2020.08.13</td>
-									<td>판매중</td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-									<td>2</td>
-									<td>OM1002</td>
-									<td>오메란 B세트</td>
-									<td>₩20,000</td>
-									<td>10%</td>
-									<td>₩18,000</td>
-									<td>2020.08.15</td>
-									<td>판매중</td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-									<td>3</td>
-									<td>OM1003</td>
-									<td>오메란 C세트</td>
-									<td>₩30,000</td>
-									<td>10%</td>
-									<td>₩27,000</td>
-									<td>2020.08.13</td>
-									<td>판매중</td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-									<td>4</td>
-									<td>OM1004</td>
-									<td>오메란 D세트</td>
-									<td>₩40,000</td>
-									<td>10%</td>
-									<td>₩36,000</td>
-									<td>2020.08.15</td>
-									<td>판매중</td>
-								</tr>
-							</tbody>
-						</table>
-						<button type="button" class="btn btn-outline btn-primary pull-right" id="selectBtn">선택</button>
-						<div class="col-lg-12" id="ex3_Result1" ></div> 
-						<div class="col-lg-12" id="ex3_Result2" ></div> 
-	  				</div>
+		  		<div id="adminProduct_content" class="adminProduct_content adminProduct_contentShow">
+	  				<jsp:include page="./adminProductContent.jsp"></jsp:include>
 	  			</div>
-	  			<div id="adminProduct_content02" class="adminProduct_content">
-	  				content: 2
+	  			<!-- <div id="adminProduct_content02" class="adminProduct_content">
+	  				content 1 copy to ajax
 	  			</div>
 	  			<div id="adminProduct_content03" class="adminProduct_content">
 	  				content: 3
@@ -396,7 +294,7 @@
 	  			</div>
 	  			<div id="adminProduct_content05" class="adminProduct_content">
 	  				content: 5
-	  			</div>
+	  			</div> -->
 		  	</div>
 		 </div>
 	</div>

@@ -372,6 +372,8 @@ public class HomeController {
 
 			variableInjection(mav);
 			
+			mav.addObject("testData", "testData00");
+			
 			mav.setViewName("adminProduct");
 			return mav;
 		}
@@ -380,6 +382,62 @@ public class HomeController {
 			return mav;	
 		}
 	}
+	 	// 관리자 페이지: 상품관리 01 탭
+	    @RequestMapping(value = "/adminProduct.tap01", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap01(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setViewName("adminProductContent");
+			
+			mav.addObject("testData", "testData01");
+			
+			return mav;
+		}
+	    
+		// 관리자 페이지: 상품관리 02 탭
+	    @RequestMapping(value = "/adminProduct.tap02", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap02(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setViewName("adminProductContent");
+			
+			mav.addObject("testData", "testData02");
+			
+			return mav;
+		}
+	 	// 관리자 페이지: 상품관리 03 탭
+	    @RequestMapping(value = "/adminProduct.tap03", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap03(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setViewName("adminProductContent");
+			
+			mav.addObject("testData", "testData03");
+			
+			return mav;
+		}
+	 	// 관리자 페이지: 상품관리 04 탭
+	    @RequestMapping(value = "/adminProduct.tap04", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap04(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setViewName("adminProductContent");
+			
+			mav.addObject("testData", "testData04");
+			
+			return mav;
+		}
+	 	// 관리자 페이지: 상품관리 05 탭
+	    @RequestMapping(value = "/adminProduct.tap05", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap05(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setViewName("adminProductContent");
+			
+			mav.addObject("testData", "testData05");
+			
+			return mav;
+		}
     
     // 관리자 페이지: 주문관리 
     @RequestMapping(value = "/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
