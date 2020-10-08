@@ -53,7 +53,6 @@
   	
   	.adminProduct_content{
   		display: none; 
-  		/* border: 1px solid black; */
   	}
   	.adminProduct_contentShow{display: block;}
   	
@@ -62,6 +61,9 @@
   		font-family:  FontAwesome;
   	}
   	input:focus{
+  		outline: none;
+  	}
+  	select:focus{
   		outline: none;
   	}
   	input[type="checkbox"]{
@@ -122,9 +124,18 @@
   		border-bottom: 1px solid #ddd;
   		font-weight: 400;
   	}
+   	.adminProduct_listItem{
+ 
+ 	}
+ 	.adminProduct_listNoData{
+ 		display: none;
+ 	}
   	.adminProduct_table td{
   		padding: 15px 5px;
   		font-size: 14px;
+  	}
+  	.adminProduct_itemName{
+  		cursor: pointer;
   	}
   	.adminProduct_itemCheckbox{
   	
@@ -155,7 +166,7 @@
   		border: 1px solid #bbb;
   		border-radius: 1px;
   		margin-right: 10px;
-  		curosr: pointer;
+  		cursor: pointer;
   		
   		
   		transition: all 0.2s ease-in-out;
@@ -169,6 +180,26 @@
   	.adminProduct_btnDelete:hover{
   		background-color: #ff3b1f;
   		color: #fff;
+  	}
+  	.adminProduct_btnSubmit:hover{
+  		background-color: #1a6dff;
+  		color: #fff;
+  	}
+  	.adminProduct_statusInput{
+  		/* display: none; */
+  		/* margin-right: 10px; */
+  		width: 0px;
+  		border: none;
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+  	}
+  	.adminProduct_closeInputBtn{
+  		padding: 5px 10px 5px 0px;
+  		cursor: pointer;
+  		display: none;
   	}
   	
   	
@@ -204,60 +235,6 @@
 	  	
   	}
   </style>
-<!-- <script>
-  	function adminProduct_moveTap(moveUrl){
-  		var ajaxOption = {
-			url: moveUrl,
-			async: false,
- 	        type: "POST",
- 	        dataType: "html",
- 	        cache: false
-  		}
-  		$.ajax(ajaxOption).done(function(data) {
-	       // Contents 영역 삭제
-	       $('#adminProduct_content').children().remove();
-	       // Contents 영역 교체
-	       $('#adminProduct_content').html(data);
-	     });
-  	}
-  	$(document).ready(function(){
-  		$('.adminProduct_tapMenus').on('click', function(){
-  			$(this).addClass('on');
-  			$(this).siblings().removeClass('on');
-  		});
-  		
-  		$("#adminProduct_tap01").click(function(){
-  			/* $(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content01").css("display", "block"); */
-  			
-  			adminProduct_moveTap("adminProduct.tap01");
-  	  	});
-  		$("#adminProduct_tap02").click(function(){
-  			/* $(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content02").css("display", "block"); */
-	  		
-  			adminProduct_moveTap("adminProduct.tap02");
-  	  	});	
-  		
-  		$("#adminProduct_tap03").click(function(){
-  			/* $(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content03").css("display", "block"); */
-  			adminProduct_moveTap("adminProduct.tap03");
-  	  	});	
-  		
-  		$("#adminProduct_tap04").click(function(){
-  			/* $(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content04").css("display", "block"); */
-  			adminProduct_moveTap("adminProduct.tap04");
-  	  	});	
-  		
-  		$("#adminProduct_tap05").click(function(){
-  			/* $(".adminProduct_content").css("display", "none");
-  			$("#adminProduct_content05").css("display", "block"); */
-  			adminProduct_moveTap("adminProduct.tap05");
-  	  	});	
-  	});
-</script> -->
 </head>
 <body>
   	<div id="body_wrapper" class="admin_wrapper">
@@ -276,25 +253,18 @@
 		  			<a id="adminProduct_tap02" class="adminProduct_tapMenus"><span>판매중 <div class="adminProduct_menuCnt">4</div></span></a>
 		  			<a id="adminProduct_tap03" class="adminProduct_tapMenus"><span>판매대기 <div class="adminProduct_menuCnt">0</div></span></a>
 		  			<a id="adminProduct_tap04" class="adminProduct_tapMenus"><span>품절 <div class="adminProduct_menuCnt">0</div></span></a>
-		  			<a id="adminProduct_tap05" class="adminProduct_tapMenus"><span>휴지통 <div class="adminProduct_menuCnt">0</div></span></a>
+		  			<!-- <a id="adminProduct_tap05" class="adminProduct_tapMenus"><span>휴지통 <div class="adminProduct_menuCnt">0</div></span></a> -->
 		  			<span class="adminProduct_tapBar"></span>
 		  		</div>
 		  		
+		  		<div class="adminProduct_cardContainer adminProduct_searchContainer">
+					<input id="adminProduct_searchInput" class="adminProduct_searchInput" type="text" placeholder="상품명을 검색해주세요"
+						autocomplete="off" spellcheck="false" onkeyup="adminProduct_filter()">
+					<input class="adminProduct_searchSubmit" type="button" value="" onclick="adminProduct_filter()">
+				</div>
 		  		<div id="adminProduct_content" class="adminProduct_content adminProduct_contentShow">
 	  				<jsp:include page="./adminProductContent.jsp"></jsp:include>
 	  			</div>
-	  			<!-- <div id="adminProduct_content02" class="adminProduct_content">
-	  				content 1 copy to ajax
-	  			</div>
-	  			<div id="adminProduct_content03" class="adminProduct_content">
-	  				content: 3
-	  			</div>
-	  			<div id="adminProduct_content04" class="adminProduct_content">
-	  				content: 4
-	  			</div>
-	  			<div id="adminProduct_content05" class="adminProduct_content">
-	  				content: 5
-	  			</div> -->
 		  	</div>
 		 </div>
 	</div>
