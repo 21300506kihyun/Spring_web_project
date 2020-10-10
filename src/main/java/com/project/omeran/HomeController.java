@@ -342,6 +342,60 @@ public class HomeController {
     	mav.addObject("isOpen", isOpen);
     }
     
+    public List<Map<String, Object>> getProductListFromDB(String state) {
+    	List<Map<String, Object>> productList;
+    	if(state == null || state.equals("ALL")) {
+    		productList = memberService.getAllProductList();
+    	}
+    	else {
+    		productList = memberService.getProductList(state);
+    	}
+    	return productList;
+    }
+    
+    public List<Map<String, Object>> setCommaPrice(List<Map<String, Object>> ListMap){
+    	int price, discount_price;
+    	String commaPrice, commaDiscountPrice;
+    	
+    	for(Map<String, Object> map : ListMap) {
+    		price = (int)map.get("price");
+    		discount_price = (int)map.get("discount_price");
+    		commaPrice = String.format("%,d", price);
+    		commaDiscountPrice = String.format("%,d", discount_price);
+    		map.put("commaPrice", commaPrice);
+    		map.put("commaDiscountPrice", commaDiscountPrice);
+    	}
+    	return ListMap;
+    }
+    
+    public List<Map<String, Object>> calculateDiscountRate(List<Map<String, Object>> ListMap){
+    	int price, discount_price;
+    	String discountRate;
+    	
+    	for(Map<String, Object> map : ListMap) {
+    		price = (int)map.get("price");
+    		discount_price = (int)map.get("discount_price");
+    		discountRate = String.format("%.0f", 100 - ((float)discount_price/price)*100);
+    		map.put("discountRate", discountRate);
+    		// System.out.println("price: "+price+" discount_price: "+discount_price+" -> "+discountRate);
+    	}
+    	return ListMap;
+    }
+    
+    public List<Map<String, Object>> manufactureProductList(List<Map<String, Object>> ListMap){
+    	// 원가, 판매가 콤마 표시
+    	ListMap = setCommaPrice(ListMap);
+		
+		// 할인율 계산
+    	ListMap = calculateDiscountRate(ListMap);
+    	return ListMap;
+    }
+    
+    public List<Map<String, Object>> getStateList(String category){
+    	return memberService.getStateList(category); 
+    }
+    
+    
     // 관리자 페이지: 대시보드 
     @RequestMapping(value = {"/admin", "/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDashboard(HttpSession session) throws Exception {
@@ -372,7 +426,39 @@ public class HomeController {
 
 			variableInjection(mav);
 			
-			mav.addObject("testData", "testData00");
+			// DB에서 상품 정보 가져오기 
+			List<Map<String, Object>> productList, stateListP;
+			int cntAll = 0, cntP001 = 0, cntP002 = 0, cntP003 = 0;
+			
+			productList = getProductListFromDB(null);
+			stateListP = getStateList("P");
+			
+			// 탭메뉴 개수 표시용 
+			cntAll = productList.size();
+			for(int i=0; i<cntAll; i++) {
+	    		String stateID = (String)productList.get(i).get("state_id");
+	    		if(stateID.equals("P001")) {
+	    			cntP001++;
+	    		}
+	    		else if(stateID.equals("P002")) {
+	    			cntP002++;
+	    		}
+	    		else if(stateID.equals("P003")) {
+	    			cntP003++;
+	    		}
+	    	}
+			
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+
+			
+			
+			mav.addObject("productList", productList);
+			mav.addObject("cntAll", cntAll);
+			mav.addObject("cntP001", cntP001);
+			mav.addObject("cntP002", cntP002);
+			mav.addObject("cntP003", cntP003);
+			mav.addObject("stateListP", stateListP);
 			
 			mav.setViewName("adminProduct");
 			return mav;
@@ -387,9 +473,18 @@ public class HomeController {
 		public ModelAndView adminProduct_tap01(HttpSession session) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("adminProductContent");
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("ALL");
+			stateListP = getStateList("P");
 			
-			mav.addObject("testData", "testData01");
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			
+			mav.setViewName("adminProductContent");
 			
 			return mav;
 		}
@@ -399,9 +494,17 @@ public class HomeController {
 		public ModelAndView adminProduct_tap02(HttpSession session) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("adminProductContent");
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("P001");
+			stateListP = getStateList("P");
+
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
 			
-			mav.addObject("testData", "testData02");
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			mav.setViewName("adminProductContent");
 			
 			return mav;
 		}
@@ -410,9 +513,17 @@ public class HomeController {
 		public ModelAndView adminProduct_tap03(HttpSession session) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("adminProductContent");
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("P002");
+			stateListP = getStateList("P");
+
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
 			
-			mav.addObject("testData", "testData03");
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			mav.setViewName("adminProductContent");
 			
 			return mav;
 		}
@@ -421,13 +532,22 @@ public class HomeController {
 		public ModelAndView adminProduct_tap04(HttpSession session) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("P003");
+			stateListP = getStateList("P");
+
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
 			mav.setViewName("adminProductContent");
 			
-			mav.addObject("testData", "testData04");
 			
 			return mav;
 		}
-	 	// 관리자 페이지: 상품관리 05 탭
+	 	// 관리자 페이지: 상품관리 05 탭 (휴지통: 미사용)
 	    @RequestMapping(value = "/adminProduct.tap05", method = { RequestMethod.GET, RequestMethod.POST })
 		public ModelAndView adminProduct_tap05(HttpSession session) throws Exception {
 			ModelAndView mav = new ModelAndView();

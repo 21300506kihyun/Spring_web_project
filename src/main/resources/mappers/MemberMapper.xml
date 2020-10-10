@@ -78,6 +78,20 @@
 			LIMIT 1
 		]]>
 	</update>
+	
+	<!-- 상품정보 받아오기 -->
+	<select id="getAllProductList" resultType="HashMap">
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "DELETE" ORDER BY p_id;
+	</select>
+	
+	<select id="getProductList" resultType="HashMap">
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id = "${state_id}" ORDER BY p_id;
+	</select>
+	
+	<!-- stateTable 정보 가져오기 -->
+	<select id="getStateList" resultType="HashMap">
+		SELECT * FROM StateTable WHERE state_id LIKE "${category}%";
+	</select>
 
 
 </mapper>

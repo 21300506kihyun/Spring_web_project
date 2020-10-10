@@ -31,6 +31,12 @@ public interface MemberService {
 	void deleteFaq(int faq_id);
 	void updateFaq(Map<String, Object> map);
 
+	// Admin 
+	// 상품관리
+	public List<Map<String, Object>> getAllProductList();
+	public List<Map<String, Object>> getProductList(String state_id);
+
+	public List<Map<String, Object>> getStateList(String category);
 
 }
 

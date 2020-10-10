@@ -130,6 +130,9 @@
  	.adminProduct_listNoData{
  		display: none;
  	}
+ 		.adminProduct_listNoData:hover{
+ 			background-color: #fff !important;
+ 		}
   	.adminProduct_table td{
   		padding: 15px 5px;
   		font-size: 14px;
@@ -249,10 +252,10 @@
 		  	<!-- content -->
 		  	<div class="admin_content">
 		  		<div class="adminProduct_tapContainer">
-		  			<a id="adminProduct_tap01" class="adminProduct_tapMenus on"><span>전체 <div class="adminProduct_menuCnt">4</div></span></a>
-		  			<a id="adminProduct_tap02" class="adminProduct_tapMenus"><span>판매중 <div class="adminProduct_menuCnt">4</div></span></a>
-		  			<a id="adminProduct_tap03" class="adminProduct_tapMenus"><span>판매대기 <div class="adminProduct_menuCnt">0</div></span></a>
-		  			<a id="adminProduct_tap04" class="adminProduct_tapMenus"><span>품절 <div class="adminProduct_menuCnt">0</div></span></a>
+		  			<a id="adminProduct_tap01" class="adminProduct_tapMenus on"><span>전체 <div class="adminProduct_menuCnt">${cntAll}</div></span></a>
+		  			<a id="adminProduct_tap02" class="adminProduct_tapMenus"><span>판매중 <div class="adminProduct_menuCnt">${cntP001}</div></span></a>
+		  			<a id="adminProduct_tap03" class="adminProduct_tapMenus"><span>판매대기 <div class="adminProduct_menuCnt">${cntP002}</div></span></a>
+		  			<a id="adminProduct_tap04" class="adminProduct_tapMenus"><span>품절 <div class="adminProduct_menuCnt">${cntP003}</div></span></a>
 		  			<!-- <a id="adminProduct_tap05" class="adminProduct_tapMenus"><span>휴지통 <div class="adminProduct_menuCnt">0</div></span></a> -->
 		  			<span class="adminProduct_tapBar"></span>
 		  		</div>

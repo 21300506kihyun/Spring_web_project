@@ -42,6 +42,12 @@ public interface MemberDAO {
 	public void deleteFaqBoard(@Param("faq_id")int faq_id);
 	public void updateFaqBoard(Map<String, Object> map);
 
+	public List<Map<String, Object>> getAllProductList();
+
+	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id);
+
+	public List<Map<String, Object>> getStateList(@Param("category")String category);
+
 
 }
 

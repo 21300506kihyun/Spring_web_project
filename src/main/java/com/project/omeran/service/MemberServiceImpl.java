@@ -117,6 +117,24 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
+	// Admin
+	// 상품관리 
+	@Override
+	public List<Map<String, Object>> getAllProductList() {
+		return memberDao.getAllProductList();
+	}
+
+	@Override
+	public List<Map<String, Object>> getProductList(String state_id) {
+		return memberDao.getProductList(state_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> getStateList(String category) {
+		return memberDao.getStateList(category);
+	}
+
+	
 
 
 }
