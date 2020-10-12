@@ -7,7 +7,10 @@ function adminProduct_moveTap(moveUrl){
 		async: false,
         type: "POST",
         dataType: "html",
-        cache: false
+        cache: false,
+        error:function(){
+        	alert("정보 불러오기에 실패하였습니다. 다시 시도해주세요.");
+        }
 	}
 	$.ajax(ajaxOption).done(function(data) {
        // Contents 영역 삭제

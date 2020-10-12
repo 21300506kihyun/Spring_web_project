@@ -134,6 +134,11 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.getStateList(category);
 	}
 
+	@Override
+	public void productSimpleUpdate(int productId, int price, int discount_price, String stateId) {
+		memberDao.productSimpleUpdate(productId, price, discount_price, stateId);
+	}
+
 	
 
 

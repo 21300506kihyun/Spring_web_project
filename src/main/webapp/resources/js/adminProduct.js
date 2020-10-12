@@ -105,9 +105,7 @@ $(document).ready(function() {
 					$(checkboxItem).prop("checked", true);
 				}
 			}
-			if($("input[name='productItem']:checked").length > 0){
-				openStatus();
-			}
+			openStatus();
 		}
 		else{
 			for(i=0; i<tableListItem.length; i++){

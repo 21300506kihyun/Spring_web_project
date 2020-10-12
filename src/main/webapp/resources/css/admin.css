@@ -65,6 +65,7 @@ body{
 	text-align: right; 
 	width: 45px; 
 	color: #dedede;
+	cursor: pointer;
 }
 .adminSide_symlink{
 	border-bottom: 1px solid #888;

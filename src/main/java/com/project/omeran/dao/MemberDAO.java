@@ -48,6 +48,8 @@ public interface MemberDAO {
 
 	public List<Map<String, Object>> getStateList(@Param("category")String category);
 
+	public void productSimpleUpdate(@Param("productId")int productId, @Param("price")int price, @Param("discount_price")int discount_price, @Param("stateId")String stateId);
+
 
 }
 

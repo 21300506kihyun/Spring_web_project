@@ -38,5 +38,7 @@ public interface MemberService {
 
 	public List<Map<String, Object>> getStateList(String category);
 
+	public void productSimpleUpdate(int productId, int price, int discount_price, String stateId);
+
 }
 

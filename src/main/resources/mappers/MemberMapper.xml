@@ -93,6 +93,17 @@
 		SELECT * FROM StateTable WHERE state_id LIKE "${category}%";
 	</select>
 
+	<update id="productSimpleUpdate"> 
+		
+		UPDATE ProductTable 
+		SET 
+			price = #{price}, 
+			discount_price = #{discount_price}, 
+			state_id = "${stateId}", 
+			mod_date = CURRENT_TIMESTAMP 
+		WHERE p_id = #{productId};
+		
+	</update>
 
 </mapper>
 

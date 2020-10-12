@@ -170,6 +170,7 @@
   		border-radius: 1px;
   		margin-right: 10px;
   		cursor: pointer;
+  		background-color: #fff;
   		
   		
   		transition: all 0.2s ease-in-out;

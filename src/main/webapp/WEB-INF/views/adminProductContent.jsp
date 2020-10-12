@@ -8,13 +8,45 @@
 <head>
 	<meta charset="UTF-8">
 	<script src="js/adminProduct.js"></script>
+	<script>
+		// TODO: 삭제하기 클릭시 isDelete 1로 바꾸는 함수
+		function adminProduct_simpleUpdate_formCheck(){
+			// TODO: 숫자인지 체크
+			// TODO: 양수인지 체크
+			// TODO: prompt로 수정할건지 체크
+			alert("Simple Modify Test");
+			return true;
+		}
+		function adminProduct_simpleUpdate(){
+			if(!adminProduct_simpleUpdate_formCheck()){
+				return false;
+			}
+			var formData = $("#adminProduct_simpleUpdateForm").serialize();
+			
+			$.ajax({
+				type: "POST",
+				url: "adminProduct",
+				data: formData,
+				dataType: "html",
+				async: false,
+				cache: false,
+				success: function(result){
+					// Contents 영역 삭제
+			        $('body').children().remove();
+			        // Contents 영역 교체
+			        $('body').html(result);
+				},
+				error: function(error){
+					console.log(error)
+				}
+				
+			});
+			
+		}
+	</script>
 </head>
 <body>
-	<!-- <div class="adminProduct_cardContainer adminProduct_searchContainer">
-		<input id="adminProduct_searchInput" class="adminProduct_searchInput" type="text" placeholder="상품명을 검색해주세요"
-			autocomplete="off" spellcheck="false" onkeyup="adminProduct_filter()">
-		<input class="adminProduct_searchSubmit" type="button" value="" onclick="adminProduct_filter()">
-	</div> -->
+	<form id="adminProduct_simpleUpdateForm" onsubmit="return adminProduct_simpleUpdate()">
 	<div class="adminProduct_cardContainer productStatus_extend">
 		<p class="adminProduct_statusText">선택상품을 </p>
 		
@@ -29,16 +61,20 @@
 		<a id="adminProduct_change_sellingPrice" class="adminProduct_statusBtn">판매가 변경</a>
 		
 		<select class="adminProduct_statusBtn" name="adminProduct_status">
-			<option selected>상태변경</option>
-			<!-- TODO: state 테이블에서 P로 가진 id 모두 가져오기 -->
+			<option value="" selected>상태변경</option>
 			<c:forEach items="${stateListP}" var="row">
 				<option value="${row.state_id}">${row.state_name}</option>
 			</c:forEach>
 		</select>
 		
-		<a class="adminProduct_statusBtn adminProduct_btnSubmit" href="#modify">수정</a>
+		<input type="hidden" name="adminProduct_isDelete" value="0"/>
+		<input type="hidden" name="adminProduct_productItem[]" value="-1,-1,-1,-1"/>
+		
+		<input type="submit" class="adminProduct_statusBtn adminProduct_btnSubmit" value="수정"/>
+		<!-- 삭제하기 클릭시 isDelete = 1로 바꾸고 폼 제출하기 -->
 		<a class="adminProduct_statusBtn adminProduct_btnDelete" href="#delete">삭제</a>
 	</div>
+	<!-- </form> -->
 	<div class="adminProduct_cardContainer adminProduct_productContainer">
 		<table id="productList_all" class="adminProduct_table">
 			<thead>
@@ -57,17 +93,18 @@
 			<tbody>
 				<c:forEach items="${productList}" var="row" varStatus="idx">
 					<tr class="adminProduct_listItem">
-						<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
+						<td>
+							<input type="checkbox" name="adminProduct_productItem[]" 
+								value="${row.p_id},${row.price},${row.discount_price},${row.state_id}" 
+								class="adminProduct_itemCheckbox">
+						</td>
 						<td>${idx.count}</td>
 						<td>${row.p_id}</td>
 						<td class="adminProduct_itemName" onclick="location.href='#productDetail'">${row.product_name}</td>
-						<!--  TODO: 가격 자리수계산, 할인가 계산-->
 						<td>₩${row.commaPrice}</td>
 						<td>${row.discountRate}%</td>
 						<td>₩${row.commaDiscountPrice}</td>
-						<!-- TODO: modify_date 잘라서 가져오기 -->
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.mod_date}"/></td>
-						<!-- TODO: join해서 가져오기 -->
 						<td>${row.state_name}</td>
 					</tr>
 				</c:forEach>
@@ -84,60 +121,12 @@
 						</tr>
 					</c:otherwise>
 				</c:choose> 
-				
-				<!-- 
-				<tr class="adminProduct_listNoData">
-					<td colspan="9">자료가 없습니다.</td>
-				</tr> -->
-				<!-- <tr class="adminProduct_listItem">
-					<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-					<td>1</td>
-					<td>OM1001</td>
-					<td class="adminProduct_itemName" onclick="location.href='#productDetail'">오메란 Ab세트</td>
-					<td>₩10,000</td>
-					<td>10%</td>
-					<td>₩9,000</td>
-					<td>2020.08.13</td>
-					<td>판매중</td>
-				</tr>
-				<tr class="adminProduct_listItem">
-					<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-					<td>2</td>
-					<td>OM1002</td>
-					<td class="adminProduct_itemName" onclick="location.href='#productDetail'">오메란 Bc세트</td>
-					<td>₩20,000</td>
-					<td>10%</td>
-					<td>₩18,000</td>
-					<td>2020.08.15</td>
-					<td>판매중</td>
-				</tr>
-				<tr class="adminProduct_listItem">
-					<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-					<td>3</td>
-					<td>OM1003</td>
-					<td class="adminProduct_itemName" onclick="location.href='#productDetail'">오메란 Cd세트</td>
-					<td>₩30,000</td>
-					<td>10%</td>
-					<td>₩27,000</td>
-					<td>2020.08.13</td>
-					<td>판매중</td>
-				</tr>
-				<tr class="adminProduct_listItem">
-					<td><input type="checkbox" name="productItem" class="adminProduct_itemCheckbox"></td>
-					<td>4</td>
-					<td>OM1004</td>
-					<td class="adminProduct_itemName" onclick="location.href='#productDetail'">오메란 Da세트</td>
-					<td>₩40,000</td>
-					<td>10%</td>
-					<td>₩36,000</td>
-					<td>2020.08.15</td>
-					<td>판매중</td>
-				</tr> -->
 			</tbody>
 		</table>
 		<button type="button" class="btn btn-outline btn-primary pull-right selectBtn" id="">선택</button>
 		<div class="col-lg-12 ex3_Result1"></div> 
 		<div class="col-lg-12 ex3_Result2"></div> 
 	</div>
+	</form>
 </body>
 </html>
