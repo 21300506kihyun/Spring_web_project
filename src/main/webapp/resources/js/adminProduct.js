@@ -180,12 +180,7 @@ $(document).ready(function() {
 		else{
 			adminProduct_closeSellPrice();
 		}
-	});
-	
-	$(".adminProduct_closeInputBtn").click(function(){
-		adminProduct_closeInputs();
-	});
-	
+	});	
 	
 });
 

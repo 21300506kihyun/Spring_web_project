@@ -10,13 +10,34 @@
 	<script src="js/adminProduct.js"></script>
 	<script>
 		// TODO: 삭제하기 클릭시 isDelete 1로 바꾸는 함수
+		function isNumber(str){
+			if(str == ""){
+				return true;
+			}
+			else if(!isNaN(str)){
+				return true;
+			}
+			return false;
+		}
 		function adminProduct_simpleUpdate_formCheck(){
-			// TODO: 숫자인지 체크
-			// TODO: 양수인지 체크
-			// TODO: prompt로 수정할건지 체크
-			alert("Simple Modify Test");
+			var price = $("#adminProduct_change_originPrice_input").val();
+			var discount_price = $("#adminProduct_change_sellingPrice_input").val();
+			if(!isNumber(price)){
+				return false;
+			}
+			if(!isNumber(discount_price)){
+				return false;
+			}
+			console.log(price + " : "  + discount_price);
+			if(price < 0 || discount_price < 0){
+				return false;
+			}
+			if(!confirm("해당 상품정보를 수정하시겠습니까?")){
+				return false;
+			}
 			return true;
 		}
+		
 		function adminProduct_simpleUpdate(){
 			if(!adminProduct_simpleUpdate_formCheck()){
 				return false;
@@ -35,13 +56,18 @@
 			        $('body').children().remove();
 			        // Contents 영역 교체
 			        $('body').html(result);
+			        /* alert("수정이 완료되었습니다."); */
 				},
 				error: function(error){
 					console.log(error)
 				}
-				
 			});
-			
+		}
+		function resetPrice(){
+			$("#adminProduct_change_originPrice_input").val("");
+		}
+		function resetDiscountPrice(){
+			$("#adminProduct_change_sellingPrice_input").val("");
 		}
 	</script>
 </head>
@@ -52,12 +78,12 @@
 		
 		<input name="adminProduct_originPrice" id="adminProduct_change_originPrice_input" 
 				class="adminProduct_statusInput" type="text" placeholder="원가를 입력해주세요">
-		<a id="adminProduct_closeInputBtn01" class="adminProduct_closeInputBtn" onclick="adminProduct_closeInputs();">x</a>
+		<a id="adminProduct_closeInputBtn01" class="adminProduct_closeInputBtn" onclick="resetPrice();">x</a>
 		<a id="adminProduct_change_originPrice" class="adminProduct_statusBtn">원가 변경</a>
 		
 		<input name="adminProduct_sellingPrice" id="adminProduct_change_sellingPrice_input" 
 				class="adminProduct_statusInput" type="text" placeholder="판매가를 입력해주세요">
-		<a id="adminProduct_closeInputBtn02" class="adminProduct_closeInputBtn" onclick="adminProduct_closeInputs();">x</a>
+		<a id="adminProduct_closeInputBtn02" class="adminProduct_closeInputBtn" onclick="resetDiscountPrice();">x</a>
 		<a id="adminProduct_change_sellingPrice" class="adminProduct_statusBtn">판매가 변경</a>
 		
 		<select class="adminProduct_statusBtn" name="adminProduct_status">

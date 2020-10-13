@@ -432,8 +432,8 @@ public class HomeController {
 			@RequestParam Map<String, String> paramMap,
 			@RequestParam(value="adminProduct_productItem[]", required=false) List<String> paramList
 			) throws Exception {
-    	System.out.println(paramMap); 
-    	System.out.println(paramList); 
+//    	System.out.println(paramMap); 
+//    	System.out.println(paramList); 
 
     	int price, discount_price, isDelete = -9, productId;
     	String updateStateId;
@@ -485,7 +485,7 @@ public class HomeController {
 		    			}
 	    			}
 	    			memberService.productSimpleUpdate(productId, price, discount_price, updateStateId);
-	    			// System.out.println("UPDATE QUERY "+price +" AND " + discount_price + " AND " + updateStateId);
+	    			 System.out.println("UPDATE QUERY "+price +" AND " + discount_price + " AND " + updateStateId);
 	    		}
     		}
     	}
