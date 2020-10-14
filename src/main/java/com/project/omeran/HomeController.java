@@ -407,6 +407,64 @@ public class HomeController {
     	return isNum;
     }
     
+    public void adminProduct_simpleUpdate(Map<String, String> paramMap, List<String> paramList) {
+    	System.out.println(paramMap);
+    	System.out.println(paramList);
+    	
+    	int price, discount_price, isDelete = -9, productId;
+		String updateStateId;
+		
+		if(paramMap.get("adminProduct_isDelete") != null) {
+			isDelete = Integer.parseInt(paramMap.get("adminProduct_isDelete"));    		
+		}
+		
+		if(paramList != null) {
+			for(String listItem : paramList) {
+				System.out.println("listItem: " + listItem);
+				
+				String listItemDetail[] = listItem.split(",");
+				if(listItemDetail[0].equals("-1")) {
+					continue;
+				}
+				
+				productId = Integer.parseInt(listItemDetail[0]);
+				price = Integer.parseInt(listItemDetail[1]);
+				discount_price = Integer.parseInt(listItemDetail[2]);
+				updateStateId = listItemDetail[3];
+				
+				// 삭제하기 
+				if(isDelete == 1) {
+					memberService.productDelete(productId);
+					System.out.println("DELETE Product WHERE "+productId);
+				}
+				// 수정하기 
+				else {
+					// price
+					if(paramMap.get("adminProduct_originPrice") != null) {
+						if(!paramMap.get("adminProduct_originPrice").equals("") && isNumber(paramMap.get("adminProduct_originPrice"))) {
+							price = Integer.parseInt(paramMap.get("adminProduct_originPrice"));
+						}
+					}
+					// discount_price
+					if(paramMap.get("adminProduct_sellingPrice") != null) {
+						if(!paramMap.get("adminProduct_sellingPrice").equals("") && isNumber(paramMap.get("adminProduct_sellingPrice"))) {
+							discount_price = Integer.parseInt(paramMap.get("adminProduct_sellingPrice"));
+						}
+					}
+					
+					// state_id
+					if(paramMap.get("adminProduct_sellingPrice") != null) {
+						if(!paramMap.get("adminProduct_status").equals("")) {
+							updateStateId = paramMap.get("adminProduct_status");
+						}
+					}
+					memberService.productSimpleUpdate(productId, price, discount_price, updateStateId);
+					System.out.println("UPDATE QUERY "+price +" AND " + discount_price + " AND " + updateStateId);
+				}
+			}
+		}
+    }
+    
     // 관리자 페이지: 대시보드 
     @RequestMapping(value = {"/admin", "/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDashboard(HttpSession session) throws Exception {
@@ -432,69 +490,14 @@ public class HomeController {
 			@RequestParam Map<String, String> paramMap,
 			@RequestParam(value="adminProduct_productItem[]", required=false) List<String> paramList
 			) throws Exception {
-//    	System.out.println(paramMap); 
-//    	System.out.println(paramList); 
-
-    	int price, discount_price, isDelete = -9, productId;
-    	String updateStateId;
-    	
-    	if(paramMap.get("isDelete") != null) {
-    		isDelete = Integer.parseInt(paramMap.get("isDelete"));    		
-    		System.out.println("DELETE: "+isDelete);
-    	}
-    	
-    	if(paramList != null) {
-    		
-    		for(String listItem : paramList) {
-    			System.out.println("listItem: " + listItem);
-    			
-    			String listItemDetail[] = listItem.split(",");
-    			if(listItemDetail[0].equals("-1")) {
-    				continue;
-    			}
-    			
-    			productId = Integer.parseInt(listItemDetail[0]);
-    			price = Integer.parseInt(listItemDetail[1]);
-    			discount_price = Integer.parseInt(listItemDetail[2]);
-    			updateStateId = listItemDetail[3];
-
-	    		// 삭제하기 
-	    		if(isDelete == 1) {
-	    			// TODO: 삭제하기 DB 연동
-	    			System.out.println("TODO: listItem 삭제하기");
-	    		}
-	    		// 수정하기 
-	    		else {
-	    			// price
-	    			if(paramMap.get("adminProduct_originPrice") != null) {
-	    				if(!paramMap.get("adminProduct_originPrice").equals("") && isNumber(paramMap.get("adminProduct_originPrice"))) {
-	    					price = Integer.parseInt(paramMap.get("adminProduct_originPrice"));
-	    				}
-	    			}
-	    			// discount_price
-	    			if(paramMap.get("adminProduct_sellingPrice") != null) {
-	    				if(!paramMap.get("adminProduct_sellingPrice").equals("") && isNumber(paramMap.get("adminProduct_sellingPrice"))) {
-	    					discount_price = Integer.parseInt(paramMap.get("adminProduct_sellingPrice"));
-	    				}
-	    			}
-	    			
-	    			// state_id
-	    			if(paramMap.get("adminProduct_sellingPrice") != null) {
-	    				if(!paramMap.get("adminProduct_status").equals("")) {
-		    				updateStateId = paramMap.get("adminProduct_status");
-		    			}
-	    			}
-	    			memberService.productSimpleUpdate(productId, price, discount_price, updateStateId);
-	    			 System.out.println("UPDATE QUERY "+price +" AND " + discount_price + " AND " + updateStateId);
-	    		}
-    		}
-    	}
-    	
-    	
-    	
-    	
 		ModelAndView mav = new ModelAndView();
-		if(sessionTest(session)) {			
+		if(sessionTest(session)) {
+			// 간단히 modify & delete 하기
+			adminProduct_simpleUpdate(paramMap, paramList);
+			
+			
+			
+
 			session.setAttribute("adminSideState", "상품관리");
 			session.setAttribute("adminNowPage", "상품관리");
 

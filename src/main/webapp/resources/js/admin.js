@@ -1,5 +1,6 @@
 // [ Administration Page]
-/** adminProduct **/
+
+/** [ adminProduct.jsp ] **/
 function adminProduct_moveTap(moveUrl){
 	$("#adminProduct_searchInput").val("");
 	var ajaxOption = {

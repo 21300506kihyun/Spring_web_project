@@ -50,6 +50,8 @@ public interface MemberDAO {
 
 	public void productSimpleUpdate(@Param("productId")int productId, @Param("price")int price, @Param("discount_price")int discount_price, @Param("stateId")String stateId);
 
+	public void productDelete(@Param("productId")int productId);
+
 
 }
 

@@ -40,5 +40,7 @@ public interface MemberService {
 
 	public void productSimpleUpdate(int productId, int price, int discount_price, String stateId);
 
+	public void productDelete(int productId);
+
 }
 

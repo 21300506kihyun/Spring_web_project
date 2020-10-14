@@ -8,68 +8,6 @@
 <head>
 	<meta charset="UTF-8">
 	<script src="js/adminProduct.js"></script>
-	<script>
-		// TODO: 삭제하기 클릭시 isDelete 1로 바꾸는 함수
-		function isNumber(str){
-			if(str == ""){
-				return true;
-			}
-			else if(!isNaN(str)){
-				return true;
-			}
-			return false;
-		}
-		function adminProduct_simpleUpdate_formCheck(){
-			var price = $("#adminProduct_change_originPrice_input").val();
-			var discount_price = $("#adminProduct_change_sellingPrice_input").val();
-			if(!isNumber(price)){
-				return false;
-			}
-			if(!isNumber(discount_price)){
-				return false;
-			}
-			console.log(price + " : "  + discount_price);
-			if(price < 0 || discount_price < 0){
-				return false;
-			}
-			if(!confirm("해당 상품정보를 수정하시겠습니까?")){
-				return false;
-			}
-			return true;
-		}
-		
-		function adminProduct_simpleUpdate(){
-			if(!adminProduct_simpleUpdate_formCheck()){
-				return false;
-			}
-			var formData = $("#adminProduct_simpleUpdateForm").serialize();
-			
-			$.ajax({
-				type: "POST",
-				url: "adminProduct",
-				data: formData,
-				dataType: "html",
-				async: false,
-				cache: false,
-				success: function(result){
-					// Contents 영역 삭제
-			        $('body').children().remove();
-			        // Contents 영역 교체
-			        $('body').html(result);
-			        /* alert("수정이 완료되었습니다."); */
-				},
-				error: function(error){
-					console.log(error)
-				}
-			});
-		}
-		function resetPrice(){
-			$("#adminProduct_change_originPrice_input").val("");
-		}
-		function resetDiscountPrice(){
-			$("#adminProduct_change_sellingPrice_input").val("");
-		}
-	</script>
 </head>
 <body>
 	<form id="adminProduct_simpleUpdateForm" onsubmit="return adminProduct_simpleUpdate()">
@@ -93,12 +31,12 @@
 			</c:forEach>
 		</select>
 		
-		<input type="hidden" name="adminProduct_isDelete" value="0"/>
+		<input id="adminProduct_isDelete" type="hidden" name="adminProduct_isDelete" value="0"/>
 		<input type="hidden" name="adminProduct_productItem[]" value="-1,-1,-1,-1"/>
 		
 		<input type="submit" class="adminProduct_statusBtn adminProduct_btnSubmit" value="수정"/>
 		<!-- 삭제하기 클릭시 isDelete = 1로 바꾸고 폼 제출하기 -->
-		<a class="adminProduct_statusBtn adminProduct_btnDelete" href="#delete">삭제</a>
+		<input type="submit" class="adminProduct_statusBtn adminProduct_btnDelete" onclick="setUpdateAsDelete()" value="삭제"/>
 	</div>
 	<!-- </form> -->
 	<div class="adminProduct_cardContainer adminProduct_productContainer">
@@ -149,9 +87,6 @@
 				</c:choose> 
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-outline btn-primary pull-right selectBtn" id="">선택</button>
-		<div class="col-lg-12 ex3_Result1"></div> 
-		<div class="col-lg-12 ex3_Result2"></div> 
 	</div>
 	</form>
 </body>

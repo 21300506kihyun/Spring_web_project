@@ -139,6 +139,11 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.productSimpleUpdate(productId, price, discount_price, stateId);
 	}
 
+	@Override
+	public void productDelete(int productId) {
+		memberDao.productDelete(productId);
+	}
+
 	
 
 

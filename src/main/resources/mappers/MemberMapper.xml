@@ -81,7 +81,7 @@
 	
 	<!-- 상품정보 받아오기 -->
 	<select id="getAllProductList" resultType="HashMap">
-		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "DELETE" ORDER BY p_id;
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" ORDER BY p_id;
 	</select>
 	
 	<select id="getProductList" resultType="HashMap">
@@ -94,15 +94,28 @@
 	</select>
 
 	<update id="productSimpleUpdate"> 
-		
-		UPDATE ProductTable 
-		SET 
-			price = #{price}, 
-			discount_price = #{discount_price}, 
-			state_id = "${stateId}", 
-			mod_date = CURRENT_TIMESTAMP 
+		<![CDATA[ 
+			UPDATE ProductTable 
+			SET 
+				price = #{price}, 
+				discount_price = #{discount_price}, 
+				state_id = "${stateId}", 
+				mod_date = CURRENT_TIMESTAMP 
+			WHERE p_id = #{productId};
+		]]>
+	</update>
+	
+	<update id="productDelete">
+		<!-- <![CDATA[
+			DELETE FROM ProductTable
+			WHERE p_id = #{productId}
+			LIMIT 1;
+		]]> -->
+		UPDATE ProductTable
+		SET
+			state_id = "delete",
+			mod_date = CURRENT_TIMESTAMP
 		WHERE p_id = #{productId};
-		
 	</update>
 
 </mapper>
