@@ -11,6 +11,36 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, 'Nanum Gothic', sans-serif;
 }
 
+/* input tag */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  	-moz-appearance: textfield;
+}
+
+input[type="submit"]{
+	font-family:  FontAwesome;
+}
+input:focus{
+  	outline: none;
+}
+select:focus{
+	outline: none;
+}
+input[type="checkbox"]{
+  	  /* Double-sized Checkboxes */
+	-ms-transform: scale(1.1); /* IE */
+	-moz-transform: scale(1.1); /* FF */
+	-webkit-transform: scale(1.1); /* Safari and Chrome */
+	-o-transform: scale(1.1); /* Opera */
+}
+
 
 /************************************* 관리자 페이지 *************************************/
 
@@ -254,23 +284,6 @@ body{
   	.adminProduct_contentShow{display: block;}
   	
   	/* NEW */
-  	input[type="submit"]{
-  		font-family:  FontAwesome;
-  	}
-  	input:focus{
-  		outline: none;
-  	}
-  	select:focus{
-  		outline: none;
-  	}
-  	input[type="checkbox"]{
-  	  /* Double-sized Checkboxes */
-	  -ms-transform: scale(1.1); /* IE */
-	  -moz-transform: scale(1.1); /* FF */
-	  -webkit-transform: scale(1.1); /* Safari and Chrome */
-	  -o-transform: scale(1.1); /* Opera */
-  	}
-  	
   	.adminProduct_cardContainer{
   		box-sizing: border-box;
 		box-shadow:0 1px 1px 0 rgba(0,0,0,0.16),0 1px 5px 0 rgba(0,0,0,0.12);

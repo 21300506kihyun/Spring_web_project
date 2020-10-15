@@ -15,12 +15,12 @@
 		<p class="adminProduct_statusText">선택상품을 </p>
 		
 		<input name="adminProduct_originPrice" id="adminProduct_change_originPrice_input" 
-				class="adminProduct_statusInput" type="text" placeholder="원가를 입력해주세요">
+				class="adminProduct_statusInput" type="number" min="0" placeholder="원가를 입력해주세요">
 		<a id="adminProduct_closeInputBtn01" class="adminProduct_closeInputBtn" onclick="resetPrice();">x</a>
 		<a id="adminProduct_change_originPrice" class="adminProduct_statusBtn">원가 변경</a>
 		
 		<input name="adminProduct_sellingPrice" id="adminProduct_change_sellingPrice_input" 
-				class="adminProduct_statusInput" type="text" placeholder="판매가를 입력해주세요">
+				class="adminProduct_statusInput" type="number" min="0" placeholder="판매가를 입력해주세요">
 		<a id="adminProduct_closeInputBtn02" class="adminProduct_closeInputBtn" onclick="resetDiscountPrice();">x</a>
 		<a id="adminProduct_change_sellingPrice" class="adminProduct_statusBtn">판매가 변경</a>
 		

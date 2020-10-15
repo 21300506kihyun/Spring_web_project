@@ -527,8 +527,6 @@ public class HomeController {
 			
 			// 정보 가공하기
 			productList = manufactureProductList(productList);
-
-			
 			
 			mav.addObject("productList", productList);
 			mav.addObject("cntAll", cntAll);
@@ -635,6 +633,25 @@ public class HomeController {
 			
 			return mav;
 		}
+	    
+	// 관리자 페이지: 상품 추가
+	@RequestMapping(value="/adminProductNew", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView adminProductNew(HttpSession session) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "상품관리");
+			session.setAttribute("adminNowPage", "상품추가");
+			
+			variableInjection(mav);
+			
+			mav.setViewName("adminProductDetail");
+			
+			return mav;
+		}
+		else {
+			return goHome();
+		}
+	}
     
     // 관리자 페이지: 주문관리 
     @RequestMapping(value = "/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
@@ -651,8 +668,6 @@ public class HomeController {
 		}
 		else {
 			return goHome();
-//			mav.setViewName("adminOrder");
-//			return mav;	
 		}
 	}
     
