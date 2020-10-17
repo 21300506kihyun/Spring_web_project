@@ -11,8 +11,10 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, 'Nanum Gothic', sans-serif;
 }
 
-/* input tag */
 
+
+/************************************* 관리자 페이지 *************************************/
+/* [ Input tags ] */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -40,9 +42,6 @@ input[type="checkbox"]{
 	-webkit-transform: scale(1.1); /* Safari and Chrome */
 	-o-transform: scale(1.1); /* Opera */
 }
-
-
-/************************************* 관리자 페이지 *************************************/
 
 /** [ admin.jsp ] **/
 .admin_wrapper{
@@ -185,6 +184,7 @@ input[type="checkbox"]{
 	padding: 8px 30px;
 	border-radius: 2px;
 	display: inline-block;
+	cursor: pointer;
 	
 	transition: all 0.2s ease-in-out;
 	-webkit-transition: all 0.2s ease-in-out;

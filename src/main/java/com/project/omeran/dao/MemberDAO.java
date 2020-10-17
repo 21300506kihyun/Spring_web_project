@@ -52,6 +52,8 @@ public interface MemberDAO {
 
 	public void productDelete(@Param("productId")int productId);
 
+	public void adminProductCreateNew(Map<String, String> paramMap);
+
 
 }
 

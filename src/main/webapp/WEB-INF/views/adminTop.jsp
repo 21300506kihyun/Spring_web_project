@@ -15,7 +15,7 @@
 			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "상품추가"){ %>  
 			 		<a href="adminProduct" class="adminTop_btn adminTop_btnWhite">취소</a>
-			 		<a href="#addNewProduct" class="adminTop_btn adminTop_btnBlue">저장</a>
+			 		<a href="#addNewProduct" class="adminTop_btn adminTop_btnBlue" onclick="adminProductNewSubmit()">저장</a>
 			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "주문관리"){ %>  
 			 		<a href="#cancel" class="adminTop_btn adminTop_btnWhite">취소</a>

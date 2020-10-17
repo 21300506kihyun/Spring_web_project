@@ -117,6 +117,16 @@
 			mod_date = CURRENT_TIMESTAMP
 		WHERE p_id = #{productId};
 	</update>
+	
+	<select id="adminProductCreateNew" parameterType="hashmap"> 
+	<!-- INSERT INTO ProductTable (product_name, price, discount_price, reg_date, state_id, summary, detail) VALUES ("오메란 D세트", 40000, 34000, CURRENT_TIMESTAMP, "P003", "오메란 D세트summaryTest", "오메란 D세트 detail입니다."); -->
+		<![CDATA[ 
+			INSERT INTO ProductTable 
+				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img) 
+			VALUES 
+				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", '"${filePath}"');
+		]]>
+	</select>
 
 </mapper>
 

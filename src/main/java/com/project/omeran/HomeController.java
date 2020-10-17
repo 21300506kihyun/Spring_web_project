@@ -1,6 +1,7 @@
 package com.project.omeran;
 
 import java.io.Console;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -10,11 +11,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 //import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+//import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.common.CommandMap;
@@ -408,8 +413,9 @@ public class HomeController {
     }
     
     public void adminProduct_simpleUpdate(Map<String, String> paramMap, List<String> paramList) {
-    	System.out.println(paramMap);
-    	System.out.println(paramList);
+    	if(paramMap == null || paramList == null) {
+    		return ;
+    	}
     	
     	int price, discount_price, isDelete = -9, productId;
 		String updateStateId;
@@ -465,6 +471,10 @@ public class HomeController {
 		}
     }
     
+    
+    
+    
+    
     // 관리자 페이지: 대시보드 
     @RequestMapping(value = {"/admin", "/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDashboard(HttpSession session) throws Exception {
@@ -487,7 +497,7 @@ public class HomeController {
     @RequestMapping(value = "/adminProduct", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminProduct(
 			HttpSession session,
-			@RequestParam Map<String, String> paramMap,
+			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap,
 			@RequestParam(value="adminProduct_productItem[]", required=false) List<String> paramList
 			) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -652,6 +662,64 @@ public class HomeController {
 			return goHome();
 		}
 	}
+		// 상품 추가하기 INSERT 
+		@RequestMapping(value="/adminProductCreateNew", method= {RequestMethod.GET, RequestMethod.POST})
+		public ModelAndView adminProductCreateNew(
+				HttpSession session, 
+				MultipartFile adminProductDetail_productImage,
+				@RequestParam Map<String, String> paramMap) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			if(sessionTest(session)) {
+				System.out.println("paramMap: " + paramMap);
+				System.out.println("업로드된 파일!: "+adminProductDetail_productImage);
+				UPLOAD_PATH = (String)paramMap.get("adminProductDetail_contextPath") + "/uploadFolder";
+				String filePath = saveFile(adminProductDetail_productImage);
+				
+				System.out.println("result: " + filePath);
+				
+				paramMap.put("filePath", filePath);
+				paramMap.put("state_id", "P002");	// 판매대기
+				
+				System.out.println("paramMap: " + paramMap);
+				
+				memberService.adminProductCreateNew(paramMap);
+				
+			
+				mav = adminProduct(session, null, null);
+				
+				mav.setViewName("redirect:adminProduct");
+				
+				return mav;
+			}
+			else {
+				return goHome();
+			}
+		}
+		
+		private static String UPLOAD_PATH = "/omeran/uploadFolder";
+		
+		private String saveFile(MultipartFile file) {
+			// 파일 이름 변경
+		    UUID uuid = UUID.randomUUID();
+		    String saveName = uuid + "_" + file.getOriginalFilename();
+
+		    logger.info("saveName: {}",saveName);
+
+		    // 저장할 File 객체를 생성(껍데기 파일)ㄴ
+		    File saveFile = new File(UPLOAD_PATH,saveName); // 저장할 폴더 이름, 저장할 파일 이름
+
+		    try {
+		        file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        return null;
+		    }
+
+		    return saveName;
+		}
+	
+		
     
     // 관리자 페이지: 주문관리 
     @RequestMapping(value = "/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })

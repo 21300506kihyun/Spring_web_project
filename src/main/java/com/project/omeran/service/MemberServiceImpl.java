@@ -144,6 +144,11 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.productDelete(productId);
 	}
 
+	@Override
+	public void adminProductCreateNew(Map<String, String> paramMap) {
+		memberDao.adminProductCreateNew(paramMap);
+	}
+
 	
 
 

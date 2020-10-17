@@ -42,5 +42,7 @@ public interface MemberService {
 
 	public void productDelete(int productId);
 
+	public void adminProductCreateNew(Map<String, String> paramMap);
+
 }
 
