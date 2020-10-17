@@ -38,11 +38,11 @@
 		]]> 
 	</select>
 
-	
 	<select id="getFaqCount" resultType="int">
 		SELECT COUNT(*) FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1;
 		
 	</select>
+	
 	
 	<select id="getFaqList" resultType="HashMap">
 		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1 ORDER BY faq_id DESC LIMIT #{startIndex}, #{cntPerPage};
@@ -78,7 +78,30 @@
 			LIMIT 1
 		]]>
 	</update>
-
+  <!-- *********** 쇼핑몰 상품 부분 *************** -->
+  
+  	<select id="getProductCount" resultType="int">
+		SELECT COUNT(*) FROM ProductTable WHERE product_name LIKE "%${keyword}%";	
+	</select>
+	
+	<select id="getProductList" resultType="HashMap">
+		SELECT * FROM ProductTable WHERE product_name LIKE "%${keyword}%" LIMIT #{startIndex}, #{cntPerPage};
+	</select>
+	
+	<select id="getProductDetail" resultType="HashMap">
+		SELECT * FROM ProductTable WHERE p_id= ${p_id};
+	</select>
+	
+	<!-- ************ 회원가입 부분 ***************8  -->
+	
+	<select id="insertUserInfo" parameterType="com.project.omeran.dto.UserVO">
+		INSERT INTO UserTable(user_id,password,user_name,telephone,gender,email,signin_date,modify_date,user_category)
+			VALUES(#{user_id},#{password},#{user_name},#{telephone},#{gender},#{email},now(),now(),1);
+	</select>
+	
+	<select id="idCheck" parameterType="com.project.omeran.dto.UserVO" resultType="int">
+		SELECT count(*) FROM UserTable WHERE user_id = #{user_id};
+	</select>
 
 </mapper>
 

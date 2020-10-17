@@ -1,6 +1,6 @@
 package com.project.omeran.service;
 
-
+import com.project.omeran.dto.UserVO;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +30,16 @@ public interface MemberService {
 	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);	
 	void deleteFaq(int faq_id);
 	void updateFaq(Map<String, Object> map);
+	
+	// 쇼핑몰 상품 관련
+	
+	int getProductCount(String keyword);
+	List<Map<String, Object>> getProductList(int startIndex, int cntPerPage, String keyword);
+	Map<String, Object> getProductDetail(int p_id);
+	
+	public void insertUserInfo(UserVO userVO) throws Exception;
+	public int idCheck(UserVO userVO) throws Exception;
+
 
 
 }

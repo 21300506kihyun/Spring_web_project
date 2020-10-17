@@ -1,5 +1,6 @@
 package com.project.omeran.service;
 
+import com.project.omeran.dto.UserVO;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +116,34 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.updateFaqBoard(map);
 		
 	}
+	
+	// 쇼핑몰 상품 관련
+	@Override
+	public int getProductCount(String keyword) {
+		return memberDao.getProductCount(keyword);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getProductList(int startIndex, int cntPerPage, String keyword) {
+		return memberDao.getProductList(startIndex, cntPerPage, keyword);
+	}
+
+	@Override
+	public Map<String, Object> getProductDetail(int p_id) {
+		// TODO Auto-generated method stub
+		return memberDao.getProductDetail(p_id);
+	}
+	
+	//회원가입 관련
+	@Override
+	public void insertUserInfo(UserVO userVO) throws Exception {
+		memberDao.insertUserInfo(userVO);
+	}
+	@Override
+	public int idCheck(UserVO userVO) throws Exception {
+		return memberDao.idCheck(userVO);
+	}
+	
 
 	
 
