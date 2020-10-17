@@ -115,11 +115,11 @@
 	</div> 
 	<div class="form-group">
 			<label class="form-check form-check-inline">
-		  <input id = "male" class="form-check-input" type="radio" name="gender" value="option1">
+		  <input class="form-check-input" type="radio" name="gender" value="option1" required>
 		  <span class="form-check-label"> 남자 </span>
 		</label>
 		<label class="form-check form-check-inline">
-		  <input id = "femail" class="form-check-input" type="radio" name="gender" value="option2">
+		  <input id = "femail" class="form-check-input" type="radio" name="gender" value="option2" required>
 		  <span class="form-check-label"> 여자 </span>
 		</label>
 	</div> <!-- form-group end.// -->

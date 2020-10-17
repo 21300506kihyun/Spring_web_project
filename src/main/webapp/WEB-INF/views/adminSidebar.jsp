@@ -57,7 +57,7 @@
 		<div id="adminSide_logoDiv" class="adminSide_logoDiv <c:if test="${isSideOpen eq 'sideOff'}">adminSide_logoDiv_hide</c:if>">
 	 		<img src="img/p1_top_logo.png" class="adminSide_logo" onclick="location.href='admin'">
 	 		<span class="adminSide_closeBtn" onclick="adminSide_hide()">
-	 			<a href="#close"><i class="fas fa-angle-double-left fa-2x"></i></a>
+	 			<a><i class="fas fa-angle-double-left fa-2x"></i></a>
 	 		</span>
 	 	</div>
 	 	

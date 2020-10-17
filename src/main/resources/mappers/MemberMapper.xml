@@ -78,17 +78,18 @@
 			LIMIT 1
 		]]>
 	</update>
+
   <!-- *********** 쇼핑몰 상품 부분 *************** -->
   
-  	<select id="getProductCount" resultType="int">
+  	<select id="mall_getProductCount" resultType="int">
 		SELECT COUNT(*) FROM ProductTable WHERE product_name LIKE "%${keyword}%";	
 	</select>
 	
-	<select id="getProductList" resultType="HashMap">
+	<select id="mall_getProductList" resultType="HashMap">
 		SELECT * FROM ProductTable WHERE product_name LIKE "%${keyword}%" LIMIT #{startIndex}, #{cntPerPage};
 	</select>
 	
-	<select id="getProductDetail" resultType="HashMap">
+	<select id="mall_getProductDetail" resultType="HashMap">
 		SELECT * FROM ProductTable WHERE p_id= ${p_id};
 	</select>
 	
@@ -102,6 +103,47 @@
 	<select id="idCheck" parameterType="com.project.omeran.dto.UserVO" resultType="int">
 		SELECT count(*) FROM UserTable WHERE user_id = #{user_id};
 	</select>
+
+	
+	<!-- 상품정보 받아오기 -->
+	<select id="getAllProductList" resultType="HashMap">
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" ORDER BY p_id;
+	</select>
+	
+	<select id="getProductList" resultType="HashMap">
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id = "${state_id}" ORDER BY p_id;
+	</select>
+	
+	<!-- stateTable 정보 가져오기 -->
+	<select id="getStateList" resultType="HashMap">
+		SELECT * FROM StateTable WHERE state_id LIKE "${category}%";
+	</select>
+
+	<update id="productSimpleUpdate"> 
+		<![CDATA[ 
+			UPDATE ProductTable 
+			SET 
+				price = #{price}, 
+				discount_price = #{discount_price}, 
+				state_id = "${stateId}", 
+				mod_date = CURRENT_TIMESTAMP 
+			WHERE p_id = #{productId};
+		]]>
+	</update>
+	
+	<update id="productDelete">
+		<!-- <![CDATA[
+			DELETE FROM ProductTable
+			WHERE p_id = #{productId}
+			LIMIT 1;
+		]]> -->
+		UPDATE ProductTable
+		SET
+			state_id = "delete",
+			mod_date = CURRENT_TIMESTAMP
+		WHERE p_id = #{productId};
+	</update>
+
 
 </mapper>
 

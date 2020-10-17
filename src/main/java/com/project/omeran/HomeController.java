@@ -3,6 +3,7 @@ package com.project.omeran;
 import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -330,13 +331,135 @@ public class HomeController {
     	isOpen = isSideOpen;
     }
     
-    public ModelAndView go404() {
-    	ModelAndView mav = new ModelAndView("PageNotFound");
+    public ModelAndView goHome() {
+    	ModelAndView mav = new ModelAndView(home());
     	return mav;
     }
     
     public void variableInjection(ModelAndView mav) {
     	mav.addObject("isOpen", isOpen);
+    }
+    
+    public List<Map<String, Object>> getProductListFromDB(String state) {
+    	List<Map<String, Object>> productList;
+    	if(state == null || state.equals("ALL")) {
+    		productList = memberService.getAllProductList();
+    	}
+    	else {
+    		productList = memberService.getProductList(state);
+    	}
+    	return productList;
+    }
+    
+    public List<Map<String, Object>> setCommaPrice(List<Map<String, Object>> ListMap){
+    	int price, discount_price;
+    	String commaPrice, commaDiscountPrice;
+    	
+    	for(Map<String, Object> map : ListMap) {
+    		price = (int)map.get("price");
+    		discount_price = (int)map.get("discount_price");
+    		commaPrice = String.format("%,d", price);
+    		commaDiscountPrice = String.format("%,d", discount_price);
+    		map.put("commaPrice", commaPrice);
+    		map.put("commaDiscountPrice", commaDiscountPrice);
+    	}
+    	return ListMap;
+    }
+    
+    public List<Map<String, Object>> calculateDiscountRate(List<Map<String, Object>> ListMap){
+    	int price, discount_price;
+    	String discountRate;
+    	
+    	for(Map<String, Object> map : ListMap) {
+    		price = (int)map.get("price");
+    		discount_price = (int)map.get("discount_price");
+    		discountRate = String.format("%.0f", 100 - ((float)discount_price/price)*100);
+    		map.put("discountRate", discountRate);
+    		// System.out.println("price: "+price+" discount_price: "+discount_price+" -> "+discountRate);
+    	}
+    	return ListMap;
+    }
+    
+    public List<Map<String, Object>> manufactureProductList(List<Map<String, Object>> ListMap){
+    	// 원가, 판매가 콤마 표시
+    	ListMap = setCommaPrice(ListMap);
+		
+		// 할인율 계산
+    	ListMap = calculateDiscountRate(ListMap);
+    	return ListMap;
+    }
+    
+    public List<Map<String, Object>> getStateList(String category){
+    	return memberService.getStateList(category); 
+    }
+    
+    public boolean isNumber(String str) {
+    	boolean isNum = true;
+    	for(int i=0; i<str.length(); i++) {
+    		if(!Character.isDigit(str.charAt(i))) {
+    			isNum = false;
+    			break;
+    		}
+    	}
+    	return isNum;
+    }
+    
+    public void adminProduct_simpleUpdate(Map<String, String> paramMap, List<String> paramList) {
+    	System.out.println(paramMap);
+    	System.out.println(paramList);
+    	
+    	int price, discount_price, isDelete = -9, productId;
+		String updateStateId;
+		
+		if(paramMap.get("adminProduct_isDelete") != null) {
+			isDelete = Integer.parseInt(paramMap.get("adminProduct_isDelete"));    		
+		}
+		
+		if(paramList != null) {
+			for(String listItem : paramList) {
+				System.out.println("listItem: " + listItem);
+				
+				String listItemDetail[] = listItem.split(",");
+				if(listItemDetail[0].equals("-1")) {
+					continue;
+				}
+				
+				productId = Integer.parseInt(listItemDetail[0]);
+				price = Integer.parseInt(listItemDetail[1]);
+				discount_price = Integer.parseInt(listItemDetail[2]);
+				updateStateId = listItemDetail[3];
+				
+				// 삭제하기 
+				if(isDelete == 1) {
+					memberService.productDelete(productId);
+					System.out.println("DELETE Product WHERE "+productId);
+				}
+				// 수정하기 
+				else {
+					// price
+					if(paramMap.get("adminProduct_originPrice") != null) {
+						if(!paramMap.get("adminProduct_originPrice").equals("") && isNumber(paramMap.get("adminProduct_originPrice"))) {
+							price = Integer.parseInt(paramMap.get("adminProduct_originPrice"));
+						}
+					}
+					// discount_price
+					if(paramMap.get("adminProduct_sellingPrice") != null) {
+						if(!paramMap.get("adminProduct_sellingPrice").equals("") && isNumber(paramMap.get("adminProduct_sellingPrice"))) {
+							discount_price = Integer.parseInt(paramMap.get("adminProduct_sellingPrice"));
+						}
+					}
+					
+					// state_id
+					if(paramMap.get("adminProduct_sellingPrice") != null) {
+						if(!paramMap.get("adminProduct_status").equals("")) {
+							updateStateId = paramMap.get("adminProduct_status");
+						}
+					}
+					memberService.productSimpleUpdate(productId, price, discount_price, updateStateId);
+					System.out.println("UPDATE QUERY "+price +" AND " + discount_price + " AND " + updateStateId);
+				}
+			}
+		}
     }
     
     // 관리자 페이지: 대시보드 
@@ -353,29 +476,177 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			//TODO: 권한이 없습니다. VS 404 페이지?
-			// return go404();
-			mav.setViewName("adminDashboard");
-			return mav;	
+			return goHome();
 		}
 	}
     
     // 관리자 페이지: 상품관리 
     @RequestMapping(value = "/adminProduct", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminProduct(HttpSession session) throws Exception {
+	public ModelAndView adminProduct(
+			HttpSession session,
+			@RequestParam Map<String, String> paramMap,
+			@RequestParam(value="adminProduct_productItem[]", required=false) List<String> paramList
+			) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		if(sessionTest(session)) {			
+		if(sessionTest(session)) {
+			// 간단히 modify & delete 하기
+			adminProduct_simpleUpdate(paramMap, paramList);
+			
+			
+			
+
 			session.setAttribute("adminSideState", "상품관리");
 			session.setAttribute("adminNowPage", "상품관리");
 
 			variableInjection(mav);
 			
+			// DB에서 상품 정보 가져오기 
+			List<Map<String, Object>> productList, stateListP;
+			int cntAll = 0, cntP001 = 0, cntP002 = 0, cntP003 = 0;
+			
+			productList = getProductListFromDB(null);
+			stateListP = getStateList("P");
+			
+			// 탭메뉴 개수 표시용 
+			cntAll = productList.size();
+			for(int i=0; i<cntAll; i++) {
+	    		String stateID = (String)productList.get(i).get("state_id");
+	    		if(stateID.equals("P001")) {
+	    			cntP001++;
+	    		}
+	    		else if(stateID.equals("P002")) {
+	    			cntP002++;
+	    		}
+	    		else if(stateID.equals("P003")) {
+	    			cntP003++;
+	    		}
+	    	}
+			
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("cntAll", cntAll);
+			mav.addObject("cntP001", cntP001);
+			mav.addObject("cntP002", cntP002);
+			mav.addObject("cntP003", cntP003);
+			mav.addObject("stateListP", stateListP);
+			
 			mav.setViewName("adminProduct");
 			return mav;
 		}
 		else {
-			mav.setViewName("adminProduct");
-			return mav;	
+			return goHome();
+		}
+	}
+    
+	 	// 관리자 페이지: 상품관리 01 탭
+	    @RequestMapping(value = "/adminProduct.tap01", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap01(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("ALL");
+			stateListP = getStateList("P");
+			
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			
+			mav.setViewName("adminProductContent");
+			
+			return mav;
+		}
+	    
+		// 관리자 페이지: 상품관리 02 탭
+	    @RequestMapping(value = "/adminProduct.tap02", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap02(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("P001");
+			stateListP = getStateList("P");
+
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			mav.setViewName("adminProductContent");
+			
+			return mav;
+		}
+	 	// 관리자 페이지: 상품관리 03 탭
+	    @RequestMapping(value = "/adminProduct.tap03", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap03(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("P002");
+			stateListP = getStateList("P");
+
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			mav.setViewName("adminProductContent");
+			
+			return mav;
+		}
+	 	// 관리자 페이지: 상품관리 04 탭
+	    @RequestMapping(value = "/adminProduct.tap04", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap04(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			List<Map<String, Object>> productList, stateListP;
+			productList = getProductListFromDB("P003");
+			stateListP = getStateList("P");
+
+			// 정보 가공하기
+			productList = manufactureProductList(productList);
+			
+			mav.addObject("productList", productList);
+			mav.addObject("stateListP", stateListP);
+			
+			mav.setViewName("adminProductContent");
+			
+			
+			return mav;
+		}
+	 	// 관리자 페이지: 상품관리 05 탭 (휴지통: 미사용)
+	    @RequestMapping(value = "/adminProduct.tap05", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap05(HttpSession session) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			mav.setViewName("adminProductContent");
+			
+			mav.addObject("testData", "testData05");
+			
+			return mav;
+		}
+	    
+	// 관리자 페이지: 상품 추가
+	@RequestMapping(value="/adminProductNew", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView adminProductNew(HttpSession session) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "상품관리");
+			session.setAttribute("adminNowPage", "상품추가");
+			
+			variableInjection(mav);
+			
+			mav.setViewName("adminProductDetail");
+			
+			return mav;
+		}
+		else {
+			return goHome();
 		}
 	}
     
@@ -393,8 +664,7 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			mav.setViewName("adminOrder");
-			return mav;	
+			return goHome();
 		}
 	}
     
@@ -412,8 +682,9 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			mav.setViewName("adminDelivery");
-			return mav;	
+			return goHome();
+//			mav.setViewName("adminDelivery");
+//			return mav;	
 		}
 	}
     
@@ -431,8 +702,9 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			mav.setViewName("adminConsumer");
-			return mav;	
+			return goHome();
+//			mav.setViewName("adminConsumer");
+//			return mav;	
 		}
 	}
     
@@ -450,8 +722,9 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			mav.setViewName("adminDeliveryman");
-			return mav;	
+			return goHome();
+//			mav.setViewName("adminDeliveryman");
+//			return mav;	
 		}
 	}
     
@@ -469,8 +742,9 @@ public class HomeController {
 			return mav;
 		}
 		else {
-			mav.setViewName("adminSite");
-			return mav;	
+			return goHome();
+//			mav.setViewName("adminSite");
+//			return mav;	
 		}
 	}
     
@@ -483,14 +757,14 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("mall");
 		
 		// FAQ 리스트 개수 불러오기 (검색결과, 페이징)
-		int listCnt = memberService.getProductCount(keyword);
+		int listCnt = memberService.mall_getProductCount(keyword);
 		
 		PaginationVO pagination = new PaginationVO(listCnt, curPage);
 		
 		int startIndex = pagination.getStartIndex();
 		int cntPerPage = pagination.getPageSize();
 	
-		List<Map<String, Object>> list = memberService.getProductList(startIndex, cntPerPage, keyword);
+		List<Map<String, Object>> list = memberService.mall_getProductList(startIndex, cntPerPage, keyword);
 		
 		mav.addObject("listCnt", listCnt);
 		mav.addObject("list", list);
@@ -505,7 +779,7 @@ public class HomeController {
 	public ModelAndView viewproduct_detail(@RequestParam("p_id") int p_id) throws Exception{
 		ModelAndView mav = new ModelAndView("product_detail");
 	
-		Map<String, Object> product_detail = memberService.getProductDetail(p_id);
+		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
 		
 		mav.addObject("detail", product_detail);
 		return mav;
@@ -516,7 +790,7 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("checkout");
 		
 	
-		Map<String, Object> product_detail = memberService.getProductDetail(p_id);
+		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
 		
 		mav.addObject("detail", product_detail);
 		return mav;

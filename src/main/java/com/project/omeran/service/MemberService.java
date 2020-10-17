@@ -33,14 +33,24 @@ public interface MemberService {
 	
 	// 쇼핑몰 상품 관련
 	
-	int getProductCount(String keyword);
-	List<Map<String, Object>> getProductList(int startIndex, int cntPerPage, String keyword);
-	Map<String, Object> getProductDetail(int p_id);
+	int mall_getProductCount(String keyword);
+	List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword);
+	Map<String, Object> mall_getProductDetail(int p_id);
 	
 	public void insertUserInfo(UserVO userVO) throws Exception;
 	public int idCheck(UserVO userVO) throws Exception;
 
 
+	// Admin 
+	// 상품관리
+	public List<Map<String, Object>> getAllProductList();
+	public List<Map<String, Object>> getProductList(String state_id);
+
+	public List<Map<String, Object>> getStateList(String category);
+
+	public void productSimpleUpdate(int productId, int price, int discount_price, String stateId);
+
+	public void productDelete(int productId);
 
 }
 

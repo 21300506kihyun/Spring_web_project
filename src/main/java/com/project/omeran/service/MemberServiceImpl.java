@@ -119,17 +119,17 @@ public class MemberServiceImpl implements MemberService{
 	
 	// 쇼핑몰 상품 관련
 	@Override
-	public int getProductCount(String keyword) {
+	public int mall_getProductCount(String keyword) {
 		return memberDao.getProductCount(keyword);
 	}
 	
 	@Override
-	public List<Map<String, Object>> getProductList(int startIndex, int cntPerPage, String keyword) {
+	public List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword) {
 		return memberDao.getProductList(startIndex, cntPerPage, keyword);
 	}
 
 	@Override
-	public Map<String, Object> getProductDetail(int p_id) {
+	public Map<String, Object> mall_getProductDetail(int p_id) {
 		// TODO Auto-generated method stub
 		return memberDao.getProductDetail(p_id);
 	}
@@ -144,6 +144,34 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.idCheck(userVO);
 	}
 	
+
+	
+	// Admin
+	// 상품관리 
+	@Override
+	public List<Map<String, Object>> getAllProductList() {
+		return memberDao.getAllProductList();
+	}
+
+	@Override
+	public List<Map<String, Object>> getProductList(String state_id) {
+		return memberDao.getProductList(state_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> getStateList(String category) {
+		return memberDao.getStateList(category);
+	}
+
+	@Override
+	public void productSimpleUpdate(int productId, int price, int discount_price, String stateId) {
+		memberDao.productSimpleUpdate(productId, price, discount_price, stateId);
+	}
+
+	@Override
+	public void productDelete(int productId) {
+		memberDao.productDelete(productId);
+	}
 
 	
 

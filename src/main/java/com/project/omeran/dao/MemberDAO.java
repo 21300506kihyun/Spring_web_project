@@ -55,6 +55,16 @@ public interface MemberDAO {
 	public int idCheck(UserVO userVO) throws Exception;
 	
 
+	public List<Map<String, Object>> getAllProductList();
+
+	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id);
+
+	public List<Map<String, Object>> getStateList(@Param("category")String category);
+
+	public void productSimpleUpdate(@Param("productId")int productId, @Param("price")int price, @Param("discount_price")int discount_price, @Param("stateId")String stateId);
+
+	public void productDelete(@Param("productId")int productId);
+
 
 }
 

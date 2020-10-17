@@ -11,6 +11,36 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, 'Nanum Gothic', sans-serif;
 }
 
+/* input tag */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  	-moz-appearance: textfield;
+}
+
+input[type="submit"]{
+	font-family:  FontAwesome;
+}
+input:focus{
+  	outline: none;
+}
+select:focus{
+	outline: none;
+}
+input[type="checkbox"]{
+  	  /* Double-sized Checkboxes */
+	-ms-transform: scale(1.1); /* IE */
+	-moz-transform: scale(1.1); /* FF */
+	-webkit-transform: scale(1.1); /* Safari and Chrome */
+	-o-transform: scale(1.1); /* Opera */
+}
+
 
 /************************************* 관리자 페이지 *************************************/
 
@@ -65,6 +95,7 @@ body{
 	text-align: right; 
 	width: 45px; 
 	color: #dedede;
+	cursor: pointer;
 }
 .adminSide_symlink{
 	border-bottom: 1px solid #888;
@@ -204,7 +235,194 @@ body{
 }
 
 
+/** [ adminProduct.jsp ] **/
+/* Tap Controller */
+.adminProduct_tapContainer{
+	display: flex;
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+	height: 50px;
+	margin-bottom: 10px;
+}
+  	.adminProduct_tapMenus{
+  		width: 125px;
+  		text-align: center;
+  		cursor: pointer;
+  		font-size: 17px;
+  	}
+  	.adminProduct_menuCnt{
+  		color: #1a6dff;
+  		display: inline-block;
+  	}
+  	.adminProduct_tapBar{
+  		position: absolute;
+  		margin-left: 0;
+  		background: #1a6dff;
+  		height: 2px;
+  		width: 125px;
+  		margin-top: 38px;
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+  	}
+  	.adminProduct_tapMenus.on{
+  		color: #1a6dff;
+  		font-weight: 500;
+  	}
+  	.adminProduct_tapContainer a:nth-child(1).on ~ span {margin-left: 0; opacity: 1;}
+  	.adminProduct_tapContainer a:nth-child(2).on ~ span {margin-left: 125px; opacity: 1;}
+  	.adminProduct_tapContainer a:nth-child(3).on ~ span {margin-left: 250px; opacity: 1;}
+  	.adminProduct_tapContainer a:nth-child(4).on ~ span {margin-left: 375px; opacity: 1;}
+  	.adminProduct_tapContainer a:nth-child(5).on ~ span {margin-left: 500px; opacity: 1;}
+  	
+  	
+  	.adminProduct_content{
+  		display: none; 
+  	}
+  	.adminProduct_contentShow{display: block;}
+  	
+  	/* NEW */
+  	.adminProduct_cardContainer{
+  		box-sizing: border-box;
+		box-shadow:0 1px 1px 0 rgba(0,0,0,0.16),0 1px 5px 0 rgba(0,0,0,0.12);
+		border-radius: 1px;
+		/* padding: 10px; */
+		background-color: #fff;
+		margin-bottom: 10px;
+  	}
+  	.adminProduct_searchContainer{  		
+  		padding: 10px;
+  	}
+	.adminProduct_searchInput{
+		padding: 3px;
+		border: none;
+		width: 85%;
+		margin-right: -20px;
+	}
+	.adminProduct_searchSubmit{
+		float: right;
+		padding: 0;
+		margin-top: 3px;
+		width: 5%;
+		border: none;
+		background-color: #fff;
+		cursor: pointer;
+		
+		background-image: url('../img/searchIcon.png');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+  	.adminProduct_productContainer{
+		padding: 0;
+  	}
+  	.adminProduct_table{
+  		width: 100%;
+  		text-align: center;
+  		border-collapse: collapse;
+  	}
+  	.adminProduct_table tr{
+  	
+  	}
+  		.adminProduct_table tbody tr:hover{
+  			background-color: #f7f7f7;
+  		}
+  	.adminProduct_table th{
+  		padding: 15px 5px;
+  		border-bottom: 1px solid #ddd;
+  		font-weight: 400;
+  		width: 10%;
+  	}
+  		.adminProduct_table th:nth-child(n+1):nth-child(-n+2){
+  			width: 5%;
+  		}
+  		.adminProduct_table th:nth-child(8){
+  			width: 15%;
+  		}
+   	.adminProduct_listItem{
+ 
+ 	}
+ 	.adminProduct_listNoData{
+ 		display: none;
+ 	}
+ 		.adminProduct_listNoData:hover{
+ 			background-color: #fff !important;
+ 		}
+  	.adminProduct_table td{
+  		padding: 15px 5px;
+  		font-size: 14px;
+  	}
+  	.adminProduct_itemName{
+  		cursor: pointer;
+  	}
+  	.adminProduct_itemCheckbox{
+  	
+  	}
+  	.productStatus_basic{
+  	}
+  	.productStatus_extend{
+  		display: flex;
+  		overflow: hidden;
+  		padding: 0;
+  		height: 0px;
+  		
 
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+  	}
+  	.adminProduct_checkAll{
+  	}
+  	.adminProduct_statusText{
+  		padding: 5px;
+  		margin-right: 10px;
+  	}
+  	.adminProduct_statusBtn{
+  		padding: 5px 10px;
+  		border: 1px solid #bbb;
+  		border-radius: 1px;
+  		margin-right: 10px;
+  		cursor: pointer;
+  		background-color: #fff;
+  		
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+  	}
+  		.adminProduct_statusBtn:hover{
+  			background-color: #eee;
+  		}
+  	.adminProduct_btnDelete:hover{
+  		background-color: #ff3b1f;
+  		color: #fff;
+  	}
+  	.adminProduct_btnSubmit:hover{
+  		background-color: #1a6dff;
+  		color: #fff;
+  	}
+  	.adminProduct_statusInput{
+  		/* display: none; */
+  		/* margin-right: 10px; */
+  		width: 0px;
+  		border: none;
+  		
+  		transition: all 0.2s ease-in-out;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+  	}
+  	.adminProduct_closeInputBtn{
+  		padding: 5px 10px 5px 0px;
+  		cursor: pointer;
+  		display: none;
+  	}
+  	
 
 
 
@@ -319,6 +537,190 @@ body{
 	.adminDashboard_cardTitle{
 		
 	}
+	
+	/** [ adminProduct.jsp] **/
+	/* Tap Controller */
+	  	.adminProduct_tapContainer{
+	  		height: 40px;
+	  		margin-bottom: 5px;
+	  	}
+	  	.adminProduct_tapMenus{
+	  		width: 50px;
+	  		font-size: 14px;
+	  	}
+	  	.adminProduct_menuCnt{
+	  		display: none;
+	  	}
+	  	.adminProduct_tapBar{
+	  		width: 50px;
+	  		margin-top: 28px;
+	  	}
+	  	.adminProduct_tapMenus.on{
+	  	}
+	  	.adminProduct_tapContainer a:nth-child(1).on ~ span { }
+	  	.adminProduct_tapContainer a:nth-child(2).on ~ span {margin-left: 50px; opacity: 1;}
+	  	.adminProduct_tapContainer a:nth-child(3).on ~ span {margin-left: 100px; opacity: 1;}
+	  	.adminProduct_tapContainer a:nth-child(4).on ~ span {margin-left: 150px; opacity: 1;}
+	  	.adminProduct_tapContainer a:nth-child(5).on ~ span {margin-left: 200px; opacity: 1;}
+	  	
+	  	.adminProduct_contentShow{}
+	  	
+	  	/** NEW (TODO: 모바일 버전 수정은 아직 안함)**/
+	  	input[type="submit"]{
+	  		font-family:  FontAwesome;
+	  	}
+	  	input:focus{
+	  		outline: none;
+	  	}
+	  	select:focus{
+	  		outline: none;
+	  	}
+	  	input[type="checkbox"]{
+	  	  /* Double-sized Checkboxes */
+		  -ms-transform: scale(1.1); /* IE */
+		  -moz-transform: scale(1.1); /* FF */
+		  -webkit-transform: scale(1.1); /* Safari and Chrome */
+		  -o-transform: scale(1.1); /* Opera */
+	  	}
+	  	
+	  	.adminProduct_cardContainer{
+	  		box-sizing: border-box;
+			box-shadow:0 1px 1px 0 rgba(0,0,0,0.16),0 1px 5px 0 rgba(0,0,0,0.12);
+			border-radius: 1px;
+			/* padding: 10px; */
+			background-color: #fff;
+			margin-bottom: 10px;
+	  	}
+	  	.adminProduct_searchContainer{  		
+	  		padding: 10px;
+	  	}
+		.adminProduct_searchInput{
+			padding: 3px;
+			border: none;
+			width: 85%;
+			margin-right: -20px;
+		}
+		.adminProduct_searchSubmit{
+			float: right;
+			padding: 0;
+			margin-top: 3px;
+			width: 5%;
+			border: none;
+			background-color: #fff;
+			cursor: pointer;
+			
+			background-image: url('../img/searchIcon.png');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: contain;
+		}
+	  	.adminProduct_productContainer{
+			padding: 0;
+	  	}
+	  	.adminProduct_table{
+	  		width: 100%;
+	  		text-align: center;
+	  		border-collapse: collapse;
+	  	}
+	  	.adminProduct_table tr{
+	  	
+	  	}
+	  		.adminProduct_table tbody tr:hover{
+	  			background-color: #f7f7f7;
+	  		}
+	  	.adminProduct_table th{
+	  		padding: 15px 5px;
+	  		border-bottom: 1px solid #ddd;
+	  		font-weight: 400;
+	  		width: 10%;
+	  	}
+	  		.adminProduct_table th:nth-child(n+1):nth-child(-n+2){
+	  			width: 5%;
+	  		}
+	  		.adminProduct_table th:nth-child(8){
+	  			width: 15%;
+	  		}
+	   	.adminProduct_listItem{
+	 
+	 	}
+	 	.adminProduct_listNoData{
+	 		display: none;
+	 	}
+	 		.adminProduct_listNoData:hover{
+	 			background-color: #fff !important;
+	 		}
+	  	.adminProduct_table td{
+	  		padding: 15px 5px;
+	  		font-size: 14px;
+	  	}
+	  	.adminProduct_itemName{
+	  		cursor: pointer;
+	  	}
+	  	.adminProduct_itemCheckbox{
+	  	
+	  	}
+	  	.productStatus_basic{
+	  	}
+	  	.productStatus_extend{
+	  		display: flex;
+	  		overflow: hidden;
+	  		padding: 0;
+	  		height: 0px;
+	  		
+	
+	  		
+	  		transition: all 0.2s ease-in-out;
+			-webkit-transition: all 0.2s ease-in-out;
+			-moz-transition: all 0.2s ease-in-out;
+			-o-transition: all 0.2s ease-in-out;
+	  	}
+	  	.adminProduct_checkAll{
+	  	}
+	  	.adminProduct_statusText{
+	  		padding: 5px;
+	  		margin-right: 10px;
+	  	}
+	  	.adminProduct_statusBtn{
+	  		padding: 5px 10px;
+	  		border: 1px solid #bbb;
+	  		border-radius: 1px;
+	  		margin-right: 10px;
+	  		cursor: pointer;
+	  		background-color: #fff;
+	  		
+	  		
+	  		transition: all 0.2s ease-in-out;
+			-webkit-transition: all 0.2s ease-in-out;
+			-moz-transition: all 0.2s ease-in-out;
+			-o-transition: all 0.2s ease-in-out;
+	  	}
+	  		.adminProduct_statusBtn:hover{
+	  			background-color: #eee;
+	  		}
+	  	.adminProduct_btnDelete:hover{
+	  		background-color: #ff3b1f;
+	  		color: #fff;
+	  	}
+	  	.adminProduct_btnSubmit:hover{
+	  		background-color: #1a6dff;
+	  		color: #fff;
+	  	}
+	  	.adminProduct_statusInput{
+	  		/* display: none; */
+	  		/* margin-right: 10px; */
+	  		width: 0px;
+	  		border: none;
+	  		
+	  		transition: all 0.2s ease-in-out;
+			-webkit-transition: all 0.2s ease-in-out;
+			-moz-transition: all 0.2s ease-in-out;
+			-o-transition: all 0.2s ease-in-out;
+	  	}
+	  	.adminProduct_closeInputBtn{
+	  		padding: 5px 10px 5px 0px;
+	  		cursor: pointer;
+	  		display: none;
+	  	}
 }
 
 

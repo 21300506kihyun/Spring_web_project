@@ -12,8 +12,16 @@
   <a href="faq" class="popup-btn">FAQ</a>
   <p>|</p>
   <% String userName = (String)session.getAttribute("userName");
-  if(userName != null){ %>
-  	<a href="/omeran/admin"><% out.println(session.getAttribute("userName")); %> 님</a>
+  int status = -9;
+  if(session.getAttribute("status") != null){
+	  status = (int)session.getAttribute("status");
+  }
+  if(userName != null){ 
+  	if(status == -1){ %>
+  		<a href="/omeran/admin"><% out.println(session.getAttribute("userName")); %> 님</a>
+  	<% }else{  %>
+  		<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
+  	<% } %>
 	<p>|</p>
 	<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>
   <% }else{ %>
