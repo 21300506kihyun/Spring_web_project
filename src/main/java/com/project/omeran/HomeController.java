@@ -39,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.omeran.common.CommandMap;
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.dto.PaginationVO;
+import com.project.omeran.dto.UserVO;
 import com.project.omeran.service.MemberService;
 
 
@@ -99,11 +100,7 @@ public class HomeController {
 		
 		return "p4";
 	}
-	@RequestMapping(value = "/mall", method = { RequestMethod.GET, RequestMethod.POST })
-	public String home5() {
-		
-		return "mall";
-	}
+
 	
 	// 로그인 체크
 	@RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
@@ -818,4 +815,91 @@ public class HomeController {
 //			return mav;	
 		}
 	}
+    
+
+	/**************** 쇼핑몰 페이지 ****************/
+
+	@RequestMapping(value="/mall", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView viewproduct(@RequestParam(value="curPage", defaultValue="1")int curPage, 
+			@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
+		ModelAndView mav = new ModelAndView("mall");
+		
+		// FAQ 리스트 개수 불러오기 (검색결과, 페이징)
+		int listCnt = memberService.mall_getProductCount(keyword);
+		
+		PaginationVO pagination = new PaginationVO(listCnt, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int cntPerPage = pagination.getPageSize();
+	
+		List<Map<String, Object>> list = memberService.mall_getProductList(startIndex, cntPerPage, keyword);
+		
+		mav.addObject("listCnt", listCnt);
+		mav.addObject("list", list);
+		mav.addObject("pagination", pagination);
+		mav.addObject("keyword", keyword);
+		mav.addObject("curURL", "faq");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/product_detail", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView viewproduct_detail(@RequestParam("p_id") int p_id) throws Exception{
+		ModelAndView mav = new ModelAndView("product_detail");
+	
+		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
+		
+		mav.addObject("detail", product_detail);
+		return mav;
+	}
+	
+	@RequestMapping(value="/checkout", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView viewCheckout(@RequestParam("p_id") int p_id) throws Exception{
+		ModelAndView mav = new ModelAndView("checkout");
+		
+	
+		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
+		
+		mav.addObject("detail", product_detail);
+		return mav;
+	}
+
+
+	/************** 회원가입 부분 ***********/
+	
+	@RequestMapping(value="/register", method = RequestMethod.GET)
+	public ModelAndView register() throws Exception{
+		ModelAndView mav = new ModelAndView("register");
+		
+		return mav;
+	}
+
+	@RequestMapping(value="/register", method = RequestMethod.POST)
+	public ModelAndView register(UserVO userVO) throws Exception{
+		memberService.insertUserInfo(userVO);
+		ModelAndView mav = new ModelAndView("mall");
+		
+		return mav;
+	}
+	
+	@ResponseBody 
+	@RequestMapping(value="/register_idCheck",method = RequestMethod.POST)
+	public int idcheck(UserVO userVO) throws Exception{
+		//String a  = userVO.getUser_id();
+		
+		logger.info("success");
+		int check = memberService.idCheck(userVO);
+		return check;
+	}
+	
+//	@ResponseBody
+//	@RequestMapping(value="/register_idCheck",method = RequestMethod.POST)
+//	public ModelAndView idcheck(UserVO userVO) throws Exception{
+//		//String a  = userVO.getUser_id();
+//		ModelAndView mav = new ModelAndView("mall");
+//		
+//		//mav.addObject("detail", a);
+//		//int check = memberService.idCheck(userVO);
+//		return mav;
+//	}
 }

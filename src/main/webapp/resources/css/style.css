@@ -14,7 +14,7 @@
 	1.1	Variables
 	1.2	Mixins
 	1.3	Flexbox
-	1.4	Reset
+	1.4	Reseticon_heart
 2.  Helper Css
 3.  Header Section
 4.  Categories Section
@@ -547,29 +547,7 @@ ol {
 	padding: 150px 0 0;
 }
 
-.banner__slider.owl-carousel .owl-dots {
-	position: absolute;
-	left: 0;
-	top: 430px;
-	width: 100%;
-	text-align: center;
-}
 
-.banner__slider.owl-carousel .owl-dots button {
-	height: 12px;
-	width: 12px;
-	background: #a1a1a1;
-	border-radius: 50%;
-	margin-right: 10px;
-}
-
-.banner__slider.owl-carousel .owl-dots button.active {
-	background: #ca1515;
-}
-
-.banner__slider.owl-carousel .owl-dots button:last-child {
-	margin-right: 0;
-}
 
 /*---------------------
   Trend
@@ -1662,25 +1640,7 @@ ol {
 	margin-left: 20px;
 }
 
-.product__details__pic__slider.owl-carousel .owl-nav button {
-	position: absolute;
-	left: 10px;
-	top: 50%;
-	font-size: 22px;
-	color: #111111;
-	width: 40px;
-	height: 40px;
-	background: rgba(255, 255, 255, 0.7);
-	border-radius: 50%;
-	line-height: 44px;
-	text-align: center;
-	margin-top: -20px;
-}
 
-.product__details__pic__slider.owl-carousel .owl-nav button.owl-next {
-	left: auto;
-	right: 10px;
-}
 
 .product__details__text h3 {
 	color: #111111;

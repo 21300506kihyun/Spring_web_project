@@ -2,6 +2,7 @@ package com.project.omeran.dao;
 
 
 
+import com.project.omeran.dto.UserVO;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,8 @@ public interface MemberDAO {
 	
 	// FAQ load
 	public int getFaqCount(@Param("keyword")String keyword);
-	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
 	
+	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
 	// FAQ paging
 	public void insertBoard(Map<String, Object> map); // 게시글 입력
 	
@@ -41,6 +42,18 @@ public interface MemberDAO {
 
 	public void deleteFaqBoard(@Param("faq_id")int faq_id);
 	public void updateFaqBoard(Map<String, Object> map);
+	
+	// *********** 쇼핑몰 상품 부분 **************
+	
+	public int getProductCount(@Param("keyword")String keyword);
+	public List<Map<String, Object>> getProductList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
+	Map<String, Object> getProductDetail(@Param("p_id")int p_id);
+	
+	//*********** 회원가입 부분 *****************
+	
+	public int insertUserInfo(UserVO userVO) throws Exception;
+	public int idCheck(UserVO userVO) throws Exception;
+	
 
 	public List<Map<String, Object>> getAllProductList();
 
