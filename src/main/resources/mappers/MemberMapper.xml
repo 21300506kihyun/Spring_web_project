@@ -170,10 +170,7 @@
 				summary="${adminProductDetail_productSummary}", 
 				detail="${adminProductDetail_productDetail}", 
 				product_img="${adminProductDetail_productImageName}" 
-			WHERE p_id=10000;
-			
-			
-			
+			WHERE p_id=#{adminProductDetail_p_id};
 		]]>
 	</update>
 

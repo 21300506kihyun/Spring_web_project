@@ -338,6 +338,9 @@ input[type="checkbox"]{
   		.adminProduct_table th:nth-child(n+1):nth-child(-n+2){
   			width: 5%;
   		}
+  		.adminProduct_table th:nth-child(4){
+  			width: 20%;
+  		}
   		.adminProduct_table th:nth-child(8){
   			width: 15%;
   		}
@@ -672,8 +675,11 @@ input[type="checkbox"]{
 	  		font-weight: 400;
 	  		width: 10%;
 	  	}
-	  		.adminProduct_table th:nth-child(n+1):nth-child(-n+2){
+	  		.adminProduct_table th:nth-child(1):nth-child(-n+2){
 	  			width: 5%;
+	  		}
+	  		.adminProduct_table th:nth-child(4){
+	  			width: 20%;
 	  		}
 	  		.adminProduct_table th:nth-child(8){
 	  			width: 15%;
