@@ -67,6 +67,10 @@ public interface MemberDAO {
 
 	public void adminProductCreateNew(Map<String, String> paramMap);
 
+	public Map<String, Object> admin_getProductInfoById(int p_id);
+
+	public void adminProduct_modifyDetail(Map<String, String> paramMap);
+
 
 }
 

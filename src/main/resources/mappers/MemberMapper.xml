@@ -150,9 +150,32 @@
 			INSERT INTO ProductTable 
 				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img) 
 			VALUES 
-				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", '"${filePath}"');
+				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", "${filePath}");
 		]]>
 	</select>
+	
+	<select id="admin_getProductInfoById" resultType="HashMap">
+		SELECT * FROM ProductTable WHERE p_id = #{p_id};
+	</select>
+	
+	<update id="adminProduct_modifyDetail"> 
+		<![CDATA[ 
+			UPDATE ProductTable 
+			SET 
+				product_name = "${adminProductDetail_productName}", 
+				price=#{adminProductDetail_productPrice}, 
+				discount_price=#{adminProductDetail_productDiscountPrice}, 
+				mod_date=CURRENT_TIMESTAMP, 
+				state_id="${adminProductDetail_state}", 
+				summary="${adminProductDetail_productSummary}", 
+				detail="${adminProductDetail_productDetail}", 
+				product_img="${adminProductDetail_productImageName}" 
+			WHERE p_id=10000;
+			
+			
+			
+		]]>
+	</update>
 
 
 </mapper>

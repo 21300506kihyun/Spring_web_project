@@ -84,5 +84,5 @@ $(document).ready(function() {
 
 	$("#adminProduct_tap05").click(function(){
 		adminProduct_moveTap("adminProduct.tap05");
-	});	
+	});
 });

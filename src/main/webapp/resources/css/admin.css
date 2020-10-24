@@ -424,8 +424,46 @@ input[type="checkbox"]{
   	}
   	
 
-
-
+/** [ adminProductNew.jsp ] [ adminProductDetail.jsp ] **/
+.adminProductDetail_content{
+	margin-bottom: 10px;
+}
+.adminProductDetail_productTitle{
+	font-size: 18px;
+	padding: 5px 0;
+	color: #414141;
+}
+.adminProductDetail_inputContainer{
+	padding: 10px;
+}
+.adminProductDetail_input{
+	padding: 3px;
+	border: none;
+	width: 100%;
+}
+.adminProductDetail_inputText{
+	border-bottom: 2px solid #fff;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0..2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.adminProductDetail_inputFile{
+}
+.adminProductDetail_inputLabel{
+	color: #515151;
+}
+.adminProductDetail_selectImage{
+}
+.adminProductDetail_priceContainer{
+	display: flex;
+}
+.adminProductDetail_priceLabel{
+	padding: 3px;
+	padding-right: 10px;
+	color: #515151;
+}
 
 
 
@@ -538,7 +576,7 @@ input[type="checkbox"]{
 		
 	}
 	
-	/** [ adminProduct.jsp] **/
+	/** [ adminProduct.jsp]: 모바일 버전 수정이 필요함 **/
 	/* Tap Controller */
 	  	.adminProduct_tapContainer{
 	  		height: 40px;
@@ -721,6 +759,47 @@ input[type="checkbox"]{
 	  		cursor: pointer;
 	  		display: none;
 	  	}
+	  	
+	  	/** [ adminProductNew.jsp ] [ adminProductDetail.jsp ] 모바일 버전 수정이 필요함  **/
+		.adminProductDetail_content{
+			margin-bottom: 10px;
+		}
+		.adminProductDetail_productTitle{
+			font-size: 18px;
+			padding: 5px 0;
+			color: #414141;
+		}
+		.adminProductDetail_inputContainer{
+			padding: 10px;
+		}
+		.adminProductDetail_input{
+			padding: 3px;
+			border: none;
+			width: 100%;
+		}
+		.adminProductDetail_inputText{
+			border-bottom: 2px solid #fff;
+			
+			transition: all 0.2s ease-in-out;
+			-webkit-transition: all 0..2s ease-in-out;
+			-moz-transition: all 0.2s ease-in-out;
+			-o-transition: all 0.2s ease-in-out;
+		}
+		.adminProductDetail_inputFile{
+		}
+		.adminProductDetail_inputLabel{
+			color: #515151;
+		}
+		.adminProductDetail_selectImage{
+		}
+		.adminProductDetail_priceContainer{
+			display: flex;
+		}
+		.adminProductDetail_priceLabel{
+			padding: 3px;
+			padding-right: 10px;
+			color: #515151;
+		}
 }
 
 

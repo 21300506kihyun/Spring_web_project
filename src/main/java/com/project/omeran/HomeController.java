@@ -356,6 +356,14 @@ public class HomeController {
     	return productList;
     }
     
+    public Map<String, Object> admin_getProductInfoById(int p_id){
+    	Map<String, Object> productInfo;
+    	
+    	productInfo = memberService.admin_getProductInfoById(p_id);
+    	
+    	return productInfo;
+    }
+    
     public List<Map<String, Object>> setCommaPrice(List<Map<String, Object>> ListMap){
     	int price, discount_price;
     	String commaPrice, commaDiscountPrice;
@@ -501,9 +509,6 @@ public class HomeController {
 		if(sessionTest(session)) {
 			// 간단히 modify & delete 하기
 			adminProduct_simpleUpdate(paramMap, paramList);
-			
-			
-			
 
 			session.setAttribute("adminSideState", "상품관리");
 			session.setAttribute("adminNowPage", "상품관리");
@@ -651,7 +656,7 @@ public class HomeController {
 			
 			variableInjection(mav);
 			
-			mav.setViewName("adminProductDetail");
+			mav.setViewName("adminProductNew");
 			
 			return mav;
 		}
@@ -715,6 +720,112 @@ public class HomeController {
 
 		    return saveName;
 		}
+		
+		private String saveFileAs(MultipartFile file, String fileName) {
+			// 파일 이름 변경
+		    String saveName = fileName;
+
+		    logger.info("saveName: {}",saveName);
+
+		    // 저장할 File 객체를 생성(껍데기 파일)ㄴ
+		    File saveFile = new File(UPLOAD_PATH,saveName); // 저장할 폴더 이름, 저장할 파일 이름
+
+		    try {
+		        file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        return null;
+		    }
+
+		    return saveName;
+		}
+		
+	// 관리자 페이지: 상품 상세정보
+	@RequestMapping(value="/adminProductDetail", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView adminProductDetail(HttpSession session, @RequestParam Map<String, String> paramMap) throws Exception{
+		System.out.println("detail: "+paramMap);
+		ModelAndView mav = new ModelAndView();
+		if(sessionTest(session)) {
+			session.setAttribute("adminSideState", "상품관리");
+			session.setAttribute("adminNowPage", "상품 상세정보");
+			
+			int p_id = Integer.parseInt(paramMap.get("p_id"));
+			
+			Map<String, Object> productInfo = admin_getProductInfoById(p_id);
+			System.out.println("productInfo: "+productInfo);
+			
+			
+			variableInjection(mav);
+			
+			mav.setViewName("adminProductDetail");
+			mav.addObject("productInfo", productInfo);
+			
+			return mav;
+		}
+		else {
+			return goHome();
+		}
+	}
+	
+			// 상품 상세정보 수정하기
+			@RequestMapping(value="/adminProductModifyDetail", method= {RequestMethod.GET, RequestMethod.POST})
+			public ModelAndView adminProductModifyDetail(
+					HttpSession session, 
+					MultipartFile adminProductDetail_productImage,
+					@RequestParam Map<String, String> paramMap) throws Exception {
+				ModelAndView mav = new ModelAndView();
+				
+				if(sessionTest(session)) {
+					String adminProductDetail_fileTest = paramMap.get("adminProductDetail_fileTest");
+					
+					System.out.println("paramMap: " + paramMap);
+					System.out.println("업로드된 파일!: "+adminProductDetail_productImage);
+					UPLOAD_PATH = (String)paramMap.get("adminProductDetail_contextPath") + "/uploadFolder";
+					
+					// 1. 만약 파일이 null 이 아니라면 (즉, 새로운 파일이 올라왔으면)
+					if(adminProductDetail_fileTest.equals("afterNewUpload")) {
+						// save file as 를 통해서 해당 이름으로 파일을 저장하기
+						String fileName = (String)paramMap.get("adminProductDetail_productImageName");
+						System.out.println("File SaveAs: "+fileName);
+						String filePath = saveFileAs(adminProductDetail_productImage, fileName);
+					}
+					else {
+						System.out.println("Do Not Anything");
+					}
+					
+					
+					// 2. 입력된 정보를 통해 UPDATE 구문 작성하기
+					memberService.adminProduct_modifyDetail(paramMap);
+					
+					
+					
+					
+					
+					
+					
+					
+//					String filePath = saveFile(adminProductDetail_productImage);
+//					
+//					System.out.println("result: " + filePath);
+//					
+//					paramMap.put("filePath", filePath);
+//					paramMap.put("state_id", "P002");	// 판매대기
+//					
+//					System.out.println("paramMap: " + paramMap);
+//					
+//					memberService.adminProductCreateNew(paramMap);
+					
+				
+					mav = adminProduct(session, null, null);
+					
+					mav.setViewName("redirect:adminProduct");
+					
+					return mav;
+				}
+				else {
+					return goHome();
+				}
+			}
 	
 		
     

@@ -64,7 +64,7 @@
 						</td>
 						<td>${idx.count}</td>
 						<td>${row.p_id}</td>
-						<td class="adminProduct_itemName" onclick="location.href='#productDetail'">${row.product_name}</td>
+						<td class="adminProduct_itemName" onclick="location.href='adminProductDetail?p_id=${row.p_id}'">${row.product_name}</td>
 						<td>₩${row.commaPrice}</td>
 						<td>${row.discountRate}%</td>
 						<td>₩${row.commaDiscountPrice}</td>

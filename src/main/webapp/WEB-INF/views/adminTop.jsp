@@ -17,6 +17,10 @@
 			 		<a href="adminProduct" class="adminTop_btn adminTop_btnWhite">취소</a>
 			 		<a href="#addNewProduct" class="adminTop_btn adminTop_btnBlue" onclick="adminProductNewSubmit()">저장</a>
 			 	<% } %>
+			 	<% if((String)session.getAttribute("adminNowPage") == "상품 상세정보"){ %>  
+			 		<a href="adminProduct" class="adminTop_btn adminTop_btnWhite">취소</a>
+			 		<a href="#addNewProduct" class="adminTop_btn adminTop_btnBlue" onclick="adminProduct_ModifyDetailSubmit()">저장</a>
+			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "주문관리"){ %>  
 			 		<a href="#cancel" class="adminTop_btn adminTop_btnWhite">취소</a>
 			 		<a href="#addProduct" class="adminTop_btn adminTop_btnBlue">저장</a>

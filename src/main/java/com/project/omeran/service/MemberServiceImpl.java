@@ -178,6 +178,17 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.adminProductCreateNew(paramMap);
 	}
 
+	@Override
+	public Map<String, Object> admin_getProductInfoById(int p_id) {
+		return memberDao.admin_getProductInfoById(p_id);
+	}
+
+	@Override
+	public void adminProduct_modifyDetail(Map<String, String> paramMap) {
+		System.out.println(paramMap);
+		memberDao.adminProduct_modifyDetail(paramMap);
+	}
+
 	
 
 
