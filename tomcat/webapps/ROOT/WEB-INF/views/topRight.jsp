@@ -16,9 +16,9 @@
   if(session.getAttribute("status") != null){
 	  status = (int)session.getAttribute("status");
   }
-  if(userName != null){ 
+  if(userName != null){
   	if(status == -1){ %>
-  		<a href="<%= request.getContextPath() %>/admin"><% out.println(session.getAttribute("userName")); %> 님</a>
+  		<a href="admin"><% out.println(session.getAttribute("userName")); %> 님</a>
   	<% }else{  %>
   		<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
   	<% } %>
