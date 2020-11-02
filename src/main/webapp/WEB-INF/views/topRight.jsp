@@ -11,16 +11,18 @@
 <body>
   <a href="faq" class="popup-btn">FAQ</a>
   <p>|</p>
-  <% String userName = (String)session.getAttribute("userName");
+  <% String userName = (String)session.getAttribute("user_name");
   int status = -9;
-  if(session.getAttribute("status") != null){
-	  status = (int)session.getAttribute("status");
+  if(session.getAttribute("user_category") != null){
+	  status = (int)session.getAttribute("user_category");
   }
   if(userName != null){ 
-  	if(status == -1){ %>
-  		<a href="<%= request.getContextPath() %>/admin"><% out.println(session.getAttribute("userName")); %> 님</a>
+  	if(status == -2){ %>
+  		<a href="<%= request.getContextPath() %>/superAdmin"><% out.println(session.getAttribute("user_name")); %> 님</a>
+  	<% }else if (status == -1){  %>
+  		<a href="<%= request.getContextPath() %>/admin"><% out.println(session.getAttribute("user_name")); %> 님</a>
   	<% }else{  %>
-  		<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
+  		<a href="#mypage"><% out.println(session.getAttribute("user_name")); %> 님</a>
   	<% } %>
 	<p>|</p>
 	<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>

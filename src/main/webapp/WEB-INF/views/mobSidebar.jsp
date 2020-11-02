@@ -15,8 +15,8 @@
         <span onclick="closeSidebar()" class="mob-nav-closeIcon w3-left w3-xlarge w3-padding" title="close menu"><i class="fa fa-remove"></i></span>
       </div>
       <div class="mob-nav-first-container">
-        <%if(session.getAttribute("userName") != null){ %>
-        <a href="#mypage"><% out.println(session.getAttribute("userName")); %>님 환영합니다.</a>
+        <%if(session.getAttribute("user_name") != null){ %>
+        <a href="#mypage"><% out.println(session.getAttribute("user_name")); %>님 환영합니다.</a>
         <% }else{ %>
         <a href="#login" class="popup-btn mob-nav-first-content" onclick="closeSidebar();">로그인하기</a>
         <% } %>
@@ -27,7 +27,7 @@
         <a href="faq" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">FAQ</a>
         <a href="#form-mail-popup" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">회원가입</a>
         <a href="#form-mail-popup" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">리셀러 회원신청</a>
-        <%if(session.getAttribute("userName") != null){ %>
+        <%if(session.getAttribute("user_name") != null){ %>
         <a onclick="moveAjax('logout.do')" class="popup-btn w3-button w3-padding mob-nav-second-content" onclick="closeSidebar();">로그아웃</a>
         <% }%>
       </div>

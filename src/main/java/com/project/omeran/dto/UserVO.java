@@ -18,6 +18,10 @@ public class UserVO {
 	private int user_category;
 	private String recommander_id;
 	
+	// MemberVO랑 합치기
+	private boolean loginValidity;
+	
+	
 	public int getU_id() {
 		return u_id;
 	}
@@ -107,5 +111,19 @@ public class UserVO {
 	}
 	public void setRecommander_id(String recommander_id) {
 		this.recommander_id = recommander_id;
+	}
+	public boolean isLoginValidity() {
+		return loginValidity;
+	}
+	@Override
+	public String toString() {
+		return "UserVO [u_id=" + u_id + ", user_id=" + user_id + ", password=" + password + ", user_name=" + user_name
+				+ ", grade=" + grade + ", telephone=" + telephone + ", gender=" + gender + ", email=" + email
+				+ ", is_sms=" + is_sms + ", is_email=" + is_email + ", user_memo=" + user_memo + ", signin_date="
+				+ signin_date + ", modify_date=" + modify_date + ", user_category=" + user_category
+				+ ", recommander_id=" + recommander_id + ", loginValidity=" + loginValidity + "]";
+	}
+	public void setLoginValidity(boolean loginValidity) {
+		this.loginValidity = loginValidity;
 	}
 }

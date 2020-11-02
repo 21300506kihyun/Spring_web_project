@@ -43,6 +43,44 @@ input[type="checkbox"]{
 	-o-transform: scale(1.1); /* Opera */
 }
 
+/** [ superAdminMain.jsp ] **/
+/** [ superAdminManageContent.jsp ] **/
+.superAdminProduct_table{
+  		width: 100%;
+  		text-align: center;
+  		border-collapse: collapse;
+  	}
+  	.superAdminProduct_table tr{
+  	
+  	}
+  		.superAdminProduct_table tbody tr:hover{
+  			background-color: #f7f7f7;
+  		}
+  	.superAdminProduct_table th{
+  		padding: 15px 5px;
+  		border-bottom: 1px solid #ddd;
+  		font-weight: 400;
+  		width: 10%;
+  	}
+  		.superAdminProduct_table th:nth-child(n+1):nth-child(-n+2){
+  			width: 5%;
+  		}
+  		/* .superAdminProduct_table th:nth-child(4){
+  			width: 20%;
+  		}
+  		.superAdminProduct_table th:nth-child(8){
+  			width: 15%;
+  		} */
+  		.superAdminProduct_table td{
+	  		padding: 15px 5px;
+	  		font-size: 14px;
+	  	}
+
+
+
+
+
+
 /** [ admin.jsp ] **/
 .admin_wrapper{
 	display: flex;
@@ -684,6 +722,10 @@ input[type="checkbox"]{
 	  		.adminProduct_table th:nth-child(8){
 	  			width: 15%;
 	  		}
+		  	.adminProduct_table td{
+		  		padding: 15px 5px;
+		  		font-size: 14px;
+		  	}
 	   	.adminProduct_listItem{
 	 
 	 	}
@@ -693,10 +735,6 @@ input[type="checkbox"]{
 	 		.adminProduct_listNoData:hover{
 	 			background-color: #fff !important;
 	 		}
-	  	.adminProduct_table td{
-	  		padding: 15px 5px;
-	  		font-size: 14px;
-	  	}
 	  	.adminProduct_itemName{
 	  		cursor: pointer;
 	  	}

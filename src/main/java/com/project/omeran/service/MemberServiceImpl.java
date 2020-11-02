@@ -25,42 +25,64 @@ public class MemberServiceImpl implements MemberService{
     }
     
     @Override
-    public boolean loginCheck(MemberVO vo, String id, String pw, HttpSession session) {
-    	Map<String, String> result = memberDao.getUserInfoStr(id, pw);
-    	Map<String, Integer> index = memberDao.getUserInfoInt(id, pw);
-    	Map<String, Timestamp> time = memberDao.getUserInfoTime(id, pw);
-    	// 로그인 성공
-    	if(result != null) {
-    		System.out.println(result);
-    		System.out.println(index);
-    		System.out.println(time);
+    public boolean loginCheck(UserVO vo, String id, String pw, HttpSession session) {
+    	Map<String, String> userInfo = memberDao.getUserInfo(id,  pw);
+    	if(userInfo != null) {
+    		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     		
-    		vo.setU_id(index.get("u_id"));
-    		vo.setStatus(index.get("status"));
+    		int u_id = userInfo.get("u_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("u_id"))) : 0;
+    		String user_id = userInfo.get("user_id") != null ? userInfo.get("user_id") : "";
+    		String password = userInfo.get("password") != null ? userInfo.get("password") : "";
+    		String user_name = userInfo.get("user_name") != null ? userInfo.get("user_name") : "";
+    		String grade = userInfo.get("grade") != null ? userInfo.get("grade") : "";
+    		String telephone = userInfo.get("password") != null ? userInfo.get("telephone") : "";
+    		int gender = userInfo.get("gender") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("gender"))) : 0;
+    		String email = userInfo.get("email") != null ? userInfo.get("email") : "";
+    		int is_sms = userInfo.get("is_sms") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("is_sms"))) : 0;
+    		int is_email = userInfo.get("is_email") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("is_email"))) : 0;
+    		String user_memo = userInfo.get("user_memo") != null ? userInfo.get("user_memo") : "";
+    		String signin_date = userInfo.get("signin_date") != null ? formatter.format(userInfo.get("signin_date")) : "2020-01-01 00:00:00";
+    		String modify_date = userInfo.get("modify_date") != null ? formatter.format(userInfo.get("modify_date")) : "2020-01-01 00:00:00";
+    		int user_category = userInfo.get("user_category") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("user_category"))) : 0;
+    		String recommander_id = userInfo.get("recommander_id") != null ? userInfo.get("recommander_id") : "";
+    		boolean loginValidity = true;
     		
-    		vo.setUserId(result.get("id"));
-    		vo.setUserName(result.get("name"));
-    		vo.setUserEmail(result.get("email"));
+    		vo.setU_id(u_id);
+    		vo.setUser_id(user_id);
+    		vo.setPassword(password);
+    		vo.setUser_name(user_name);
+    		vo.setGrade(grade);
+    		vo.setTelephone(telephone);
+    		vo.setGender(gender);
+    		vo.setEmail(email);
+    		vo.setIs_sms(is_sms);
+    		vo.setIs_email(is_email);
+    		vo.setUser_memo(user_memo);
+    		vo.setSignin_date(signin_date);
+    		vo.setModify_date(modify_date);
+    		vo.setUser_category(user_category);
+    		vo.setRecommander_id(recommander_id);
+    		vo.setLoginValidity(loginValidity);
     		
-    		vo.setRegisterDate(time.get("register_date"));
-    		vo.setModifyDate(time.get("modify_date"));
-    		vo.setRecentVisit(time.get("recent_visit"));
+    		// System.out.println("userVO toString : "+vo.toString());
     		
-    		vo.setLoginValidity(true);
-    		// 최근 로그인 기록 업데이트
-    		memberDao.updateRecentLogin(index.get("u_id"));
-
     		// 세션 변수 등록 
     		session.setAttribute("u_id", vo.getU_id());
-    		session.setAttribute("status", vo.getStatus());
-    		session.setAttribute("userId", vo.getUserId());
-    		session.setAttribute("userName", vo.getUserName());
-    		session.setAttribute("userEmail", vo.getUserEmail());
-    		session.setAttribute("registerDate", vo.getRegisterDate());
-    		session.setAttribute("modifyDate", vo.getModifyDate());
-    		session.setAttribute("recentVisit", vo.getRecentVisit());
+    		session.setAttribute("user_id", vo.getUser_id());
+    		// session.setAttribute("password", vo.getPassword());
+    		session.setAttribute("user_name", vo.getUser_name());
+    		session.setAttribute("grade", vo.getGrade());
+    		session.setAttribute("telephone", vo.getTelephone());
+    		session.setAttribute("gender", vo.getGender());
+    		session.setAttribute("email", vo.getEmail());
+    		session.setAttribute("is_sms", vo.getIs_sms());
+    		session.setAttribute("is_email", vo.getIs_email());
+    		// session.setAttribute("user_memo", vo.getUser_memo());
+    		session.setAttribute("signin_date", vo.getSignin_date());
+    		session.setAttribute("modify_date", vo.getModify_date());
+    		session.setAttribute("user_category", vo.getUser_category());
+    		session.setAttribute("recommander_id", vo.getRecommander_id());
     		session.setAttribute("loginValidity", vo.isLoginValidity());
-
     		
     		return true;
     	}
@@ -70,10 +92,10 @@ public class MemberServiceImpl implements MemberService{
     }
 
 	@Override
-	public void logout(HttpSession session, MemberVO vo) {
+	public void logout(HttpSession session, UserVO vo) {
 		vo.setLoginValidity(false);
 		session.setAttribute("loginValidity", false);
-		session.setAttribute("userName", null);
+		session.setAttribute("user_name", null);
 		session.invalidate();
 	}
 	

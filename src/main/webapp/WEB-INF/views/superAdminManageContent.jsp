@@ -15,14 +15,14 @@
 		<p class="adminProduct_statusText">선택상품을 </p>
 		
 		<input name="adminProduct_originPrice" id="adminProduct_change_originPrice_input" 
-				class="adminProduct_statusInput" type="number" min="0" placeholder="원가를 입력해주세요">
+				class="adminProduct_statusInput" type="number" min="0" placeholder="관리할 사이트명">
 		<a id="adminProduct_closeInputBtn01" class="adminProduct_closeInputBtn" onclick="resetPrice();">x</a>
-		<a id="adminProduct_change_originPrice" class="adminProduct_statusBtn">원가 변경</a>
+		<a id="adminProduct_change_originPrice" class="adminProduct_statusBtn">관리사이트 변경</a>
 		
-		<input name="adminProduct_sellingPrice" id="adminProduct_change_sellingPrice_input" 
+		<!-- <input name="adminProduct_sellingPrice" id="adminProduct_change_sellingPrice_input" 
 				class="adminProduct_statusInput" type="number" min="0" placeholder="판매가를 입력해주세요">
 		<a id="adminProduct_closeInputBtn02" class="adminProduct_closeInputBtn" onclick="resetDiscountPrice();">x</a>
-		<a id="adminProduct_change_sellingPrice" class="adminProduct_statusBtn">판매가 변경</a>
+		<a id="adminProduct_change_sellingPrice" class="adminProduct_statusBtn">판매가 변경</a> -->
 		
 		<select class="adminProduct_statusBtn" name="adminProduct_status">
 			<option value="" selected>상태변경</option>
@@ -40,17 +40,16 @@
 	</div>
 	<!-- </form> -->
 	<div class="adminProduct_cardContainer adminProduct_productContainer">
-		<table id="productList_all" class="adminProduct_table">
+		<table id="productList_all" class="superAdminProduct_table">
 			<thead>
 				<tr class="productStatus_basic">
 					<th><input type="checkbox" name="" class="adminProduct_checkAll"></th>
 					<th>No.</th>
-					<th>상품코드</th>
-					<th>상품명</th>
-					<th>원가</th>
-					<th>할인율</th>
-					<th>판매가</th>
-					<th>수정일</th>
+					<th>이름</th>
+					<th>관리 사이트</th>
+					<th>전화번호</th>
+					<th>이메일</th>
+					<th>등록일</th>
 					<th>상태</th>
 				</tr>
 			</thead>

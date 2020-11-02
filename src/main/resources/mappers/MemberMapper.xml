@@ -13,19 +13,11 @@
   	<select id="getEmail" resultType="String">
 	  select name from user_table where u_id = #{id}
 	</select>
+	
+	<select id="getUserInfo" resultType="HashMap">
+		SELECT * FROM UserTable WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
+	</select>
   
-	<select id="getUserInfoStr" resultType="HashMap">
-		SELECT * FROM <include refid="login"></include>  
-	</select>
-	
-	<select id="getUserInfoTime" resultType="HashMap">
-		SELECT register_date, modify_date, recent_visit FROM <include refid="login"></include>  
-	</select>
-	
-	<select id="getUserInfoInt" resultType="HashMap">
-		SELECT u_id, status FROM <include refid="login"></include>  
-	</select>
-	
 	<update id="updateRecentLogin">
 		UPDATE user_table SET modify_date=CURRENT_TIMESTAMP, recent_visit=CURRENT_TIMESTAMP WHERE u_id = #{u_id};
 	</update>

@@ -12,10 +12,10 @@ public interface MemberService {
 	public String getEmail(String id);
 	
 	// 로그인 체크
-	public boolean loginCheck(MemberVO vo, String id, String pw, HttpSession session);
+	public boolean loginCheck(UserVO vo, String id, String pw, HttpSession session);
 	
 	// 로그아웃 
-	public void logout(HttpSession session, MemberVO vo);
+	public void logout(HttpSession session, UserVO vo);
 	
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 	

@@ -121,8 +121,8 @@
           <form id="faqSearch" method="post" action="faq" onsubmit="faqSearch('${curURL}'); return false;">
             <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
             <input type="submit" class="faq-submit" value="검색하기">
-            <% if(session.getAttribute("status") != null){
-  				        if((int)session.getAttribute("status") == -1){%>
+            <% if(session.getAttribute("user_category") != null){
+  				        if((int)session.getAttribute("user_category") == -1){%>
             <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
               		<%  }
 		       } %>
@@ -142,8 +142,8 @@
                     <div style="text-align: left;">
                       <p>${row.content}</p>
                     </div>
-                    <% if(session.getAttribute("status") != null){
-			              		if((int)session.getAttribute("status") == -1){%>
+                    <% if(session.getAttribute("user_category") != null){
+			              		if((int)session.getAttribute("user_category") == -1){%>
                     <form name="faqContent${row.faq_id}" id="faqContent${row.faq_id}" onsubmit="faqModify('faqModify', '${row.faq_id}'); return false;" action="" method="post">
                       <input type="hidden" name="title" value="${row.title}">
                       <input type="hidden" name="faq_id" value="${row.faq_id}">

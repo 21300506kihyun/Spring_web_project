@@ -19,9 +19,7 @@ public interface MemberDAO {
 	public String getEmail(@Param("id")String id);
 	
 	// 로그인 체크 
-	public Map<String, String> getUserInfoStr(@Param("id")String id, @Param("pw")String pw);
-	public Map<String, Integer> getUserInfoInt(@Param("id")String id, @Param("pw")String pw);
-	public Map<String, Timestamp> getUserInfoTime(@Param("id")String id, @Param("pw")String pw);
+	public Map<String, String> getUserInfo(@Param("id")String id, @Param("pw")String pw);
 	
 	// 회원정보 업데이트
 	public void updateRecentLogin(@Param("u_id")int u_id);
