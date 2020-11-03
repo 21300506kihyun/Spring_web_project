@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script src="js/adminProduct.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/adminProduct.js"></script>
 </head>
 <body>
 	<form id="adminProduct_simpleUpdateForm" onsubmit="return adminProduct_simpleUpdate()">

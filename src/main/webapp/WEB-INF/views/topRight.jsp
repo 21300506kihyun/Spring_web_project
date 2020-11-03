@@ -20,7 +20,7 @@
   	if(status == -2){ %>
   		<a href="<%= request.getContextPath() %>/superAdmin"><% out.println(session.getAttribute("user_name")); %> 님</a>
   	<% }else if (status == -1){  %>
-  		<a href="<%= request.getContextPath() %>/admin"><% out.println(session.getAttribute("user_name")); %> 님</a>
+  		<a href="<%= request.getContextPath() %>/<% out.println(session.getAttribute("adminSiteName")); %>/admin"><% out.println(session.getAttribute("user_name")); %> 님</a>
   	<% }else{  %>
   		<a href="#mypage"><% out.println(session.getAttribute("user_name")); %> 님</a>
   	<% } %>

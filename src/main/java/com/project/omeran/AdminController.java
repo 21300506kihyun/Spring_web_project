@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,12 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.omeran.service.MemberService;
 
 @Controller
-public class adminController {
+public class AdminController {
 	
 	@Autowired
 	MemberService memberService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(adminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	// super admin test
 	private int admin_sessionTest(HttpSession session) {
@@ -49,8 +50,8 @@ public class adminController {
 	
 	private String isOpen = "sideOpen";
 
-    @RequestMapping(value = "/adminSidebar.toggle", method = { RequestMethod.GET, RequestMethod.POST })
-    private void toggleSidebar(String isSideOpen, HttpSession session) {
+    @RequestMapping(value = "/{siteName}/adminSidebar.toggle", method = { RequestMethod.GET, RequestMethod.POST })
+    private void toggleSidebar(String isSideOpen, HttpSession session, @PathVariable("siteName") String siteName) {
     	isOpen = isSideOpen;
     }
     
@@ -194,7 +195,54 @@ public class adminController {
 		}
     }
 	
+    private static String UPLOAD_PATH = "/uploadFolder";
 	
+	private String saveFile(MultipartFile file) {
+		// 파일 이름 변경
+	    UUID uuid = UUID.randomUUID();
+	    String saveName = uuid + "_" + file.getOriginalFilename();
+
+	    logger.info("saveName: {}",saveName);
+
+	    // 저장할 File 객체를 생성(껍데기 파일)ㄴ
+	    File saveFile = new File(UPLOAD_PATH,saveName); // 저장할 폴더 이름, 저장할 파일 이름
+
+	    try {
+	        file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+
+	    return saveName;
+	}
+	
+	private String saveFileAs(MultipartFile file, String fileName) {
+		// 파일 이름 변경
+	    String saveName = fileName;
+
+	    logger.info("saveName: {}",saveName);
+
+	    // 저장할 File 객체를 생성(껍데기 파일)ㄴ
+	    File saveFile = new File(UPLOAD_PATH,saveName); // 저장할 폴더 이름, 저장할 파일 이름
+
+	    try {
+	        file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+
+	    return saveName;
+	}
+    
+    
+    
+    
+    
+    
+    
+    
 	/*********** [ 슈퍼 관리자 페이지 ] ***********/
     // 슈퍼 관리자 페이지 
     @RequestMapping(value = {"/superAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
@@ -217,14 +265,16 @@ public class adminController {
     
     /*********** [ 관리자 페이지 ] ***********/
     // 관리자 페이지: 대시보드 
-    @RequestMapping(value = {"/admin", "/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminDashboard(HttpSession session) throws Exception {
+    @RequestMapping(value = {"/{siteName}/admin", "/{siteName}/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminDashboard(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "대시보드");
 			session.setAttribute("adminNowPage", "대시보드");
 			
 			variableInjection(mav);
+			
+			mav.addObject("siteName", siteName);
 			
 			mav.setViewName("adminDashboard");
 			return mav;
@@ -235,11 +285,12 @@ public class adminController {
 	}
     
     // 관리자 페이지: 상품관리 
-    @RequestMapping(value = "/adminProduct", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/{siteName}/adminProduct", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminProduct(
 			HttpSession session,
 			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap,
-			@RequestParam(value="adminProduct_productItem[]", required=false) List<String> paramList
+			@RequestParam(value="adminProduct_productItem[]", required=false) List<String> paramList,
+			@PathVariable("siteName") String siteName
 			) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
@@ -276,6 +327,7 @@ public class adminController {
 			// 정보 가공하기
 			productList = manufactureProductList(productList);
 			
+			mav.addObject("siteName", siteName);
 			mav.addObject("productList", productList);
 			mav.addObject("cntAll", cntAll);
 			mav.addObject("cntP001", cntP001);
@@ -292,8 +344,9 @@ public class adminController {
 	}
     
 	 	// 관리자 페이지: 상품관리 01 탭
-	    @RequestMapping(value = "/adminProduct.tap01", method = { RequestMethod.GET, RequestMethod.POST })
-		public ModelAndView adminProduct_tap01(HttpSession session) throws Exception {
+	    @RequestMapping(value = "/{siteName}/adminProduct_tap01", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap01(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
+	    	System.out.println("Tap 01"+siteName);
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
@@ -313,8 +366,9 @@ public class adminController {
 		}
 	    
 		// 관리자 페이지: 상품관리 02 탭
-	    @RequestMapping(value = "/adminProduct.tap02", method = { RequestMethod.GET, RequestMethod.POST })
-		public ModelAndView adminProduct_tap02(HttpSession session) throws Exception {
+	    @RequestMapping(value = "/{siteName}/adminProduct_tap02", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap02(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
+	    	System.out.println("Tap 02"+siteName);
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
@@ -332,8 +386,8 @@ public class adminController {
 			return mav;
 		}
 	 	// 관리자 페이지: 상품관리 03 탭
-	    @RequestMapping(value = "/adminProduct.tap03", method = { RequestMethod.GET, RequestMethod.POST })
-		public ModelAndView adminProduct_tap03(HttpSession session) throws Exception {
+	    @RequestMapping(value = "/{siteName}/adminProduct_tap03", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap03(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
@@ -351,8 +405,8 @@ public class adminController {
 			return mav;
 		}
 	 	// 관리자 페이지: 상품관리 04 탭
-	    @RequestMapping(value = "/adminProduct.tap04", method = { RequestMethod.GET, RequestMethod.POST })
-		public ModelAndView adminProduct_tap04(HttpSession session) throws Exception {
+	    @RequestMapping(value = "/{siteName}/adminProduct_tap04", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap04(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
@@ -371,8 +425,8 @@ public class adminController {
 			return mav;
 		}
 	 	// 관리자 페이지: 상품관리 05 탭 (휴지통: 미사용)
-	    @RequestMapping(value = "/adminProduct.tap05", method = { RequestMethod.GET, RequestMethod.POST })
-		public ModelAndView adminProduct_tap05(HttpSession session) throws Exception {
+	    @RequestMapping(value = "/{siteName}/adminProduct_tap05", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProduct_tap05(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
 			mav.setViewName("adminProductContent");
@@ -383,8 +437,8 @@ public class adminController {
 		}
 	    
 	// 관리자 페이지: 상품 추가
-	@RequestMapping(value="/adminProductNew", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView adminProductNew(HttpSession session) throws Exception{
+	@RequestMapping(value="/{siteName}/adminProductNew", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView adminProductNew(HttpSession session, @PathVariable("siteName") String siteName) throws Exception{
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "상품관리");
@@ -393,6 +447,7 @@ public class adminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminProductNew");
+			mav.addObject("siteName", siteName);
 			
 			return mav;
 		}
@@ -401,12 +456,14 @@ public class adminController {
 		}
 	}
 		// 상품 추가하기 INSERT 
-		@RequestMapping(value="/adminProductCreateNew", method= {RequestMethod.GET, RequestMethod.POST})
+		@RequestMapping(value="/{siteName}/adminProductCreateNew", method= {RequestMethod.GET, RequestMethod.POST})
 		public ModelAndView adminProductCreateNew(
 				HttpSession session, 
 				MultipartFile adminProductDetail_productImage,
-				@RequestParam Map<String, String> paramMap) throws Exception {
+				@RequestParam Map<String, String> paramMap,
+				@PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
+			System.out.println("HELLO CHECK");
 			
 			if(admin_sessionTest(session) == -1) {
 				System.out.println("paramMap: " + paramMap);
@@ -424,7 +481,7 @@ public class adminController {
 				memberService.adminProductCreateNew(paramMap);
 				
 			
-				mav = adminProduct(session, null, null);
+				mav = adminProduct(session, null, null, siteName);
 				
 				mav.setViewName("redirect:adminProduct");
 				
@@ -435,50 +492,12 @@ public class adminController {
 			}
 		}
 		
-		private static String UPLOAD_PATH = "/omeran/uploadFolder";
-		
-		private String saveFile(MultipartFile file) {
-			// 파일 이름 변경
-		    UUID uuid = UUID.randomUUID();
-		    String saveName = uuid + "_" + file.getOriginalFilename();
-
-		    logger.info("saveName: {}",saveName);
-
-		    // 저장할 File 객체를 생성(껍데기 파일)ㄴ
-		    File saveFile = new File(UPLOAD_PATH,saveName); // 저장할 폴더 이름, 저장할 파일 이름
-
-		    try {
-		        file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		        return null;
-		    }
-
-		    return saveName;
-		}
-		
-		private String saveFileAs(MultipartFile file, String fileName) {
-			// 파일 이름 변경
-		    String saveName = fileName;
-
-		    logger.info("saveName: {}",saveName);
-
-		    // 저장할 File 객체를 생성(껍데기 파일)ㄴ
-		    File saveFile = new File(UPLOAD_PATH,saveName); // 저장할 폴더 이름, 저장할 파일 이름
-
-		    try {
-		        file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		        return null;
-		    }
-
-		    return saveName;
-		}
 		
 	// 관리자 페이지: 상품 상세정보
-	@RequestMapping(value="/adminProductDetail", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView adminProductDetail(HttpSession session, @RequestParam Map<String, String> paramMap) throws Exception{
+	@RequestMapping(value="/{siteName}/adminProductDetail", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView adminProductDetail(HttpSession session, 
+			@RequestParam Map<String, String> paramMap,
+			@PathVariable("siteName") String siteName) throws Exception{
 		System.out.println("detail: "+paramMap);
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
@@ -495,6 +514,7 @@ public class adminController {
 			
 			mav.setViewName("adminProductDetail");
 			mav.addObject("productInfo", productInfo);
+			mav.addObject("siteName", siteName);
 			
 			return mav;
 		}
@@ -504,11 +524,12 @@ public class adminController {
 	}
 	
 			// 상품 상세정보 수정하기
-			@RequestMapping(value="/adminProductModifyDetail", method= {RequestMethod.GET, RequestMethod.POST})
+			@RequestMapping(value="/{siteName}/adminProductModifyDetail", method= {RequestMethod.GET, RequestMethod.POST})
 			public ModelAndView adminProductModifyDetail(
 					HttpSession session, 
 					MultipartFile adminProductDetail_productImage,
-					@RequestParam Map<String, String> paramMap) throws Exception {
+					@RequestParam Map<String, String> paramMap,
+					@PathVariable("siteName") String siteName) throws Exception {
 				ModelAndView mav = new ModelAndView();
 				
 				if(admin_sessionTest(session) == -1) {
@@ -529,32 +550,13 @@ public class adminController {
 						System.out.println("Do Not Anything");
 					}
 					
-					
 					// 2. 입력된 정보를 통해 UPDATE 구문 작성하기
 					memberService.adminProduct_modifyDetail(paramMap);
-					
-					
-					
-					
-					
-					
-					
-					
-//					String filePath = saveFile(adminProductDetail_productImage);
-//					
-//					System.out.println("result: " + filePath);
-//					
-//					paramMap.put("filePath", filePath);
-//					paramMap.put("state_id", "P002");	// 판매대기
-//					
-//					System.out.println("paramMap: " + paramMap);
-//					
-//					memberService.adminProductCreateNew(paramMap);
-					
 				
-					mav = adminProduct(session, null, null);
+					mav = adminProduct(session, null, null, siteName);
 					
 					mav.setViewName("redirect:adminProduct");
+					mav.addObject("siteName", siteName);
 					
 					return mav;
 				}
@@ -566,8 +568,8 @@ public class adminController {
 		
     
     // 관리자 페이지: 주문관리 
-    @RequestMapping(value = "/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminOrder(HttpSession session) throws Exception {
+    @RequestMapping(value = "/{siteName}/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminOrder(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "주문관리");
@@ -576,6 +578,7 @@ public class adminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminOrder");
+			mav.addObject("siteName", siteName);
 			return mav;
 		}
 		else {
@@ -584,8 +587,8 @@ public class adminController {
 	}
     
     // 관리자 페이지: 배송관리 
-    @RequestMapping(value = "/adminDelivery", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminDelivery(HttpSession session) throws Exception {
+    @RequestMapping(value = "/{siteName}/adminDelivery", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminDelivery(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "배송관리");
@@ -594,6 +597,7 @@ public class adminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminDelivery");
+			mav.addObject("siteName", siteName);
 			return mav;
 		}
 		else {
@@ -604,8 +608,8 @@ public class adminController {
 	}
     
     // 관리자 페이지: 고객관리 
-    @RequestMapping(value = "/adminConsumer", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminConsumer(HttpSession session) throws Exception {
+    @RequestMapping(value = "/{siteName}/adminConsumer", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminConsumer(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "고객관리");
@@ -614,6 +618,7 @@ public class adminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminConsumer");
+			mav.addObject("siteName", siteName);
 			return mav;
 		}
 		else {
@@ -624,8 +629,8 @@ public class adminController {
 	}
     
     // 관리자 페이지: 배송자관리 
-    @RequestMapping(value = "/adminDeliveryman", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminDeliveryman(HttpSession session) throws Exception {
+    @RequestMapping(value = "/{siteName}/adminDeliveryman", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminDeliveryman(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "배송자관리");
@@ -634,6 +639,7 @@ public class adminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminDeliveryman");
+			mav.addObject("siteName", siteName);
 			return mav;
 		}
 		else {
@@ -644,8 +650,8 @@ public class adminController {
 	}
     
     // 관리자 페이지: 사이트관리  
-    @RequestMapping(value = "/adminSite", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView adminSite(HttpSession session) throws Exception {
+    @RequestMapping(value = "/{siteName}/adminSite", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView adminSite(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -1) {
 			session.setAttribute("adminSideState", "사이트관리");
@@ -654,6 +660,7 @@ public class adminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminSite");
+			mav.addObject("siteName", siteName);
 			return mav;
 		}
 		else {

@@ -24,7 +24,7 @@
 		  		<!-- adminDashboard -->
 			  	<div class="adminDashboard_card">
 					<p class="adminDashboard_cardTitle">Test#1</p>
-					<p>Administration Information</p>
+					<p>Administration${pageContext.request.contextPath} Information</p>
 					<p>관리자 및 관리 사이트의 정보를 간단히 조회할 수 있습니다.</p>
 					<p>넣고 싶은 내용에 대해서 말씀주세요.</p>
 				</div>

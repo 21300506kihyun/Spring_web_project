@@ -55,7 +55,7 @@
 	<div id="adminSide" class="adminSide_container <c:if test="${isSideOpen eq 'sideOff'}">adminSide_container_hide</c:if>">
 		<!-- LOGO -->
 		<div id="adminSide_logoDiv" class="adminSide_logoDiv <c:if test="${isSideOpen eq 'sideOff'}">adminSide_logoDiv_hide</c:if>">
-	 		<img src="img/p1_top_logo.png" class="adminSide_logo" onclick="location.href='admin'">
+	 		<img src="../img/p1_top_logo.png" class="adminSide_logo" onclick='location.href="<%= request.getContextPath() %>"'>
 	 		<span class="adminSide_closeBtn" onclick="adminSide_hide()">
 	 			<a><i class="fas fa-angle-double-left fa-2x"></i></a>
 	 		</span>
@@ -63,7 +63,7 @@
 	 	
 	 	<!-- 관리자 사이트 바로가기 -->
 	 	<div id="adminSide_symlink" class="adminSide_symlink <c:if test="${isSideOpen eq 'sideOff'}">adminSide_symlnk_hide</c:if>">
-	 		<a href="<%= request.getContextPath() %>/">Omeranmall.com</a>
+	 		<a href="<%= request.getContextPath() %>/${siteName}">${siteName} 바로가기</a>
 	 	</div>
 	 	
 	 	<!-- 사이드바 열기버튼 -->

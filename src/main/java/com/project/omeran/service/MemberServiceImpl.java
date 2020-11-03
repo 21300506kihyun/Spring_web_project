@@ -84,6 +84,9 @@ public class MemberServiceImpl implements MemberService{
     		session.setAttribute("recommander_id", vo.getRecommander_id());
     		session.setAttribute("loginValidity", vo.isLoginValidity());
     		
+    		//TODO: 관리하는 사이트 정보 가져와서 세션에 저장하기
+    		session.setAttribute("adminSiteName", "omeran");
+    		
     		return true;
     	}
     	else {

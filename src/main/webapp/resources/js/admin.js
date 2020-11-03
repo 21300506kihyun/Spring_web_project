@@ -68,21 +68,21 @@ $(document).ready(function() {
 	});
 
 	$("#adminProduct_tap01").click(function(){
-		adminProduct_moveTap("adminProduct.tap01");
+		adminProduct_moveTap("adminProduct_tap01");
 	});
 	$("#adminProduct_tap02").click(function(){
-		adminProduct_moveTap("adminProduct.tap02");
+		adminProduct_moveTap("adminProduct_tap02");
 	});	
 
 	$("#adminProduct_tap03").click(function(){
-		adminProduct_moveTap("adminProduct.tap03");
+		adminProduct_moveTap("adminProduct_tap03");
 	});	
 
 	$("#adminProduct_tap04").click(function(){
-		adminProduct_moveTap("adminProduct.tap04");
+		adminProduct_moveTap("adminProduct_tap04");
 	});	
 
 	$("#adminProduct_tap05").click(function(){
-		adminProduct_moveTap("adminProduct.tap05");
+		adminProduct_moveTap("adminProduct_tap05");
 	});
 });
