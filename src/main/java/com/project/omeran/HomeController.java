@@ -61,12 +61,11 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	// session Test
+	// TODO: 세션테스트 리턴값을 int형으로 해서 user_category값을 반환하도록 하자. 지금은 테스트 용으로 쇼핑몰 관리자/플랫폼 관리자 모두가 가능한 상황
 	public boolean sessionTest(HttpSession session) {
 		if(session.getAttribute("loginValidity") != null) {
-			if((int)session.getAttribute("loginValidity") >= -2 && (int)session.getAttribute("loginValidity") < 1) {
-				if((int)session.getAttribute("user_category") == -1) {
-					return true;									
-				}
+			if((int)session.getAttribute("user_category") >= -2 && (int)session.getAttribute("user_category") < 1) {
+				return true;									
 			}
 		}
 		return false;

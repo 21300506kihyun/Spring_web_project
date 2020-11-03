@@ -28,6 +28,8 @@ public class MemberServiceImpl implements MemberService{
     public boolean loginCheck(UserVO vo, String id, String pw, HttpSession session) {
     	Map<String, String> userInfo = memberDao.getUserInfo(id,  pw);
     	if(userInfo != null) {
+    		System.out.println("Login INfo: "+userInfo);
+    		
     		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     		
     		int u_id = userInfo.get("u_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("u_id"))) : 0;
@@ -45,6 +47,8 @@ public class MemberServiceImpl implements MemberService{
     		String modify_date = userInfo.get("modify_date") != null ? formatter.format(userInfo.get("modify_date")) : "2020-01-01 00:00:00";
     		int user_category = userInfo.get("user_category") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("user_category"))) : 0;
     		String recommander_id = userInfo.get("recommander_id") != null ? userInfo.get("recommander_id") : "";
+    		int mall_id = userInfo.get("mall_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("mall_id"))) : 0;
+    		String mall_name = userInfo.get("mall_name") != null ? userInfo.get("mall_name") : "";
     		boolean loginValidity = true;
     		
     		vo.setU_id(u_id);
@@ -62,6 +66,8 @@ public class MemberServiceImpl implements MemberService{
     		vo.setModify_date(modify_date);
     		vo.setUser_category(user_category);
     		vo.setRecommander_id(recommander_id);
+    		vo.setMall_id(mall_id);
+    		vo.setMall_name(mall_name);
     		vo.setLoginValidity(loginValidity);
     		
     		// System.out.println("userVO toString : "+vo.toString());
@@ -82,10 +88,11 @@ public class MemberServiceImpl implements MemberService{
     		session.setAttribute("modify_date", vo.getModify_date());
     		session.setAttribute("user_category", vo.getUser_category());
     		session.setAttribute("recommander_id", vo.getRecommander_id());
+    		session.setAttribute("mall_id", vo.getMall_id());
     		session.setAttribute("loginValidity", vo.isLoginValidity());
     		
     		//TODO: 관리하는 사이트 정보 가져와서 세션에 저장하기
-    		session.setAttribute("adminSiteName", "omeran");
+    		session.setAttribute("adminSiteName", vo.getMall_name());
     		
     		return true;
     	}
@@ -174,13 +181,14 @@ public class MemberServiceImpl implements MemberService{
 	// Admin
 	// 상품관리 
 	@Override
-	public List<Map<String, Object>> getAllProductList() {
-		return memberDao.getAllProductList();
+	public List<Map<String, Object>> getAllProductList(HttpSession session) {
+		return memberDao.getAllProductList((int)session.getAttribute("mall_id"));
 	}
 
 	@Override
-	public List<Map<String, Object>> getProductList(String state_id) {
-		return memberDao.getProductList(state_id);
+	public List<Map<String, Object>> getProductList(String state_id, HttpSession session) {
+		System.out.println("MALL ID: "+session.getAttribute("mall_id"));
+		return memberDao.getProductList(state_id, (int)session.getAttribute("mall_id"));
 	}
 
 	@Override

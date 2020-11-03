@@ -17,6 +17,8 @@ public class UserVO {
 	private String modify_date;
 	private int user_category;
 	private String recommander_id;
+	private int mall_id;
+	private String mall_name;
 	
 	// MemberVO랑 합치기
 	private boolean loginValidity;
@@ -115,15 +117,29 @@ public class UserVO {
 	public boolean isLoginValidity() {
 		return loginValidity;
 	}
+	public void setLoginValidity(boolean loginValidity) {
+		this.loginValidity = loginValidity;
+	}
+	public int getMall_id() {
+		return mall_id;
+	}
+	public void setMall_id(int mall_id) {
+		this.mall_id = mall_id;
+	}
+	public String getMall_name() {
+		return mall_name;
+	}
+	public void setMall_name(String mall_name) {
+		this.mall_name = mall_name;
+	}
 	@Override
 	public String toString() {
 		return "UserVO [u_id=" + u_id + ", user_id=" + user_id + ", password=" + password + ", user_name=" + user_name
 				+ ", grade=" + grade + ", telephone=" + telephone + ", gender=" + gender + ", email=" + email
 				+ ", is_sms=" + is_sms + ", is_email=" + is_email + ", user_memo=" + user_memo + ", signin_date="
 				+ signin_date + ", modify_date=" + modify_date + ", user_category=" + user_category
-				+ ", recommander_id=" + recommander_id + ", loginValidity=" + loginValidity + "]";
+				+ ", recommander_id=" + recommander_id + ", mall_id=" + mall_id + ", mall_name=" + mall_name
+				+ ", loginValidity=" + loginValidity + "]";
 	}
-	public void setLoginValidity(boolean loginValidity) {
-		this.loginValidity = loginValidity;
-	}
+	
 }

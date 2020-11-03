@@ -1,5 +1,48 @@
 // [ Administration Page]
 
+/** [ adminSidebar.jsp ] **/
+function adminSide_hide(){
+	$("#adminSide").removeClass("adminSide_openWidth");
+	$("#adminSide").addClass("adminSide_closeWidth");
+	$("#adminSide_logoDiv").css("display", "none");
+	$("#adminSide_symlink").css("display", "none");
+	$(".adminSide_menuText").css("display", "none");
+	$(".adminSide_openBtn").css("display", "block");
+	
+	$.ajax({
+		url: "adminSidebar.toggle",
+		data: "isSideOpen=sideOff",
+		type: "POST",
+		success: function(data){
+			
+		},
+		error: function(){
+			
+		}
+	});
+	
+}
+function adminSide_show(){
+	$("#adminSide").removeClass("adminSide_closeWidth");
+	$("#adminSide").addClass("adminSide_openWidth");
+	$("#adminSide_logoDiv").css("display", "block");
+	$("#adminSide_symlink").css("display", "block");
+	$(".adminSide_menuText").css("display", "inline-block");
+	$(".adminSide_openBtn").css("display", "none");
+	
+	$.ajax({
+		url: "adminSidebar.toggle",
+		data: "isSideOpen=sideOn",
+		type: "POST",
+		success: function(data){
+			
+		},
+		error: function(){
+			
+		}
+	});
+}
+
 /** [ adminProduct.jsp ] **/
 function adminProduct_moveTap(moveUrl){
 	$("#adminProduct_searchInput").val("");

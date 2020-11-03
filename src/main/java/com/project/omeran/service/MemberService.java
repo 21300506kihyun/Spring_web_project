@@ -43,8 +43,8 @@ public interface MemberService {
 
 	// Admin 
 	// 상품관리
-	public List<Map<String, Object>> getAllProductList();
-	public List<Map<String, Object>> getProductList(String state_id);
+	public List<Map<String, Object>> getAllProductList(HttpSession session);
+	public List<Map<String, Object>> getProductList(String state_id, HttpSession session);
 
 	public List<Map<String, Object>> getStateList(String category);
 

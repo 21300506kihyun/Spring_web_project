@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="getUserInfo" resultType="HashMap">
-		SELECT * FROM UserTable WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
+		SELECT * FROM UserTable JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
 	</select>
   
 	<update id="updateRecentLogin">
@@ -43,8 +43,8 @@
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
-			Faq_table(title,content, writer, upload_date) 
-			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP);
+			Faq_table(title,content, writer, upload_date, status) 
+			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP, 1);
 		]]> 
 	</select>
 
@@ -99,11 +99,11 @@
 	
 	<!-- 상품정보 받아오기 -->
 	<select id="getAllProductList" resultType="HashMap">
-		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" ORDER BY p_id;
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" AND mall_id = #{mall_id} ORDER BY p_id;
 	</select>
 	
 	<select id="getProductList" resultType="HashMap">
-		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id = "${state_id}" ORDER BY p_id;
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id = "${state_id}" AND mall_id = #{mall_id} ORDER BY p_id;
 	</select>
 	
 	<!-- stateTable 정보 가져오기 -->
@@ -140,9 +140,10 @@
 	<!-- INSERT INTO ProductTable (product_name, price, discount_price, reg_date, state_id, summary, detail) VALUES ("오메란 D세트", 40000, 34000, CURRENT_TIMESTAMP, "P003", "오메란 D세트summaryTest", "오메란 D세트 detail입니다."); -->
 		<![CDATA[ 
 			INSERT INTO ProductTable 
-				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img) 
+				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img, mall_id) 
 			VALUES 
-				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", "${filePath}");
+				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, 
+				CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", "${filePath}", "${mall_id}");
 		]]>
 	</select>
 	

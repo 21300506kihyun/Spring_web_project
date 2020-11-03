@@ -5,49 +5,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script>
-		function adminSide_hide(){
-			$("#adminSide").removeClass("adminSide_openWidth");
-			$("#adminSide").addClass("adminSide_closeWidth");
-			$("#adminSide_logoDiv").css("display", "none");
-			$("#adminSide_symlink").css("display", "none");
-			$(".adminSide_menuText").css("display", "none");
-			$(".adminSide_openBtn").css("display", "block");
-			
-			$.ajax({
-				url: "adminSidebar.toggle",
-				data: "isSideOpen=sideOff",
-				type: "POST",
-				success: function(data){
-					
-				},
-				error: function(){
-					
-				}
-			});
-			
-		}
-		function adminSide_show(){
-			$("#adminSide").removeClass("adminSide_closeWidth");
-			$("#adminSide").addClass("adminSide_openWidth");
-			$("#adminSide_logoDiv").css("display", "block");
-			$("#adminSide_symlink").css("display", "block");
-			$(".adminSide_menuText").css("display", "inline-block");
-			$(".adminSide_openBtn").css("display", "none");
-			
-			$.ajax({
-				url: "adminSidebar.toggle",
-				data: "isSideOpen=sideOn",
-				type: "POST",
-				success: function(data){
-					
-				},
-				error: function(){
-					
-				}
-			});
-		}
-	</script>
 </head>
 <body>
 	<c:set var="isSideOpen" value="${isOpen}" />
@@ -73,13 +30,13 @@
 	 	
 	 	<!-- 플랫폼 관리 -->
 	 	<a href="./superAdmin" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "플랫폼 관리자 관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "쇼핑몰 관리자 관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
 		 	<% } %>">
 		 	<i class="fas fa-cogs fa-fw adminSide_menu_icons"></i>
-		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">플랫폼 관리자 관리</div>
+		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">쇼핑몰 관리자 관리</div>
 		 </a>
 	 </div>
 </body>

@@ -53,9 +53,9 @@ public interface MemberDAO {
 	public int idCheck(UserVO userVO) throws Exception;
 	
 
-	public List<Map<String, Object>> getAllProductList();
+	public List<Map<String, Object>> getAllProductList(int mall_id);
 
-	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id);
+	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
 
 	public List<Map<String, Object>> getStateList(@Param("category")String category);
 

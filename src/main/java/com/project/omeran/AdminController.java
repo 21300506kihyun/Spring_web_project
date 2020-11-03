@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.omeran.dto.UserVO;
 import com.project.omeran.service.MemberService;
 
 @Controller
@@ -33,12 +34,7 @@ public class AdminController {
 	private int admin_sessionTest(HttpSession session) {
 		if(session.getAttribute("loginValidity") != null) {
 			if((boolean)session.getAttribute("loginValidity") == true) {
-				if((int)session.getAttribute("user_category") == -1) {
-					return -1;
-				}
-				else if((int)session.getAttribute("user_category") == -2) {
-					return -2;
-				}
+				return (int)session.getAttribute("user_category");
 			}
 		}
 		return 0;
@@ -49,6 +45,11 @@ public class AdminController {
 	}
 	
 	private String isOpen = "sideOpen";
+	
+	@RequestMapping(value = "/adminSidebar.toggle", method = { RequestMethod.GET, RequestMethod.POST })
+    private void platFormToggleSidebar(String isSideOpen, HttpSession session) {
+    	isOpen = isSideOpen;
+    }
 
     @RequestMapping(value = "/{siteName}/adminSidebar.toggle", method = { RequestMethod.GET, RequestMethod.POST })
     private void toggleSidebar(String isSideOpen, HttpSession session, @PathVariable("siteName") String siteName) {
@@ -64,13 +65,13 @@ public class AdminController {
     	mav.addObject("isOpen", isOpen);
     }
     
-    private List<Map<String, Object>> getProductListFromDB(String state) {
+    private List<Map<String, Object>> getProductListFromDB(String state, HttpSession session) {
     	List<Map<String, Object>> productList;
     	if(state == null || state.equals("ALL")) {
-    		productList = memberService.getAllProductList();
+    		productList = memberService.getAllProductList(session);
     	}
     	else {
-    		productList = memberService.getProductList(state);
+    		productList = memberService.getProductList(state, session);
     	}
     	return productList;
     }
@@ -249,8 +250,8 @@ public class AdminController {
 	public ModelAndView superAdminMain(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -2) {
-			session.setAttribute("adminSideState", "플랫폼 관리자 관리");
-			session.setAttribute("adminNowPage", "플랫폼 관리자 관리");
+			session.setAttribute("adminSideState", "쇼핑몰 관리자 관리");
+			session.setAttribute("adminNowPage", "쇼핑몰 관리자 관리");
 			
 			variableInjection(mav);
 			
@@ -306,7 +307,7 @@ public class AdminController {
 			List<Map<String, Object>> productList, stateListP;
 			int cntAll = 0, cntP001 = 0, cntP002 = 0, cntP003 = 0;
 			
-			productList = getProductListFromDB(null);
+			productList = getProductListFromDB(null, session);
 			stateListP = getStateList("P");
 			
 			// 탭메뉴 개수 표시용 
@@ -350,7 +351,7 @@ public class AdminController {
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
-			productList = getProductListFromDB("ALL");
+			productList = getProductListFromDB("ALL", session);
 			stateListP = getStateList("P");
 			
 			// 정보 가공하기
@@ -372,7 +373,7 @@ public class AdminController {
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
-			productList = getProductListFromDB("P001");
+			productList = getProductListFromDB("P001", session);
 			stateListP = getStateList("P");
 
 			// 정보 가공하기
@@ -391,7 +392,7 @@ public class AdminController {
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
-			productList = getProductListFromDB("P002");
+			productList = getProductListFromDB("P002", session);
 			stateListP = getStateList("P");
 
 			// 정보 가공하기
@@ -410,7 +411,7 @@ public class AdminController {
 			ModelAndView mav = new ModelAndView();
 			
 			List<Map<String, Object>> productList, stateListP;
-			productList = getProductListFromDB("P003");
+			productList = getProductListFromDB("P003", session);
 			stateListP = getStateList("P");
 
 			// 정보 가공하기
@@ -475,6 +476,7 @@ public class AdminController {
 				
 				paramMap.put("filePath", filePath);
 				paramMap.put("state_id", "P002");	// 판매대기
+				paramMap.put("mall_id", String.valueOf(session.getAttribute("mall_id")));	// 판매대기
 				
 				System.out.println("paramMap: " + paramMap);
 				
