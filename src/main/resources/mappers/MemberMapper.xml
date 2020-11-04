@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="getUserInfo" resultType="HashMap">
-		SELECT * FROM UserTable JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
+		SELECT UserTable.*, MallTable.mall_name FROM UserTable LEFT OUTER JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
 	</select>
   
 	<update id="updateRecentLogin">
