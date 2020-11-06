@@ -496,8 +496,8 @@ input[type="checkbox"]{
 	font-weight: 400;
 	width: 10%;
 }
-	.superAdminProduct_table th:nth-child(n+1):nth-child(-n+2){
-		width: 5%;
+	.superAdminProduct_table th:nth-child(n+1):nth-child(-n+1){
+		width: 3%;
 	}
 	/* .superAdminProduct_table th:nth-child(4){
 	width: 20%;
@@ -510,7 +510,10 @@ input[type="checkbox"]{
 	font-size: 14px;
 }
 
-
+/** [ Paging ] **/
+.paging-container{text-align: center;}
+.page-num{display:inline-block;margin: 10px;cursor: pointer;}
+.page-num-selected{font-weight: bold;text-decoration: underline;}
 
 
 

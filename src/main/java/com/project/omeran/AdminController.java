@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.omeran.dto.MallVO;
+import com.project.omeran.dto.PaginationVO;
 import com.project.omeran.dto.UserVO;
 import com.project.omeran.service.MemberService;
 
@@ -30,7 +32,7 @@ public class AdminController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
-	// super admin test
+	// super admin test (0: 고객, 1: 몰 관리자, 2: 배송자, -2: 플랫폼 관리자)
 	private int admin_sessionTest(HttpSession session) {
 		if(session.getAttribute("loginValidity") != null) {
 			if((boolean)session.getAttribute("loginValidity") == true) {
@@ -58,6 +60,12 @@ public class AdminController {
     
     private ModelAndView goHome() {
     	ModelAndView mav = new ModelAndView(home());
+    	return mav;
+    }
+    
+    //TODO: 404 페이지 하나 만들어서 안들어가지도록 하기
+    private ModelAndView go404() {
+    	ModelAndView mav = new ModelAndView("page404");
     	return mav;
     }
     
@@ -237,21 +245,105 @@ public class AdminController {
 	    return saveName;
 	}
     
+	
+	
+	/*********** [ 슈퍼 관리자 페이지: method ] ***********/
+	
+    public Map<String, String> superAdmin_paramMap_defaultSetting(Map<String, String> paramMap){
+    	System.out.println("SETTING: "+paramMap);
+    	if(paramMap.get("superAdmin_searchText") == null) {
+    		paramMap.put("superAdmin_serarchText", "");
+    	}
+    	if(paramMap.get("startIndex") == null) {
+    		paramMap.put("startIndex", "0");
+    	}
+    	if(paramMap.get("cntPerPage") == null) {
+    		paramMap.put("cntPerPage", "10");
+    	}
+
+    	return paramMap;
+    }
+    
+    private int superAdminMain_curPage = 1;
+    
+    private ModelAndView superAdminMain_getMallList(HttpSession session, Map<String, String>paramMap) {
+    	ModelAndView mav = new ModelAndView();
+    	// set superAdminMain_curPage as currPage
+    	if(paramMap.get("currentPage") != null) {
+			superAdminMain_curPage = Integer.parseInt(String.valueOf(paramMap.get("currentPage")));
+		}
+		else {
+			superAdminMain_curPage = 1;				
+		}
+    	
+		// Calculate Pagination
+		int entireMallSize = memberService.superAdmin_getMallCount(paramMap);
+		System.out.println("size: "+entireMallSize);
+		PaginationVO pagination = new PaginationVO(entireMallSize, superAdminMain_curPage);
+		
+		// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
+		if(pagination.getEndPage() < superAdminMain_curPage) {
+			superAdminMain_curPage = pagination.getEndPage();
+			pagination = new PaginationVO(entireMallSize, superAdminMain_curPage);
+		}
+		
+		int startIndex = pagination.getStartIndex();
+    	int cntPerPage = pagination.getPageSize();
+    	
+    	
+    	// Set paramMap: SQL 날리기 위한 준비
+    	paramMap.put("startIndex", String.valueOf(startIndex));
+    	paramMap.put("cntPerPage", String.valueOf(cntPerPage));
+		
+    	// paramMap에 없는 값은 Default Setting
+		System.out.println("before SETTING: "+paramMap);
+		paramMap = superAdmin_paramMap_defaultSetting(paramMap);
+    	System.out.println("after SETTING: "+paramMap);
+		
+    	
+    	// Get Mall List as (paging, superAdmin_searchText)
+		List<MallVO> mallVOs = memberService.superAdmin_getMalls(paramMap);
+		
+		
+		mav.addObject("mallList", mallVOs);
+		mav.addObject("pagination", pagination);
+		
+		return mav;
+    }
+    
+    private void superAdminMain_simpleDelete(List<String> paramList) {
+    	// TODO: mallID로 삭제하기
+    	System.out.println("ParamList: "+paramList);
+    	
+    	if(paramList != null) {
+    		for(String listItem : paramList) {
+    			String listItemDetail[] = listItem.split(",");
+    			if(listItemDetail[0].equals("-1")) {
+    				continue;
+    			}
+    			
+    			int mall_id = Integer.parseInt(listItemDetail[0]);
+    			System.out.println("mallId: "+mall_id);
+    			
+    			memberService.superAdminMain_simpleDelete(mall_id);
+    		}
+    		
+    	}
+		
+    }
     
     
-    
-    
-    
-    
-    
-	/*********** [ 슈퍼 관리자 페이지 ] ***********/
+	/*********** [ 슈퍼 관리자 페이지: requestMapping ] ***********/
     // 슈퍼 관리자 페이지 
     @RequestMapping(value = {"/superAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView superAdminMain(HttpSession session) throws Exception {
+	public ModelAndView superAdminMain(HttpSession session, 
+			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -2) {
-			session.setAttribute("adminSideState", "쇼핑몰 관리자 관리");
-			session.setAttribute("adminNowPage", "쇼핑몰 관리자 관리");
+			mav = superAdminMain_getMallList(session, paramMap);
+			
+			session.setAttribute("adminSideState", "가입 쇼핑몰 관리");
+			session.setAttribute("adminNowPage", "가입 쇼핑몰 관리");
 			
 			variableInjection(mav);
 			
@@ -263,6 +355,53 @@ public class AdminController {
 		}
 	}
 
+    @RequestMapping(value = {"/superAdmin.search"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView superAdminMain_content(HttpSession session,
+			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
+    	ModelAndView mav = new ModelAndView();
+    	if(admin_sessionTest(session) == -2) {
+	    	mav = superAdminMain_getMallList(session, paramMap);
+	    	
+			variableInjection(mav);
+			
+			mav.setViewName("superAdminManageContent");
+			
+			return mav;
+    	}
+    	else {
+    		return go404();
+    	}
+    }
+    
+    @RequestMapping(value = {"/superAdmin.delete"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView superAdminMain_delete(HttpSession session,
+			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap,
+			@RequestParam(value="superAdminMain_mallList[]", required=false) List<String> paramList) throws Exception {
+    	ModelAndView mav = new ModelAndView();
+    	System.out.println(paramMap);
+    	System.out.println(paramList);
+    	if(admin_sessionTest(session) == -2) {
+    		superAdminMain_simpleDelete(paramList);
+    		
+    		mav = superAdminMain_content(session, paramMap);
+			
+			return mav;
+    	}
+    	else {
+    		return go404();
+    	}
+    }
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
     
     /*********** [ 관리자 페이지 ] ***********/
     // 관리자 페이지: 대시보드 

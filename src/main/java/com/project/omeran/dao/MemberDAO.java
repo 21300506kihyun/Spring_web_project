@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 
 
@@ -68,6 +69,12 @@ public interface MemberDAO {
 	public Map<String, Object> admin_getProductInfoById(int p_id);
 
 	public void adminProduct_modifyDetail(Map<String, String> paramMap);
+
+	public int superAdmin_getMallCount(Map<String, String> paramMap);
+
+	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap);
+
+	public void superAdminMain_simpleDelete(int mall_id);
 
 
 }

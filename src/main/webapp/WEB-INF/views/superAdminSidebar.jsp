@@ -12,7 +12,7 @@
 	<div id="adminSide" class="adminSide_container <c:if test="${isSideOpen eq 'sideOff'}">adminSide_container_hide</c:if>">
 		<!-- LOGO -->
 		<div id="adminSide_logoDiv" class="adminSide_logoDiv <c:if test="${isSideOpen eq 'sideOff'}">adminSide_logoDiv_hide</c:if>">
-	 		<img src="img/p1_top_logo.png" class="adminSide_logo" onclick="location.href='superAdmin'">
+	 		<img src="<%= request.getContextPath() %>/img/p1_top_logo.png" class="adminSide_logo" onclick='location.href="<%= request.getContextPath() %>"'>
 	 		<span class="adminSide_closeBtn" onclick="adminSide_hide()">
 	 			<a><i class="fas fa-angle-double-left fa-2x"></i></a>
 	 		</span>
@@ -30,13 +30,13 @@
 	 	
 	 	<!-- 플랫폼 관리 -->
 	 	<a href="./superAdmin" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "쇼핑몰 관리자 관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "가입 쇼핑몰 관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
 		 	<% } %>">
-		 	<i class="fas fa-cogs fa-fw adminSide_menu_icons"></i>
-		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">쇼핑몰 관리자 관리</div>
+		 	<i class="fas fa-store fa-fw adminSide_menu_icons"></i>
+		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">가입 쇼핑몰 관리</div>
 		 </a>
 	 </div>
 </body>

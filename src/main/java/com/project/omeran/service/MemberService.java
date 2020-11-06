@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 
 public interface MemberService {
@@ -57,6 +58,14 @@ public interface MemberService {
 	public Map<String, Object> admin_getProductInfoById(int p_id);
 
 	public void adminProduct_modifyDetail(Map<String, String> paramMap);
+
+	
+	// SuperAdmin
+	public int superAdmin_getMallCount(Map<String, String> paramMap);
+
+	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap);
+
+	public void superAdminMain_simpleDelete(int mall_id);
 
 }
 

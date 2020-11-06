@@ -166,6 +166,24 @@
 			WHERE p_id=#{adminProductDetail_p_id};
 		]]>
 	</update>
+	
+	<!-- ********[ SuperAdmin ]********* -->
+	<select id="superAdmin_getMallCount" resultType="int">
+		SELECT COUNT(*) FROM MallTable WHERE mall_name LIKE "%${superAdmin_searchText}%";
+	</select>
+	
+	<select id="superAdmin_getMalls" resultType="HashMap">
+		SELECT * FROM MallTable WHERE mall_name LIKE "%${superAdmin_searchText}%" ORDER BY mall_id LIMIT ${startIndex}, ${cntPerPage}; 
+	</select>
+	
+	<update id="superAdminMain_simpleDelete">
+		<![CDATA[
+			DELETE FROM MallTable
+			WHERE mall_id = #{mall_id}
+			LIMIT 1;
+		]]> 
+	</update>
+	
 
 
 </mapper>

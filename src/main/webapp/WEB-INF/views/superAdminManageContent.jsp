@@ -8,85 +8,130 @@
 <head>
 	<meta charset="UTF-8">
 	<script src="${pageContext.request.contextPath}/resources/js/adminProduct.js"></script>
+	<script>
+	// Simple Delete
+	function superAdminMain_simpleDelete_formCheck(){
+		if(!confirm("쇼핑몰을 삭제하면 관련된 상품, 주문 등의 모든 기록도 함께 삭제되며\n다시 되돌릴 수 없습니다.\n해당 쇼핑몰을 정말로 삭제하시겠습니까?")){
+			if(!confirm("쇼핑몰 삭제시 관련 상품, 주문, 관리자, 배송, 배송기록, 포인트 기록 등이 모두 소실됩니다.\n정말로 삭제하시겠습니까?")){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	function superAdminMain_simpleDelete(){
+		if(!superAdminMain_simpleDelete_formCheck()){
+			return false;
+		}
+		var formData = $("#superAdminMain_simpleDeleteForm").serialize();
+		
+		console.log(formData);
+		
+		$.ajax({
+			type: "POST",
+			url: "superAdmin.delete",
+			data: formData,
+			dataType: "html",
+			async: false,
+			cache: false,
+			success: function(result){
+				// Contents 영역 삭제
+				$('#adminProduct_content').children().remove();
+				// Contents 영역 교체
+				$('#adminProduct_content').html(result);
+			},
+			error: function(error){
+				console.log(error)
+			}
+		});
+	}
+	</script>
 </head>
 <body>
-	<form id="adminProduct_simpleUpdateForm" onsubmit="return adminProduct_simpleUpdate()">
+	<form id="superAdminMain_simpleDeleteForm" onsubmit="return superAdminMain_simpleDelete()">
 	<div class="adminProduct_cardContainer productStatus_extend">
-		<p class="adminProduct_statusText">선택상품을 </p>
+		<p class="adminProduct_statusText">선택 쇼핑몰을 </p>
 		
-		<input name="adminProduct_originPrice" id="adminProduct_change_originPrice_input" 
-				class="adminProduct_statusInput" type="number" min="0" placeholder="관리할 사이트명">
-		<a id="adminProduct_closeInputBtn01" class="adminProduct_closeInputBtn" onclick="resetPrice();">x</a>
-		<a id="adminProduct_change_originPrice" class="adminProduct_statusBtn">관리사이트 변경</a>
+		<!-- adminProduct_productItem[]이 어레이로 나오기 위해서 -->
+		<input type="hidden" name="superAdminMain_mallList[]" value="-1"/>
 		
-		<!-- <input name="adminProduct_sellingPrice" id="adminProduct_change_sellingPrice_input" 
-				class="adminProduct_statusInput" type="number" min="0" placeholder="판매가를 입력해주세요">
-		<a id="adminProduct_closeInputBtn02" class="adminProduct_closeInputBtn" onclick="resetDiscountPrice();">x</a>
-		<a id="adminProduct_change_sellingPrice" class="adminProduct_statusBtn">판매가 변경</a> -->
-		
-		<select class="adminProduct_statusBtn" name="adminProduct_status">
-			<option value="" selected>상태변경</option>
-			<c:forEach items="${stateListP}" var="row">
-				<option value="${row.state_id}">${row.state_name}</option>
-			</c:forEach>
-		</select>
-		
-		<input id="adminProduct_isDelete" type="hidden" name="adminProduct_isDelete" value="0"/>
-		<input type="hidden" name="adminProduct_productItem[]" value="-1,-1,-1,-1"/>
-		
-		<input type="submit" class="adminProduct_statusBtn adminProduct_btnSubmit" value="수정"/>
-		<!-- 삭제하기 클릭시 isDelete = 1로 바꾸고 폼 제출하기 -->
-		<input type="submit" class="adminProduct_statusBtn adminProduct_btnDelete" onclick="setUpdateAsDelete()" value="삭제"/>
+		<input type="submit" class="adminProduct_statusBtn adminProduct_btnDelete" value="삭제하기"/>
 	</div>
-	<!-- </form> -->
 	<div class="adminProduct_cardContainer adminProduct_productContainer">
 		<table id="productList_all" class="superAdminProduct_table">
 			<thead>
 				<tr class="productStatus_basic">
 					<th><input type="checkbox" name="" class="adminProduct_checkAll"></th>
-					<th>No.</th>
-					<th>이름</th>
-					<th>관리 사이트</th>
-					<th>전화번호</th>
-					<th>이메일</th>
-					<th>등록일</th>
-					<th>상태</th>
+					<!-- <th>No.</th> -->
+					<th>쇼핑몰 ID</th>
+					<th>쇼핑몰 관리</th>
+					<th>농장 이름</th>
+					<th>대표 연락처</th>
+					<th>쇼핑몰 바로가기</th>
+					<th>쇼핑몰 생성일</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${productList}" var="row" varStatus="idx">
+				<c:forEach items="${mallList}" var="row" varStatus="idx">
 					<tr class="adminProduct_listItem">
 						<td>
-							<input type="checkbox" name="adminProduct_productItem[]" 
-								value="${row.p_id},${row.price},${row.discount_price},${row.state_id}" 
+							<input type="checkbox" name="superAdminMain_mallList[]" 
+								value="${row.mall_id}" 
 								class="adminProduct_itemCheckbox">
 						</td>
-						<td>${idx.count}</td>
-						<td>${row.p_id}</td>
-						<td class="adminProduct_itemName" onclick="location.href='adminProductDetail?p_id=${row.p_id}'">${row.product_name}</td>
-						<td>₩${row.commaPrice}</td>
-						<td>${row.discountRate}%</td>
-						<td>₩${row.commaDiscountPrice}</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.mod_date}"/></td>
-						<td>${row.state_name}</td>
+						<%-- <td>${idx.count}</td> --%>
+						<td>${row.mall_id}</td>
+						<td class="adminProduct_itemName" onclick="location.href='#TODO: GoToDetail?withParameter'">${row.mall_name}</td>
+						<td>${row.farm_name}</td>
+						<td>${row.tel}</td>
+						<td style="cursor: pointer" onclick="location.href='<%= request.getContextPath() %>/${row.mall_name}'">/${row.mall_name}</td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.create_date}"/></td>
 					</tr>
 				</c:forEach>
-				<c:set var="listCnt" value="${productList.size()}"/>
+				<c:set var="listCnt" value="${mallList.size()}"/>
 				<c:choose>
 					<c:when test="${listCnt > 0}">
 						<tr class="adminProduct_listNoData">
-							<td colspan="9">자료가 없습니다.</td>
+							<td colspan="8">자료가 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
 						<tr class="adminProduct_listNoData" style="display: table-row">
-							<td colspan="9">자료가 없습니다.</td>
+							<td colspan="8">자료가 없습니다.</td>
 						</tr>
 					</c:otherwise>
 				</c:choose> 
 			</tbody>
 		</table>
 	</div>
+	<input type="hidden" name="currentPage" value="${pagination.curPage}"/>
+	<div class="paging-container">
+       <ul>
+         <c:if test="${pagination.curRange != 1}">
+           <li class="page-num"><a onclick="superAdminMain_search('1')"> [처음] </a></li>
+         </c:if>
+         <c:if test="${pagination.curPage != 1}">
+           <li class="page-num"><a onclick="superAdminMain_search('${pagination.prevPage}')"> [이전] </a></li>
+         </c:if>
+         <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+           <c:choose>
+             <c:when test="${pageNum == pagination.curPage}">
+               <li class="page-num"><a class="page-num-selected" onclick="superAdminMain_search('${pageNum}')"> ${pageNum} </a></li>
+             </c:when>
+             <c:otherwise>
+               <li class="page-num"><a onclick="superAdminMain_search('${pageNum}')"> ${pageNum} </a></li>
+             </c:otherwise>
+           </c:choose>
+         </c:forEach>
+         <c:if test="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+           <li class="page-num"><a onclick="superAdminMain_search('${pagination.nextPage}')"> [다음] </a></li>
+         </c:if>
+         <c:if test="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+           <li class="page-num"><a onclick="superAdminMain_search('${pagination.pageCnt}')"> [끝] </a></li>
+         </c:if>
+       </ul>
+     </div>
+     <%-- [FOR DEBUG] 총 게시글 수 : ${pagination.listCnt} / 총 페이지수 : ${pagination.pageCnt} / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt } --%>
 	</form>
 </body>
 </html>

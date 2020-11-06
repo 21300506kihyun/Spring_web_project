@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.omeran.dao.MemberDAO;
+import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 
 @Service("memberService") // 이 객체의 이름을 memberService라고지정, 다른 곳에서 memberServic이라는 bean사용할수 있도록
 public class MemberServiceImpl implements MemberService{
 	@Autowired // 의존성 주입 즉 MemberDAO 객체를 여기서 사용할 수 있게끔 해줌
     MemberDAO memberDao;
+
     
     @Override
     public String getEmail(String id) {
@@ -223,6 +225,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
+	// Super Admin
+	@Override
+	public int superAdmin_getMallCount(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getMallCount(paramMap);
+	}
 
+	@Override
+	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getMalls(paramMap);
+	}
 
+	@Override
+	public void superAdminMain_simpleDelete(int mall_id) {
+		memberDao.superAdminMain_simpleDelete(mall_id);
+	}
 }
