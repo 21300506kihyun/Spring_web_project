@@ -9,7 +9,7 @@
   <%@ include file="./header.jsp" %>
   <style>
     input[id*="faq-answer"] {display: none;}
-    input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb;
+    input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb; margin-bottom: 0 !important;
       color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
     input[id*="faq-answer"] + label em { position:absolute;top:30%;left:10px;width:50px; height:50px; margin-top:-15px;
     display:inline-block; margin-right: 50px; background:url('img/qna.png') 0 0 no-repeat;  background-size: contain;;
@@ -121,8 +121,8 @@
           <form id="faqSearch" method="post" action="faq" onsubmit="faqSearch('${curURL}'); return false;">
             <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
             <input type="submit" class="faq-submit" value="검색하기">
-            <% if(session.getAttribute("status") != null){
-  				        if((int)session.getAttribute("status") == -1){%>
+            <% if(session.getAttribute("user_category") != null){
+  				        if((int)session.getAttribute("user_category") == -2){%>
             <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
               		<%  }
 		       } %>
@@ -142,8 +142,8 @@
                     <div style="text-align: left;">
                       <p>${row.content}</p>
                     </div>
-                    <% if(session.getAttribute("status") != null){
-			              		if((int)session.getAttribute("status") == -1){%>
+                    <% if(session.getAttribute("user_category") != null){
+			              		if((int)session.getAttribute("user_category") == -2){%>
                     <form name="faqContent${row.faq_id}" id="faqContent${row.faq_id}" onsubmit="faqModify('faqModify', '${row.faq_id}'); return false;" action="" method="post">
                       <input type="hidden" name="title" value="${row.title}">
                       <input type="hidden" name="faq_id" value="${row.faq_id}">

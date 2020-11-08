@@ -2,6 +2,7 @@ package com.project.omeran.dto;
 
 import java.sql.Timestamp;
 
+// 사용 X 예정 --> userVO로 대체
 public class MemberVO {
 	private String userId;
 	private String userPw;

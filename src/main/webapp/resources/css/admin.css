@@ -11,8 +11,10 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, 'Nanum Gothic', sans-serif;
 }
 
-/* input tag */
 
+
+/************************************* 관리자 페이지 *************************************/
+/* [ Input tags ] */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -42,7 +44,6 @@ input[type="checkbox"]{
 }
 
 
-/************************************* 관리자 페이지 *************************************/
 
 /** [ admin.jsp ] **/
 .admin_wrapper{
@@ -185,6 +186,7 @@ input[type="checkbox"]{
 	padding: 8px 30px;
 	border-radius: 2px;
 	display: inline-block;
+	cursor: pointer;
 	
 	transition: all 0.2s ease-in-out;
 	-webkit-transition: all 0.2s ease-in-out;
@@ -338,6 +340,9 @@ input[type="checkbox"]{
   		.adminProduct_table th:nth-child(n+1):nth-child(-n+2){
   			width: 5%;
   		}
+  		.adminProduct_table th:nth-child(4){
+  			width: 20%;
+  		}
   		.adminProduct_table th:nth-child(8){
   			width: 15%;
   		}
@@ -423,6 +428,102 @@ input[type="checkbox"]{
   		display: none;
   	}
   	
+
+/** [ adminProductNew.jsp ] [ adminProductDetail.jsp ] **/
+.adminProductDetail_content{
+	margin-bottom: 10px;
+}
+.adminProductDetail_productTitle{
+	font-size: 18px;
+	padding: 5px 0;
+	color: #414141;
+}
+.adminProductDetail_inputContainer{
+	padding: 10px;
+}
+.adminProductDetail_input{
+	padding: 3px;
+	border: none;
+	width: 100%;
+}
+.adminProductDetail_inputText{
+	border-bottom: 2px solid #fff;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0..2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.adminProductDetail_inputFile{
+}
+.adminProductDetail_inputLabel{
+	color: #515151;
+}
+.adminProductDetail_selectImage{
+}
+.adminProductDetail_priceContainer{
+	display: flex;
+}
+.adminProductDetail_priceLabel{
+	padding: 3px;
+	padding-right: 10px;
+	color: #515151;
+}
+
+
+
+
+
+
+
+
+/** [ superAdminMain.jsp ] **/
+/** [ superAdminManageContent.jsp ] **/
+.superAdminProduct_table{
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+}
+.superAdminProduct_table tr{
+
+}
+	.superAdminProduct_table tbody tr:hover{
+		background-color: #f7f7f7;
+	}
+.superAdminProduct_table th{
+	padding: 15px 5px;
+	border-bottom: 1px solid #ddd;
+	font-weight: 400;
+	width: 10%;
+}
+	.superAdminProduct_table th:nth-child(n+1):nth-child(-n+1){
+		width: 3%;
+	}
+	/* .superAdminProduct_table th:nth-child(4){
+	width: 20%;
+}
+.superAdminProduct_table th:nth-child(8){
+	width: 15%;
+} */
+.superAdminProduct_table td{
+	padding: 15px 5px;
+	font-size: 14px;
+}
+
+/** [ Paging ] **/
+.paging-container{text-align: center;}
+.page-num{display:inline-block;margin: 10px;cursor: pointer;}
+.page-num-selected{font-weight: bold;text-decoration: underline;}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -538,7 +639,7 @@ input[type="checkbox"]{
 		
 	}
 	
-	/** [ adminProduct.jsp] **/
+	/** [ adminProduct.jsp]: 모바일 버전 수정이 필요함 **/
 	/* Tap Controller */
 	  	.adminProduct_tapContainer{
 	  		height: 40px;
@@ -634,12 +735,19 @@ input[type="checkbox"]{
 	  		font-weight: 400;
 	  		width: 10%;
 	  	}
-	  		.adminProduct_table th:nth-child(n+1):nth-child(-n+2){
+	  		.adminProduct_table th:nth-child(1):nth-child(-n+2){
 	  			width: 5%;
+	  		}
+	  		.adminProduct_table th:nth-child(4){
+	  			width: 20%;
 	  		}
 	  		.adminProduct_table th:nth-child(8){
 	  			width: 15%;
 	  		}
+		  	.adminProduct_table td{
+		  		padding: 15px 5px;
+		  		font-size: 14px;
+		  	}
 	   	.adminProduct_listItem{
 	 
 	 	}
@@ -649,10 +757,6 @@ input[type="checkbox"]{
 	 		.adminProduct_listNoData:hover{
 	 			background-color: #fff !important;
 	 		}
-	  	.adminProduct_table td{
-	  		padding: 15px 5px;
-	  		font-size: 14px;
-	  	}
 	  	.adminProduct_itemName{
 	  		cursor: pointer;
 	  	}
@@ -721,6 +825,47 @@ input[type="checkbox"]{
 	  		cursor: pointer;
 	  		display: none;
 	  	}
+	  	
+	  	/** [ adminProductNew.jsp ] [ adminProductDetail.jsp ] 모바일 버전 수정이 필요함  **/
+		.adminProductDetail_content{
+			margin-bottom: 10px;
+		}
+		.adminProductDetail_productTitle{
+			font-size: 18px;
+			padding: 5px 0;
+			color: #414141;
+		}
+		.adminProductDetail_inputContainer{
+			padding: 10px;
+		}
+		.adminProductDetail_input{
+			padding: 3px;
+			border: none;
+			width: 100%;
+		}
+		.adminProductDetail_inputText{
+			border-bottom: 2px solid #fff;
+			
+			transition: all 0.2s ease-in-out;
+			-webkit-transition: all 0..2s ease-in-out;
+			-moz-transition: all 0.2s ease-in-out;
+			-o-transition: all 0.2s ease-in-out;
+		}
+		.adminProductDetail_inputFile{
+		}
+		.adminProductDetail_inputLabel{
+			color: #515151;
+		}
+		.adminProductDetail_selectImage{
+		}
+		.adminProductDetail_priceContainer{
+			display: flex;
+		}
+		.adminProductDetail_priceLabel{
+			padding: 3px;
+			padding-right: 10px;
+			color: #515151;
+		}
 }
 
 

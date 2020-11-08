@@ -13,19 +13,11 @@
   	<select id="getEmail" resultType="String">
 	  select name from user_table where u_id = #{id}
 	</select>
+	
+	<select id="getUserInfo" resultType="HashMap">
+		SELECT UserTable.*, MallTable.mall_name FROM UserTable LEFT OUTER JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
+	</select>
   
-	<select id="getUserInfoStr" resultType="HashMap">
-		SELECT * FROM <include refid="login"></include>  
-	</select>
-	
-	<select id="getUserInfoTime" resultType="HashMap">
-		SELECT register_date, modify_date, recent_visit FROM <include refid="login"></include>  
-	</select>
-	
-	<select id="getUserInfoInt" resultType="HashMap">
-		SELECT u_id, status FROM <include refid="login"></include>  
-	</select>
-	
 	<update id="updateRecentLogin">
 		UPDATE user_table SET modify_date=CURRENT_TIMESTAMP, recent_visit=CURRENT_TIMESTAMP WHERE u_id = #{u_id};
 	</update>
@@ -51,8 +43,8 @@
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
-			Faq_table(title,content, writer, upload_date) 
-			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP);
+			Faq_table(title,content, writer, upload_date, status) 
+			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP, 1);
 		]]> 
 	</select>
 
@@ -107,11 +99,11 @@
 	
 	<!-- 상품정보 받아오기 -->
 	<select id="getAllProductList" resultType="HashMap">
-		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" ORDER BY p_id;
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" AND mall_id = #{mall_id} ORDER BY p_id;
 	</select>
 	
 	<select id="getProductList" resultType="HashMap">
-		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id = "${state_id}" ORDER BY p_id;
+		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id = "${state_id}" AND mall_id = #{mall_id} ORDER BY p_id;
 	</select>
 	
 	<!-- stateTable 정보 가져오기 -->
@@ -143,6 +135,55 @@
 			mod_date = CURRENT_TIMESTAMP
 		WHERE p_id = #{productId};
 	</update>
+	
+	<select id="adminProductCreateNew" parameterType="hashmap"> 
+	<!-- INSERT INTO ProductTable (product_name, price, discount_price, reg_date, state_id, summary, detail) VALUES ("오메란 D세트", 40000, 34000, CURRENT_TIMESTAMP, "P003", "오메란 D세트summaryTest", "오메란 D세트 detail입니다."); -->
+		<![CDATA[ 
+			INSERT INTO ProductTable 
+				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img, mall_id) 
+			VALUES 
+				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, 
+				CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", "${filePath}", "${mall_id}");
+		]]>
+	</select>
+	
+	<select id="admin_getProductInfoById" resultType="HashMap">
+		SELECT * FROM ProductTable WHERE p_id = #{p_id};
+	</select>
+	
+	<update id="adminProduct_modifyDetail"> 
+		<![CDATA[ 
+			UPDATE ProductTable 
+			SET 
+				product_name = "${adminProductDetail_productName}", 
+				price=#{adminProductDetail_productPrice}, 
+				discount_price=#{adminProductDetail_productDiscountPrice}, 
+				mod_date=CURRENT_TIMESTAMP, 
+				state_id="${adminProductDetail_state}", 
+				summary="${adminProductDetail_productSummary}", 
+				detail="${adminProductDetail_productDetail}", 
+				product_img="${adminProductDetail_productImageName}" 
+			WHERE p_id=#{adminProductDetail_p_id};
+		]]>
+	</update>
+	
+	<!-- ********[ SuperAdmin ]********* -->
+	<select id="superAdmin_getMallCount" resultType="int">
+		SELECT COUNT(*) FROM MallTable WHERE mall_name LIKE "%${superAdmin_searchText}%";
+	</select>
+	
+	<select id="superAdmin_getMalls" resultType="HashMap">
+		SELECT * FROM MallTable WHERE mall_name LIKE "%${superAdmin_searchText}%" ORDER BY mall_id LIMIT ${startIndex}, ${cntPerPage}; 
+	</select>
+	
+	<update id="superAdminMain_simpleDelete">
+		<![CDATA[
+			DELETE FROM MallTable
+			WHERE mall_id = #{mall_id}
+			LIMIT 1;
+		]]> 
+	</update>
+	
 
 
 </mapper>

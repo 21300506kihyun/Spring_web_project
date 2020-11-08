@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script src="js/adminProduct.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/adminProduct.js"></script>
 </head>
 <body>
 	<form id="adminProduct_simpleUpdateForm" onsubmit="return adminProduct_simpleUpdate()">
@@ -64,7 +64,7 @@
 						</td>
 						<td>${idx.count}</td>
 						<td>${row.p_id}</td>
-						<td class="adminProduct_itemName" onclick="location.href='#productDetail'">${row.product_name}</td>
+						<td class="adminProduct_itemName" onclick="location.href='adminProductDetail?p_id=${row.p_id}'">${row.product_name}</td>
 						<td>₩${row.commaPrice}</td>
 						<td>${row.discountRate}%</td>
 						<td>₩${row.commaDiscountPrice}</td>
@@ -74,13 +74,13 @@
 				</c:forEach>
 				<c:set var="listCnt" value="${productList.size()}"/>
 				<c:choose>
-					<c:when test="${listCnt == 0}">
-						<tr class="adminProduct_listNoData" style="display: table-row">
+					<c:when test="${listCnt > 0}">
+						<tr class="adminProduct_listNoData">
 							<td colspan="9">자료가 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-						<tr class="adminProduct_listNoData">
+						<tr class="adminProduct_listNoData" style="display: table-row">
 							<td colspan="9">자료가 없습니다.</td>
 						</tr>
 					</c:otherwise>

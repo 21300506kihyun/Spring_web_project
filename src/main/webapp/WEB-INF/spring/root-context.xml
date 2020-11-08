@@ -29,7 +29,7 @@
 	      </props>
 	   </property>
 	</bean>
-
+	
    
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -46,5 +46,7 @@
 	    <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 	<mybatis-spring:scan base-package="com.project.omeran.dao"/>
+	
+	<context:component-scan base-package="com.project.omeran" />
 
 </beans>

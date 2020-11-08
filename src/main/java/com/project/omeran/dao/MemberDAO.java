@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 
 
@@ -19,9 +20,7 @@ public interface MemberDAO {
 	public String getEmail(@Param("id")String id);
 	
 	// 로그인 체크 
-	public Map<String, String> getUserInfoStr(@Param("id")String id, @Param("pw")String pw);
-	public Map<String, Integer> getUserInfoInt(@Param("id")String id, @Param("pw")String pw);
-	public Map<String, Timestamp> getUserInfoTime(@Param("id")String id, @Param("pw")String pw);
+	public Map<String, String> getUserInfo(@Param("id")String id, @Param("pw")String pw);
 	
 	// 회원정보 업데이트
 	public void updateRecentLogin(@Param("u_id")int u_id);
@@ -55,15 +54,27 @@ public interface MemberDAO {
 	public int idCheck(UserVO userVO) throws Exception;
 	
 
-	public List<Map<String, Object>> getAllProductList();
+	public List<Map<String, Object>> getAllProductList(int mall_id);
 
-	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id);
+	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
 
 	public List<Map<String, Object>> getStateList(@Param("category")String category);
 
 	public void productSimpleUpdate(@Param("productId")int productId, @Param("price")int price, @Param("discount_price")int discount_price, @Param("stateId")String stateId);
 
 	public void productDelete(@Param("productId")int productId);
+
+	public void adminProductCreateNew(Map<String, String> paramMap);
+
+	public Map<String, Object> admin_getProductInfoById(int p_id);
+
+	public void adminProduct_modifyDetail(Map<String, String> paramMap);
+
+	public int superAdmin_getMallCount(Map<String, String> paramMap);
+
+	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap);
+
+	public void superAdminMain_simpleDelete(int mall_id);
 
 
 }

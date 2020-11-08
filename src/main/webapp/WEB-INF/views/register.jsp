@@ -44,9 +44,9 @@
                         <div class="header__right__auth">
 					      <div id="top_right" class="p2_util p1_util only-pc">
 					        <a href="faq" class="popup-btn">FAQ</a>
-							  <% String userName = (String)session.getAttribute("userName");
+							  <% String userName = (String)session.getAttribute("user_name");
   							if(userName != null){ %>
-							  	<a href="#mypage"><% out.println(session.getAttribute("userName")); %> 님</a>
+							  	<a href="#mypage"><% out.println(session.getAttribute("user_name")); %> 님</a>
 								<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>
 							  <% }else{ %>
 							   	<a href="#login" class="popup-btn">로그인</a>

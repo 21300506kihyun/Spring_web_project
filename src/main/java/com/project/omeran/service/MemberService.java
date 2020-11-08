@@ -6,16 +6,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 
 public interface MemberService {
 	public String getEmail(String id);
 	
 	// 로그인 체크
-	public boolean loginCheck(MemberVO vo, String id, String pw, HttpSession session);
+	public boolean loginCheck(UserVO vo, String id, String pw, HttpSession session);
 	
 	// 로그아웃 
-	public void logout(HttpSession session, MemberVO vo);
+	public void logout(HttpSession session, UserVO vo);
 	
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 	
@@ -43,14 +44,28 @@ public interface MemberService {
 
 	// Admin 
 	// 상품관리
-	public List<Map<String, Object>> getAllProductList();
-	public List<Map<String, Object>> getProductList(String state_id);
+	public List<Map<String, Object>> getAllProductList(HttpSession session);
+	public List<Map<String, Object>> getProductList(String state_id, HttpSession session);
 
 	public List<Map<String, Object>> getStateList(String category);
 
 	public void productSimpleUpdate(int productId, int price, int discount_price, String stateId);
 
 	public void productDelete(int productId);
+
+	public void adminProductCreateNew(Map<String, String> paramMap);
+
+	public Map<String, Object> admin_getProductInfoById(int p_id);
+
+	public void adminProduct_modifyDetail(Map<String, String> paramMap);
+
+	
+	// SuperAdmin
+	public int superAdmin_getMallCount(Map<String, String> paramMap);
+
+	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap);
+
+	public void superAdminMain_simpleDelete(int mall_id);
 
 }
 

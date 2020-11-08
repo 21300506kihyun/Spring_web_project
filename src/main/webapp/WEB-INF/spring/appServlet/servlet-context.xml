@@ -11,10 +11,10 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-
-
 	
+	<!-- <context:annotation-config/> -->
 	
+
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -36,11 +36,16 @@
         <beans:property name="fileEncoding" value="UTF-8" />
     </beans:bean>
 
-	<beans:bean class="com.project.omeran.resolver.CustomMapArgumentResolver"></beans:bean>
 
+	<beans:bean id="customMap" class="com.project.omeran.resolver.CustomMapArgumentResolver"></beans:bean>
+
+
+	<context:component-scan base-package="com.project.omeran"/>
 	
-	<context:component-scan base-package="com.project.omeran" />
-	
+	<!-- 일반 파일 업로드 경로 -->
+	<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"/>
+	</beans:bean>
 	
 	
 </beans:beans>
