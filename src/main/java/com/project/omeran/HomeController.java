@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,6 +53,9 @@ public class HomeController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -807,11 +811,38 @@ public class HomeController {
 	}
 
 	@RequestMapping(value="/register", method = RequestMethod.POST)
-	public ModelAndView register(UserVO userVO) throws Exception{
-		memberService.insertUserInfo(userVO);
-		ModelAndView mav = new ModelAndView("mall");
+	public String register(UserVO userVO) throws Exception{
+		logger.info("post register");
+		logger.info(userVO.getUser_id());
+		logger.info(userVO.getTelephone());
+		int check = memberService.idCheck(userVO);
+		logger.info(userVO.getUser_id());
+		logger.info(userVO.getEmail());
+		logger.info(Integer.toString(check));
+		try {  // 비밀번호암호화 한 이후 회원정보 저장
+			if(check == 1) {
+				logger.info("duplicate");
+				return "/register";
+				
+			}
+			else if(check == 0) {
+				logger.info("회원가입 성공");
+				String inputPass = userVO.getPassword();
+				logger.info("111111");
+				String pwd = pwdEncoder.encode(inputPass);
+				logger.info("222222");
+				userVO.setPassword(pwd);
+				logger.info("3333333");
+				memberService.insertUserInfo(userVO);
+				logger.info("444444");
+				}
+		}catch(Exception e){
+				throw new RuntimeException();
+		} 
 		
-		return mav;
+		
+		
+		return "redirect:/mall";
 	}
 	
 	@ResponseBody 
