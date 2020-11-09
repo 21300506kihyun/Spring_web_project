@@ -203,12 +203,18 @@ input[type="checkbox"]{
 .adminTop_btnWhite{
 	background-color: #fff;
 	border: 1px solid #bbb;
-	color: #000;	
+	color: #000;
 }
 	.adminTop_btnWhite:hover{
 		background-color: #f6f6f6;
 	}
-
+.adminTop_btnGrey{
+	background-color: #bbb;
+	color: #fff;
+	cursor: default;
+}
+	.adminTop_btnGrey:hover{
+	}
 
 
 
@@ -515,6 +521,7 @@ input[type="checkbox"]{
 .page-num{display:inline-block;margin: 10px;cursor: pointer;}
 .page-num-selected{font-weight: bold;text-decoration: underline;}
 
+/** superAdminNewAdmin.jsp **/
 
 
 
@@ -619,7 +626,10 @@ input[type="checkbox"]{
 	}
 		.adminTop_btnWhite:hover{
 		}
-	
+	.adminTop_btnGrey{
+	}
+		.adminTop_btnGrey:hover{
+		}
 	
 	
 	/** [ adminDashboard.jsp ] **/

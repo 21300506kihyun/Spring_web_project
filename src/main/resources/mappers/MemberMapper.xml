@@ -143,7 +143,7 @@
 				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img, mall_id) 
 			VALUES 
 				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, 
-				CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", "${filePath}", "${mall_id}");
+				CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", '${adminProductDetail_productDetail}', "${filePath}", "${mall_id}");
 		]]>
 	</select>
 	
@@ -161,7 +161,7 @@
 				mod_date=CURRENT_TIMESTAMP, 
 				state_id="${adminProductDetail_state}", 
 				summary="${adminProductDetail_productSummary}", 
-				detail="${adminProductDetail_productDetail}", 
+				detail='${adminProductDetail_productDetail}', 
 				product_img="${adminProductDetail_productImageName}" 
 			WHERE p_id=#{adminProductDetail_p_id};
 		]]>
@@ -184,7 +184,57 @@
 		]]> 
 	</update>
 	
+	<insert id="superAdmin_createNewMall">
+		<![CDATA[
+			INSERT INTO MallTable 
+				(mall_name, create_date, farm_name, farm_address, farm_detail, tel, fax, regist_num, business_num, account_num)
+			VALUES
+				("${superAdmin_mallName}", now(), "${superAdmin_farmName}",
+				"${superAdmin_farmAddress}", '${superAdmin_farmDetail}',
+				"${superAdmin_mallPhone}", "${superAdmin_mallFax}", "${superAdmin_mallRegistNum}",
+				"${superAdmin_mallBusinessNum}", "${superAdmin_mallAccountNum}");
+		]]>
+	</insert>
+	
+	<select id="superAdmin_getAllMalls_name_id" resultType="HashMap">
+		SELECT mall_id, mall_name FROM MallTable ORDER BY mall_name;
+	</select>
+	
+	<insert id="superAdmin_createNewAdmin">
+		<![CDATA[
+			INSERT INTO UserTable 
+				(user_id, password, user_name, telephone, gender, email, user_memo, signin_date, user_category, mall_id)
+			VALUES
+				(
+				"${superAdmin_id}", "${superAdmin_password}", "${superAdmin_name}", 
+				"${superAdmin_tel}", ${superAdmin_gender}, "${superAdmin_email}", 
+				"${superAdmin_memo}", now(), -1, 
+				${superAdmin_mall_id}
+				);
+		]]>
+	</insert>
 
-
+	<select id="superAdmin_getMallInfoById" resultType="HashMap">
+		SELECT * FROM MallTable WHERE mall_id = #{mall_id} LIMIT 1;
+	</select>
+	
+	
+	<update id="superAdmin_modifyMallDetail"> 
+		<![CDATA[ 
+			UPDATE MallTable 
+			SET 
+				mall_name = "${superAdmin_mallName}", 
+				farm_name='${superAdmin_farmName}', 
+				farm_address='${superAdmin_farmAddress}', 
+				farm_detail='${superAdmin_farmDetail}', 
+				tel="${superAdmin_mallPhone}", 
+				fax="${superAdmin_mallFax}", 
+				regist_num='${superAdmin_mallRegistNum}', 
+				business_num="${superAdmin_mallBusinessNum}",
+				account_num="${superAdmin_mallAccountNum}",
+				mod_date = now()
+			WHERE mall_id=#{superAdmin_mall_id};
+		]]>
+	</update>
 </mapper>
 

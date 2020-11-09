@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="Omeran: Super adminPage" content="오메란 몰의 관리자를 관리하는 페이지입니다.">
+	<meta name="Omeran: Super adminPage" content="오메란 몰의 플랫폼 관리 메뉴입니다.">
 	<title>Omeranmall: Super Admin</title>
 	<%@ include file="./adminHeader.jsp" %>
 	<script>

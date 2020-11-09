@@ -67,5 +67,15 @@ public interface MemberService {
 
 	public void superAdminMain_simpleDelete(int mall_id);
 
+	public void superAdmin_createNewMall(Map<String, String> paramMap);
+
+	public List<Map<String, Object>> superAdmin_getAllMalls_name_id();
+
+	public void superAdmin_createNewAdmin(Map<String, String> paramMap);
+
+	public Map<String, Object> superAdmin_getMallInfoById(int mall_id);
+
+	public void superAdmin_modifyMall(Map<String, String> paramMap);
+
 }
 

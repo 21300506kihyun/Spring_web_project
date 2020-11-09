@@ -81,7 +81,7 @@
 						</td>
 						<%-- <td>${idx.count}</td> --%>
 						<td>${row.mall_id}</td>
-						<td class="adminProduct_itemName" onclick="location.href='superAdminDetailMall?mall_id=${row.mall_id}'">${row.mall_name}</td>
+						<td class="adminProduct_itemName" onclick="location.href='#TODO: GoToDetail?withParameter'">${row.mall_name}</td>
 						<td>${row.farm_name}</td>
 						<td>${row.tel}</td>
 						<td style="cursor: pointer" onclick="location.href='<%= request.getContextPath() %>/${row.mall_name}'">/${row.mall_name}</td>
