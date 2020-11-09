@@ -154,23 +154,24 @@ public class MemberServiceImpl implements MemberService{
 	// 쇼핑몰 상품 관련
 	@Override
 	public int mall_getProductCount(String keyword) {
-		return memberDao.getProductCount(keyword);
+		return memberDao.mall_getProductCount(keyword);
 	}
 	
 	@Override
 	public List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword) {
-		return memberDao.getProductList(startIndex, cntPerPage, keyword);
+		return memberDao.mall_getProductList(startIndex, cntPerPage, keyword);
 	}
 
 	@Override
 	public Map<String, Object> mall_getProductDetail(int p_id) {
 		// TODO Auto-generated method stub
-		return memberDao.getProductDetail(p_id);
+		return memberDao.mall_getProductDetail(p_id);
 	}
 	
 	//회원가입 관련
 	@Override
 	public void insertUserInfo(UserVO userVO) throws Exception {
+//		System.out.println(userVO.getEmail());
 		memberDao.insertUserInfo(userVO);
 	}
 	@Override
