@@ -54,6 +54,10 @@ public interface MemberDAO {
 	public int idCheck(UserVO userVO) throws Exception;
 	
 
+	//**** [ admin ] ****//
+	public int getSiteCountBySiteName(@Param("siteName")String siteName);
+	
+	
 	public List<Map<String, Object>> getAllProductList(int mall_id);
 
 	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
@@ -70,6 +74,7 @@ public interface MemberDAO {
 
 	public void adminProduct_modifyDetail(Map<String, String> paramMap);
 
+	//**** [ superAdmin ] ****//
 	public int superAdmin_getMallCount(Map<String, String> paramMap);
 
 	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap);
@@ -85,6 +90,21 @@ public interface MemberDAO {
 	public Map<String, Object> superAdmin_getMallInfoById(int mall_id);
 
 	public void superAdmin_modifyMallDetail(Map<String, String> paramMap);
+
+	public int superAdmin_getAdminCount(Map<String, String> paramMap);
+
+	public List<UserVO> superAdmin_getAdminList(Map<String, String> paramMap);
+
+	public Map<String, Object> superAdmin_getUserInfoById(int u_id);
+
+	public void superAdmin_modifyDetailAdmin_withoutPW(Map<String, String> paramMap);
+
+	public void superAdmin_modifyDetailAdmin_withPW(Map<String, String> paramMap);
+
+	public void superAdmin_manager_simpleDelete(int u_id);
+
+	public void superAdmin_manager_simpleModify(Map<String, String> paramMap);
+
 
 
 }

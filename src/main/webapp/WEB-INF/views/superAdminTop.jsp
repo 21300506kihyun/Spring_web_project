@@ -28,6 +28,10 @@
 			 	<% if((String)session.getAttribute("adminNowPage") == "쇼핑몰 관리자 관리"){ %>  
 			 		<a href="superAdminNewAdmin" class="adminTop_btn adminTop_btnBlue">쇼핑몰 관리자 추가</a>
 			 	<% } %>
+			 	<% if((String)session.getAttribute("adminNowPage") == "관리자 관리하기"){ %>  
+			 		<a href="superAdminMallManager" class="adminTop_btn adminTop_btnWhite">취소</a>
+					<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="superAdmin_modifyDetailAdmin();">저장</a>
+			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "플랫폼 유저 관리"){ %>  
 		 		<% } 
   			}	%>

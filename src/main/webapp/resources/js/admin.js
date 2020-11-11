@@ -129,3 +129,53 @@ $(document).ready(function() {
 		adminProduct_moveTap("adminProduct_tap05");
 	});
 });
+
+function resetInput(id){
+	$("#"+id).val("");
+}
+
+function emailFormatCheck(str){
+	var regExp = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    if (regExp.test(str)) {
+    	return true;
+    }
+    else {
+    	return false;
+    }
+}
+
+
+// Simple Update 담당 함수
+function setValueAs_1_byId(id){
+	$("#"+id).val("1");
+}
+
+function simpleUpdate(formId, postURL, replaceAreaId){
+	var formData = $("#"+formId).serialize();
+	
+	$.ajax({
+		type: "POST",
+		url: postURL,
+		data: formData,
+		dataType: "html",
+		async: false,
+		cache: false,
+		success: function(result){
+			// Contents 영역 삭제
+			$('#'+replaceAreaId).children().remove();
+			// Contents 영역 교체
+			$('#'+replaceAreaId).html(result);
+			/* alert("수정이 완료되었습니다."); */
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
+
+
+
+
+
+
+

@@ -184,6 +184,11 @@ public class MemberServiceImpl implements MemberService{
 	// Admin
 	// 상품관리 
 	@Override
+	public int admin_getSiteCountBySiteName(String siteName) {
+		return memberDao.getSiteCountBySiteName(siteName);
+	}
+	
+	@Override
 	public List<Map<String, Object>> getAllProductList(HttpSession session) {
 		return memberDao.getAllProductList((int)session.getAttribute("mall_id"));
 	}
@@ -265,5 +270,40 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void superAdmin_modifyMall(Map<String, String> paramMap) {
 		memberDao.superAdmin_modifyMallDetail(paramMap);
+	}
+
+	@Override
+	public int superAdmin_getAdminCount(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getAdminCount(paramMap);
+	}
+
+	@Override
+	public List<UserVO> superAdmin_getAdminList(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getAdminList(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> superAdmin_getUserInfoById(int u_id) {
+		return memberDao.superAdmin_getUserInfoById(u_id);
+	}
+
+	@Override
+	public void superAdmin_modifyDetailAdmin_withoutPW(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyDetailAdmin_withoutPW(paramMap);
+	}
+	
+	@Override
+	public void superAdmin_modifyDetailAdmin_withPW(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyDetailAdmin_withPW(paramMap);
+	}
+
+	@Override
+	public void superAdmin_manager_simpleDelete(int u_id) {
+		memberDao.superAdmin_manager_simpleDelete(u_id);
+	}
+
+	@Override
+	public void superAdmin_manager_simpleModify(Map<String, String> paramMap) {
+		memberDao.superAdmin_manager_simpleModify(paramMap);
 	}
 }

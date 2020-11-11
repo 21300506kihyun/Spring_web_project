@@ -59,7 +59,7 @@ public class HomeController {
 	@Autowired
 	MemberService memberService;
 	
-	@Autowired
+//	TODO: @Autowired
 	BCryptPasswordEncoder pwdEncoder;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -405,6 +405,7 @@ public class HomeController {
 				logger.info("회원가입 성공");
 				String inputPass = userVO.getPassword();
 				logger.info("111111");
+				// TODO: 
 				String pwd = pwdEncoder.encode(inputPass);
 				logger.info("222222");
 				userVO.setPassword(pwd);

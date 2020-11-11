@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.PaginationVO;
+import com.project.omeran.dto.UserVO;
 import com.project.omeran.service.MemberService;
 
 @Controller
@@ -59,6 +60,11 @@ public class AdminController {
     
     private ModelAndView goHome() {
     	ModelAndView mav = new ModelAndView(home());
+    	return mav;
+    }
+    
+    private ModelAndView redirectToHome() {
+    	ModelAndView mav = new ModelAndView("redirect:/index");
     	return mav;
     }
     
@@ -244,12 +250,20 @@ public class AdminController {
 	    return saveName;
 	}
     
+	private boolean siteNameValidityCheck(String siteName) {
+		// 해당 사이트가 존재하면 true 아니면 false
+		if(memberService.admin_getSiteCountBySiteName(siteName) >= 1) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	
 	/*********** [ 슈퍼 관리자 페이지: method ] ***********/
 	
     public Map<String, String> superAdmin_paramMap_defaultSetting(Map<String, String> paramMap){
-    	System.out.println("SETTING: "+paramMap);
+//    	System.out.println("SETTING: "+paramMap);
     	if(paramMap.get("superAdmin_searchText") == null) {
     		paramMap.put("superAdmin_serarchText", "");
     	}
@@ -264,6 +278,7 @@ public class AdminController {
     }
     
     private int superAdminMain_curPage = 1;
+    private int superAdminMallManger_curPage = 1;
     
     private ModelAndView superAdminMain_getMallList(HttpSession session, Map<String, String>paramMap) {
     	ModelAndView mav = new ModelAndView();
@@ -278,30 +293,33 @@ public class AdminController {
 		// Calculate Pagination
 		int entireMallSize = memberService.superAdmin_getMallCount(paramMap);
 		System.out.println("size: "+entireMallSize);
+		
+		List<MallVO> mallVOs = null;
 		PaginationVO pagination = new PaginationVO(entireMallSize, superAdminMain_curPage);
 		
-		// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
-		if(pagination.getEndPage() < superAdminMain_curPage) {
-			superAdminMain_curPage = pagination.getEndPage();
-			pagination = new PaginationVO(entireMallSize, superAdminMain_curPage);
+		if(entireMallSize != 0) {
+			// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
+			if(pagination.getEndPage() < superAdminMain_curPage) {
+				superAdminMain_curPage = pagination.getEndPage();
+				pagination = new PaginationVO(entireMallSize, superAdminMain_curPage);
+			}
+			
+			int startIndex = pagination.getStartIndex();
+			int cntPerPage = pagination.getPageSize();
+			
+			
+			// Set paramMap: SQL 날리기 위한 준비
+			paramMap.put("startIndex", String.valueOf(startIndex));
+			paramMap.put("cntPerPage", String.valueOf(cntPerPage));
+			
+			// paramMap에 없는 값은 Default Setting
+//			System.out.println("before SETTING: "+paramMap);
+			paramMap = superAdmin_paramMap_defaultSetting(paramMap);
+//			System.out.println("after SETTING: "+paramMap);
+			
+			// Get Mall List as (paging, superAdmin_searchText)
+			mallVOs = memberService.superAdmin_getMalls(paramMap);
 		}
-		
-		int startIndex = pagination.getStartIndex();
-    	int cntPerPage = pagination.getPageSize();
-    	
-    	
-    	// Set paramMap: SQL 날리기 위한 준비
-    	paramMap.put("startIndex", String.valueOf(startIndex));
-    	paramMap.put("cntPerPage", String.valueOf(cntPerPage));
-		
-    	// paramMap에 없는 값은 Default Setting
-		System.out.println("before SETTING: "+paramMap);
-		paramMap = superAdmin_paramMap_defaultSetting(paramMap);
-    	System.out.println("after SETTING: "+paramMap);
-		
-    	
-    	// Get Mall List as (paging, superAdmin_searchText)
-		List<MallVO> mallVOs = memberService.superAdmin_getMalls(paramMap);
 		
 		
 		mav.addObject("mallList", mallVOs);
@@ -328,6 +346,93 @@ public class AdminController {
     		
     	}
 		
+    }
+    
+    
+    private ModelAndView superAdminMallManger_getMallManager(HttpSession session, Map<String, String>paramMap) {
+    	ModelAndView mav = new ModelAndView();
+    	// set superAdminMain_curPage as currPage
+    	if(paramMap.get("currentPage") != null) {
+    		superAdminMallManger_curPage = Integer.parseInt(String.valueOf(paramMap.get("currentPage")));
+		}
+		else {
+			superAdminMallManger_curPage = 1;				
+		}
+    	
+		// Calculate Pagination
+		int entireAdminSize = memberService.superAdmin_getAdminCount(paramMap);
+//		System.out.println("entireAdminSize: "+entireAdminSize);
+		
+		List<UserVO> userVOs = null;
+		PaginationVO pagination = new PaginationVO(entireAdminSize, superAdminMallManger_curPage);
+		
+		if(entireAdminSize != 0) {
+			// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
+			if(pagination.getEndPage() < superAdminMallManger_curPage) {
+				superAdminMallManger_curPage = pagination.getEndPage();
+				pagination = new PaginationVO(entireAdminSize, superAdminMallManger_curPage);
+			}
+			
+			int startIndex = pagination.getStartIndex();
+			int cntPerPage = pagination.getPageSize();
+			
+			
+			// Set paramMap: SQL 날리기 위한 준비
+			paramMap.put("startIndex", String.valueOf(startIndex));
+			paramMap.put("cntPerPage", String.valueOf(cntPerPage));
+			
+			
+			// paramMap에 없는 값은 Default Setting
+//			System.out.println("before SETTING: "+paramMap);
+			paramMap = superAdmin_paramMap_defaultSetting(paramMap);
+//			System.out.println("after SETTING: "+paramMap);
+			
+			
+			// Get Mall List as (paging, superAdmin_searchText)
+			userVOs = memberService.superAdmin_getAdminList(paramMap);
+		}
+		
+//		System.out.println("userVOs: "+userVOs);
+		
+		mav.addObject("userVOs", userVOs);
+		mav.addObject("pagination", pagination);
+		
+		return mav;
+    }
+    
+    // 관리자 관리하기 Simple Delete
+    private void superAdminManager_simpleDelete(List<String> paramList) {
+    	if(paramList != null) {
+			for(String listItem : paramList) {
+//				System.out.println("listItem: " + listItem);
+				
+				String listItemDetail[] = listItem.split(",");
+				if(listItemDetail[0].equals("-1")) {
+					continue;
+				}
+				
+				memberService.superAdmin_manager_simpleDelete(Integer.parseInt(listItem));
+			}
+		}
+    }
+    
+    // 관리자 관리하기 Simple Modify
+    private void superAdminManager_simpleModify(Map<String, String> paramMap, List<String> paramList) {
+    	if(paramList != null) {
+			for(String listItem : paramList) {
+//				System.out.println("listItem: " + listItem);
+				
+				String listItemDetail[] = listItem.split(",");
+				if(listItemDetail[0].equals("-1")) {
+					continue;
+				}
+				
+				paramMap.put("u_id", listItem);
+				
+				// memberService.Modify
+				memberService.superAdmin_manager_simpleModify(paramMap);
+			}
+		}
     }
     
     
@@ -363,7 +468,7 @@ public class AdminController {
 		    	
 				variableInjection(mav);
 				
-				mav.setViewName("superAdminManageContent");
+				mav.setViewName("superAdminMainContent");
 				
 				return mav;
 	    	}
@@ -417,7 +522,7 @@ public class AdminController {
 	    	@RequestMapping(value = {"/superAdminCreateNewMall"}, method = { RequestMethod.GET, RequestMethod.POST })
 	    	public ModelAndView superAdminCreateNewMall(HttpSession session, 
 	    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
-	    		System.out.println("create new: "+paramMap);
+//	    		System.out.println("create new: "+paramMap);
 	    		
 	    		if(admin_sessionTest(session) == -2) {
 	    			// INSERT INTO MallTable
@@ -432,7 +537,8 @@ public class AdminController {
 	    		}
 	    	}
 
-	    	
+	    
+	    // 쇼핑몰 디테일 뷰 및 수정 페이지
     	@RequestMapping(value = {"/superAdminDetailMall"}, method = { RequestMethod.GET, RequestMethod.POST })
     	public ModelAndView superAdminDetailMall(HttpSession session, 
     			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
@@ -441,7 +547,7 @@ public class AdminController {
     			
     			int mall_id = Integer.parseInt(paramMap.get("mall_id"));
     			Map<String, Object> mallInfo = memberService.superAdmin_getMallInfoById(mall_id);
-    			System.out.println("mallInfo: "+mallInfo);
+//    			System.out.println("mallInfo: "+mallInfo);
     			
     			session.setAttribute("adminSideState", "가입 쇼핑몰 관리");
     			session.setAttribute("adminNowPage", "쇼핑몰 관리하기");
@@ -459,11 +565,11 @@ public class AdminController {
     		}
     	}
     	
-	    	// 쇼핑몰 정보 수정 기능
+	    	// 쇼핑몰 디테일 수정 기능
 	    	@RequestMapping(value = {"/superAdminModifyMall"}, method = { RequestMethod.GET, RequestMethod.POST })
 	    	public ModelAndView superAdminModifyMall(HttpSession session, 
 	    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
-	    		System.out.println("mall modify: "+paramMap);
+//	    		System.out.println("mall modify: "+paramMap);
 	    		
 	    		if(admin_sessionTest(session) == -2) {
 	    			// INSERT INTO MallTable
@@ -486,15 +592,14 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		if(admin_sessionTest(session) == -2) {
 			
-			// TODO: 관리자 목록 가져오기 JOIN MallTable
+			mav = superAdminMallManger_getMallManager(session, paramMap);
 			
 			session.setAttribute("adminSideState", "쇼핑몰 관리자 관리");
 			session.setAttribute("adminNowPage", "쇼핑몰 관리자 관리");
 			
 			variableInjection(mav);
 			
-			mav.setViewName("superAdminBasic");
-			mav.addObject("pageContent", "superAdminMallManagerContent");
+			mav.setViewName("superAdminMallManager");
 			
 			return mav;
 		}
@@ -502,7 +607,26 @@ public class AdminController {
 			return goHome();
 		}
 	}
-    	
+	
+		// 검색 및 페이징
+	    @RequestMapping(value = {"/superAdminMallManager.search"}, method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView superAdminMallManager_content(HttpSession session,
+				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
+	    	ModelAndView mav = new ModelAndView();
+	    	if(admin_sessionTest(session) == -2) {
+	    		mav = superAdminMallManger_getMallManager(session, paramMap);
+		    	
+				variableInjection(mav);
+				
+				mav.setViewName("superAdminMallManagerContent");
+				
+				return mav;
+	    	}
+	    	else {
+	    		return go404();
+	    	}
+	    }
+	    
 
     	// 새로운 관리자 생성 페이지
     	@RequestMapping(value = {"/superAdminNewAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
@@ -529,26 +653,114 @@ public class AdminController {
     		}
     	}
     	
-    		// TODO: form 체크하기
-    		// TODO: 아이디 중복체크하기
+    		// TODO: 아이디 중복체크하기/
+    		// TODO: 비밀번호 암호화.
 	    	// 새로운 쇼핑몰 관리자 생성 기능
 	    	@RequestMapping(value = {"/superAdminCreateNewAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
 	    	public ModelAndView superAdminCreateNewAdmin(HttpSession session, 
 	    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
-	    		System.out.println("create new Admin: "+paramMap);
-	    		
 	    		if(admin_sessionTest(session) == -2) {
-	    			// INSERT INTO MallTable
 	    			memberService.superAdmin_createNewAdmin(paramMap);
 	    			
 	    			// Map 초기화
 	    			paramMap.clear();
-	    			return superAdminMain(session, paramMap);
+	    			return superAdminMallManager(session, paramMap);
 	    		}
 	    		else {
 	    			return goHome();
 	    		}
 	    	}
+	    	
+	    	
+	    	
+    	// 관리자 디테일 뷰 및 수정 페이지
+    	@RequestMapping(value = {"/superAdminDetailAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
+    	public ModelAndView superAdminDetailAdmin(HttpSession session, 
+    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
+    		ModelAndView mav = new ModelAndView();
+//    		System.out.println(paramMap);
+    		if(admin_sessionTest(session) == -2) {
+    			int u_id = Integer.parseInt(paramMap.get("u_id"));
+    			Map<String, Object> userInfo = memberService.superAdmin_getUserInfoById(u_id);
+//    			System.out.println("userInfo: "+userInfo);
+    			
+    			// 쇼핑몰 목록 가져오기
+    			List<Map<String, Object>> mallList = memberService.superAdmin_getAllMalls_name_id();
+    			
+    			session.setAttribute("adminSideState", "쇼핑몰 관리자 관리");
+    			session.setAttribute("adminNowPage", "관리자 관리하기");
+    			
+    			variableInjection(mav);
+    			
+    			mav.setViewName("superAdminBasic");
+    			mav.addObject("pageContent", "superAdminDetailAdminContent");
+    			mav.addObject("mallList", mallList);
+    			mav.addObject("userInfo", userInfo);
+    			
+    			return mav;
+    		}
+    		else {
+    			return goHome();
+    		}
+    	}
+	    	
+	    	// 관리자 디테일 수정 기능
+	    	@RequestMapping(value = {"/superAdmin_modifyDetailAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
+	    	public ModelAndView superAdmin_modifyDetailAdmin(HttpSession session, 
+	    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
+//	    		System.out.println("admin modify: "+paramMap);
+	    		
+	    		if(admin_sessionTest(session) == -2) {
+	    			if(paramMap.get("superAdmin_password") == "") {
+//	    				System.out.println("null");
+	    				memberService.superAdmin_modifyDetailAdmin_withoutPW(paramMap);
+	    			} 
+	    			else {
+//	    				System.out.println("not null");
+	    				// TODO: PW 암호화
+	    				memberService.superAdmin_modifyDetailAdmin_withPW(paramMap);
+	    			}
+	    			
+	    			// Map 초기화
+	    			paramMap.clear();
+	    			return superAdminMallManager(session, paramMap);
+	    		}
+	    		else {
+	    			return goHome();
+	    		}
+	    	}
+	    	
+	    	
+	    	@RequestMapping(value = {"/superAdminManager_simpleUpdate"}, method = { RequestMethod.GET, RequestMethod.POST })
+	    	public ModelAndView superAdminManager_simpleUpdate(HttpSession session,
+	    			@RequestParam(required=false, defaultValue = "{}") Map<String, String> paramMap,
+	    			@RequestParam(value="superAdminManager_uids[]", required=false) List<String> paramList) throws Exception {
+	    		ModelAndView mav = new ModelAndView();
+	    		System.out.println("paramList: "+paramList);
+	    		System.out.println("paramMap: "+paramMap);
+	    		
+	    		if(admin_sessionTest(session) == -2) {
+	    			if(Integer.parseInt(paramMap.get("superAdmin_isDelete")) == 1) {
+	    				superAdminManager_simpleDelete(paramList);
+	    			}
+	    			else {
+	    				superAdminManager_simpleModify(paramMap, paramList);
+	    			}
+	    			
+	    			return superAdminMallManager_content(session, paramMap);
+	    		}
+	    		else {
+	    			return goHome();
+	    		}
+	    	}
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
 
 	// TODO: 페이지 구현.
 	// 플랫폼 유저 관리 메뉴
@@ -580,12 +792,21 @@ public class AdminController {
     
     
     
+	
+	
+	
+	
     
     /*********** [ 관리자 페이지 ] ***********/
     // 관리자 페이지: 대시보드 
     @RequestMapping(value = {"/{siteName}/admin", "/{siteName}/adminDashboard"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDashboard(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
-		ModelAndView mav = new ModelAndView();
+    	ModelAndView mav = new ModelAndView();
+
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+    	
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "대시보드");
 			session.setAttribute("adminNowPage", "대시보드");
@@ -611,6 +832,11 @@ public class AdminController {
 			@PathVariable("siteName") String siteName
 			) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			// 간단히 modify & delete 하기
 			adminProduct_simpleUpdate(paramMap, paramList);
@@ -667,6 +893,10 @@ public class AdminController {
 	    	System.out.println("Tap 01"+siteName);
 			ModelAndView mav = new ModelAndView();
 			
+			if(!siteNameValidityCheck(siteName)) {
+	    		return redirectToHome();
+	    	}
+			
 			if(admin_sessionTest(session) <= -1) {
 				List<Map<String, Object>> productList, stateListP;
 				productList = getProductListFromDB("ALL", session);
@@ -694,6 +924,10 @@ public class AdminController {
 	    	System.out.println("Tap 02"+siteName);
 			ModelAndView mav = new ModelAndView();
 			
+			if(!siteNameValidityCheck(siteName)) {
+	    		return redirectToHome();
+	    	}
+			
 			if(admin_sessionTest(session) <= -1) {
 				List<Map<String, Object>> productList, stateListP;
 				productList = getProductListFromDB("P001", session);
@@ -718,6 +952,10 @@ public class AdminController {
 	    @RequestMapping(value = "/{siteName}/adminProduct_tap03", method = { RequestMethod.GET, RequestMethod.POST })
 		public ModelAndView adminProduct_tap03(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
+			
+			if(!siteNameValidityCheck(siteName)) {
+	    		return redirectToHome();
+	    	}
 
 			if(admin_sessionTest(session) <= -1) {
 				List<Map<String, Object>> productList, stateListP;
@@ -744,6 +982,10 @@ public class AdminController {
 		public ModelAndView adminProduct_tap04(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
+			if(!siteNameValidityCheck(siteName)) {
+	    		return redirectToHome();
+	    	}
+			
 			if(admin_sessionTest(session) <= -1) {
 				List<Map<String, Object>> productList, stateListP;
 				productList = getProductListFromDB("P003", session);
@@ -769,6 +1011,10 @@ public class AdminController {
 		public ModelAndView adminProduct_tap05(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
+			if(!siteNameValidityCheck(siteName)) {
+	    		return redirectToHome();
+	    	}
+			
 			if(admin_sessionTest(session) <= -1) {
 				mav.setViewName("adminProductContent");
 				
@@ -785,6 +1031,11 @@ public class AdminController {
 	@RequestMapping(value="/{siteName}/adminProductNew", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView adminProductNew(HttpSession session, @PathVariable("siteName") String siteName) throws Exception{
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "상품관리");
 			session.setAttribute("adminNowPage", "상품추가");
@@ -808,7 +1059,10 @@ public class AdminController {
 				@RequestParam Map<String, String> paramMap,
 				@PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
-			System.out.println("HELLO CHECK");
+			
+			if(!siteNameValidityCheck(siteName)) {
+	    		return redirectToHome();
+	    	}
 			
 			if(admin_sessionTest(session) <= -1) {
 				System.out.println("paramMap: " + paramMap);
@@ -846,6 +1100,11 @@ public class AdminController {
 			@PathVariable("siteName") String siteName) throws Exception{
 		System.out.println("detail: "+paramMap);
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "상품관리");
 			session.setAttribute("adminNowPage", "상품 상세정보");
@@ -877,6 +1136,10 @@ public class AdminController {
 					@RequestParam Map<String, String> paramMap,
 					@PathVariable("siteName") String siteName) throws Exception {
 				ModelAndView mav = new ModelAndView();
+				
+				if(!siteNameValidityCheck(siteName)) {
+		    		return redirectToHome();
+		    	}
 				
 				if(admin_sessionTest(session) <= -1) {
 					String adminProductDetail_fileTest = paramMap.get("adminProductDetail_fileTest");
@@ -917,6 +1180,11 @@ public class AdminController {
     @RequestMapping(value = "/{siteName}/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminOrder(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "주문관리");
 			session.setAttribute("adminNowPage", "주문관리");
@@ -936,6 +1204,11 @@ public class AdminController {
     @RequestMapping(value = "/{siteName}/adminDelivery", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDelivery(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "배송관리");
 			session.setAttribute("adminNowPage", "배송관리");
@@ -957,6 +1230,11 @@ public class AdminController {
     @RequestMapping(value = "/{siteName}/adminConsumer", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminConsumer(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "고객관리");
 			session.setAttribute("adminNowPage", "고객관리");
@@ -978,6 +1256,11 @@ public class AdminController {
     @RequestMapping(value = "/{siteName}/adminDeliveryman", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDeliveryman(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "배송자관리");
 			session.setAttribute("adminNowPage", "배송자관리");
@@ -999,6 +1282,11 @@ public class AdminController {
     @RequestMapping(value = "/{siteName}/adminSite", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminSite(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToHome();
+    	}
+		
 		if(admin_sessionTest(session) <= -1) {
 			session.setAttribute("adminSideState", "사이트관리");
 			session.setAttribute("adminNowPage", "사이트관리");

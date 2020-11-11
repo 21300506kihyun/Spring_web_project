@@ -44,6 +44,8 @@ public interface MemberService {
 
 	// Admin 
 	// 상품관리
+	public int admin_getSiteCountBySiteName(String siteName);
+	
 	public List<Map<String, Object>> getAllProductList(HttpSession session);
 	public List<Map<String, Object>> getProductList(String state_id, HttpSession session);
 
@@ -76,6 +78,23 @@ public interface MemberService {
 	public Map<String, Object> superAdmin_getMallInfoById(int mall_id);
 
 	public void superAdmin_modifyMall(Map<String, String> paramMap);
+	
+	// superAdminMallManger
+	public int superAdmin_getAdminCount(Map<String, String> paramMap);
+
+	public List<UserVO> superAdmin_getAdminList(Map<String, String> paramMap);
+
+	public Map<String, Object> superAdmin_getUserInfoById(int u_id);
+
+	public void superAdmin_modifyDetailAdmin_withoutPW(Map<String, String> paramMap);
+
+	public void superAdmin_modifyDetailAdmin_withPW(Map<String, String> paramMap);
+
+	public void superAdmin_manager_simpleDelete(int u_id);
+
+	public void superAdmin_manager_simpleModify(Map<String, String> paramMap);
+
+	
 
 }
 

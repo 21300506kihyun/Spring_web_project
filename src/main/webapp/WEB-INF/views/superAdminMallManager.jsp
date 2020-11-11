@@ -8,13 +8,14 @@
 	<title>Omeranmall: Super Admin</title>
 	<%@ include file="./adminHeader.jsp" %>
 	<script>
-	function superAdminMain_search(curPage){
+	// search func
+	function superAdminMallManger_search(curPage){
 		var searchInput = "superAdmin_searchText="+$("#adminProduct_searchInput").val();
 		var goPage = "currentPage=" + curPage;
 		var GET_url = searchInput + "&" + goPage;
 		$.ajax({
 			type: "POST",
-			url: "superAdmin.search",
+			url: "superAdminMallManager.search",
 			data: GET_url,
 			dataType: "html",
 			async: false,
@@ -47,14 +48,14 @@
 		  	<!-- content -->
 		  	<div class="admin_content">
 		  		<div class="adminProduct_cardContainer adminProduct_searchContainer">
-		  			<form action="index" onsubmit="superAdminMain_search(${pagination.curPage}); return false;">
-						<input id="adminProduct_searchInput" class="adminProduct_searchInput" type="text" placeholder="관리 쇼핑몰을 검색해주세요"
+					<form action="index" onsubmit="superAdminMallManger_search(${pagination.curPage}); return false;">
+						<input id="adminProduct_searchInput" class="adminProduct_searchInput" type="text" placeholder="관리자 이름을 검색해주세요"
 							autocomplete="off" spellcheck="false">
 						<input class="adminProduct_searchSubmit" type="submit" value="">		  			
-		  			</form>  			
+					</form>  			
 				</div>
 		  		<div id="adminProduct_content" class="adminProduct_content adminProduct_contentShow">
-	  				<jsp:include page="./superAdminMainContent.jsp"></jsp:include>
+	  				<jsp:include page="./superAdminMallManagerContent.jsp"></jsp:include>
 	  			</div>
 		  	</div>
 		 </div>

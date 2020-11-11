@@ -97,6 +97,7 @@
 	</select>
 
 	
+	<!-- //**** [ admin ] ****// -->
 	<!-- 상품정보 받아오기 -->
 	<select id="getAllProductList" resultType="HashMap">
 		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" AND mall_id = #{mall_id} ORDER BY p_id;
@@ -234,6 +235,92 @@
 				account_num="${superAdmin_mallAccountNum}",
 				mod_date = now()
 			WHERE mall_id=#{superAdmin_mall_id};
+		]]>
+	</update>
+	
+	
+	<select id="superAdmin_getAdminCount" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) 
+				FROM UserTable 
+				JOIN MallTable 
+				ON UserTable.mall_id = MallTable.mall_id 
+			WHERE user_category = -1 
+			AND user_name LIKE "%${superAdmin_searchText}%" 
+			ORDER BY u_id;
+		]]>
+	</select>
+	
+	
+	<select id="superAdmin_getAdminList" resultType="HashMap">
+		<![CDATA[ 
+			SELECT UserTable.*, MallTable.mall_name
+				FROM UserTable 
+				JOIN MallTable 
+				ON UserTable.mall_id = MallTable.mall_id 
+			WHERE user_category = -1 
+			AND user_name LIKE "%${superAdmin_searchText}%" 
+			ORDER BY u_id
+			LIMIT ${startIndex}, ${cntPerPage};
+		]]>
+	</select>
+	
+	<select id="superAdmin_getUserInfoById" resultType="HashMap">
+		SELECT * FROM UserTable WHERE u_id = #{u_id} LIMIT 1;
+	</select>
+	
+	<update id="superAdmin_modifyDetailAdmin_withoutPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${superAdmin_id}", 
+				user_name='${superAdmin_name}', 
+				telephone='${superAdmin_tel}', 
+				gender=${superAdmin_gender}, 
+				email="${superAdmin_email}", 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}', 
+				mall_id=${superAdmin_mall_id}
+			WHERE u_id=${superAdmin_u_id};
+		]]>
+	</update>
+	
+	<update id="superAdmin_modifyDetailAdmin_withPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${superAdmin_id}", 
+				password = "${superAdmin_password}",
+				user_name='${superAdmin_name}', 
+				telephone='${superAdmin_tel}', 
+				gender=${superAdmin_gender}, 
+				email="${superAdmin_email}", 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}', 
+				mall_id=${superAdmin_mall_id}
+			WHERE u_id=${superAdmin_u_id};
+		]]>
+	</update>
+	
+	<select id="getSiteCountBySiteName" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) FROM MallTable WHERE mall_name = "${siteName}";
+		]]>
+	</select>
+	
+	<delete id="superAdmin_manager_simpleDelete">
+		<![CDATA[
+			DELETE FROM UserTable WHERE u_id = #{u_id} LIMIT 1;
+		]]>
+	</delete>
+	
+	<update id="superAdmin_manager_simpleModify"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}'
+			WHERE u_id=${u_id};
 		]]>
 	</update>
 </mapper>
