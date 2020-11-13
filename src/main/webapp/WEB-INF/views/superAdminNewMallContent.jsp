@@ -17,6 +17,10 @@
 				$("#superAdmin_mallName").focus();
 				return false;
 			}
+			if($("#superAdmin_mallNameCheck").val().length == 0){
+				alert("쇼핑몰 이름 중복확인을 해주세요.");
+				return false;
+			}
 			if($("#superAdmin_farmName").val().length == 0){
 				alert("농장이름을 입력해주세요.");
 				$("#superAdmin_farmName").focus();
@@ -73,8 +77,13 @@
 </head>
 <body>
   	<form id="superAdminCreateNewMall_form" action="superAdminCreateNewMall" method="post">
+  		<input type="hidden" id="superAdmin_mallNameCheck" name="superAdmin_mallNameCheck" value=""/>
   		<div class="adminProductDetail_content">
-	  		<div class="adminProductDetail_productTitle">01. 쇼핑몰 이름</div>
+  			<div class="adminProductDetail_productTitle">
+	  			<span>01. 쇼핑몰 이름</span>
+	  			<span class="superAdmin_idCheck" 
+	  				onclick="superAdmin_mallNameheck('superAdmin_mallName', 'superAdmin_mallNameCheck')">중복체크</span>
+  			</div>
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<input id="superAdmin_mallName" name="superAdmin_mallName" 
 	  					class="adminProductDetail_input adminProductDetail_inputText" 

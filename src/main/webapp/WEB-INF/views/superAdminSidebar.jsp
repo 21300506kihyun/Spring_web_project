@@ -51,7 +51,7 @@
 		 </a>
 		 
 		 <!-- 플랫폼 유저 관리 -->
-	 	<a href="./superAdminUser" class="
+	 	<a href="./superAdminCustomer" class="
 		 	<% if((String)session.getAttribute("adminSideState") == "플랫폼 유저 관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>

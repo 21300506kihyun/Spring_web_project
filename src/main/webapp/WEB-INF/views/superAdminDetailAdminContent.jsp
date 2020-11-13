@@ -23,6 +23,10 @@
 				$("#superAdmin_id").focus();
 				return false;
 			}
+			/* if($("#superAdmin_idCheck").val().length == 0){
+				alert("아이디 중복확인을 해주세요.");
+				return false;
+			} */
 			/* if($("#superAdmin_password").val().length == 0){
 				alert("관리자 비밀번호를 입력해주세요.");
 				$("#superAdmin_password").focus();
@@ -118,9 +122,12 @@
 <body>
   	<form id="superAdmin_modifyDetailAdmin_form" action="superAdmin_modifyDetailAdmin" method="post">
   		<input type="hidden" name="superAdmin_u_id" id="superAdmin_u_id" value="${userInfo.u_id}" />
-  		TODO: 아이디 중복체크하기
   		<div class="adminProductDetail_content">
-	  		<div class="adminProductDetail_productTitle">쇼핑몰 관리자 아이디</div>
+	  		<div class="adminProductDetail_productTitle">
+	  			<span>쇼핑몰 관리자 아이디</span>
+	  			<span class="superAdmin_idCheck" 
+	  				onclick="superAdmin_idCheck('superAdmin_id', 'superAdmin_idCheck')">중복체크</span>
+  			</div>
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<input id="superAdmin_id" name="superAdmin_id" 
 	  					class="adminProductDetail_input adminProductDetail_inputText" 

@@ -545,6 +545,25 @@ input[type="checkbox"]{
 	color: black;
 }
 
+.superAdmin_idCheck{
+	/* border: 1px solid #0062cc; */
+	font-size: 14px;
+	padding: 5px 20px;
+	background-color: #5c95f9;
+	cursor: pointer;
+	border-radius: 2px;
+	color: #fff;
+	vertical-align: text-bottom;
+	margin-left: 10px;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0..2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.superAdmin_idCheck:hover{
+	background-color: #1a6dff;
+}
 
 
 

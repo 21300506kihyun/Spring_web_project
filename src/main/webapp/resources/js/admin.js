@@ -173,9 +173,60 @@ function simpleUpdate(formId, postURL, replaceAreaId){
 	});
 }
 
+// ID check
+function superAdmin_idCheck(idInput_id, checkInput){
+	var testID = $("#"+idInput_id).val();
+	
+	$.ajax({
+		type: "POST",
+		url: "superAdmin_idCheck.do",
+		dataType : "json",
+		data: {"user_id" : testID},
+		async: false,
+		cache: false,
+		success: function(result){
+			if(result >= 1){
+				alert("중복된 ID 입니다.");
+				$("#"+checkInput).val("");
+			}
+			else{
+				alert("사용 가능한 아이디입니다.");
+				$("#"+checkInput).val("1");
+			}
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
 
 
 
-
+function superAdmin_mallNameheck(idInput_id, checkInput){
+	var mallName = $("#"+idInput_id).val();
+	
+	
+	$.ajax({
+		type: "POST",
+		url: "superAdmin_mallNameCheck.do",
+		dataType : "json",
+		data: {"mall_name" : mallName},
+		async: false,
+		cache: false,
+		success: function(result){
+			if(result >= 1){
+				alert("중복된 쇼핑몰 이름입니다.");
+				$("#"+checkInput).val("");
+			}
+			else{
+				alert("사용 가능한 이름입니다.");
+				$("#"+checkInput).val("1");
+			}
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
 
 

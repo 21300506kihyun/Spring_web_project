@@ -94,6 +94,16 @@ public interface MemberService {
 
 	public void superAdmin_manager_simpleModify(Map<String, String> paramMap);
 
+	public int superAdmin_getCustomerCount(Map<String, String> paramMap);
+
+	public List<UserVO> superAdmin_getCustomerList(Map<String, String> paramMap);
+
+	public void superAdmin_customer_simpleDelete(int u_id);
+
+	public void superAdmin_customer_simpleModify(Map<String, String> paramMap);
+
+	public int mallNameCheck(MallVO mallVO);
+
 	
 
 }

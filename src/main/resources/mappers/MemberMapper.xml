@@ -323,5 +323,48 @@
 			WHERE u_id=${u_id};
 		]]>
 	</update>
+	
+	
+	<select id="superAdmin_getCustomerCount" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) 
+				FROM UserTable 
+			WHERE user_category = 1 
+			AND user_name LIKE "%${superAdmin_searchText}%";
+		]]>
+	</select>
+	
+	
+	<select id="superAdmin_getCustomerList" resultType="HashMap">
+		<![CDATA[ 
+			SELECT*
+				FROM UserTable
+			WHERE user_category = 1 
+			AND user_name LIKE "%${superAdmin_searchText}%" 
+			ORDER BY user_name
+			LIMIT ${startIndex}, ${cntPerPage};
+		]]>
+	</select>
+	
+	
+	<delete id="superAdmin_customer_simpleDelete">
+		<![CDATA[
+			DELETE FROM UserTable WHERE u_id = #{u_id} LIMIT 1;
+		]]>
+	</delete>
+	
+	<update id="superAdmin_customer_simpleModify"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}'
+			WHERE u_id=${u_id};
+		]]>
+	</update>
+	
+	<select id="superAdmin_mallNameCheck" parameterType="com.project.omeran.dto.MallVO" resultType="int">
+		SELECT count(*) FROM MallTable WHERE mall_name = #{mall_name};
+	</select>
 </mapper>
 

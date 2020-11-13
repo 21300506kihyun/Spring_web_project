@@ -33,6 +33,10 @@
 					<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="superAdmin_modifyDetailAdmin();">저장</a>
 			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "플랫폼 유저 관리"){ %>  
+		 		<% } %>
+		 		<% if((String)session.getAttribute("adminNowPage") == "플랫폼 유저 상세정보"){ %>
+					<a href="superAdminCustomer" class="adminTop_btn adminTop_btnWhite">취소</a>
+					<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="">저장</a>
 		 		<% } 
   			}	%>
   			

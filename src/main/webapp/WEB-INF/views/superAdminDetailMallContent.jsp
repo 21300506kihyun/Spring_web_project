@@ -75,7 +75,11 @@
   	<form id="superAdminModifyMall_form" action="superAdminModifyMall" method="post">
   		<input type="hidden" name="superAdmin_mall_id" value="${mallInfo.mall_id}"/>
   		<div class="adminProductDetail_content">
-	  		<div class="adminProductDetail_productTitle">01. 쇼핑몰 이름</div>
+	  		<div class="adminProductDetail_productTitle">
+	  			<span>01. 쇼핑몰 이름</span>
+	  			<span class="superAdmin_idCheck" 
+	  				onclick="superAdmin_mallNameheck('superAdmin_mallName', 'superAdmin_mallNameCheck')">중복체크</span>
+  			</div>
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<input id="superAdmin_mallName" name="superAdmin_mallName" 
 	  					class="adminProductDetail_input adminProductDetail_inputText" 

@@ -306,4 +306,29 @@ public class MemberServiceImpl implements MemberService{
 	public void superAdmin_manager_simpleModify(Map<String, String> paramMap) {
 		memberDao.superAdmin_manager_simpleModify(paramMap);
 	}
+
+	@Override
+	public int superAdmin_getCustomerCount(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getCustomerCount(paramMap);
+	}
+
+	@Override
+	public List<UserVO> superAdmin_getCustomerList(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getCustomerList(paramMap);
+	}
+
+	@Override
+	public void superAdmin_customer_simpleDelete(int u_id) {
+		memberDao.superAdmin_customer_simpleDelete(u_id);
+	}
+
+	@Override
+	public void superAdmin_customer_simpleModify(Map<String, String> paramMap) {
+		memberDao.superAdmin_customer_simpleModify(paramMap);
+	}
+
+	@Override
+	public int mallNameCheck(MallVO mallVO) {
+		return memberDao.superAdmin_mallNameCheck(mallVO);
+	}
 }
