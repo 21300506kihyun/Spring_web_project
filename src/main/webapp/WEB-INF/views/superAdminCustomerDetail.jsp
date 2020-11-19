@@ -17,9 +17,9 @@
 			$("#superAdmin_mall_id").val(${userInfo.mall_id});
 		});
 		
-		function superAdmin_modifyDetailAdminTest(){
+		function superAdmin_modifyDetailCustomerTest(){
 			if($("#superAdmin_id").val().length == 0){
-				alert("관리자 아이디를 입력해주세요.");
+				alert("아이디를 입력해주세요.");
 				$("#superAdmin_id").focus();
 				return false;
 			}
@@ -38,22 +38,22 @@
 				return false;
 			} */
 			if($("#superAdmin_name").val().length == 0){
-				alert("관리자 이름을 입력해주세요.");
+				alert("이름을 입력해주세요.");
 				$("#superAdmin_name").focus();
 				return false;
 			}
 			if($("#superAdmin_tel").val().length == 0){
-				alert("관리자 연락처를 입력해주세요.");
+				alert("연락처를 입력해주세요.");
 				$("#superAdmin_tel").focus();
 				return false;
 			}
 			if($("#superAdmin_gender").val() == -1){
-				alert("관리자 성별을 입력해주세요.");
+				alert("성별을 입력해주세요.");
 				$("#superAdmin_gender").focus();
 				return false;
 			}
 			if($("#superAdmin_email").val().length == 0){
-				alert("관리자 이메일을 입력해주세요.");
+				alert("이메일을 입력해주세요.");
 				$("#superAdmin_email").focus();
 				return false;
 			}
@@ -62,17 +62,11 @@
 				$("#superAdmin_email").focus();
 				return false;
 			}
-				
-			if($("#superAdmin_mall_id").val() == -1){
-				alert("관리할 쇼핑몰을 할당해주세요.");
-				$("#superAdmin_mall_id").focus();
-				return false;
-			}
 			return true;
 		}
-		function superAdmin_modifyDetailAdmin(){
-			if(superAdmin_modifyDetailAdminTest()){
-				$("#superAdmin_modifyDetailAdmin_form").submit();
+		function superAdmin_modifyDetailCustomer(){
+			if(superAdmin_modifyDetailCustomerTest()){
+				$("#superAdmin_modifyDetailCustomer_form").submit();
 			}
 		}
 		
@@ -87,7 +81,7 @@
 					if(pwd1 == pwd2){
 						$("#alert-success").show();
 						$("#alert-danger").hide();
-						$(".superAdminSubmitButton").attr("onclick", "superAdmin_modifyDetailAdmin()");
+						$(".superAdminSubmitButton").attr("onclick", "superAdmin_modifyDetailCustomer()");
 						
 						$("#superAdmin_submit01").removeClass("adminTop_btnGrey");
 						$("#superAdmin_submit02").removeClass("adminTop_btnGrey");
@@ -108,7 +102,7 @@
 				else{
 					$("#alert-success").hide();
 					$("#alert-danger").hide();
-					$(".superAdminSubmitButton").attr("onclick", "superAdmin_modifyDetailAdmin()");
+					$(".superAdminSubmitButton").attr("onclick", "superAdmin_modifyDetailCustomer()");
 					
 					$("#superAdmin_submit01").removeClass("adminTop_btnGrey");
 					$("#superAdmin_submit02").removeClass("adminTop_btnGrey");
@@ -120,7 +114,7 @@
 	</script>
 </head>
 <body>
-  	<form id="superAdmin_modifyDetailAdmin_form" action="superAdmin_modifyDetailAdmin" method="post">
+  	<form id="superAdmin_modifyDetailCustomer_form" action="superAdmin_modifyDetailCustomer" method="post">
   		<input type="hidden" name="superAdmin_u_id" id="superAdmin_u_id" value="${userInfo.u_id}" />
   		<div class="adminProductDetail_content">
 	  		<div class="adminProductDetail_productTitle">
@@ -169,7 +163,7 @@
 		<div class="adminProductDetail_content">
 			<div class="adminProductDetail_productTitle">등급</div>
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
-	  			<select class="adminProduct_statusBtn" id="superAdmin_mall_id" name="superAdmin_mall_id">
+	  			<select class="adminProduct_statusBtn" id="superAdmin_grade" name="superAdmin_grade">
 	  				<option selected value="0">등급01</option>
 				</select>
 			</div>
@@ -208,7 +202,36 @@
 			</div>
 		</div>
 		
-		TODO: is SMS, is Email 체크박스
+		<div class="adminProductDetail_content">
+			<div class="adminProductDetail_productTitle">수신동의 여부</div>
+	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
+	  			<span class="superAdmin_checkboxInput">
+		  			<label for="superAdmin_isEmail">이메일 수신동의</label>
+		  			<c:set var="is_email" value="${userInfo.is_email}"/>
+		  			<c:choose>
+			  			<c:when test="${is_email == 1}">
+			  				<input type="checkbox" id="superAdmin_isEmail" name="superAdmin_isEmail" checked/>
+			  			</c:when>
+			  			<c:otherwise>
+			  				<input type="checkbox" id="superAdmin_isEmail" name="superAdmin_isEmail"/>
+			  			</c:otherwise>
+		  			</c:choose>
+	  			</span>
+	  			<span class="superAdmin_checkboxInput">
+		  			<label for="superAdmin_isSMS">SMS 수신동의</label>
+		  			<c:set var="is_sms" value="${userInfo.is_sms}"/>
+		  			<c:choose>
+			  			<c:when test="${is_sms == 1}">
+			  				<input type="checkbox" id="superAdmin_isSMS" name="superAdmin_isSMS" checked/>
+			  			</c:when>
+			  			<c:otherwise>
+			  				<input type="checkbox" id="superAdmin_isSMS" name="superAdmin_isSMS"/>
+			  			</c:otherwise>
+		  			</c:choose>
+	  			</span>
+			</div>
+			
+		</div>
 		
 		<div class="adminProductDetail_content">
 			<div class="adminProductDetail_productTitle">메모</div>
@@ -222,8 +245,8 @@
 		</div>
 		
 		<div class="adminProductDetail_content">
-			<a href="superAdminMallManager" class="adminTop_btn adminTop_btnWhite">취소</a>
-			<a id="superAdmin_submit02" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="superAdmin_modifyDetailAdmin();">저장</a>
+			<a href="superAdminCustomer" class="adminTop_btn adminTop_btnWhite">취소</a>
+			<a id="superAdmin_submit02" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="superAdmin_modifyDetailCustomer();">저장</a>
 		</div>
 	</form>
 </body>

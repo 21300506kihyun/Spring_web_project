@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
+import com.project.omeran.dto.OrderVO;
 
 public interface MemberService {
 	public String getEmail(String id);
@@ -79,6 +80,7 @@ public interface MemberService {
 
 	public void superAdmin_modifyMall(Map<String, String> paramMap);
 	
+	
 	// superAdminMallManger
 	public int superAdmin_getAdminCount(Map<String, String> paramMap);
 
@@ -103,6 +105,22 @@ public interface MemberService {
 	public void superAdmin_customer_simpleModify(Map<String, String> paramMap);
 
 	public int mallNameCheck(MallVO mallVO);
+
+	public void superAdmin_modifyDetailCustomer_withoutPW(Map<String, String> paramMap);
+
+	public void superAdmin_modifyDetailCustomer_withPW(Map<String, String> paramMap);
+
+	
+	// admin Order
+	public int adminOrder_getOrderCount(Map<String, String> paramMap);
+
+	public List<Map<String, String>> adminOrder_getOrders(Map<String, String> paramMap);
+
+	public List<UserVO> admin_getDeliverymanList(int mall_id);
+
+	public int adminOrder_getOrderCountByState(String state_id, int mall_id);
+
+	public void adminOrder_simpleUpdate(Map<String, String> paramMap);
 
 	
 

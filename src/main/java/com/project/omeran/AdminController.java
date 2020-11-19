@@ -2,6 +2,8 @@ package com.project.omeran;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.dto.MallVO;
+import com.project.omeran.dto.OrderVO;
 import com.project.omeran.dto.PaginationVO;
 import com.project.omeran.dto.UserVO;
 import com.project.omeran.service.MemberService;
@@ -33,24 +36,26 @@ public class AdminController {
 	@Autowired
 	MemberService memberService;
 	
-//	@Autowired
-//	@Qualifier("Encrption")
-//	BCryptPasswordEncoder pwdEncoder;
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
+	Map<String, String> EmptyMap = new HashMap<String, String>();
+	
 	
 	// super admin test (0: 고객, 1: 몰 관리자, 2: 배송자, -2: 플랫폼 관리자)
 	private int admin_sessionTest(HttpSession session) {
 		if(session.getAttribute("loginValidity") != null) {
 			if((boolean)session.getAttribute("loginValidity") == true) {
 				return (int)session.getAttribute("user_category");
-			}
+			} 
 		}
 		return 0;
 	}
 	
 	private String home() {
-		return "index";
+		return "redirect:/index";
 	}
 	
 	private String isOpen = "sideOpen";
@@ -264,6 +269,14 @@ public class AdminController {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -537,7 +550,6 @@ public class AdminController {
     
     
     
-    
 	/*********** [ 슈퍼 관리자 페이지: requestMapping ] ***********/
     // 아이디 체크
     @ResponseBody 
@@ -787,7 +799,6 @@ public class AdminController {
     		}
     	}
     	
-    		// TODO: 비밀번호 암호화.
 	    	// 새로운 쇼핑몰 관리자 생성 기능
 	    	@RequestMapping(value = {"/superAdminCreateNewAdmin"}, method = { RequestMethod.GET, RequestMethod.POST })
 	    	public ModelAndView superAdminCreateNewAdmin(HttpSession session, 
@@ -804,12 +815,11 @@ public class AdminController {
 	    		}
 	    		
 	    		if(admin_sessionTest(session) == -2) {
-	    			System.out.println(":: " + paramMap);
-//	    			String EncodedPW = pwdEncoder.encode("Hello");
+	    			// System.out.println(":: " + paramMap);
+	    			String EncodedPW = pwdEncoder.encode(paramMap.get("superAdmin_password"));
 	    			
-//	    			paramMap.put("superAdmin_password", EncodedPW);
-//	    			paramMap.put("superAdmin_passwordCheck", EncodedPW);
-//	    			System.out.println("E " + EncodedPW);
+	    			paramMap.put("superAdmin_password", EncodedPW);
+	    			paramMap.put("superAdmin_passwordCheck", EncodedPW);
 	    			memberService.superAdmin_createNewAdmin(paramMap);
 	    			
 	    			// Map 초기화
@@ -867,7 +877,10 @@ public class AdminController {
 	    			} 
 	    			else {
 //	    				System.out.println("not null");
-	    				// TODO: PW 암호화
+	    				String EncodedPW = pwdEncoder.encode(paramMap.get("superAdmin_password"));
+		    			
+		    			paramMap.put("superAdmin_password", EncodedPW);
+		    			paramMap.put("superAdmin_passwordCheck", EncodedPW);
 	    				memberService.superAdmin_modifyDetailAdmin_withPW(paramMap);
 	    			}
 	    			
@@ -904,13 +917,6 @@ public class AdminController {
 	    	}
 	    	
 	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-
 	    	
 	// 플랫폼 유저 관리 메뉴
 	@RequestMapping(value = {"/superAdminCustomer"}, method = { RequestMethod.GET, RequestMethod.POST })
@@ -1007,26 +1013,43 @@ public class AdminController {
 		}
 	}
     	
-    	// TODO: Customer 디테일 수정 기능
     	@RequestMapping(value = {"/superAdmin_modifyDetailCustomer"}, method = { RequestMethod.GET, RequestMethod.POST })
     	public ModelAndView superAdmin_modifyDetailCustomer(HttpSession session, 
     			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
-//	    		System.out.println("admin modify: "+paramMap);
     		
     		if(admin_sessionTest(session) == -2) {
+    			if(paramMap.get("superAdmin_isEmail") != null) {
+    				if(paramMap.get("superAdmin_isEmail").equals("on")) {
+        				paramMap.put("superAdmin_isEmail", "1");
+        			}
+    			}
+    			else {
+    				paramMap.put("superAdmin_isEmail", "0");
+    			}
+    			
+    			if(paramMap.get("superAdmin_isSMS") != null) {
+    				if(paramMap.get("superAdmin_isSMS").equals("on")) {
+    					paramMap.put("superAdmin_isSMS", "1");
+    				}
+    			}
+    			else {
+    				paramMap.put("superAdmin_isSMS", "0");
+    			}
+    			
     			if(paramMap.get("superAdmin_password") == "") {
-//	    				System.out.println("null");
-//    				memberService.superAdmin_modifyDetailAdmin_withoutPW(paramMap);
+    				memberService.superAdmin_modifyDetailCustomer_withoutPW(paramMap);
     			} 
     			else {
-//	    				System.out.println("not null");
-    				// TODO: PW 암호화
-//    				memberService.superAdmin_modifyDetailAdmin_withPW(paramMap);
+    				String EncodedPW = pwdEncoder.encode(paramMap.get("superAdmin_password"));
+
+	    			paramMap.put("superAdmin_password", EncodedPW);
+	    			paramMap.put("superAdmin_passwordCheck", EncodedPW);
+    				memberService.superAdmin_modifyDetailCustomer_withPW(paramMap);
     			}
     			
     			// Map 초기화
     			paramMap.clear();
-    			return superAdminMallManager(session, paramMap);
+    			return superAdminCustomer(session, paramMap);
     		}
     		else {
     			return goHome();
@@ -1426,6 +1449,118 @@ public class AdminController {
 		
     
     // 관리자 페이지: 주문관리 
+	private int adminOrder_currTap = 1;
+	private int adminOrder_curPage = 1;
+	
+	private Map<String, String> admin_paramMap_defaultSetting(Map<String, String> paramMap, HttpSession session){
+		if(paramMap.get("mall_id") == null) {
+			paramMap.put("mall_id", String.valueOf(session.getAttribute("mall_id")));
+		}
+		if(paramMap.get("search_keyword") == null) {
+    		paramMap.put("search_keyword", "");
+    	}
+    	if(paramMap.get("startIndex") == null) {
+    		paramMap.put("startIndex", "0");
+    	}
+    	if(paramMap.get("cntPerPage") == null) {
+    		paramMap.put("cntPerPage", "10");
+    	}
+    	
+    	// state_id 설정
+    	if(adminOrder_currTap == 1) {
+    		paramMap.put("state_id", "O001");
+    	}
+    	else if(adminOrder_currTap == 2) {
+    		paramMap.put("state_id", "O002");
+    	}
+    	else if(adminOrder_currTap == 3) {
+    		paramMap.put("state_id", "O003");
+    	}
+    	else if(adminOrder_currTap == 4) {
+    		paramMap.put("state_id", "O004");
+    	}
+    	else if(adminOrder_currTap == 5) {
+    		paramMap.put("state_id", "O005");
+    	}
+		
+		return paramMap;
+	}
+	
+	
+	
+	private ModelAndView adminOrder_getOrderList(HttpSession session, Map<String, String>paramMap) {
+    	ModelAndView mav = new ModelAndView();
+    	// set superAdminMain_curPage as currPage
+    	if(paramMap.get("currentPage") != null) {
+    		adminOrder_curPage = Integer.parseInt(String.valueOf(paramMap.get("currentPage")));
+		}
+		else {
+			adminOrder_curPage = 1;				
+		}
+    	
+		// Calculate Pagination
+		int entireOrderSize = memberService.adminOrder_getOrderCount(paramMap);
+		System.out.println("Order size: "+entireOrderSize);
+		
+		List<Map<String, String>> OrderList = null;
+		List<Integer> orderCnt = null;
+		PaginationVO pagination = new PaginationVO(entireOrderSize, adminOrder_curPage);
+		
+		if(entireOrderSize != 0) {
+			// 상태마다 주문이 몇개 있는지 가져오기
+			int mallID = (int)session.getAttribute("mall_id");
+			int orderCnt01 = memberService.adminOrder_getOrderCountByState("O001", mallID);
+			int orderCnt02 = memberService.adminOrder_getOrderCountByState("O002", mallID);
+			int orderCnt03 = memberService.adminOrder_getOrderCountByState("O003", mallID);
+			int orderCnt04 = memberService.adminOrder_getOrderCountByState("O004", mallID);
+			int orderCnt05 = memberService.adminOrder_getOrderCountByState("O005", mallID);
+			orderCnt = new ArrayList<Integer>() {{
+				add(orderCnt01);
+				add(orderCnt02);
+				add(orderCnt03);
+				add(orderCnt04);
+				add(orderCnt05);
+			}};
+			
+			
+			// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
+			if(pagination.getEndPage() < adminOrder_curPage) {
+				superAdminMain_curPage = pagination.getEndPage();
+				pagination = new PaginationVO(entireOrderSize, adminOrder_curPage);
+			}
+			
+			int startIndex = pagination.getStartIndex();
+			int cntPerPage = pagination.getPageSize();
+			
+			
+			// Set paramMap: SQL 날리기 위한 준비
+			paramMap.put("startIndex", String.valueOf(startIndex));
+			paramMap.put("cntPerPage", String.valueOf(cntPerPage));
+			
+			// paramMap에 없는 값은 Default Setting(searchKeyword, paging, tap)
+			paramMap = admin_paramMap_defaultSetting(paramMap, session);
+			System.out.println("after SETTING: "+paramMap);
+			
+			// Get Mall List as (paging, superAdmin_searchText, tap)
+			OrderList = memberService.adminOrder_getOrders(paramMap);
+		
+			System.out.println("order info: "+ OrderList);
+		}
+		
+		
+		mav.addObject("OrderList", OrderList);
+		mav.addObject("pagination", pagination);
+		mav.addObject("orderCnt", orderCnt);
+		
+		return mav;
+    }
+	
+	
+	private List<UserVO> admin_getDeliverymanList(int mall_id) {
+		return memberService.admin_getDeliverymanList(mall_id);
+	}
+	
+	
     @RequestMapping(value = "/{siteName}/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminOrder(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -1440,8 +1575,13 @@ public class AdminController {
 			
 			variableInjection(mav);
 			
+			// adminOrder_currTap = 1;
+			mav = adminOrderContent(session, EmptyMap);
+			
 			mav.setViewName("adminOrder");
 			mav.addObject("siteName", siteName);
+			System.out.println("TAP: "+adminOrder_currTap);
+			mav.addObject("currentTap", adminOrder_currTap);
 			return mav;
 		}
 		else {
@@ -1449,6 +1589,98 @@ public class AdminController {
 		}
 	}
     
+	    // 주문관리 컨텐츠
+	    @RequestMapping(value = {"/{siteName}/adminOrderContent"}, method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminOrderContent(HttpSession session,
+				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
+	    	ModelAndView mav = new ModelAndView();
+	    	System.out.println("currentTap: "+adminOrder_currTap);
+	    	System.out.println("adminOrderContent: "+paramMap);
+	    	if(admin_sessionTest(session) <= -1) {
+	    		System.out.println("adminOrderContent2: "+paramMap);
+	    		
+	    		mav = adminOrder_getOrderList(session, paramMap);
+	    		
+	    		// get state list by "Order"
+	    		mav.addObject("stateList", getStateList("O"));
+	    		
+	    		// get delivery man List
+	    		List<UserVO> deliverymanList = admin_getDeliverymanList((int)session.getAttribute("mall_id"));
+	    		mav.addObject("deliverymanList", deliverymanList);
+		    	
+				variableInjection(mav);
+				
+				mav.setViewName("adminOrderContent");
+				
+				return mav;
+	    	}
+	    	else {
+	    		return go404();
+	    	}
+	    }
+	    
+	    //admin Order Tap Menus
+	    @RequestMapping(value = {"/{siteName}/adminOrder_tap"}, method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminOrderContent_tap01(HttpSession session, 
+				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception{
+	    	ModelAndView mav = new ModelAndView();
+	    	if(admin_sessionTest(session) <= -1) {
+	    		adminOrder_currTap = Integer.parseInt(paramMap.get("tap"));
+				mav = adminOrderContent(session, paramMap);
+				return mav;
+	    	}
+	    	else {
+	    		return go404();
+	    	}
+	    }
+    
+	    // Simple update
+	    @RequestMapping(value = {"/{siteName}/adminOrder_simpleUpdate"}, method = { RequestMethod.GET, RequestMethod.POST })
+    	public ModelAndView adminOrder_simpleUpdate(HttpSession session,
+    			@RequestParam(required=false, defaultValue = "{}") Map<String, String> paramMap,
+    			@RequestParam(value="adminOrder_orderIDs[]", required=false) List<String> paramList,
+    			@PathVariable("siteName") String siteName) throws Exception {
+    		System.out.println("paramList: "+paramList);
+    		System.out.println("paramMap: "+paramMap);
+    		
+    		if(admin_sessionTest(session) <= -1) {
+    			
+    			if(paramList != null) {
+    	    		for(String listItem : paramList) {
+    	    			String listItemDetail[] = listItem.split(",");
+    	    			if(listItemDetail[0].equals("-1")) {
+    	    				continue;
+    	    			}
+    	    			
+    	    			int order_id = Integer.parseInt(listItemDetail[0]);
+    	    			System.out.println("order_id: "+order_id);
+    	    			
+    	    			paramMap.put("order_id", String.valueOf(order_id));
+    	    			
+    	    			memberService.adminOrder_simpleUpdate(paramMap);
+    	    		}
+    	    		
+    	    	}
+    			
+    			return adminOrder(session, siteName);
+    		}
+    		else {
+    			return go404();
+    		}
+    	}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
     // 관리자 페이지: 배송관리 
     @RequestMapping(value = "/{siteName}/adminDelivery", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDelivery(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {

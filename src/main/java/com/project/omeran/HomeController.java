@@ -59,8 +59,8 @@ public class HomeController {
 	@Autowired
 	MemberService memberService;
 	
-//	TODO: @Autowired
-	BCryptPasswordEncoder pwdEncoder;
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -84,7 +84,7 @@ public class HomeController {
 	}
 	@RequestMapping(value = {"/index", "/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
-		
+		System.out.println(pwdEncoder.encode("customer02PW"));
 		
 		return "index";
 	}

@@ -49,5 +49,6 @@
 	
 	<context:component-scan base-package="com.project.omeran" />
 	
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> 
 
 </beans>

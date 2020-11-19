@@ -476,6 +476,51 @@ input[type="checkbox"]{
 	color: #515151;
 }
 
+/** [ adminOrder.jsp ] **/
+.adminOrder_table{
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+}
+.adminOrder_table tr{
+
+}
+	.adminOrder_table tbody tr:hover{
+		background-color: #f7f7f7;
+	}
+.adminOrder_table th{
+	padding: 15px 5px;
+	border-bottom: 1px solid #ddd;
+	font-weight: 400;
+	width: 10%;
+}
+	.adminOrder_table th:nth-child(n+1):nth-child(-n+1){
+		width: 5%;
+	}
+	.adminOrder_table th:nth-child(2){
+	 	width: 5%;
+	}
+	.adminOrder_table th:nth-child(8){
+	}
+.adminOrder_table td{
+	padding: 15px 5px;
+	font-size: 14px;
+}
+
+.adminOrder_additionalArea{
+	display: none;
+}
+.adminOrder_additionalArea > td{
+	padding: 8px 5px;
+	font-size: 14px;
+	background-color: #f7f7f7;
+	color: #2d2d2d;
+}
+.adminOrder_additionalArea > td:hover{
+	background-color: #f7f7f7;
+}
+
+
 
 
 
@@ -564,7 +609,9 @@ input[type="checkbox"]{
 .superAdmin_idCheck:hover{
 	background-color: #1a6dff;
 }
-
+.superAdmin_checkboxInput{
+	padding-right: 10px;
+}
 
 
 
