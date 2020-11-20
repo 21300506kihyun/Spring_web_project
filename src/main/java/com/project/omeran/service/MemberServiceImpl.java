@@ -353,6 +353,8 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.superAdmin_modifyDetailCustomer_withPW(paramMap);
 	}
 
+	
+	// admin Order
 	@Override
 	public int adminOrder_getOrderCount(Map<String, String> paramMap) {
 		return memberDao.adminOrder_getOrderCount(paramMap);
@@ -376,5 +378,51 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void adminOrder_simpleUpdate(Map<String, String> paramMap) {
 		memberDao.adminOrder_simpleUpdate(paramMap);
+	}
+
+	
+	// admin Delivery
+	@Override
+	public int adminDelivery_getDeliveryCount(Map<String, String> paramMap) {
+		return memberDao.adminDelivery_getDeliveryCount(paramMap);
+	}
+
+	@Override
+	public int adminDelivery_getDeliveryCountByState(String state_id, int mall_id) {
+		return memberDao.adminDelivery_getDeliveryCountByState(state_id, mall_id);
+	}
+
+	@Override
+	public List<Map<String, String>> adminDelivery_getDeliverys(Map<String, String> paramMap) {
+		return memberDao.adminDelivery_getDeliverys(paramMap);
+	}
+
+	@Override
+	public void adminDelivery_simpleUpdate(Map<String, String> paramMap) {
+		// 배송자 체크 
+		if(!paramMap.get("admin_deliveryman").equals("default")) {
+			memberDao.adminDelivery_setDeliveryman(paramMap);
+		}
+		
+		// 배송완료 장소 체크
+		if(!paramMap.get("admin_deliveryLocation").equals("default")) {
+			memberDao.adminDelivery_setDeliveryLocation(paramMap);
+		}
+		
+		// 상태변경 체크
+		if(!paramMap.get("admin_status").equals("default")) {
+			// 배송출발시 departure_date = now();
+			if(paramMap.get("admin_status").equals("D003")) {
+				memberDao.adminDelivery_setState_depature(paramMap);
+			}
+			// 배송 완료시 arrival_date = now();
+			else if(paramMap.get("admin_status").equals("D004")) {
+				memberDao.adminDelivery_setState_arrival(paramMap);
+			}
+			// 아닌 경우엔 디폴트로
+			else {
+				memberDao.adminDelivery_setState(paramMap);
+			}
+		}
 	}
 }

@@ -122,6 +122,16 @@ public interface MemberService {
 
 	public void adminOrder_simpleUpdate(Map<String, String> paramMap);
 
+	// admin Delivery
+	public int adminDelivery_getDeliveryCount(Map<String, String> paramMap);
+
+	public int adminDelivery_getDeliveryCountByState(String state_id, int mall_id);
+
+	public List<Map<String, String>> adminDelivery_getDeliverys(Map<String, String> paramMap);
+
+	public void adminDelivery_simpleUpdate(Map<String, String> paramMap);
+
+
 	
 
 }

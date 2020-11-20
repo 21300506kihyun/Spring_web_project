@@ -133,6 +133,23 @@ public interface MemberDAO {
 
 	public void adminOrder_simpleUpdate(Map<String, String> paramMap);
 
+	// admin Delivery
+	public int adminDelivery_getDeliveryCount(Map<String, String> paramMap);
+
+	public int adminDelivery_getDeliveryCountByState(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
+
+	public List<Map<String, String>> adminDelivery_getDeliverys(Map<String, String> paramMap);
+
+	public void adminDelivery_setDeliveryman(Map<String, String> paramMap);
+
+	public void adminDelivery_setDeliveryLocation(Map<String, String> paramMap);
+
+	public void adminDelivery_setState_depature(Map<String, String> paramMap);
+
+	public void adminDelivery_setState_arrival(Map<String, String> paramMap);
+
+	public void adminDelivery_setState(Map<String, String> paramMap);
+
 
 
 }

@@ -253,3 +253,26 @@ function admin_moveTap(toURL, tapNum){
 	return false;
 }
 
+function admin_search(curPage, toURL){
+	var searchKeyword = "search_keyword=" + $("#admin_searchInput").val();
+	var goPage = "currentPage="+curPage;
+	var Data = searchKeyword + "&" + goPage;
+	$.ajax({
+		type: "POST",
+		url: toURL,
+		data: Data,
+		async: false,
+		cache: false,
+		success: function(result){
+			// Contents 영역 삭제
+			$('#adminProduct_content').children().remove();
+			// Contents 영역 교체
+			$('#adminProduct_content').html(result);
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+	return false;
+}
+

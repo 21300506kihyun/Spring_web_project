@@ -98,15 +98,17 @@
 					<tr id="hiddenA${row.order_id}" class="adminOrder_additionalArea" style="font-weight: 700; border-top: 1px solid #bbb">
 						<td>상품코드</td>
 						<td>결제수단</td>
-						<td>주문자 연락처</td>
-						<td colspan="4">배송주소</td>
+						<td>고객 연락처</td>
+						<td>고객 이메일</td>
+						<td colspan="3">배송주소</td>
 						<td>유효기간</td>
 					</tr>
 					<tr id="hiddenB${row.order_id}" class="adminOrder_additionalArea" style="border-bottom: 1px solid #bbb;">
 						<td>${row.product_id}</td>
 						<td>${row.payment_way}</td>
 						<td>${row.telephone}</td>
-						<td colspan="4">${row.address01} ${row.address02} ${row.address03}</td>
+						<td>${row.email}</td>
+						<td colspan="3">${row.address01} ${row.address02} ${row.address03}</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.buy_end}"/></td>
 					</tr>
 				</c:forEach>
@@ -129,7 +131,7 @@
 	<div class="paging-container">
        <ul>
          <c:if test="${pagination.curRange != 1}">
-           <li class="page-num"><a onclick="superAdminCustomer_search('1')"> [처음] </a></li>
+           <li class="page-num"><a onclick="adminOrder_search('1')"> [처음] </a></li>
          </c:if>
          <c:if test="${pagination.curPage != 1}">
            <li class="page-num"><a onclick="adminOrder_search('${pagination.prevPage}')"> [이전] </a></li>

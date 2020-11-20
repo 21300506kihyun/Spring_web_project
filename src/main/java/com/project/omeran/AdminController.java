@@ -1466,21 +1466,40 @@ public class AdminController {
     		paramMap.put("cntPerPage", "10");
     	}
     	
-    	// state_id 설정
-    	if(adminOrder_currTap == 1) {
-    		paramMap.put("state_id", "O001");
-    	}
-    	else if(adminOrder_currTap == 2) {
-    		paramMap.put("state_id", "O002");
-    	}
-    	else if(adminOrder_currTap == 3) {
-    		paramMap.put("state_id", "O003");
-    	}
-    	else if(adminOrder_currTap == 4) {
-    		paramMap.put("state_id", "O004");
-    	}
-    	else if(adminOrder_currTap == 5) {
-    		paramMap.put("state_id", "O005");
+    	// state_id 설정: order
+    	if(paramMap.get("page_name").equals("order")) {
+    		if(adminOrder_currTap == 1) {
+        		paramMap.put("state_id", "O001");
+        	}
+        	else if(adminOrder_currTap == 2) {
+        		paramMap.put("state_id", "O002");
+        	}
+        	else if(adminOrder_currTap == 3) {
+        		paramMap.put("state_id", "O003");
+        	}
+        	else if(adminOrder_currTap == 4) {
+        		paramMap.put("state_id", "O004");
+        	}
+        	else if(adminOrder_currTap == 5) {
+        		paramMap.put("state_id", "O005");
+        	}
+    	} // state_id 설정: delivery
+    	else if(paramMap.get("page_name").equals("delivery")) {
+    		if(adminDelivery_currTap == 1) {
+        		paramMap.put("state_id", "D001");
+        	}
+        	else if(adminDelivery_currTap == 2) {
+        		paramMap.put("state_id", "D002");
+        	}
+        	else if(adminDelivery_currTap == 3) {
+        		paramMap.put("state_id", "D003");
+        	}
+        	else if(adminDelivery_currTap == 4) {
+        		paramMap.put("state_id", "D004");
+        	}
+        	else if(adminDelivery_currTap == 5) {
+        		paramMap.put("state_id", "D005");
+        	}
     	}
 		
 		return paramMap;
@@ -1497,6 +1516,13 @@ public class AdminController {
 		else {
 			adminOrder_curPage = 1;				
 		}
+    	
+    	// From Order 페이지라는 것을 알리기
+		paramMap.put("page_name", "order");
+		
+		// paramMap에 없는 값은 Default Setting(searchKeyword, paging, tap)
+		paramMap = admin_paramMap_defaultSetting(paramMap, session);
+		System.out.println("Order - after SETTING: "+paramMap);
     	
 		// Calculate Pagination
 		int entireOrderSize = memberService.adminOrder_getOrderCount(paramMap);
@@ -1537,10 +1563,6 @@ public class AdminController {
 			paramMap.put("startIndex", String.valueOf(startIndex));
 			paramMap.put("cntPerPage", String.valueOf(cntPerPage));
 			
-			// paramMap에 없는 값은 Default Setting(searchKeyword, paging, tap)
-			paramMap = admin_paramMap_defaultSetting(paramMap, session);
-			System.out.println("after SETTING: "+paramMap);
-			
 			// Get Mall List as (paging, superAdmin_searchText, tap)
 			OrderList = memberService.adminOrder_getOrders(paramMap);
 		
@@ -1560,7 +1582,8 @@ public class AdminController {
 		return memberService.admin_getDeliverymanList(mall_id);
 	}
 	
-	
+
+	// 주문관리 URL 매핑
     @RequestMapping(value = "/{siteName}/adminOrder", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminOrder(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -1575,7 +1598,9 @@ public class AdminController {
 			
 			variableInjection(mav);
 			
+			// // 탭 & 페이지 디폴트 설정?
 			// adminOrder_currTap = 1;
+			// adminOrder_curPage = 1;
 			mav = adminOrderContent(session, EmptyMap);
 			
 			mav.setViewName("adminOrder");
@@ -1604,9 +1629,9 @@ public class AdminController {
 	    		// get state list by "Order"
 	    		mav.addObject("stateList", getStateList("O"));
 	    		
-	    		// get delivery man List
-	    		List<UserVO> deliverymanList = admin_getDeliverymanList((int)session.getAttribute("mall_id"));
-	    		mav.addObject("deliverymanList", deliverymanList);
+	    		// // get delivery man List
+	    		// List<UserVO> deliverymanList = admin_getDeliverymanList((int)session.getAttribute("mall_id"));
+	    		// mav.addObject("deliverymanList", deliverymanList);
 		    	
 				variableInjection(mav);
 				
@@ -1621,7 +1646,7 @@ public class AdminController {
 	    
 	    //admin Order Tap Menus
 	    @RequestMapping(value = {"/{siteName}/adminOrder_tap"}, method = { RequestMethod.GET, RequestMethod.POST })
-		public ModelAndView adminOrderContent_tap01(HttpSession session, 
+		public ModelAndView adminOrderContent_tap(HttpSession session, 
 				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception{
 	    	ModelAndView mav = new ModelAndView();
 	    	if(admin_sessionTest(session) <= -1) {
@@ -1672,16 +1697,11 @@ public class AdminController {
 	    
 	    
 	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
     // 관리자 페이지: 배송관리 
+    private int adminDelivery_currTap = 1;
+	private int adminDelivery_curPage = 1;
+		
+	// 배송관리 URL 매핑
     @RequestMapping(value = "/{siteName}/adminDelivery", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDelivery(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -1696,16 +1716,183 @@ public class AdminController {
 			
 			variableInjection(mav);
 			
+			// // 탭 & 페이지 디폴트 설정?
+			// adminDelivery_currTap = 1;
+			// adminDelivery_curPage = 1;
+			
+			// 컨텐츠 채우기
+			mav = adminDeliveryContent(session, EmptyMap);
+			
 			mav.setViewName("adminDelivery");
 			mav.addObject("siteName", siteName);
 			return mav;
 		}
 		else {
 			return goHome();
-//			mav.setViewName("adminDelivery");
-//			return mav;	
 		}
 	}
+    
+	    // 배송관리 컨텐츠
+	    @RequestMapping(value = {"/{siteName}/adminDeliveryContent"}, method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminDeliveryContent(HttpSession session,
+				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
+	    	ModelAndView mav = new ModelAndView();
+	    	System.out.println("currentTap: "+adminOrder_currTap);
+	    	System.out.println("adminDeliveryContent: "+paramMap);
+	    	if(admin_sessionTest(session) <= -1) {
+	    		System.out.println("adminDeliveryContent2: "+paramMap);
+	    		
+	    		mav = adminDelivery_getDeliveryList(session, paramMap);
+	    		
+	    		// get state list by "Delivery"
+	    		mav.addObject("stateList", getStateList("D0"));
+	    		
+	    		// get delivery man List
+	    		List<UserVO> deliverymanList = admin_getDeliverymanList((int)session.getAttribute("mall_id"));
+	    		mav.addObject("deliverymanList", deliverymanList);
+		    	
+				variableInjection(mav);
+				
+				mav.setViewName("adminDeliveryContent");
+				mav.addObject("currentTap", adminDelivery_currTap);
+				
+				return mav;
+	    	}
+	    	else {
+	    		return go404();
+	    	}
+	    }
+	    
+	    // 배송관리 Tap Menus
+	    @RequestMapping(value = {"/{siteName}/adminDelivery_tap"}, method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminDeliveryContent_tap(HttpSession session, 
+				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception{
+	    	ModelAndView mav = new ModelAndView();
+	    	if(admin_sessionTest(session) <= -1) {
+	    		adminDelivery_currTap = Integer.parseInt(paramMap.get("tap"));
+				mav = adminDeliveryContent(session, paramMap);
+				return mav;
+	    	}
+	    	else {
+	    		return go404();
+	    	}
+	    }
+		
+	    // 배송정보 가져오기
+		private ModelAndView adminDelivery_getDeliveryList(HttpSession session, Map<String, String>paramMap) {
+	    	ModelAndView mav = new ModelAndView();
+	    	// set superAdminMain_curPage as currPage
+	    	if(paramMap.get("currentPage") != null) {
+	    		adminDelivery_curPage = Integer.parseInt(String.valueOf(paramMap.get("currentPage")));
+			}
+			else {
+				adminDelivery_curPage = 1;				
+			}
+	    	
+	    	// From Delivery 페이지라는 것을 알리기
+			paramMap.put("page_name", "delivery");
+			
+			// paramMap에 없는 값은 Default Setting(searchKeyword, paging, tap)
+			paramMap = admin_paramMap_defaultSetting(paramMap, session);
+			System.out.println("Dlivery - after SETTING: "+paramMap);
+	    	
+			// Calculate Pagination
+			int entireDeliverySize = memberService.adminDelivery_getDeliveryCount(paramMap);
+			System.out.println("entireDeliverySize: "+entireDeliverySize);
+			
+			List<Map<String, String>> DeliveryList = null;
+			List<Integer> deliveryCnt = null;
+			PaginationVO pagination = new PaginationVO(entireDeliverySize, adminDelivery_curPage);
+			
+			if(entireDeliverySize != 0) {
+				// 상태마다 배송이 몇개 있는지 가져오기
+				int mallID = (int)session.getAttribute("mall_id");
+				int deliveryCnt01 = memberService.adminDelivery_getDeliveryCountByState("D001", mallID);
+				int deliveryCnt02 = memberService.adminDelivery_getDeliveryCountByState("D002", mallID);
+				int deliveryCnt03 = memberService.adminDelivery_getDeliveryCountByState("D003", mallID);
+				int deliveryCnt04 = memberService.adminDelivery_getDeliveryCountByState("D004", mallID);
+				int deliveryCnt05 = memberService.adminDelivery_getDeliveryCountByState("D005", mallID);
+				deliveryCnt = new ArrayList<Integer>() {{
+					add(deliveryCnt01);
+					add(deliveryCnt02);
+					add(deliveryCnt03);
+					add(deliveryCnt04);
+					add(deliveryCnt05);
+				}};
+				System.out.println("deliveryCnt: "+ deliveryCnt);
+				
+				
+				// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
+				if(pagination.getEndPage() < adminDelivery_curPage) {
+					adminDelivery_curPage = pagination.getEndPage();
+					pagination = new PaginationVO(entireDeliverySize, adminDelivery_curPage);
+				}
+				
+				int startIndex = pagination.getStartIndex();
+				int cntPerPage = pagination.getPageSize();
+				
+				
+				// Set paramMap: SQL 날리기 위한 준비
+				paramMap.put("startIndex", String.valueOf(startIndex));
+				paramMap.put("cntPerPage", String.valueOf(cntPerPage));
+				
+				// Get Mall List as (paging, superAdmin_searchText, tap)
+				DeliveryList = memberService.adminDelivery_getDeliverys(paramMap);
+			
+				System.out.println("DeliveryList: "+ DeliveryList);
+			}
+			
+			
+			mav.addObject("DeliveryList", DeliveryList);
+			mav.addObject("pagination", pagination);
+			mav.addObject("deliveryCnt", deliveryCnt);
+			
+			return mav;
+	    }
+    
+	    // Simple update
+	    @RequestMapping(value = {"/{siteName}/adminDelivery_simpleUpdate"}, method = { RequestMethod.GET, RequestMethod.POST })
+    	public ModelAndView adminDelivery_simpleUpdate(HttpSession session,
+    			@RequestParam(required=false, defaultValue = "{}") Map<String, String> paramMap,
+    			@RequestParam(value="adminDelivery_deliveryIDs[]", required=false) List<String> paramList,
+    			@PathVariable("siteName") String siteName) throws Exception {
+    		System.out.println("paramList: "+paramList);
+    		System.out.println("paramMap: "+paramMap);
+    		
+    		if(admin_sessionTest(session) <= -1) {
+    			
+    			if(paramList != null) {
+    	    		for(String listItem : paramList) {
+    	    			String listItemDetail[] = listItem.split(",");
+    	    			if(listItemDetail[0].equals("-1")) {
+    	    				continue;
+    	    			}
+    	    			
+    	    			int delivery_id = Integer.parseInt(listItemDetail[0]);
+    	    			
+    	    			paramMap.put("delivery_id", String.valueOf(delivery_id));
+    	    			
+    	    			memberService.adminDelivery_simpleUpdate(paramMap);
+    	    		}
+    	    	}
+    			
+    			return adminDelivery(session, siteName);
+    		}
+    		else {
+    			return go404();
+    		}
+    	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // 관리자 페이지: 고객관리 
     @RequestMapping(value = "/{siteName}/adminConsumer", method = { RequestMethod.GET, RequestMethod.POST })

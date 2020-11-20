@@ -498,7 +498,7 @@ input[type="checkbox"]{
 		width: 5%;
 	}
 	.adminOrder_table th:nth-child(2){
-	 	width: 5%;
+	 	/* width: 5%; */
 	}
 	.adminOrder_table th:nth-child(8){
 	}
@@ -515,6 +515,7 @@ input[type="checkbox"]{
 	font-size: 14px;
 	background-color: #f7f7f7;
 	color: #2d2d2d;
+	word-break: break-all;
 }
 .adminOrder_additionalArea > td:hover{
 	background-color: #f7f7f7;

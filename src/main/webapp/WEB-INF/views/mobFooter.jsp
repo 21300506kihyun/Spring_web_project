@@ -10,7 +10,7 @@
 <body>
   <ul>
     <li>
-      <img src="img/m_logo.png" alt="">
+      <img src="${pageContext.request.contextPath}/img/m_logo.png" alt="">
     </li>
     <li>
 	  <p class="p1_fo_p0">

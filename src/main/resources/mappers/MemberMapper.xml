@@ -444,7 +444,11 @@
 	
 	<!-- Admin Order -->
 	<select id="adminOrder_getOrderCount" resultType="int">
-		SELECT COUNT(*) FROM OrderTable JOIN UserTable ON OrderTable.customer_id = UserTable.u_id WHERE user_name LIKE "%${search_keyword}%";
+		SELECT COUNT(order_id) FROM OrderTable AS O 
+		JOIN UserTable AS U 
+		ON O.customer_id = U.u_id 
+		WHERE O.mall_id = ${mall_id} 
+			AND U.user_name LIKE "%${search_keyword}%";
 	</select>
 	
 	<select id="adminOrder_getOrders" resultType="HashMap">
@@ -473,17 +477,85 @@
 	</select>
 
 	<update id="adminOrder_simpleUpdate">
-		UPDATE OrderTable SET state_id = "${adminOrder_status}" WHERE order_id = ${order_id};
+		UPDATE OrderTable SET state_id = "${adminOrder_status}", mod_date = now() WHERE order_id = ${order_id};
 	</update>
 
 
-
-
-
-	
+	<!-- admin Delivery -->
 	<!-- 배달원 정보 가져오기 -->
 	<select id="admin_getDeliverymanList" resultType="HashMap">
 		SELECT * FROM UserTable WHERE mall_id = #{mall_id} AND user_category = 0;
 	</select>
+	
+	<select id="adminDelivery_getDeliveryCount" resultType="int">
+		SELECT COUNT(D.delivery_id) FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+		WHERE D.mall_id = ${mall_id} 
+			AND user_name LIKE "%${search_keyword}%";
+	</select>
+
+	<select id="adminDelivery_getDeliveryCountByState" resultType="int">
+		SELECT COUNT(*) FROM DeliveryTable WHERE mall_id = #{mall_id} AND state_id = #{state_id};
+	</select>
+
+	<select id="adminDelivery_getDeliverys" resultType="HashMap">
+		SELECT D.*, U.user_name, U.telephone, U.email, S.address01,
+				S.address02, S.address03, St.state_name, P.product_name,
+				DeliveryMan.user_name AS delivery_name 
+		FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON D.state_id = St.state_id 
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN UserTable AS DeliveryMan 
+							ON D.deliveryman_id=DeliveryMan.u_id 
+		WHERE D.mall_id = ${mall_id}
+			AND U.user_name LIKE "%${search_keyword}%" 
+			AND D.state_id = "${state_id}"
+		ORDER BY D.delivery_id 
+		LIMIT ${startIndex}, ${cntPerPage};
+	</select>
+	
+	<update id="adminDelivery_setDeliveryman">
+		UPDATE DeliveryTable SET deliveryman_id = ${admin_deliveryman}, mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setDeliveryLocation">
+		UPDATE DeliveryTable SET delivery_location = ${admin_deliveryLocation}, mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setState_depature">
+		UPDATE DeliveryTable SET state_id = "${admin_status}", departure_date = now(), mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setState_arrival">
+		UPDATE DeliveryTable SET state_id = "${admin_status}", arrival_date = now(), mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setState">
+		UPDATE DeliveryTable SET state_id = "${admin_status}", mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
 
