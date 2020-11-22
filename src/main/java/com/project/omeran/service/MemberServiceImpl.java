@@ -425,4 +425,30 @@ public class MemberServiceImpl implements MemberService{
 			}
 		}
 	}
+
+	// 배송자 관리
+	@Override
+	public int adminDeliveryman_getDeliverymanCount(Map<String, String> paramMap) {
+		return memberDao.adminDeliveryman_getDeliverymanCount(paramMap);
+	}
+
+	@Override
+	public List<Map<String, String>> adminDeliveryman_getDeliverymans(Map<String, String> paramMap) {
+		return memberDao.adminDeliveryman_getDeliverymans(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_deleteById(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_deleteById(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_simpleUpdate(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_simpleUpdate(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_createNew(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_createNew(paramMap);
+	}
 }

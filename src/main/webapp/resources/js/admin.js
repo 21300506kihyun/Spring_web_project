@@ -146,6 +146,10 @@ function emailFormatCheck(str){
 
 
 // Simple Update 담당 함수
+function setUpdateAsDelete(id){
+	setValueAs_1_byId(id);
+}
+
 function setValueAs_1_byId(id){
 	$("#"+id).val("1");
 }
@@ -174,6 +178,32 @@ function simpleUpdate(formId, postURL, replaceAreaId){
 }
 
 // ID check
+function admin_idCheck(idInput_id, checkInput){
+	var testID = $("#"+idInput_id).val();
+	
+	$.ajax({
+		type: "POST",
+		url: "admin_idCheck.do",
+		dataType : "json",
+		data: {"user_id" : testID},
+		async: false,
+		cache: false,
+		success: function(result){
+			if(result >= 1){
+				alert("중복된 아이디 입니다.");
+				$("#"+checkInput).val("");
+			}
+			else{
+				alert("사용 가능한 아이디입니다.");
+				$("#"+checkInput).val("1");
+			}
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
+
 function superAdmin_idCheck(idInput_id, checkInput){
 	var testID = $("#"+idInput_id).val();
 	
@@ -186,7 +216,7 @@ function superAdmin_idCheck(idInput_id, checkInput){
 		cache: false,
 		success: function(result){
 			if(result >= 1){
-				alert("중복된 ID 입니다.");
+				alert("중복된 아이디 입니다.");
 				$("#"+checkInput).val("");
 			}
 			else{

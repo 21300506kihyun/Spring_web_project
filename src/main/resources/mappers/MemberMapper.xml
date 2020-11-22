@@ -408,7 +408,7 @@
 			SET 
 				user_id = "${superAdmin_id}", 
 				user_name='${superAdmin_name}',
-				grade = "${superAdmin_grage}", 
+				grade = "${superAdmin_grade}", 
 				telephone='${superAdmin_tel}', 
 				gender=${superAdmin_gender}, 
 				email="${superAdmin_email}", 
@@ -428,7 +428,7 @@
 				user_id = "${superAdmin_id}", 
 				password = "${superAdmin_password}",
 				user_name='${superAdmin_name}',
-				grade = "${superAdmin_grage}", 
+				grade = "${superAdmin_grade}", 
 				telephone='${superAdmin_tel}', 
 				gender=${superAdmin_gender}, 
 				email="${superAdmin_email}", 
@@ -530,7 +530,7 @@
 	</update>
 	
 	<update id="adminDelivery_setDeliveryLocation">
-		UPDATE DeliveryTable SET delivery_location = ${admin_deliveryLocation}, mod_date = now() WHERE delivery_id = ${delivery_id};
+		UPDATE DeliveryTable SET delivery_location = "${admin_deliveryLocation}", mod_date = now() WHERE delivery_id = ${delivery_id};
 	</update>
 	
 	<update id="adminDelivery_setState_depature">
@@ -546,14 +546,47 @@
 	</update>
 
 	
+	<!-- 배송자 관리 -->
+	<select id="adminDeliveryman_getDeliverymanCount" resultType="int">
+		SELECT COUNT(*) FROM UserTable 
+		WHERE user_category = 0 
+			AND mall_id = ${mall_id} 
+			AND user_name LIKE "%${search_keyword}%";
+	</select>
 	
 	
+	<select id="adminDeliveryman_getDeliverymans" resultType="HashMap">
+		SELECT * FROM UserTable 
+		WHERE user_category = 0 
+			AND mall_id = ${mall_id} 
+			AND user_name LIKE "%${search_keyword}%"
+		ORDER BY u_id
+		LIMIT ${startIndex}, ${cntPerPage};
+	</select>
 	
+	<delete id="adminDeliveryman_deleteById">
+		DELETE FROM UserTable WHERE u_id = ${deliveryman_id};
+	</delete>
 	
+	<update id="adminDeliveryman_simpleUpdate">
+		UPDATE UserTable 
+		SET
+			user_memo = "${admin_memo}",
+			modify_date = now()
+		WHERE 
+			u_id = ${deliveryman_id};
+	</update>
 	
-	
-	
-	
+	<insert id="adminDeliveryman_createNew">
+		INSERT INTO UserTable 
+			(user_id, password, user_name, 
+			telephone, gender, email, 
+			user_memo, user_category, mall_id)
+		VALUES
+			('${admin_id}', '${admin_password}', '${admin_name}',
+			'${admin_tel}', ${admin_gender}, '${admin_email}',
+			'${admin_memo}', 0, ${mall_id});
+	</insert>
 	
 	
 	

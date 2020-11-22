@@ -150,6 +150,17 @@ public interface MemberDAO {
 
 	public void adminDelivery_setState(Map<String, String> paramMap);
 
+	// admin Deliveryman
+	public int adminDeliveryman_getDeliverymanCount(Map<String, String> paramMap);
+
+	public List<Map<String, String>> adminDeliveryman_getDeliverymans(Map<String, String> paramMap);
+
+	public void adminDeliveryman_deleteById(Map<String, String> paramMap);
+
+	public void adminDeliveryman_simpleUpdate(Map<String, String> paramMap);
+
+	public void adminDeliveryman_createNew(Map<String, String> paramMap);
+
 
 
 }

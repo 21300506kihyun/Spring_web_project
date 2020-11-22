@@ -23,7 +23,22 @@
 			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "주문관리"){ %>  
 			 		
-			 	<% }
+			 	<% } %>
+			 	<% if((String)session.getAttribute("adminNowPage") == "배송관리"){ %>  
+		 		
+			 	<% } %>
+			 	<% if((String)session.getAttribute("adminNowPage") == "배송자관리"){ %>  
+		 			<a href="adminDeliverymanNew" class="adminTop_btn adminTop_btnBlue">배송자 추가하기</a>
+			 	<% } %>
+			 	<% if((String)session.getAttribute("adminNowPage") == "배송자 추가하기"){ %>  
+		 			<a href="adminDeliveryman" class="adminTop_btn adminTop_btnWhite">취소</a>
+		 			<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnGrey superAdminSubmitButton">저장</a>
+			 	<% } %>
+			 	<% if((String)session.getAttribute("adminNowPage") == "배송자 상세정보"){ %>  
+		 			<a href="adminDeliveryman" class="adminTop_btn adminTop_btnWhite">취소</a>
+		 			<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="">저장</a>
+		 	<% }
+			 	
   			}	%>
   		</div>
   	</div>

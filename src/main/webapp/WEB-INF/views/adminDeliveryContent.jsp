@@ -126,7 +126,7 @@
 			<c:forEach items="${deliverymanList}" var="row">
 				<option value="${row.u_id}">${row.user_name}</option>
 			</c:forEach>
-			<option value="">초기화</option>
+			<option value="null">초기화</option>
 		</select>
 		
 		<select class="adminProduct_statusBtn" name="admin_deliveryLocation" id="admin_deliveryLocation">
@@ -134,7 +134,7 @@
 			<option value="직접전달">직접전달</option>
 			<option value="문 앞">문 앞</option>
 			<option value="경비실">경비실</option>
-			<option value="">초기화</option>
+			<option value="-">초기화</option>
 		</select>
 		
 		<input type="hidden" name="adminDelivery_deliveryIDs[]" value="-1"/>

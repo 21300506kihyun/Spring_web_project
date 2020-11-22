@@ -21,7 +21,16 @@
 		  	
 		  	<!-- content -->
 		  	<div class="admin_content">
-			  	NOTHING: adminDeliveryman
+		  		<div class="adminProduct_cardContainer adminProduct_searchContainer">
+		  			<form onsubmit="admin_search(${pagination.curPage}, 'adminDeliverymanContent'); return false;">
+			  			<input id="admin_searchInput" class="adminProduct_searchInput" type="text" placeholder="배송자 이름을 검색해주세요."
+			  				autocomplete="off" spellcheck="false">
+		  				<input class="adminProduct_searchSubmit" type="submit" value="">
+		  			</form>
+				</div>
+				<div id="adminProduct_content" class="adminProduct_content adminProduct_contentShow">
+	  				<jsp:include page="./adminDeliverymanContent.jsp"></jsp:include>
+	  			</div>
 		  	</div>
 		 </div>
 	</div>
