@@ -451,4 +451,29 @@ public class MemberServiceImpl implements MemberService{
 	public void adminDeliveryman_createNew(Map<String, String> paramMap) {
 		memberDao.adminDeliveryman_createNew(paramMap);
 	}
+
+	@Override
+	public void adminDeliveryman_modifyDetail_withoutPW(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_modifyDetail_withoutPW(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_modifyDetail_withPW(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_modifyDetail_withPW(paramMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> adminDeliveryman_getDeliveries(int u_id) {
+		return memberDao.adminDeliveryman_getDeliveries(u_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> adminDeliveryman_getCurrDeliverise(int u_id) {
+		return memberDao.adminDeliveryman_getCurrDeliverise(u_id);
+	}
+
+	@Override
+	public int adminDeliveryman_getCurrDeliveryCnt(int u_id) {
+		return memberDao.adminDeliveryman_getCurrDeliveryCnt(u_id);
+	}
 }

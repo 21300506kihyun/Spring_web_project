@@ -36,7 +36,7 @@
 			 	<% } %>
 			 	<% if((String)session.getAttribute("adminNowPage") == "배송자 상세정보"){ %>  
 		 			<a href="adminDeliveryman" class="adminTop_btn adminTop_btnWhite">취소</a>
-		 			<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="">저장</a>
+		 			<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnBlue superAdminSubmitButton" onclick="adminDeliverymanModifyDetail()">저장</a>
 		 	<% }
 			 	
   			}	%>

@@ -525,6 +525,9 @@ input[type="checkbox"]{
 .display-none{
 	display:none;
 }
+.adminDeliveryman-search-input{
+	display: none;
+}
 
 
 

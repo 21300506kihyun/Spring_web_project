@@ -184,9 +184,10 @@
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<select class="adminProduct_statusBtn" id="superAdmin_gender" 
 	  					name="superAdmin_gender">
-	  				<option selected value="-1">성별을 선택해주세요.</option>
-	  				<option value="0">남자</option>
-	  				<option value="1">여자</option>
+	  				<c:set var="gender" value="${userInfo.gender}" />
+	  				<option disabled value="-1">성별을 선택해주세요.</option>
+	  				<option value="0" <c:if test="${gender == 0}">selected</c:if>>남자</option>
+	  				<option value="1" <c:if test="${gender == 1}">selected</c:if>>여자</option>
 	  			</select>
 			</div>
 		</div>

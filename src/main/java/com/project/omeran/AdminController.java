@@ -1987,8 +1987,14 @@ public class AdminController {
  				
  				// Get Mall List as (paging, superAdmin_searchText, tap)
  				DeliverymanList = memberService.adminDeliveryman_getDeliverymans(paramMap);
- 			
- 				System.out.println("DeliverymanList: "+ DeliverymanList);
+ 				
+ 				// 현재 담담 배송횟수 계산
+ 				for(Map<String, String> iterMap : DeliverymanList) {
+ 					int u_id = Integer.parseInt(String.valueOf(iterMap.get("u_id")));
+ 					int currDeliveryCnt = memberService.adminDeliveryman_getCurrDeliveryCnt(u_id);
+ 					iterMap.put("currCount", String.valueOf(currDeliveryCnt));
+ 				}
+ 				System.out.println("After DeliverymanList: "+ DeliverymanList);
  			}
  			
  			
@@ -2052,7 +2058,7 @@ public class AdminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminBasic");
-			mav.addObject("pageContent", "adminDeliveryNew");
+			mav.addObject("pageContent", "adminDeliverymanNew");
 			mav.addObject("siteName", siteName);
 			return mav;
 		}
@@ -2099,7 +2105,7 @@ public class AdminController {
 		}
 		
 
-	// TODO: 배송자 상세보기 URL 매핑
+	// 배송자 상세보기 URL 매핑
 	@RequestMapping(value = {"/{siteName}/adminDeliverymanDetail"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminDeliverymanDetail(HttpSession session, 
 			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap,
@@ -2113,7 +2119,16 @@ public class AdminController {
 
 		if(admin_sessionTest(session) <= -1) {
 			int u_id = Integer.parseInt(paramMap.get("u_id"));
-			// TODO: 해당 유저정보 가져와서 뿌려주기
+
+			// 기본정보 가져오기 
+			Map<String, Object> DeliverymanInfo = memberService.superAdmin_getUserInfoById(u_id);
+			
+			// 모든 배송기록 가져오기
+			List<Map<String, Object>> allDeliveryLogs = memberService.adminDeliveryman_getDeliveries(u_id);
+			System.out.println(">>>\t"+allDeliveryLogs);
+			
+			// 모든 배송기록중, 현재 담당중인 배송기록만으로 리스트 만들기
+			List<Map<String, Object>> currDeliveryLogs = memberService.adminDeliveryman_getCurrDeliverise(u_id);
 			
 			session.setAttribute("adminSideState", "배송자관리");
 			session.setAttribute("adminNowPage", "배송자 상세정보");
@@ -2121,6 +2136,10 @@ public class AdminController {
 			variableInjection(mav);
 			
 			mav.setViewName("adminDeliverymanDetail");
+			mav.addObject("DeliverymanInfo", DeliverymanInfo);
+			mav.addObject("allDeliveryLogs", allDeliveryLogs);
+			mav.addObject("currDeliveryLogs", currDeliveryLogs);
+			
 			mav.addObject("siteName", siteName);
 			
 			
@@ -2131,26 +2150,27 @@ public class AdminController {
 		}
 	}
     	
-		// TODO: 배송자 상세 수정 기능
+		// 배송자 상세 수정 기능 
     	@RequestMapping(value = {"/{siteName}/adminDeliverymanModifyDetail"}, method = { RequestMethod.GET, RequestMethod.POST })
     	public ModelAndView adminDeliverymanModifyDetail(HttpSession session, 
     			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap,
     			@PathVariable("siteName") String siteName) throws Exception {
-    		System.out.println("adminDeliverymanModifyDetail modify: "+paramMap);
+//    		System.out.println("adminDeliverymanModifyDetail modify: "+paramMap);
     		
     		if(admin_sessionTest(session) <= -1) {
+    			paramMap.put("mall_id", String.valueOf(session.getAttribute("mall_id")));
     			// TODO: 삭제했는가?
     			
     			// TODO: 수정했는가?
-	    			if(paramMap.get("superAdmin_password") == "") {
-	    				// TODO: PW 빼고 정보 업데이트
+	    			if(paramMap.get("admin_password") == "") {
+	    				memberService.adminDeliveryman_modifyDetail_withoutPW(paramMap);
 	    			} 
 	    			else {
-	    				// TODO: PW 암호화해서 업데이트 
-	    				String EncodedPW = pwdEncoder.encode(paramMap.get("superAdmin_password"));
+	    				String EncodedPW = pwdEncoder.encode(paramMap.get("admin_password"));
 		    			
-		    			paramMap.put("superAdmin_password", EncodedPW);
-		    			paramMap.put("superAdmin_passwordCheck", EncodedPW);
+		    			paramMap.put("admin_password", EncodedPW);
+		    			paramMap.put("admin_passwordCheck", EncodedPW);
+		    			memberService.adminDeliveryman_modifyDetail_withPW(paramMap);
 	    				// memberService.superAdmin_modifyDetailAdmin_withPW(paramMap);
 	    			}
 

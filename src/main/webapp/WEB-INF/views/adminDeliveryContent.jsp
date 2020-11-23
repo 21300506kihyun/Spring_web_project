@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<script src="${pageContext.request.contextPath}/resources/js/adminProduct.js"></script>
 	<script>
-		function expandToggle(id){
+		/* function expandToggle(id){
 			if($("#hiddenA"+id).css("display") == "table-row"){
 				$("#hiddenA"+id).css("display", "none");
 			}
@@ -22,7 +22,7 @@
 			else{
 				$("#hiddenB"+id).css("display", "table-row");
 			}
-		}
+		} */
 		
 		function adminDelivery_simpleUpdateTest(){
 			var new_state = $("#admin_status").val();
@@ -158,7 +158,6 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${DeliveryList}" var="row" varStatus="idx">
-					<c:set var="deliveryman" value="${row.delivery_name}" />
 					<tr class="adminProduct_listItem">
 						<td>
 							<input type="checkbox" name="adminDelivery_deliveryIDs[]" 
@@ -171,6 +170,7 @@
 						<td>${row.product_name}"</td>
 						<td>${row.current_delivery_count} / 2</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.mod_date}"/></td>
+						<c:set var="deliveryman" value="${row.delivery_name}" />
 						<c:choose>
 							<c:when test="${deliveryman != null}">
 								<td>${row.delivery_name}</td>
@@ -215,7 +215,7 @@
 						</c:choose>
 						<td>${row.telephone}</td>
 						<td>${row.email}</td>
-						<td colspan="3">${row.address01} ${row.address02} ${row.address03}</td>
+						<td colspan="3">${row.address01}<br>${row.address02}<br>${row.address03}</td>
 					</tr>
 				</c:forEach>
 				<c:set var="listCnt" value="${DeliveryList.size()}"/>

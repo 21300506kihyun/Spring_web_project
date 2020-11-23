@@ -161,6 +161,16 @@ public interface MemberDAO {
 
 	public void adminDeliveryman_createNew(Map<String, String> paramMap);
 
+	public void adminDeliveryman_modifyDetail_withoutPW(Map<String, String> paramMap);
+
+	public void adminDeliveryman_modifyDetail_withPW(Map<String, String> paramMap);
+
+	public List<Map<String, Object>> adminDeliveryman_getDeliveries(int u_id);
+
+	public List<Map<String, Object>> adminDeliveryman_getCurrDeliverise(int u_id);
+
+	public int adminDeliveryman_getCurrDeliveryCnt(@Param("u_id") int u_id);
+
 
 
 }

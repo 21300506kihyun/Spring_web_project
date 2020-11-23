@@ -306,3 +306,48 @@ function admin_search(curPage, toURL){
 	return false;
 }
 
+
+// admin Delivery expand
+function expandToggle(id){
+	if($("#hiddenA"+id).css("display") == "table-row"){
+		$("#hiddenA"+id).css("display", "none");
+	}
+	else{
+		$("#hiddenA"+id).css("display", "table-row");
+	}
+	if($("#hiddenB"+id).css("display") == "table-row"){
+		$("#hiddenB"+id).css("display", "none");
+	}
+	else{
+		$("#hiddenB"+id).css("display", "table-row");
+	}
+}
+
+
+// admin 자바스크립트 검색
+function admin_filter(text_input_id){
+    var value, name, item, i, num_of_showingItem = 0;
+
+    value = document.getElementById(text_input_id).value.toUpperCase();
+    item = document.getElementsByClassName("adminProduct_listItem");
+
+    for(i=0;i<item.length;i++){
+      name = item[i].getElementsByClassName("adminProduct_itemName");
+      
+      if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+        item[i].style.display = "table-row";
+        num_of_showingItem++;
+      }else{
+        item[i].style.display = "none";
+      }
+    }
+    
+    if(num_of_showingItem == 0){
+    	$(".adminProduct_checkAll").prop("checked", false);
+    	$(".adminProduct_listNoData").css("display", "table-row");
+    }
+   else{
+    	$(".adminProduct_listNoData").css("display", "none");
+    } 
+}
+

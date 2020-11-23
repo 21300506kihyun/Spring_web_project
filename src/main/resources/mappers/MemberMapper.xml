@@ -556,12 +556,23 @@
 	
 	
 	<select id="adminDeliveryman_getDeliverymans" resultType="HashMap">
-		SELECT * FROM UserTable 
-		WHERE user_category = 0 
-			AND mall_id = ${mall_id} 
-			AND user_name LIKE "%${search_keyword}%"
-		ORDER BY u_id
+		SELECT *, COUNT(D.delivery_id) AS total 
+		FROM UserTable AS U 
+		LEFT OUTER JOIN DeliveryTable AS D 
+		ON U.u_id = D.deliveryman_id 
+		WHERE U.user_category = 0 
+			AND U.mall_id = ${mall_id} 
+			AND U.user_name LIKE "%${search_keyword}%" 
+		GROUP BY U.u_id 
+		ORDER BY U.user_name
 		LIMIT ${startIndex}, ${cntPerPage};
+	</select>
+	
+	<select id="adminDeliveryman_getCurrDeliveryCnt" resultType="int">
+		SELECT COUNT(delivery_id) 
+		FROM DeliveryTable 
+		WHERE deliveryman_id = #{u_id} 
+			AND (state_id = "D001" OR state_id = "D002" OR state_id = "D003");
 	</select>
 	
 	<delete id="adminDeliveryman_deleteById">
@@ -588,7 +599,81 @@
 			'${admin_memo}', 0, ${mall_id});
 	</insert>
 	
+	<update id="adminDeliveryman_modifyDetail_withoutPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${admin_id}", 
+				user_name='${admin_name}', 
+				telephone='${admin_tel}', 
+				gender=${admin_gender}, 
+				email="${admin_email}", 
+				modify_date=now(), 
+				user_memo='${admin_memo}', 
+				mall_id=${mall_id}
+			WHERE u_id=${admin_u_id};
+		]]>
+	</update>
 	
+	<update id="adminDeliveryman_modifyDetail_withPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${admin_id}", 
+				password = "${admin_password}",
+				user_name='${admin_name}', 
+				telephone='${admin_tel}', 
+				gender=${admin_gender}, 
+				email="${admin_email}", 
+				modify_date=now(), 
+				user_memo='${admin_memo}', 
+				mall_id=${mall_id}
+			WHERE u_id=${admin_u_id};
+		]]>
+	</update>
+	
+	<select id="adminDeliveryman_getDeliveries" resultType="HashMap">
+		SELECT D.*, U.user_name, U.telephone, U.email, S.address01,
+				S.address02, S.address03, St.state_name, P.product_name,
+				DeliveryMan.user_name AS delivery_name 
+		FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON D.state_id = St.state_id 
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN UserTable AS DeliveryMan 
+							ON D.deliveryman_id=DeliveryMan.u_id 
+		WHERE deliveryman_id = #{u_id}
+		ORDER BY D.mod_date DESC;
+	</select>
+	
+	<select id="adminDeliveryman_getCurrDeliverise" resultType="HashMap">
+		SELECT D.*, U.user_name, U.telephone, U.email, S.address01,
+				S.address02, S.address03, St.state_name, P.product_name,
+				DeliveryMan.user_name AS delivery_name 
+		FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON D.state_id = St.state_id 
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN UserTable AS DeliveryMan 
+							ON D.deliveryman_id=DeliveryMan.u_id 
+		WHERE deliveryman_id = #{u_id}
+			AND (D.state_id = "D001" OR D.state_id = "D002" OR D.state_id = "D003")
+		ORDER BY D.mod_date DESC;
+	</select>
 	
 </mapper>
 

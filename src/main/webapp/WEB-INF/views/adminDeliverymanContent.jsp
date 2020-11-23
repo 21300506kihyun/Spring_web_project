@@ -91,8 +91,8 @@
 						</td>
 						<td>${row.user_id}</td>
 						<td>${row.telephone}</td>
-						<td>TODO</td>
-						<td>TODO</td>
+						<td>${row.currCount}</td>
+						<td>${row.total}</td>
 						<td>${row.email}</td>
 						<td>${row.user_memo}</td>
 					</tr>

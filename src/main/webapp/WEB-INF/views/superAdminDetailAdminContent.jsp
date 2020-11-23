@@ -131,7 +131,7 @@
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<input id="superAdmin_id" name="superAdmin_id" 
 	  					class="adminProductDetail_input adminProductDetail_inputText" 
-	  					type="text" placeholder="ID를 입력해주세요." value="${userInfo.user_id}" required autocomplete="user-name"/>
+	  					type="text" placeholder="아이디를 입력해주세요." value="${userInfo.user_id}" required autocomplete="user-name"/>
 			</div>
   		</div>
   		
@@ -181,9 +181,10 @@
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<select class="adminProduct_statusBtn" id="superAdmin_gender" 
 	  					name="superAdmin_gender">
-	  				<option selected value="-1">성별을 선택해주세요.</option>
-	  				<option value="0">남자</option>
-	  				<option value="1">여자</option>
+	  				<c:set var="gender" value="${userInfo.gender}" />
+	  				<option selected disabled>성별을 선택해주세요.</option>
+	  				<option value="0" <c:if test="${gender == 0}">selected</c:if>>남자</option>
+	  				<option value="1" <c:if test="${gender == 1}">selected</c:if>>여자</option>
 	  			</select>
 			</div>
 		</div>
@@ -214,7 +215,7 @@
 			<div class="adminProductDetail_productTitle">관리할 쇼핑몰</div>
 	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 	  			<select class="adminProduct_statusBtn" id="superAdmin_mall_id" name="superAdmin_mall_id">
-	  				<option selected value="-1">사이트를 선택해주세요.</option>
+	  				<option selected disabled value="-1">사이트를 선택해주세요.</option>
 					<c:forEach items="${mallList}" var="row">
 						<option value="${row.mall_id}">${row.mall_name}</option>
 					</c:forEach>
