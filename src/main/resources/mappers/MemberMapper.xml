@@ -453,7 +453,7 @@
 	
 	<select id="adminOrder_getOrders" resultType="HashMap">
 		SELECT O.*, U.user_name, U.telephone, U.email, S.address01, 
-				S.address02, S.address03, St.state_name, P.product_name  
+				S.address02, S.address03, St.state_name, P.product_name, COUNT(*) AS restCnt
 		FROM 
 		OrderTable AS O 
 			JOIN UserTable AS U 
@@ -464,9 +464,13 @@
 					ON O.state_id = St.state_id
 						JOIN ProductTable AS P 
 						ON O.product_id = P.p_id
+							LEFT OUTER JOIN DeliveryTable AS D
+               				ON O.order_id = D.order_id
 		WHERE O.mall_id = ${mall_id}
 			AND U.user_name LIKE "%${search_keyword}%" 
 			AND O.state_id = "${state_id}"
+			AND D.state_id != "D004"
+		GROUP BY O.order_id
 		ORDER BY order_id 
 		LIMIT ${startIndex}, ${cntPerPage};
 	</select>
@@ -494,7 +498,8 @@
 			JOIN UserTable AS U 
 			ON O.customer_id = U.u_id 
 		WHERE D.mall_id = ${mall_id} 
-			AND user_name LIKE "%${search_keyword}%";
+			AND user_name LIKE "%${search_keyword}%"
+			AND D.state_id = "${state_id}";
 	</select>
 
 	<select id="adminDelivery_getDeliveryCountByState" resultType="int">

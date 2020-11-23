@@ -51,9 +51,9 @@
 		  			<a id="adminOrder_tap01" class="adminProduct_tapMenus <c:if test="${currentTap == 1}">on</c:if>" 
 		  				onclick="admin_moveTap('adminOrder_tap', '01')"><span>입금전 <div class="adminProduct_menuCnt">${orderCnt[0]}</div></span></a>
 		  			<a id="adminOrder_tap02" class="adminProduct_tapMenus <c:if test="${currentTap == 2}">on</c:if>" 
-		  				onclick="admin_moveTap('adminOrder_tap', '02')"><span>정기구독 <div class="adminProduct_menuCnt">${orderCnt[1]}</div></span></a>
+		  				onclick="admin_moveTap('adminOrder_tap', '02')"><span>구독중 <div class="adminProduct_menuCnt">${orderCnt[1]}</div></span></a>
 		  			<a id="adminOrder_tap03" class="adminProduct_tapMenus <c:if test="${currentTap == 3}">on</c:if>" 
-		  				onclick="admin_moveTap('adminOrder_tap', '03')"><span>정기구독 만료 <div class="adminProduct_menuCnt">${orderCnt[2]}</div></span></a>
+		  				onclick="admin_moveTap('adminOrder_tap', '03')"><span>구독만료 <div class="adminProduct_menuCnt">${orderCnt[2]}</div></span></a>
 		  			<a id="adminOrder_tap04" class="adminProduct_tapMenus <c:if test="${currentTap == 4}">on</c:if>" 
 		  				onclick="admin_moveTap('adminOrder_tap', '04')"><span>구매자취소 <div class="adminProduct_menuCnt">${orderCnt[3]}</div></span></a>
 	  				<a id="adminOrder_tap05" class="adminProduct_tapMenus <c:if test="${currentTap == 5}">on</c:if>" 

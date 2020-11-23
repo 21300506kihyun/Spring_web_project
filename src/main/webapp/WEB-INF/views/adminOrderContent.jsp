@@ -91,7 +91,7 @@
 						<td>${row.user_name}</td>
 						<td>${row.product_name}</td>
 						<td>₩<fmt:formatNumber type="number" maxFractionDigits="3" value="${row.pay_amount}" /></td>
-						<td>TODO</td>
+						<td>${row.restCnt} 회</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.order_date}"/></td>
 						<td>${row.state_name}</td>
 					</tr>

@@ -176,7 +176,7 @@ public class AdminController {
 		
 		if(paramList != null) {
 			for(String listItem : paramList) {
-				System.out.println("listItem: " + listItem);
+				// System.out.println("listItem: " + listItem);
 				
 				String listItemDetail[] = listItem.split(",");
 				if(listItemDetail[0].equals("-1")) {
@@ -1523,21 +1523,22 @@ public class AdminController {
 		List<Integer> orderCnt = null;
 		PaginationVO pagination = new PaginationVO(entireOrderSize, adminOrder_curPage);
 		
+		// 상태마다 주문이 몇개 있는지 가져오기
+		int mallID = (int)session.getAttribute("mall_id");
+		int orderCnt01 = memberService.adminOrder_getOrderCountByState("O001", mallID);
+		int orderCnt02 = memberService.adminOrder_getOrderCountByState("O002", mallID);
+		int orderCnt03 = memberService.adminOrder_getOrderCountByState("O003", mallID);
+		int orderCnt04 = memberService.adminOrder_getOrderCountByState("O004", mallID);
+		int orderCnt05 = memberService.adminOrder_getOrderCountByState("O005", mallID);
+		orderCnt = new ArrayList<Integer>() {{
+			add(orderCnt01);
+			add(orderCnt02);
+			add(orderCnt03);
+			add(orderCnt04);
+			add(orderCnt05);
+		}};
+		
 		if(entireOrderSize != 0) {
-			// 상태마다 주문이 몇개 있는지 가져오기
-			int mallID = (int)session.getAttribute("mall_id");
-			int orderCnt01 = memberService.adminOrder_getOrderCountByState("O001", mallID);
-			int orderCnt02 = memberService.adminOrder_getOrderCountByState("O002", mallID);
-			int orderCnt03 = memberService.adminOrder_getOrderCountByState("O003", mallID);
-			int orderCnt04 = memberService.adminOrder_getOrderCountByState("O004", mallID);
-			int orderCnt05 = memberService.adminOrder_getOrderCountByState("O005", mallID);
-			orderCnt = new ArrayList<Integer>() {{
-				add(orderCnt01);
-				add(orderCnt02);
-				add(orderCnt03);
-				add(orderCnt04);
-				add(orderCnt05);
-			}};
 			
 			
 			// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
@@ -1556,8 +1557,9 @@ public class AdminController {
 			
 			// Get Mall List as (paging, superAdmin_searchText, tap)
 			OrderList = memberService.adminOrder_getOrders(paramMap);
-		
 			System.out.println("order info: "+ OrderList);
+			
+			
 		}
 		
 		
@@ -1727,7 +1729,7 @@ public class AdminController {
 		public ModelAndView adminDeliveryContent(HttpSession session,
 				@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
 	    	ModelAndView mav = new ModelAndView();
-	    	System.out.println("currentTap: "+adminOrder_currTap);
+	    	System.out.println("currentTap: "+adminDelivery_currTap);
 	    	System.out.println("adminDeliveryContent: "+paramMap);
 	    	if(admin_sessionTest(session) <= -1) {
 	    		System.out.println("adminDeliveryContent2: "+paramMap);
@@ -1794,24 +1796,23 @@ public class AdminController {
 			List<Integer> deliveryCnt = null;
 			PaginationVO pagination = new PaginationVO(entireDeliverySize, adminDelivery_curPage);
 			
+			// 상태마다 배송이 몇개 있는지 가져오기
+			int mallID = (int)session.getAttribute("mall_id");
+			int deliveryCnt01 = memberService.adminDelivery_getDeliveryCountByState("D001", mallID);
+			int deliveryCnt02 = memberService.adminDelivery_getDeliveryCountByState("D002", mallID);
+			int deliveryCnt03 = memberService.adminDelivery_getDeliveryCountByState("D003", mallID);
+			int deliveryCnt04 = memberService.adminDelivery_getDeliveryCountByState("D004", mallID);
+			int deliveryCnt05 = memberService.adminDelivery_getDeliveryCountByState("D005", mallID);
+			deliveryCnt = new ArrayList<Integer>() {{
+				add(deliveryCnt01);
+				add(deliveryCnt02);
+				add(deliveryCnt03);
+				add(deliveryCnt04);
+				add(deliveryCnt05);
+			}};
+			System.out.println("deliveryCnt: "+ deliveryCnt);
+			
 			if(entireDeliverySize != 0) {
-				// 상태마다 배송이 몇개 있는지 가져오기
-				int mallID = (int)session.getAttribute("mall_id");
-				int deliveryCnt01 = memberService.adminDelivery_getDeliveryCountByState("D001", mallID);
-				int deliveryCnt02 = memberService.adminDelivery_getDeliveryCountByState("D002", mallID);
-				int deliveryCnt03 = memberService.adminDelivery_getDeliveryCountByState("D003", mallID);
-				int deliveryCnt04 = memberService.adminDelivery_getDeliveryCountByState("D004", mallID);
-				int deliveryCnt05 = memberService.adminDelivery_getDeliveryCountByState("D005", mallID);
-				deliveryCnt = new ArrayList<Integer>() {{
-					add(deliveryCnt01);
-					add(deliveryCnt02);
-					add(deliveryCnt03);
-					add(deliveryCnt04);
-					add(deliveryCnt05);
-				}};
-				System.out.println("deliveryCnt: "+ deliveryCnt);
-				
-				
 				// 만약 삭제로 인해서 페이지가 줄어들어서 현재 페이지가 없는 페이지가 되는 경우,
 				if(pagination.getEndPage() < adminDelivery_curPage) {
 					adminDelivery_curPage = pagination.getEndPage();
@@ -1865,8 +1866,10 @@ public class AdminController {
     	    			memberService.adminDelivery_simpleUpdate(paramMap);
     	    		}
     	    	}
-    			
-    			return adminDelivery(session, siteName);
+    			ModelAndView mav = new ModelAndView();
+    			mav.setViewName("redirect:adminDelivery");
+    			return mav;
+    			// return adminDelivery(session, siteName);
     		}
     		else {
     			return go404();
@@ -2159,20 +2162,18 @@ public class AdminController {
     		
     		if(admin_sessionTest(session) <= -1) {
     			paramMap.put("mall_id", String.valueOf(session.getAttribute("mall_id")));
-    			// TODO: 삭제했는가?
     			
-    			// TODO: 수정했는가?
-	    			if(paramMap.get("admin_password") == "") {
-	    				memberService.adminDeliveryman_modifyDetail_withoutPW(paramMap);
-	    			} 
-	    			else {
-	    				String EncodedPW = pwdEncoder.encode(paramMap.get("admin_password"));
-		    			
-		    			paramMap.put("admin_password", EncodedPW);
-		    			paramMap.put("admin_passwordCheck", EncodedPW);
-		    			memberService.adminDeliveryman_modifyDetail_withPW(paramMap);
-	    				// memberService.superAdmin_modifyDetailAdmin_withPW(paramMap);
-	    			}
+    			if(paramMap.get("admin_password") == "") {
+    				memberService.adminDeliveryman_modifyDetail_withoutPW(paramMap);
+    			} 
+    			else {
+    				String EncodedPW = pwdEncoder.encode(paramMap.get("admin_password"));
+	    			
+	    			paramMap.put("admin_password", EncodedPW);
+	    			paramMap.put("admin_passwordCheck", EncodedPW);
+	    			memberService.adminDeliveryman_modifyDetail_withPW(paramMap);
+    				// memberService.superAdmin_modifyDetailAdmin_withPW(paramMap);
+    			}
 
     			// return to 배송자관리 메인
     			ModelAndView mav = new ModelAndView();
@@ -2195,6 +2196,7 @@ public class AdminController {
     
     
     // 관리자 페이지: 사이트관리  
+    // 사이트관리 URL 매핑
     @RequestMapping(value = "/{siteName}/adminSite", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView adminSite(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -2204,13 +2206,21 @@ public class AdminController {
     	}
 		
 		if(admin_sessionTest(session) <= -1) {
+			int mall_id = Integer.parseInt(String.valueOf(session.getAttribute("mall_id")));
+			Map<String, Object> mallInfo = memberService.superAdmin_getMallInfoById(mall_id);
+			
+			
+			
+			
 			session.setAttribute("adminSideState", "사이트관리");
 			session.setAttribute("adminNowPage", "사이트관리");
 			
 			variableInjection(mav);
 			
 			mav.setViewName("adminSite");
+			mav.addObject("mallInfo", mallInfo);
 			mav.addObject("siteName", siteName);
+			
 			return mav;
 		}
 		else {
@@ -2218,6 +2228,39 @@ public class AdminController {
 			//return goHome();
 		}
 	}
-	
-	
+		
+    	// 수정하기 기능 
+    	@RequestMapping(value = "/{siteName}/adminSiteModifyDetail", method= {RequestMethod.GET, RequestMethod.POST})
+    	public ModelAndView adminSiteModifyDetail(HttpSession session, 
+    			@PathVariable("siteName") String siteName,
+    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) {
+    		ModelAndView mav = new ModelAndView();
+    		
+    		if(!siteNameValidityCheck(siteName)) {
+        		return redirectToHome();
+        	}
+    		
+    		if(admin_sessionTest(session) <= -1) {
+    			memberService.superAdmin_modifyMall(paramMap);
+    			
+    			// return to 쇼핑몰 관리 메인 
+    			mav.setViewName("redirect:adminSite");
+    			return mav;
+    		}
+    		else {
+    			return redirectToHome();
+    			//return goHome();
+    		}
+    	}
+    	
+    	// 몰 이름 중복체크
+    	@ResponseBody 
+        @RequestMapping(value = {"/{siteName}/superAdmin_mallNameCheck.do"}, method = { RequestMethod.GET, RequestMethod.POST })
+       	public int admin_mallNameCheck(String mall_name, @PathVariable("siteName") String siteName) throws Exception {
+       		System.out.println("admin mallNameCheck: "+mall_name);
+       		
+       		return superAdmin_mallNameCheck(mall_name);
+       	}
+    
+    
 }
