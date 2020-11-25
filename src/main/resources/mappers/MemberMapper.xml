@@ -144,16 +144,16 @@
 	</update>
 	
 	<update id="productDelete">
-		<!-- <![CDATA[
+		<![CDATA[
 			DELETE FROM ProductTable
 			WHERE p_id = #{productId}
 			LIMIT 1;
-		]]> -->
-		UPDATE ProductTable
+		]]>
+		<!-- UPDATE ProductTable
 		SET
 			state_id = "delete",
 			mod_date = CURRENT_TIMESTAMP
-		WHERE p_id = #{productId};
+		WHERE p_id = #{productId}; -->
 	</update>
 	
 	<select id="adminProductCreateNew" parameterType="hashmap"> 
@@ -223,12 +223,12 @@
 	<insert id="superAdmin_createNewMall">
 		<![CDATA[
 			INSERT INTO MallTable 
-				(mall_name, create_date, farm_name, farm_address, farm_detail, tel, fax, regist_num, business_num, account_num)
+				(mall_name, create_date, farm_name, farm_address, farm_detail, tel, fax, regist_num, business_num, account_num, represent_img)
 			VALUES
 				("${superAdmin_mallName}", now(), "${superAdmin_farmName}",
 				"${superAdmin_farmAddress}", '${superAdmin_farmDetail}',
 				"${superAdmin_mallPhone}", "${superAdmin_mallFax}", "${superAdmin_mallRegistNum}",
-				"${superAdmin_mallBusinessNum}", "${superAdmin_mallAccountNum}");
+				"${superAdmin_mallBusinessNum}", "${superAdmin_mallAccountNum}", "${filePath}");
 		]]>
 	</insert>
 	
@@ -680,5 +680,11 @@
 		ORDER BY D.mod_date DESC;
 	</select>
 	
+	
+	
+	<!-- 플랫폼 -->
+	<select id="platform_getAllMallList" resultType="HashMap">
+		SELECT * FROM MallTable;
+	</select>
 </mapper>
 

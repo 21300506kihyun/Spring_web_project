@@ -152,6 +152,8 @@ public interface MemberService {
 
 	public int adminDeliveryman_getCurrDeliveryCnt(int u_id);
 
+	public List<Map<String, Object>> platform_getAllMallList();
+
 
 	
 

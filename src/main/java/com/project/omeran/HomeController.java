@@ -79,13 +79,20 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
-	public String home() {
-		return "index";
+	public ModelAndView home() {
+		ModelAndView mav = new ModelAndView();
+		
+		// 쇼핑몰 목록 가져오기
+		List<Map<String, Object>> mallList = memberService.platform_getAllMallList();
+		
+		mav.addObject("mallList", mallList);
+		
+		mav.setViewName("platformMain");
+		
+		return mav;
 	}
 	@RequestMapping(value = {"/index", "/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
-		System.out.println(pwdEncoder.encode("customer02PW"));
-		
 		return "index";
 	}
 	@RequestMapping(value = "/p2", method = { RequestMethod.GET, RequestMethod.POST })

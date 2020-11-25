@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,26 @@
 	}
 	</style>
 	<script>
+		$(document).ready(function(){
+			$("#superAdmin_mallRepresentImg").change(function(){
+				if(this.files && this.files[0]){
+					var reader = new FileReader;
+					reader.onload = function(data){
+						$(".adminProductDetail_selectImage img").attr("src", data.target.result).width(400);
+					}
+					reader.readAsDataURL(this.files[0]);
+					
+					// 파일이 새로 업로드 되었을 때,
+					$("#superAdmin_mall_fileTest").val("afterNewUpload");
+				}
+				else{
+					$(".adminProductDetail_selectImage img").attr("src", "").width(0);
+					
+					// 파일이 새로 업로드 되지 않았을 때,
+					$("#superAdmin_mall_fileTest").val("beforeNewUpload");
+				}
+			});
+		});
 		function superAdmin_createNewMallTest(){
 			if($("#superAdmin_mallName").val().length == 0){
 				alert("쇼핌몰 이름 정해주세요.");
@@ -72,7 +93,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/se2/photo_uploader/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>
 </head>
 <body>
-  	<form id="superAdminModifyMall_form" action="superAdminModifyMall" method="post">
+  	<form id="superAdminModifyMall_form" action="superAdminModifyMall" method="post" enctype="multipart/form-data">
+  		<input name="superAdmin_contextPath" type="hidden" value='<%= request.getRealPath("/") %>'/>
   		<input type="hidden" name="superAdmin_mall_id" value="${mallInfo.mall_id}"/>
   		<div class="adminProductDetail_content">
 	  		<div class="adminProductDetail_productTitle">
@@ -166,6 +188,28 @@
 	  					class="adminProductDetail_input adminProductDetail_inputText" 
 	  					type="text" placeholder="쇼핑몰 계좌번호를 하이픈(-) 없이 입력해주세요" 
 	  					value="${mallInfo.account_num}" required/>
+			</div>
+		</div>
+		
+		<div class="adminProductDetail_content">
+			<div class="adminProductDetail_productTitle">10. 쇼핑몰 대표이미지 등록</div>
+	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
+	  			<label class="adminProductDetail_inputLabel" 
+	  					for="superAdmin_mallRepresentImg">*새로운 파일을 등록하지 않으시면 자동으로 이전 이미지를 사용합니다.</label>
+	  			<div class="adminProductDetail_selectImage">
+	  				<c:set var="img" value="${mallInfo.represent_img}"/>
+					<c:choose>
+						<c:when test="${img != null}">
+							<img width="400" src="${pageContext.request.contextPath}/uploadFolder/${mallInfo.represent_img}"/>
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose> 
+	  			</div>
+	  			<input id="superAdmin_mall_fileTest" type="hidden" name="superAdmin_mall_fileTest" value="beforeNewUpload"/>
+	  			<input type="hidden" name="superAdmin_representImgName" value="${mallInfo.represent_img}"/>
+	  			<input id="superAdmin_mallRepresentImg" name="superAdmin_mallRepresentImg"
+	  					class="adminProductDetail_input adminProductDetail_inputFile" type="file" required accept="image/*"/>
 			</div>
 		</div>
 		

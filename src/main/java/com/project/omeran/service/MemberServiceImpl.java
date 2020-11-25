@@ -476,4 +476,10 @@ public class MemberServiceImpl implements MemberService{
 	public int adminDeliveryman_getCurrDeliveryCnt(int u_id) {
 		return memberDao.adminDeliveryman_getCurrDeliveryCnt(u_id);
 	}
+
+	// 플렛폼 메인
+	@Override
+	public List<Map<String, Object>> platform_getAllMallList() {
+		return memberDao.platform_getAllMallList();
+	}
 }

@@ -171,6 +171,9 @@ public interface MemberDAO {
 
 	public int adminDeliveryman_getCurrDeliveryCnt(@Param("u_id") int u_id);
 
+	// 플랫폼 메인
+	public List<Map<String, Object>> platform_getAllMallList();
+
 
 
 }

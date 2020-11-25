@@ -657,6 +657,7 @@ public class AdminController {
 	    	// 새로운 쇼핑몰 생성 기능
 	    	@RequestMapping(value = {"/superAdminCreateNewMall"}, method = { RequestMethod.GET, RequestMethod.POST })
 	    	public ModelAndView superAdminCreateNewMall(HttpSession session, 
+	    			MultipartFile superAdmin_mallRepresentImg,
 	    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
 	    		System.out.println("create new: "+paramMap);
 	    		// 몰 이름 중복체크
@@ -671,7 +672,12 @@ public class AdminController {
 	    		}
 	    		
 	    		if(admin_sessionTest(session) == -2) {
+	    			// upload 쇼핑몰 대표이미지 
+	    			UPLOAD_PATH = (String)paramMap.get("superAdmin_contextPath") + "/uploadFolder";
+					String filePath = saveFile(superAdmin_mallRepresentImg);
+					paramMap.put("filePath", filePath);
 	    			
+					System.out.println("paramMap: "+paramMap);
 	    			// INSERT INTO MallTable
 	    			memberService.superAdmin_createNewMall(paramMap);
 	    			
@@ -684,7 +690,7 @@ public class AdminController {
 	    			return goHome();
 	    		}
 	    	}
-
+	    	
 	    
 	    // 쇼핑몰 디테일 뷰 및 수정 페이지 URL 매핑
     	@RequestMapping(value = {"/superAdminDetailMall"}, method = { RequestMethod.GET, RequestMethod.POST })
@@ -716,10 +722,27 @@ public class AdminController {
 	    	// 쇼핑몰 디테일 수정 기능
 	    	@RequestMapping(value = {"/superAdminModifyMall"}, method = { RequestMethod.GET, RequestMethod.POST })
 	    	public ModelAndView superAdminModifyMall(HttpSession session, 
+	    			MultipartFile superAdmin_mallRepresentImg,
 	    			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) throws Exception {
 //	    		System.out.println("mall modify: "+paramMap);
 	    		
 	    		if(admin_sessionTest(session) == -2) {
+	    			// 파일 업로드 관련 
+	    			String superAdmin_mall_fileTest = paramMap.get("superAdmin_mall_fileTest");
+	    			UPLOAD_PATH = (String)paramMap.get("superAdmin_contextPath") + "/uploadFolder";
+	    			
+	    			// 1. 만약 새로운 파일이 올라왔으면
+					if(superAdmin_mall_fileTest.equals("afterNewUpload")) {
+						// save file as 를 통해서 해당 이름으로 파일을 저장하기
+						String fileName = (String)paramMap.get("superAdmin_representImgName");
+						System.out.println("File SaveAs: "+fileName);
+						String filePath = saveFileAs(superAdmin_mallRepresentImg, fileName);
+					}
+					else {
+						System.out.println("Do Not Anything");
+					}
+	    			
+	    			// Modify SQL
 	    			memberService.superAdmin_modifyMall(paramMap);
 	    			
 	    			// return to 쇼핑몰 관리 메인 
@@ -731,7 +754,6 @@ public class AdminController {
 	    			return goHome();
 	    		}
 	    	}
-    	
 	    	
 	    	
 	    	
@@ -1093,7 +1115,8 @@ public class AdminController {
 			return mav;
 		}
 		else {
-			return goHome();
+			return redirectToHome();
+//			return goHome();
 		}
 	}
     
@@ -2231,7 +2254,8 @@ public class AdminController {
 		
     	// 수정하기 기능 
     	@RequestMapping(value = "/{siteName}/adminSiteModifyDetail", method= {RequestMethod.GET, RequestMethod.POST})
-    	public ModelAndView adminSiteModifyDetail(HttpSession session, 
+    	public ModelAndView adminSiteModifyDetail(HttpSession session,
+    			MultipartFile superAdmin_mallRepresentImg,
     			@PathVariable("siteName") String siteName,
     			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) {
     		ModelAndView mav = new ModelAndView();
@@ -2241,6 +2265,22 @@ public class AdminController {
         	}
     		
     		if(admin_sessionTest(session) <= -1) {
+    			// 파일 업로드 관련 
+    			String superAdmin_mall_fileTest = paramMap.get("superAdmin_mall_fileTest");
+    			UPLOAD_PATH = (String)paramMap.get("superAdmin_contextPath") + "/uploadFolder";
+    			
+    			// 만약 새로운 파일이 올라왔으면
+				if(superAdmin_mall_fileTest.equals("afterNewUpload")) {
+					// save file as 를 통해서 해당 이름으로 파일을 저장하기
+					String fileName = (String)paramMap.get("superAdmin_representImgName");
+					System.out.println("File SaveAs: "+fileName);
+					String filePath = saveFileAs(superAdmin_mallRepresentImg, fileName);
+				}
+				else {
+					System.out.println("Do Not Anything");
+				}
+				
+    			// UPDATE TO DB
     			memberService.superAdmin_modifyMall(paramMap);
     			
     			// return to 쇼핑몰 관리 메인 
@@ -2252,6 +2292,8 @@ public class AdminController {
     			//return goHome();
     		}
     	}
+    	
+    	
     	
     	// 몰 이름 중복체크
     	@ResponseBody 

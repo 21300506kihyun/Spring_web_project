@@ -11,6 +11,20 @@
 	}
 	</style>
 	<script>
+		$(document).ready(function(){
+			$("#superAdmin_mallRepresentImg").change(function(){
+				if(this.files && this.files[0]){
+					var reader = new FileReader;
+					reader.onload = function(data){
+						$(".adminProductDetail_selectImage img").attr("src", data.target.result).width(400);
+					}
+					reader.readAsDataURL(this.files[0]);
+				}
+				else{
+					$(".adminProductDetail_selectImage img").attr("src", "").width(0);
+				}
+			});
+		});
 		function superAdmin_createNewMallTest(){
 			if($("#superAdmin_mallName").val().length == 0){
 				alert("쇼핌몰 이름 정해주세요.");
@@ -62,6 +76,11 @@
 				$("#superAdmin_mallAccountNum").focus();
 				return false;
 			}
+			if($("#superAdmin_mallRepresentImg").val().length == 0){
+				alert("쇼핑몰 대표 이미지를 등록해주세요.");
+				$("#superAdmin_mallRepresentImg").focus();
+				return false;
+			}
 			return true;
 		}
 		function superAdmin_createNewMall(){
@@ -76,7 +95,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/se2/photo_uploader/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>
 </head>
 <body>
-  	<form id="superAdminCreateNewMall_form" action="superAdminCreateNewMall" method="post">
+  	<form id="superAdminCreateNewMall_form" action="superAdminCreateNewMall" method="post" enctype="multipart/form-data">
+  		<input name="superAdmin_contextPath" type="hidden" value='<%= request.getRealPath("/") %>'/>
   		<input type="hidden" id="superAdmin_mallNameCheck" name="superAdmin_mallNameCheck" value=""/>
   		<div class="adminProductDetail_content">
   			<div class="adminProductDetail_productTitle">
@@ -167,6 +187,20 @@
 	  					type="text" placeholder="쇼핑몰 계좌번호를 하이픈(-) 없이 입력해주세요" value="" required/>
 			</div>
 		</div>
+		
+		<div class="adminProductDetail_content">
+			<div class="adminProductDetail_productTitle">10. 쇼핑몰 대표이미지 등록</div>
+	  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
+	  			<label class="adminProductDetail_inputLabel" 
+	  					for="superAdmin_mallRepresentImg">*플랫폼에 표시될 대표 이미지입니다.</label>
+	  			<div class="adminProductDetail_selectImage">
+	  				<img width="400" src=""/>
+	  			</div>
+	  			<input id="superAdmin_mallRepresentImg" name="superAdmin_mallRepresentImg"
+	  					class="adminProductDetail_input adminProductDetail_inputFile" type="file" required/>
+			</div>
+		</div>
+		
 		
 		<div class="adminProductDetail_content">
 			<a href="superAdmin" class="adminTop_btn adminTop_btnWhite">취소</a>
