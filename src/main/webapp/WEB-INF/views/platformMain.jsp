@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="지역기반 신선식품 배송 플랫폼 입니다.">
   <meta name="author" content="">
-  <title>오메란몰: 지역기반 신선식품 정기배송 플랫폼</title>
+  <title>오메란몰: 지역기반 신선식품 유통 플랫폼</title>
   <%@ include file="./header.jsp" %>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/shop-homepage.css" type="text/css">
   <style>
@@ -101,7 +101,7 @@
 		                  <a href="./${row.mall_name}">${row.mall_name}</a>
 		                </h4>
 		                <h5>${row.farm_name}</h5>
-		                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+		                <p class="card-text">${row.farm_detail}</p>
 		              </div>
 		              <div class="card-footer">
 		                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>

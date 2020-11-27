@@ -686,5 +686,10 @@
 	<select id="platform_getAllMallList" resultType="HashMap">
 		SELECT * FROM MallTable;
 	</select>
+	
+	<!-- 관리자 페이지 접속을 위한 사이트 이름 유효성 체크 -->
+	<select id="siteNameValidityCheck" resultType="int">
+		SELECT COUNT(*) FROM MallTable WHERE mall_id = #{mall_id} AND mall_name = #{siteName};
+	</select>
 </mapper>
 

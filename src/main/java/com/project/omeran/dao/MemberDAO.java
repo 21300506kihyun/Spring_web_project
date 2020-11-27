@@ -174,6 +174,9 @@ public interface MemberDAO {
 	// 플랫폼 메인
 	public List<Map<String, Object>> platform_getAllMallList();
 
+	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
+	public int siteNameValidityCheck(@Param("mall_id")int mall_id, @Param("siteName")String siteName);
+
 
 
 }

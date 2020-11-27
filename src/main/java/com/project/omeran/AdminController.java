@@ -262,12 +262,18 @@ public class AdminController {
 	    return saveName;
 	}
     
-	private boolean siteNameValidityCheck(String siteName) {
+	private boolean siteNameValidityCheck(String siteName, HttpSession session) {
 		// 해당 사이트가 존재하면 true 아니면 false
-		if(memberService.admin_getSiteCountBySiteName(siteName) >= 1) {
-			return true;
+		if(memberService.admin_getSiteCountBySiteName(siteName) == 0) {
+			return false;
 		}
-		return false;
+		
+		// 본인의 사이트가 맞는지 체크 (session.mall_id.mall_name == siteName): 문제있음 
+//		if(memberService.siteNameValidityCheck((int)session.getAttribute("mall_id"), siteName) == 0) {
+//			return false;
+//		}
+		
+		return true;
 	}
 	
 	
@@ -1099,7 +1105,7 @@ public class AdminController {
 	public ModelAndView adminDashboard(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
     	ModelAndView mav = new ModelAndView();
 
-    	if(!siteNameValidityCheck(siteName)) {
+    	if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
     	
@@ -1131,7 +1137,7 @@ public class AdminController {
 			) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 		
@@ -1192,7 +1198,7 @@ public class AdminController {
 	    	System.out.println("Tap 01"+siteName);
 			ModelAndView mav = new ModelAndView();
 			
-			if(!siteNameValidityCheck(siteName)) {
+			if(!siteNameValidityCheck(siteName, session)) {
 	    		return redirectToHome();
 	    	}
 			
@@ -1222,7 +1228,7 @@ public class AdminController {
 	    	System.out.println("Tap 02"+siteName);
 			ModelAndView mav = new ModelAndView();
 			
-			if(!siteNameValidityCheck(siteName)) {
+			if(!siteNameValidityCheck(siteName, session)) {
 	    		return redirectToHome();
 	    	}
 			
@@ -1251,7 +1257,7 @@ public class AdminController {
 		public ModelAndView adminProduct_tap03(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
-			if(!siteNameValidityCheck(siteName)) {
+			if(!siteNameValidityCheck(siteName, session)) {
 	    		return redirectToHome();
 	    	}
 
@@ -1280,7 +1286,7 @@ public class AdminController {
 		public ModelAndView adminProduct_tap04(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 			ModelAndView mav = new ModelAndView();
 			
-			if(!siteNameValidityCheck(siteName)) {
+			if(!siteNameValidityCheck(siteName, session)) {
 	    		return redirectToHome();
 	    	}
 			
@@ -1311,7 +1317,7 @@ public class AdminController {
 		public ModelAndView adminProductNew(HttpSession session, @PathVariable("siteName") String siteName) throws Exception{
 			ModelAndView mav = new ModelAndView();
 			
-			if(!siteNameValidityCheck(siteName)) {
+			if(!siteNameValidityCheck(siteName, session)) {
 	    		return redirectToHome();
 	    	}
 			
@@ -1340,7 +1346,7 @@ public class AdminController {
 					@PathVariable("siteName") String siteName) throws Exception {
 				ModelAndView mav = new ModelAndView();
 				
-				if(!siteNameValidityCheck(siteName)) {
+				if(!siteNameValidityCheck(siteName, session)) {
 		    		return redirectToHome();
 		    	}
 				
@@ -1381,7 +1387,7 @@ public class AdminController {
 			System.out.println("detail: "+paramMap);
 			ModelAndView mav = new ModelAndView();
 			
-			if(!siteNameValidityCheck(siteName)) {
+			if(!siteNameValidityCheck(siteName, session)) {
 	    		return redirectToHome();
 	    	}
 			
@@ -1418,7 +1424,7 @@ public class AdminController {
 					@PathVariable("siteName") String siteName) throws Exception {
 				ModelAndView mav = new ModelAndView();
 				
-				if(!siteNameValidityCheck(siteName)) {
+				if(!siteNameValidityCheck(siteName, session)) {
 		    		return redirectToHome();
 		    	}
 				
@@ -1605,7 +1611,7 @@ public class AdminController {
 	public ModelAndView adminOrder(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 		
@@ -1721,7 +1727,7 @@ public class AdminController {
 	public ModelAndView adminDelivery(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 		
@@ -1925,7 +1931,7 @@ public class AdminController {
 	public ModelAndView adminDeliveryman(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
     	ModelAndView mav = new ModelAndView();
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 		
@@ -2073,7 +2079,7 @@ public class AdminController {
 	public ModelAndView adminDeliverymanNew(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
     	ModelAndView mav = new ModelAndView();
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 		
@@ -2139,7 +2145,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("Detail deliveryman: "+paramMap);
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 
@@ -2224,7 +2230,7 @@ public class AdminController {
 	public ModelAndView adminSite(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		
-		if(!siteNameValidityCheck(siteName)) {
+		if(!siteNameValidityCheck(siteName, session)) {
     		return redirectToHome();
     	}
 		
@@ -2260,7 +2266,7 @@ public class AdminController {
     			@RequestParam(required=false, defaultValue= "{}") Map<String, String> paramMap) {
     		ModelAndView mav = new ModelAndView();
     		
-    		if(!siteNameValidityCheck(siteName)) {
+    		if(!siteNameValidityCheck(siteName, session)) {
         		return redirectToHome();
         	}
     		

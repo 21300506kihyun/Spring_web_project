@@ -482,4 +482,10 @@ public class MemberServiceImpl implements MemberService{
 	public List<Map<String, Object>> platform_getAllMallList() {
 		return memberDao.platform_getAllMallList();
 	}
+
+	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
+	@Override
+	public int siteNameValidityCheck(int mall_id, String siteName) {
+		return memberDao.siteNameValidityCheck(mall_id, siteName);
+	}
 }
