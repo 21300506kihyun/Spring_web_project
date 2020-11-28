@@ -6,7 +6,7 @@ public class UserVO {
 	private String user_id;
 	private String password;
 	private String user_name;
-	private String grade;
+	private int grade;
 	private String telephone;
 	private int gender;
 	private String email;
@@ -48,10 +48,10 @@ public class UserVO {
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-	public String getGrade() {
+	public int getGrade() {
 		return grade;
 	}
-	public void setGrade(String grade) {
+	public void setGrade(int grade) {
 		this.grade = grade;
 	}
 	public String getTelephone() {

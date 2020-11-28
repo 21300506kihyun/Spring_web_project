@@ -9,16 +9,21 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.omeran.dao.MemberDAO;
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
+import com.project.omeran.dto.OrderVO;
 
 @Service("memberService") // 이 객체의 이름을 memberService라고지정, 다른 곳에서 memberServic이라는 bean사용할수 있도록
 public class MemberServiceImpl implements MemberService{
 	@Autowired // 의존성 주입 즉 MemberDAO 객체를 여기서 사용할 수 있게끔 해줌
     MemberDAO memberDao;
+	
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 
     
     @Override
@@ -28,79 +33,85 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     public boolean loginCheck(UserVO vo, String id, String pw, HttpSession session) {
-    	Map<String, String> userInfo = memberDao.getUserInfo(id,  pw);
-    	if(userInfo != null) {
-    		System.out.println("Login INfo: "+userInfo);
+    	String pw_from_db = memberDao.getUserPassword(id);
+//    	System.out.println("before Chcek: pw_from_db: "+ pw_from_db);
+    	if(pwdEncoder.matches(pw, pw_from_db)) {
+//    		System.out.println("after Chcek: pw_from_db: "+ pw_from_db);
+    		Map<String, String> userInfo = memberDao.getUserInfo(id,  pw);
     		
-    		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    		
-    		int u_id = userInfo.get("u_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("u_id"))) : 0;
-    		String user_id = userInfo.get("user_id") != null ? userInfo.get("user_id") : "";
-    		String password = userInfo.get("password") != null ? userInfo.get("password") : "";
-    		String user_name = userInfo.get("user_name") != null ? userInfo.get("user_name") : "";
-    		String grade = userInfo.get("grade") != null ? userInfo.get("grade") : "";
-    		String telephone = userInfo.get("password") != null ? userInfo.get("telephone") : "";
-    		int gender = userInfo.get("gender") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("gender"))) : 0;
-    		String email = userInfo.get("email") != null ? userInfo.get("email") : "";
-    		int is_sms = userInfo.get("is_sms") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("is_sms"))) : 0;
-    		int is_email = userInfo.get("is_email") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("is_email"))) : 0;
-    		String user_memo = userInfo.get("user_memo") != null ? userInfo.get("user_memo") : "";
-    		String signin_date = userInfo.get("signin_date") != null ? formatter.format(userInfo.get("signin_date")) : "2020-01-01 00:00:00";
-    		String modify_date = userInfo.get("modify_date") != null ? formatter.format(userInfo.get("modify_date")) : "2020-01-01 00:00:00";
-    		int user_category = userInfo.get("user_category") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("user_category"))) : 0;
-    		String recommander_id = userInfo.get("recommander_id") != null ? userInfo.get("recommander_id") : "";
-    		int mall_id = userInfo.get("mall_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("mall_id"))) : 0;
-    		String mall_name = userInfo.get("mall_name") != null ? userInfo.get("mall_name") : "";
-    		boolean loginValidity = true;
-    		
-    		vo.setU_id(u_id);
-    		vo.setUser_id(user_id);
-    		vo.setPassword(password);
-    		vo.setUser_name(user_name);
-    		vo.setGrade(grade);
-    		vo.setTelephone(telephone);
-    		vo.setGender(gender);
-    		vo.setEmail(email);
-    		vo.setIs_sms(is_sms);
-    		vo.setIs_email(is_email);
-    		vo.setUser_memo(user_memo);
-    		vo.setSignin_date(signin_date);
-    		vo.setModify_date(modify_date);
-    		vo.setUser_category(user_category);
-    		vo.setRecommander_id(recommander_id);
-    		vo.setMall_id(mall_id);
-    		vo.setMall_name(mall_name);
-    		vo.setLoginValidity(loginValidity);
-    		
-    		// System.out.println("userVO toString : "+vo.toString());
-    		
-    		// 세션 변수 등록 
-    		session.setAttribute("u_id", vo.getU_id());
-    		session.setAttribute("user_id", vo.getUser_id());
-    		// session.setAttribute("password", vo.getPassword());
-    		session.setAttribute("user_name", vo.getUser_name());
-    		session.setAttribute("grade", vo.getGrade());
-    		session.setAttribute("telephone", vo.getTelephone());
-    		session.setAttribute("gender", vo.getGender());
-    		session.setAttribute("email", vo.getEmail());
-    		session.setAttribute("is_sms", vo.getIs_sms());
-    		session.setAttribute("is_email", vo.getIs_email());
-    		// session.setAttribute("user_memo", vo.getUser_memo());
-    		session.setAttribute("signin_date", vo.getSignin_date());
-    		session.setAttribute("modify_date", vo.getModify_date());
-    		session.setAttribute("user_category", vo.getUser_category());
-    		session.setAttribute("recommander_id", vo.getRecommander_id());
-    		session.setAttribute("mall_id", vo.getMall_id());
-    		session.setAttribute("loginValidity", vo.isLoginValidity());
-    		
-    		//TODO: 관리하는 사이트 정보 가져와서 세션에 저장하기
-    		session.setAttribute("adminSiteName", vo.getMall_name());
-    		
-    		return true;
+    		if(userInfo != null) {
+    			// System.out.println("Login INfo: "+userInfo);
+    			
+    			java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    			
+    			int u_id = userInfo.get("u_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("u_id"))) : 0;
+    			String user_id = userInfo.get("user_id") != null ? userInfo.get("user_id") : "";
+    			String password = userInfo.get("password") != null ? userInfo.get("password") : "";
+    			String user_name = userInfo.get("user_name") != null ? userInfo.get("user_name") : "";
+    			int grade = userInfo.get("grade") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("grade"))) : 0; 
+    			String telephone = userInfo.get("password") != null ? userInfo.get("telephone") : "";
+    			int gender = userInfo.get("gender") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("gender"))) : 0;
+    			String email = userInfo.get("email") != null ? userInfo.get("email") : "";
+    			int is_sms = userInfo.get("is_sms") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("is_sms"))) : 0;
+    			int is_email = userInfo.get("is_email") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("is_email"))) : 0;
+    			String user_memo = userInfo.get("user_memo") != null ? userInfo.get("user_memo") : "";
+    			String signin_date = userInfo.get("signin_date") != null ? formatter.format(userInfo.get("signin_date")) : "2020-01-01 00:00:00";
+    			String modify_date = userInfo.get("modify_date") != null ? formatter.format(userInfo.get("modify_date")) : "2020-01-01 00:00:00";
+    			int user_category = userInfo.get("user_category") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("user_category"))) : 0;
+    			String recommander_id = userInfo.get("recommander_id") != null ? userInfo.get("recommander_id") : "";
+    			int mall_id = userInfo.get("mall_id") != null ? (int)Integer.parseInt(String.valueOf(userInfo.get("mall_id"))) : 0;
+    			String mall_name = userInfo.get("mall_name") != null ? userInfo.get("mall_name") : "";
+    			boolean loginValidity = true;
+    			
+    			vo.setU_id(u_id);
+    			vo.setUser_id(user_id);
+    			vo.setPassword(password);
+    			vo.setUser_name(user_name);
+    			vo.setGrade(grade);
+    			vo.setTelephone(telephone);
+    			vo.setGender(gender);
+    			vo.setEmail(email);
+    			vo.setIs_sms(is_sms);
+    			vo.setIs_email(is_email);
+    			vo.setUser_memo(user_memo);
+    			vo.setSignin_date(signin_date);
+    			vo.setModify_date(modify_date);
+    			vo.setUser_category(user_category);
+    			vo.setRecommander_id(recommander_id);
+    			vo.setMall_id(mall_id);
+    			vo.setMall_name(mall_name);
+    			vo.setLoginValidity(loginValidity);
+    			
+    			// System.out.println("userVO toString : "+vo.toString());
+    			
+    			// 세션 변수 등록 
+    			session.setAttribute("u_id", vo.getU_id());
+    			session.setAttribute("user_id", vo.getUser_id());
+    			// session.setAttribute("password", vo.getPassword());
+    			session.setAttribute("user_name", vo.getUser_name());
+    			session.setAttribute("grade", vo.getGrade());
+    			session.setAttribute("telephone", vo.getTelephone());
+    			session.setAttribute("gender", vo.getGender());
+    			session.setAttribute("email", vo.getEmail());
+    			session.setAttribute("is_sms", vo.getIs_sms());
+    			session.setAttribute("is_email", vo.getIs_email());
+    			// session.setAttribute("user_memo", vo.getUser_memo());
+    			session.setAttribute("signin_date", vo.getSignin_date());
+    			session.setAttribute("modify_date", vo.getModify_date());
+    			session.setAttribute("user_category", vo.getUser_category());
+    			session.setAttribute("recommander_id", vo.getRecommander_id());
+    			session.setAttribute("mall_id", vo.getMall_id());
+    			session.setAttribute("loginValidity", vo.isLoginValidity());
+    			
+    			session.setAttribute("adminSiteName", vo.getMall_name());
+    			
+    			return true;
+    		}
+    		else {
+    			return false;
+    		}
     	}
-    	else {
-    		return false;
-    	}
+    	return false;
     }
 
 	@Override
@@ -184,6 +195,11 @@ public class MemberServiceImpl implements MemberService{
 	// Admin
 	// 상품관리 
 	@Override
+	public int admin_getSiteCountBySiteName(String siteName) {
+		return memberDao.getSiteCountBySiteName(siteName);
+	}
+	
+	@Override
 	public List<Map<String, Object>> getAllProductList(HttpSession session) {
 		return memberDao.getAllProductList((int)session.getAttribute("mall_id"));
 	}
@@ -240,5 +256,236 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void superAdminMain_simpleDelete(int mall_id) {
 		memberDao.superAdminMain_simpleDelete(mall_id);
+	}
+
+	@Override
+	public void superAdmin_createNewMall(Map<String, String> paramMap) {
+		memberDao.superAdmin_createNewMall(paramMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> superAdmin_getAllMalls_name_id() {
+		return memberDao.superAdmin_getAllMalls_name_id();
+	}
+
+	@Override
+	public void superAdmin_createNewAdmin(Map<String, String> paramMap) {
+		memberDao.superAdmin_createNewAdmin(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> superAdmin_getMallInfoById(int mall_id) {
+		return memberDao.superAdmin_getMallInfoById(mall_id);
+	}
+
+	@Override
+	public void superAdmin_modifyMall(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyMallDetail(paramMap);
+	}
+
+	@Override
+	public int superAdmin_getAdminCount(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getAdminCount(paramMap);
+	}
+
+	@Override
+	public List<UserVO> superAdmin_getAdminList(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getAdminList(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> superAdmin_getUserInfoById(int u_id) {
+		return memberDao.superAdmin_getUserInfoById(u_id);
+	}
+
+	@Override
+	public void superAdmin_modifyDetailAdmin_withoutPW(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyDetailAdmin_withoutPW(paramMap);
+	}
+	
+	@Override
+	public void superAdmin_modifyDetailAdmin_withPW(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyDetailAdmin_withPW(paramMap);
+	}
+
+	@Override
+	public void superAdmin_manager_simpleDelete(int u_id) {
+		memberDao.superAdmin_manager_simpleDelete(u_id);
+	}
+
+	@Override
+	public void superAdmin_manager_simpleModify(Map<String, String> paramMap) {
+		memberDao.superAdmin_manager_simpleModify(paramMap);
+	}
+
+	@Override
+	public int superAdmin_getCustomerCount(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getCustomerCount(paramMap);
+	}
+
+	@Override
+	public List<UserVO> superAdmin_getCustomerList(Map<String, String> paramMap) {
+		return memberDao.superAdmin_getCustomerList(paramMap);
+	}
+
+	@Override
+	public void superAdmin_customer_simpleDelete(int u_id) {
+		memberDao.superAdmin_customer_simpleDelete(u_id);
+	}
+
+	@Override
+	public void superAdmin_customer_simpleModify(Map<String, String> paramMap) {
+		memberDao.superAdmin_customer_simpleModify(paramMap);
+	}
+
+	@Override
+	public int mallNameCheck(MallVO mallVO) {
+		return memberDao.superAdmin_mallNameCheck(mallVO);
+	}
+
+	@Override
+	public void superAdmin_modifyDetailCustomer_withoutPW(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyDetailCustomer_withoutPW(paramMap);
+	}
+
+	@Override
+	public void superAdmin_modifyDetailCustomer_withPW(Map<String, String> paramMap) {
+		memberDao.superAdmin_modifyDetailCustomer_withPW(paramMap);
+	}
+
+	
+	// admin Order
+	@Override
+	public int adminOrder_getOrderCount(Map<String, String> paramMap) {
+		return memberDao.adminOrder_getOrderCount(paramMap);
+	}
+
+	@Override
+	public List<Map<String, String>> adminOrder_getOrders(Map<String, String> paramMap) {
+		return memberDao.adminOrder_getOrders(paramMap);
+	}
+
+	@Override
+	public List<UserVO> admin_getDeliverymanList(int mall_id) {
+		return memberDao.admin_getDeliverymanList(mall_id);
+	}
+
+	@Override
+	public int adminOrder_getOrderCountByState(String state_id, int mall_id) {
+		return memberDao.adminOrder_getOrderCountByState(state_id, mall_id);
+	}
+
+	@Override
+	public void adminOrder_simpleUpdate(Map<String, String> paramMap) {
+		memberDao.adminOrder_simpleUpdate(paramMap);
+	}
+
+	
+	// admin Delivery
+	@Override
+	public int adminDelivery_getDeliveryCount(Map<String, String> paramMap) {
+		return memberDao.adminDelivery_getDeliveryCount(paramMap);
+	}
+
+	@Override
+	public int adminDelivery_getDeliveryCountByState(String state_id, int mall_id) {
+		return memberDao.adminDelivery_getDeliveryCountByState(state_id, mall_id);
+	}
+
+	@Override
+	public List<Map<String, String>> adminDelivery_getDeliverys(Map<String, String> paramMap) {
+		return memberDao.adminDelivery_getDeliverys(paramMap);
+	}
+
+	@Override
+	public void adminDelivery_simpleUpdate(Map<String, String> paramMap) {
+		// 배송자 체크 
+		if(!paramMap.get("admin_deliveryman").equals("default")) {
+			memberDao.adminDelivery_setDeliveryman(paramMap);
+		}
+		
+		// 배송완료 장소 체크
+		if(!paramMap.get("admin_deliveryLocation").equals("default")) {
+			memberDao.adminDelivery_setDeliveryLocation(paramMap);
+		}
+		
+		// 상태변경 체크
+		if(!paramMap.get("admin_status").equals("default")) {
+			// 배송출발시 departure_date = now();
+			if(paramMap.get("admin_status").equals("D003")) {
+				memberDao.adminDelivery_setState_depature(paramMap);
+			}
+			// 배송 완료시 arrival_date = now();
+			else if(paramMap.get("admin_status").equals("D004")) {
+				memberDao.adminDelivery_setState_arrival(paramMap);
+			}
+			// 아닌 경우엔 디폴트로
+			else {
+				memberDao.adminDelivery_setState(paramMap);
+			}
+		}
+	}
+
+	// 배송자 관리
+	@Override
+	public int adminDeliveryman_getDeliverymanCount(Map<String, String> paramMap) {
+		return memberDao.adminDeliveryman_getDeliverymanCount(paramMap);
+	}
+
+	@Override
+	public List<Map<String, String>> adminDeliveryman_getDeliverymans(Map<String, String> paramMap) {
+		return memberDao.adminDeliveryman_getDeliverymans(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_deleteById(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_deleteById(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_simpleUpdate(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_simpleUpdate(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_createNew(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_createNew(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_modifyDetail_withoutPW(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_modifyDetail_withoutPW(paramMap);
+	}
+
+	@Override
+	public void adminDeliveryman_modifyDetail_withPW(Map<String, String> paramMap) {
+		memberDao.adminDeliveryman_modifyDetail_withPW(paramMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> adminDeliveryman_getDeliveries(int u_id) {
+		return memberDao.adminDeliveryman_getDeliveries(u_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> adminDeliveryman_getCurrDeliverise(int u_id) {
+		return memberDao.adminDeliveryman_getCurrDeliverise(u_id);
+	}
+
+	@Override
+	public int adminDeliveryman_getCurrDeliveryCnt(int u_id) {
+		return memberDao.adminDeliveryman_getCurrDeliveryCnt(u_id);
+	}
+
+	// 플렛폼 메인
+	@Override
+	public List<Map<String, Object>> platform_getAllMallList() {
+		return memberDao.platform_getAllMallList();
+	}
+
+	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
+	@Override
+	public int siteNameValidityCheck(int mall_id, String siteName) {
+		return memberDao.siteNameValidityCheck(mall_id, siteName);
 	}
 }

@@ -14,8 +14,13 @@
 	  select name from user_table where u_id = #{id}
 	</select>
 	
+	<select id="getUserPassword" resultType="String">
+		SELECT password FROM UserTable WHERE user_id = #{id};
+	</select>
+	
 	<select id="getUserInfo" resultType="HashMap">
-		SELECT UserTable.*, MallTable.mall_name FROM UserTable LEFT OUTER JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} AND password = #{pw} LIMIT 1;
+		<!-- SELECT UserTable.*, MallTable.mall_name FROM UserTable LEFT OUTER JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} AND password = #{pw} LIMIT 1; -->
+		SELECT UserTable.*, MallTable.mall_name FROM UserTable LEFT OUTER JOIN MallTable ON UserTable.mall_id = MallTable.mall_id WHERE user_id = #{id} LIMIT 1;
 	</select>
   
 	<update id="updateRecentLogin">
@@ -97,6 +102,21 @@
 	</select>
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- //**** [ admin ] ****// -->
 	<!-- 상품정보 받아오기 -->
 	<select id="getAllProductList" resultType="HashMap">
 		SELECT * FROM ProductTable JOIN (StateTable) ON ProductTable.state_id=StateTable.state_id WHERE ProductTable.state_id != "delete" AND mall_id = #{mall_id} ORDER BY p_id;
@@ -124,16 +144,16 @@
 	</update>
 	
 	<update id="productDelete">
-		<!-- <![CDATA[
+		<![CDATA[
 			DELETE FROM ProductTable
 			WHERE p_id = #{productId}
 			LIMIT 1;
-		]]> -->
-		UPDATE ProductTable
+		]]>
+		<!-- UPDATE ProductTable
 		SET
 			state_id = "delete",
 			mod_date = CURRENT_TIMESTAMP
-		WHERE p_id = #{productId};
+		WHERE p_id = #{productId}; -->
 	</update>
 	
 	<select id="adminProductCreateNew" parameterType="hashmap"> 
@@ -143,7 +163,7 @@
 				(product_name, price, discount_price, reg_date, state_id, summary, detail, product_img, mall_id) 
 			VALUES 
 				("${adminProductDetail_productName}", ${adminProductDetail_productPrice}, ${adminProductDetail_productDiscountPrice}, 
-				CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", "${adminProductDetail_productDetail}", "${filePath}", "${mall_id}");
+				CURRENT_TIMESTAMP, "${state_id}", "${adminProductDetail_productSummary}", '${adminProductDetail_productDetail}', "${filePath}", "${mall_id}");
 		]]>
 	</select>
 	
@@ -161,11 +181,27 @@
 				mod_date=CURRENT_TIMESTAMP, 
 				state_id="${adminProductDetail_state}", 
 				summary="${adminProductDetail_productSummary}", 
-				detail="${adminProductDetail_productDetail}", 
+				detail='${adminProductDetail_productDetail}', 
 				product_img="${adminProductDetail_productImageName}" 
 			WHERE p_id=#{adminProductDetail_p_id};
 		]]>
 	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- ********[ SuperAdmin ]********* -->
 	<select id="superAdmin_getMallCount" resultType="int">
@@ -184,7 +220,476 @@
 		]]> 
 	</update>
 	
+	<insert id="superAdmin_createNewMall">
+		<![CDATA[
+			INSERT INTO MallTable 
+				(mall_name, create_date, farm_name, farm_address, farm_detail, tel, fax, regist_num, business_num, account_num, represent_img)
+			VALUES
+				("${superAdmin_mallName}", now(), "${superAdmin_farmName}",
+				"${superAdmin_farmAddress}", '${superAdmin_farmDetail}',
+				"${superAdmin_mallPhone}", "${superAdmin_mallFax}", "${superAdmin_mallRegistNum}",
+				"${superAdmin_mallBusinessNum}", "${superAdmin_mallAccountNum}", "${filePath}");
+		]]>
+	</insert>
+	
+	<select id="superAdmin_getAllMalls_name_id" resultType="HashMap">
+		SELECT mall_id, mall_name FROM MallTable ORDER BY mall_name;
+	</select>
+	
+	<insert id="superAdmin_createNewAdmin">
+		<![CDATA[
+			INSERT INTO UserTable 
+				(user_id, password, user_name, telephone, gender, email, user_memo, signin_date, user_category, mall_id)
+			VALUES
+				(
+				"${superAdmin_id}", "${superAdmin_password}", "${superAdmin_name}", 
+				"${superAdmin_tel}", ${superAdmin_gender}, "${superAdmin_email}", 
+				"${superAdmin_memo}", now(), -1, 
+				${superAdmin_mall_id}
+				);
+		]]>
+	</insert>
+
+	<select id="superAdmin_getMallInfoById" resultType="HashMap">
+		SELECT * FROM MallTable WHERE mall_id = #{mall_id} LIMIT 1;
+	</select>
+	
+	
+	<update id="superAdmin_modifyMallDetail"> 
+		<![CDATA[ 
+			UPDATE MallTable 
+			SET 
+				mall_name = "${superAdmin_mallName}", 
+				farm_name='${superAdmin_farmName}', 
+				farm_address='${superAdmin_farmAddress}', 
+				farm_detail='${superAdmin_farmDetail}', 
+				tel="${superAdmin_mallPhone}", 
+				fax="${superAdmin_mallFax}", 
+				regist_num='${superAdmin_mallRegistNum}', 
+				business_num="${superAdmin_mallBusinessNum}",
+				account_num="${superAdmin_mallAccountNum}",
+				mod_date = now()
+			WHERE mall_id=#{superAdmin_mall_id};
+		]]>
+	</update>
+	
+	
+	<select id="superAdmin_getAdminCount" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) 
+				FROM UserTable 
+				LEFT OUTER JOIN MallTable 
+				ON UserTable.mall_id = MallTable.mall_id 
+			WHERE user_category = -1 
+			AND user_name LIKE "%${superAdmin_searchText}%" 
+			ORDER BY u_id;
+		]]>
+	</select>
+	
+	
+	<select id="superAdmin_getAdminList" resultType="HashMap">
+		<![CDATA[ 
+			SELECT UserTable.*, MallTable.mall_name
+				FROM UserTable 
+				LEFT OUTER JOIN MallTable 
+				ON UserTable.mall_id = MallTable.mall_id 
+			WHERE user_category = -1 
+			AND user_name LIKE "%${superAdmin_searchText}%" 
+			ORDER BY u_id
+			LIMIT ${startIndex}, ${cntPerPage};
+		]]>
+	</select>
+	
+	<select id="superAdmin_getUserInfoById" resultType="HashMap">
+		SELECT * FROM UserTable WHERE u_id = #{u_id} LIMIT 1;
+	</select>
+	
+	<update id="superAdmin_modifyDetailAdmin_withoutPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${superAdmin_id}", 
+				user_name='${superAdmin_name}', 
+				telephone='${superAdmin_tel}', 
+				gender=${superAdmin_gender}, 
+				email="${superAdmin_email}", 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}', 
+				mall_id=${superAdmin_mall_id}
+			WHERE u_id=${superAdmin_u_id};
+		]]>
+	</update>
+	
+	<update id="superAdmin_modifyDetailAdmin_withPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${superAdmin_id}", 
+				password = "${superAdmin_password}",
+				user_name='${superAdmin_name}', 
+				telephone='${superAdmin_tel}', 
+				gender=${superAdmin_gender}, 
+				email="${superAdmin_email}", 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}', 
+				mall_id=${superAdmin_mall_id}
+			WHERE u_id=${superAdmin_u_id};
+		]]>
+	</update>
+	
+	<select id="getSiteCountBySiteName" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) FROM MallTable WHERE mall_name = "${siteName}";
+		]]>
+	</select>
+	
+	<delete id="superAdmin_manager_simpleDelete">
+		<![CDATA[
+			DELETE FROM UserTable WHERE u_id = #{u_id} LIMIT 1;
+		]]>
+	</delete>
+	
+	<update id="superAdmin_manager_simpleModify"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}'
+			WHERE u_id=${u_id};
+		]]>
+	</update>
+	
+	
+	<select id="superAdmin_getCustomerCount" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) 
+				FROM UserTable 
+			WHERE user_category = 1 
+			AND user_name LIKE "%${superAdmin_searchText}%";
+		]]>
+	</select>
+	
+	
+	<select id="superAdmin_getCustomerList" resultType="HashMap">
+		<![CDATA[ 
+			SELECT*
+				FROM UserTable
+			WHERE user_category = 1 
+			AND user_name LIKE "%${superAdmin_searchText}%" 
+			ORDER BY user_name
+			LIMIT ${startIndex}, ${cntPerPage};
+		]]>
+	</select>
+	
+	
+	<delete id="superAdmin_customer_simpleDelete">
+		<![CDATA[
+			DELETE FROM UserTable WHERE u_id = #{u_id} LIMIT 1;
+		]]>
+	</delete>
+	
+	<update id="superAdmin_customer_simpleModify"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				modify_date=now(), 
+				user_memo='${superAdmin_memo}'
+			WHERE u_id=${u_id};
+		]]>
+	</update>
+	
+	<select id="superAdmin_mallNameCheck" parameterType="com.project.omeran.dto.MallVO" resultType="int">
+		SELECT count(*) FROM MallTable WHERE mall_name = #{mall_name};
+	</select>
+	
+	<update id="superAdmin_modifyDetailCustomer_withoutPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${superAdmin_id}", 
+				user_name='${superAdmin_name}',
+				grade = "${superAdmin_grade}", 
+				telephone='${superAdmin_tel}', 
+				gender=${superAdmin_gender}, 
+				email="${superAdmin_email}", 
+				is_email="${superAdmin_isEmail}",
+				is_sms="${superAdmin_isSMS}",
+				user_memo='${superAdmin_memo}', 
+				modify_date=now()
+			WHERE u_id=${superAdmin_u_id} 
+			LIMIT 1;
+		]]>
+	</update>
+	
+	<update id="superAdmin_modifyDetailCustomer_withPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${superAdmin_id}", 
+				password = "${superAdmin_password}",
+				user_name='${superAdmin_name}',
+				grade = "${superAdmin_grade}", 
+				telephone='${superAdmin_tel}', 
+				gender=${superAdmin_gender}, 
+				email="${superAdmin_email}", 
+				is_email="${superAdmin_isEmail}",
+				is_sms="${superAdmin_isSMS}",
+				user_memo='${superAdmin_memo}', 
+				modify_date=now()
+			WHERE u_id=${superAdmin_u_id} 
+			LIMIT 1;
+		]]>
+	</update>
+	
+	
+	<!-- Admin Order -->
+	<select id="adminOrder_getOrderCount" resultType="int">
+		SELECT COUNT(order_id) FROM OrderTable AS O 
+		JOIN UserTable AS U 
+		ON O.customer_id = U.u_id 
+		WHERE O.mall_id = ${mall_id} 
+			AND U.user_name LIKE "%${search_keyword}%";
+	</select>
+	
+	<select id="adminOrder_getOrders" resultType="HashMap">
+		SELECT O.*, U.user_name, U.telephone, U.email, S.address01, 
+				S.address02, S.address03, St.state_name, P.product_name, COUNT(*) AS restCnt
+		FROM 
+		OrderTable AS O 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON O.state_id = St.state_id
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN DeliveryTable AS D
+               				ON O.order_id = D.order_id
+		WHERE O.mall_id = ${mall_id}
+			AND U.user_name LIKE "%${search_keyword}%" 
+			AND O.state_id = "${state_id}"
+			AND D.state_id != "D004"
+		GROUP BY O.order_id
+		ORDER BY order_id 
+		LIMIT ${startIndex}, ${cntPerPage};
+	</select>
+	
+	
+	<select id="adminOrder_getOrderCountByState" resultType="int">
+		SELECT COUNT(*) FROM OrderTable WHERE mall_id = #{mall_id} AND state_id = #{state_id};
+	</select>
+
+	<update id="adminOrder_simpleUpdate">
+		UPDATE OrderTable SET state_id = "${adminOrder_status}", mod_date = now() WHERE order_id = ${order_id};
+	</update>
 
 
+	<!-- admin Delivery -->
+	<!-- 배달원 정보 가져오기 -->
+	<select id="admin_getDeliverymanList" resultType="HashMap">
+		SELECT * FROM UserTable WHERE mall_id = #{mall_id} AND user_category = 0;
+	</select>
+	
+	<select id="adminDelivery_getDeliveryCount" resultType="int">
+		SELECT COUNT(D.delivery_id) FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+		WHERE D.mall_id = ${mall_id} 
+			AND user_name LIKE "%${search_keyword}%"
+			AND D.state_id = "${state_id}";
+	</select>
+
+	<select id="adminDelivery_getDeliveryCountByState" resultType="int">
+		SELECT COUNT(*) FROM DeliveryTable WHERE mall_id = #{mall_id} AND state_id = #{state_id};
+	</select>
+
+	<select id="adminDelivery_getDeliverys" resultType="HashMap">
+		SELECT D.*, U.user_name, U.telephone, U.email, S.address01,
+				S.address02, S.address03, St.state_name, P.product_name,
+				DeliveryMan.user_name AS delivery_name 
+		FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON D.state_id = St.state_id 
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN UserTable AS DeliveryMan 
+							ON D.deliveryman_id=DeliveryMan.u_id 
+		WHERE D.mall_id = ${mall_id}
+			AND U.user_name LIKE "%${search_keyword}%" 
+			AND D.state_id = "${state_id}"
+		ORDER BY D.delivery_id 
+		LIMIT ${startIndex}, ${cntPerPage};
+	</select>
+	
+	<update id="adminDelivery_setDeliveryman">
+		UPDATE DeliveryTable SET deliveryman_id = ${admin_deliveryman}, mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setDeliveryLocation">
+		UPDATE DeliveryTable SET delivery_location = "${admin_deliveryLocation}", mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setState_depature">
+		UPDATE DeliveryTable SET state_id = "${admin_status}", departure_date = now(), mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setState_arrival">
+		UPDATE DeliveryTable SET state_id = "${admin_status}", arrival_date = now(), mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+	
+	<update id="adminDelivery_setState">
+		UPDATE DeliveryTable SET state_id = "${admin_status}", mod_date = now() WHERE delivery_id = ${delivery_id};
+	</update>
+
+	
+	<!-- 배송자 관리 -->
+	<select id="adminDeliveryman_getDeliverymanCount" resultType="int">
+		SELECT COUNT(*) FROM UserTable 
+		WHERE user_category = 0 
+			AND mall_id = ${mall_id} 
+			AND user_name LIKE "%${search_keyword}%";
+	</select>
+	
+	
+	<select id="adminDeliveryman_getDeliverymans" resultType="HashMap">
+		SELECT *, COUNT(D.delivery_id) AS total 
+		FROM UserTable AS U 
+		LEFT OUTER JOIN DeliveryTable AS D 
+		ON U.u_id = D.deliveryman_id 
+		WHERE U.user_category = 0 
+			AND U.mall_id = ${mall_id} 
+			AND U.user_name LIKE "%${search_keyword}%" 
+		GROUP BY U.u_id 
+		ORDER BY U.user_name
+		LIMIT ${startIndex}, ${cntPerPage};
+	</select>
+	
+	<select id="adminDeliveryman_getCurrDeliveryCnt" resultType="int">
+		SELECT COUNT(delivery_id) 
+		FROM DeliveryTable 
+		WHERE deliveryman_id = #{u_id} 
+			AND (state_id = "D001" OR state_id = "D002" OR state_id = "D003");
+	</select>
+	
+	<delete id="adminDeliveryman_deleteById">
+		DELETE FROM UserTable WHERE u_id = ${deliveryman_id};
+	</delete>
+	
+	<update id="adminDeliveryman_simpleUpdate">
+		UPDATE UserTable 
+		SET
+			user_memo = "${admin_memo}",
+			modify_date = now()
+		WHERE 
+			u_id = ${deliveryman_id};
+	</update>
+	
+	<insert id="adminDeliveryman_createNew">
+		INSERT INTO UserTable 
+			(user_id, password, user_name, 
+			telephone, gender, email, 
+			user_memo, user_category, mall_id)
+		VALUES
+			('${admin_id}', '${admin_password}', '${admin_name}',
+			'${admin_tel}', ${admin_gender}, '${admin_email}',
+			'${admin_memo}', 0, ${mall_id});
+	</insert>
+	
+	<update id="adminDeliveryman_modifyDetail_withoutPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${admin_id}", 
+				user_name='${admin_name}', 
+				telephone='${admin_tel}', 
+				gender=${admin_gender}, 
+				email="${admin_email}", 
+				modify_date=now(), 
+				user_memo='${admin_memo}', 
+				mall_id=${mall_id}
+			WHERE u_id=${admin_u_id};
+		]]>
+	</update>
+	
+	<update id="adminDeliveryman_modifyDetail_withPW"> 
+		<![CDATA[ 
+			UPDATE UserTable 
+			SET 
+				user_id = "${admin_id}", 
+				password = "${admin_password}",
+				user_name='${admin_name}', 
+				telephone='${admin_tel}', 
+				gender=${admin_gender}, 
+				email="${admin_email}", 
+				modify_date=now(), 
+				user_memo='${admin_memo}', 
+				mall_id=${mall_id}
+			WHERE u_id=${admin_u_id};
+		]]>
+	</update>
+	
+	<select id="adminDeliveryman_getDeliveries" resultType="HashMap">
+		SELECT D.*, U.user_name, U.telephone, U.email, S.address01,
+				S.address02, S.address03, St.state_name, P.product_name,
+				DeliveryMan.user_name AS delivery_name 
+		FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON D.state_id = St.state_id 
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN UserTable AS DeliveryMan 
+							ON D.deliveryman_id=DeliveryMan.u_id 
+		WHERE deliveryman_id = #{u_id}
+		ORDER BY D.mod_date DESC;
+	</select>
+	
+	<select id="adminDeliveryman_getCurrDeliverise" resultType="HashMap">
+		SELECT D.*, U.user_name, U.telephone, U.email, S.address01,
+				S.address02, S.address03, St.state_name, P.product_name,
+				DeliveryMan.user_name AS delivery_name 
+		FROM DeliveryTable AS D 
+		JOIN OrderTable AS O 
+		ON D.order_id = O.order_id 
+			JOIN UserTable AS U 
+			ON O.customer_id = U.u_id 
+				JOIN ShippingAddress AS S 
+				ON O.address_id = S.address_id 
+					JOIN StateTable AS St 
+					ON D.state_id = St.state_id 
+						JOIN ProductTable AS P 
+						ON O.product_id = P.p_id
+							LEFT OUTER JOIN UserTable AS DeliveryMan 
+							ON D.deliveryman_id=DeliveryMan.u_id 
+		WHERE deliveryman_id = #{u_id}
+			AND (D.state_id = "D001" OR D.state_id = "D002" OR D.state_id = "D003")
+		ORDER BY D.mod_date DESC;
+	</select>
+	
+	
+	
+	<!-- 플랫폼 -->
+	<select id="platform_getAllMallList" resultType="HashMap">
+		SELECT * FROM MallTable;
+	</select>
+	
+	<!-- 관리자 페이지 접속을 위한 사이트 이름 유효성 체크 -->
+	<select id="siteNameValidityCheck" resultType="int">
+		SELECT COUNT(*) FROM MallTable WHERE mall_id = #{mall_id} AND mall_name = #{siteName};
+	</select>
 </mapper>
 

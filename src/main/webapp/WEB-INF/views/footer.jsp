@@ -11,7 +11,7 @@
   <!-- <footer id="p2_footer"> -->
     <ul>
       <li>
-          <img src="img/p2_footer_logo.png" alt="">
+          <img src="${pageContext.request.contextPath}/img/p2_footer_logo.png" alt="">
       </li>
       <li>
           <ul>

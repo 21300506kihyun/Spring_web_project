@@ -60,7 +60,8 @@ public class HomeController {
 	MemberService memberService;
 	
 	@Autowired
-	//BCryptPasswordEncoder pwdEncoder;
+	BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -79,13 +80,20 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
-	public String home() {
-		return "index";
+	public ModelAndView home() {
+		ModelAndView mav = new ModelAndView();
+		
+		// 쇼핑몰 목록 가져오기
+		List<Map<String, Object>> mallList = memberService.platform_getAllMallList();
+		
+		mav.addObject("mallList", mallList);
+		
+		mav.setViewName("platformMain");
+		
+		return mav;
 	}
 	@RequestMapping(value = {"/index", "/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
-		
-		
 		return "index";
 	}
 	@RequestMapping(value = "/p2", method = { RequestMethod.GET, RequestMethod.POST })
@@ -405,7 +413,8 @@ public class HomeController {
 				logger.info("회원가입 성공");
 				String inputPass = userVO.getPassword();
 				logger.info("111111");
-				//String pwd = pwdEncoder.encode(inputPass);
+				// TODO: 
+				String pwd = pwdEncoder.encode(inputPass);
 				logger.info("222222");
 				//userVO.setPassword(pwd);
 				logger.info("3333333");

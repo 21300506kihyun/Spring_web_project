@@ -8,7 +8,6 @@
 </head>
 <body>
 	<c:set var="isSideOpen" value="${isOpen}" />
-
 	<div id="adminSide" class="adminSide_container <c:if test="${isSideOpen eq 'sideOff'}">adminSide_container_hide</c:if>">
 		<!-- LOGO -->
 		<div id="adminSide_logoDiv" class="adminSide_logoDiv <c:if test="${isSideOpen eq 'sideOff'}">adminSide_logoDiv_hide</c:if>">
@@ -73,7 +72,7 @@
 		</a>
 
 	 	<!-- 고객관리 -->
-	 	<a href="./adminConsumer" class="
+	 	<%-- <a href="./adminConsumer" class="
 		 	<% if((String)session.getAttribute("adminSideState") == "고객관리"){ %>  
 		 		adminSide_menuActive
 		 	<% }else{ %>
@@ -81,7 +80,7 @@
 		 	<% } %>">
 			<i class="fas fa-user-cog fa-fw adminSide_menu_icons"></i>
 			<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">고객관리</div>
-		</a>
+		</a> --%>
 	 	
 	 	<!-- 배송자관리 -->
 	 	<a href="./adminDeliveryman" class="

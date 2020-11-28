@@ -11,12 +11,12 @@
 	<script>
 	// Simple Delete
 	function superAdminMain_simpleDelete_formCheck(){
-		if(!confirm("쇼핑몰을 삭제하면 관련된 상품, 주문 등의 모든 기록도 함께 삭제되며\n다시 되돌릴 수 없습니다.\n해당 쇼핑몰을 정말로 삭제하시겠습니까?")){
-			if(!confirm("쇼핑몰 삭제시 관련 상품, 주문, 관리자, 배송, 배송기록, 포인트 기록 등이 모두 소실됩니다.\n정말로 삭제하시겠습니까?")){
-				return false;
+		if(confirm("쇼핑몰을 삭제하면 관련된 상품, 주문 등의 모든 기록도 함께 삭제되며\n다시 되돌릴 수 없습니다.\n해당 쇼핑몰을 정말로 삭제하시겠습니까?")){
+			if(confirm("쇼핑몰 삭제시 관련 상품, 주문, 관리자, 배송, 배송기록, 포인트 기록 등이 모두 소실됩니다.\n정말로 삭제하시겠습니까?")){
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	function superAdminMain_simpleDelete(){
@@ -81,7 +81,7 @@
 						</td>
 						<%-- <td>${idx.count}</td> --%>
 						<td>${row.mall_id}</td>
-						<td class="adminProduct_itemName" onclick="location.href='#TODO: GoToDetail?withParameter'">${row.mall_name}</td>
+						<td class="adminProduct_itemName" onclick="location.href='superAdminDetailMall?mall_id=${row.mall_id}'">${row.mall_name}</td>
 						<td>${row.farm_name}</td>
 						<td>${row.tel}</td>
 						<td style="cursor: pointer" onclick="location.href='<%= request.getContextPath() %>/${row.mall_name}'">/${row.mall_name}</td>

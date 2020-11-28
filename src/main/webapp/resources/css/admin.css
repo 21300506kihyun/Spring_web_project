@@ -203,12 +203,18 @@ input[type="checkbox"]{
 .adminTop_btnWhite{
 	background-color: #fff;
 	border: 1px solid #bbb;
-	color: #000;	
+	color: #000;
 }
 	.adminTop_btnWhite:hover{
 		background-color: #f6f6f6;
 	}
-
+.adminTop_btnGrey{
+	background-color: #bbb;
+	color: #fff;
+	cursor: default;
+}
+	.adminTop_btnGrey:hover{
+	}
 
 
 
@@ -470,6 +476,61 @@ input[type="checkbox"]{
 	color: #515151;
 }
 
+/** [ adminOrder.jsp ] **/
+.adminOrder_table{
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+}
+.adminOrder_table tr{
+
+}
+	.adminOrder_table tbody tr:hover{
+		background-color: #f7f7f7;
+	}
+.adminOrder_table th{
+	padding: 15px 5px;
+	border-bottom: 1px solid #ddd;
+	font-weight: 400;
+	width: 10%;
+}
+	.adminOrder_table th:nth-child(n+1):nth-child(-n+1){
+		width: 5%;
+	}
+	.adminOrder_table th:nth-child(2){
+	 	/* width: 5%; */
+	}
+	.adminOrder_table th:nth-child(8){
+	}
+.adminOrder_table td{
+	padding: 15px 5px;
+	font-size: 14px;
+}
+
+.adminOrder_additionalArea{
+	display: none;
+}
+.adminOrder_additionalArea > td{
+	padding: 8px 5px;
+	font-size: 14px;
+	background-color: #f7f7f7;
+	color: #2d2d2d;
+	word-break: break-all;
+}
+.adminOrder_additionalArea > td:hover{
+	background-color: #f7f7f7;
+}
+
+/* adminDeliveryman */
+.display-none{
+	display:none;
+}
+.adminDeliveryman-search-input{
+	display: none;
+}
+
+
+
 
 
 
@@ -509,15 +570,58 @@ input[type="checkbox"]{
 	padding: 15px 5px;
 	font-size: 14px;
 }
+	
 
 /** [ Paging ] **/
 .paging-container{text-align: center;}
 .page-num{display:inline-block;margin: 10px;cursor: pointer;}
 .page-num-selected{font-weight: bold;text-decoration: underline;}
 
+/** [ superAdminNewAdmin.jsp ] **/
+/* from bootstrap */
+.alert{
+	padding: 15px; 
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+ 		border-radius: 4px;
+}
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+.alert-danger {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+.disable-color{
+	background-color: #bbb;
+	color: black;
+}
 
-
-
+.superAdmin_idCheck{
+	/* border: 1px solid #0062cc; */
+	font-size: 14px;
+	padding: 5px 20px;
+	background-color: #5c95f9;
+	cursor: pointer;
+	border-radius: 2px;
+	color: #fff;
+	vertical-align: text-bottom;
+	margin-left: 10px;
+	
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0..2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.superAdmin_idCheck:hover{
+	background-color: #1a6dff;
+}
+.superAdmin_checkboxInput{
+	padding-right: 10px;
+}
 
 
 
@@ -619,7 +723,10 @@ input[type="checkbox"]{
 	}
 		.adminTop_btnWhite:hover{
 		}
-	
+	.adminTop_btnGrey{
+	}
+		.adminTop_btnGrey:hover{
+		}
 	
 	
 	/** [ adminDashboard.jsp ] **/

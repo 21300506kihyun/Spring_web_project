@@ -101,7 +101,7 @@ function adminProductNewSubmit(){
 						<div class="adminProductDetail_productTitle">02. 썸네일 등록</div>
 				  		<div class="adminProduct_cardContainer adminProductDetail_inputContainer">
 				  			<label class="adminProductDetail_inputLabel" 
-				  					for="adminProductDetail_productImage">*썸네일 등록에 필요한 정보를 알려줍니다.</label>
+				  					for="adminProductDetail_productImage">*상품의 썸네일로 사용됩니다.</label>
 				  			<div class="adminProductDetail_selectImage">
 				  				<img width="400" src=""/>
 				  			</div>

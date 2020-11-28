@@ -129,3 +129,225 @@ $(document).ready(function() {
 		adminProduct_moveTap("adminProduct_tap05");
 	});
 });
+
+function resetInput(id){
+	$("#"+id).val("");
+}
+
+function emailFormatCheck(str){
+	var regExp = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    if (regExp.test(str)) {
+    	return true;
+    }
+    else {
+    	return false;
+    }
+}
+
+
+// Simple Update 담당 함수
+function setUpdateAsDelete(id){
+	setValueAs_1_byId(id);
+}
+
+function setValueAs_1_byId(id){
+	$("#"+id).val("1");
+}
+
+function simpleUpdate(formId, postURL, replaceAreaId){
+	var formData = $("#"+formId).serialize();
+	
+	$.ajax({
+		type: "POST",
+		url: postURL,
+		data: formData,
+		dataType: "html",
+		async: false,
+		cache: false,
+		success: function(result){
+			// Contents 영역 삭제
+			$('#'+replaceAreaId).children().remove();
+			// Contents 영역 교체
+			$('#'+replaceAreaId).html(result);
+			/* alert("수정이 완료되었습니다."); */
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
+
+// ID check
+function admin_idCheck(idInput_id, checkInput){
+	var testID = $("#"+idInput_id).val();
+	
+	$.ajax({
+		type: "POST",
+		url: "admin_idCheck.do",
+		dataType : "json",
+		data: {"user_id" : testID},
+		async: false,
+		cache: false,
+		success: function(result){
+			if(result >= 1){
+				alert("중복된 아이디 입니다.");
+				$("#"+checkInput).val("");
+			}
+			else{
+				alert("사용 가능한 아이디입니다.");
+				$("#"+checkInput).val("1");
+			}
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
+
+function superAdmin_idCheck(idInput_id, checkInput){
+	var testID = $("#"+idInput_id).val();
+	
+	$.ajax({
+		type: "POST",
+		url: "superAdmin_idCheck.do",
+		dataType : "json",
+		data: {"user_id" : testID},
+		async: false,
+		cache: false,
+		success: function(result){
+			if(result >= 1){
+				alert("중복된 아이디 입니다.");
+				$("#"+checkInput).val("");
+			}
+			else{
+				alert("사용 가능한 아이디입니다.");
+				$("#"+checkInput).val("1");
+			}
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
+
+
+
+function superAdmin_mallNameheck(idInput_id, checkInput){
+	var mallName = $("#"+idInput_id).val();
+	
+	
+	$.ajax({
+		type: "POST",
+		url: "superAdmin_mallNameCheck.do",
+		dataType : "json",
+		data: {"mall_name" : mallName},
+		async: false,
+		cache: false,
+		success: function(result){
+			if(result >= 1){
+				alert("중복된 쇼핑몰 이름입니다.");
+				$("#"+checkInput).val("");
+			}
+			else{
+				alert("사용 가능한 이름입니다.");
+				$("#"+checkInput).val("1");
+			}
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+}
+
+
+
+// admin tap 
+function admin_moveTap(toURL, tapNum){
+	var URL = toURL + "?tap=" + tapNum;
+	$.ajax({
+		type: "POST",
+		url: URL,
+		dataType: "html",
+		async: false,
+		cache: false,
+		success: function(result){
+			// Contents 영역 삭제
+			$('#adminProduct_content').children().remove();
+			// Contents 영역 교체
+			$('#adminProduct_content').html(result);
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+	return false;
+}
+
+function admin_search(curPage, toURL){
+	var searchKeyword = "search_keyword=" + $("#admin_searchInput").val();
+	var goPage = "currentPage="+curPage;
+	var Data = searchKeyword + "&" + goPage;
+	$.ajax({
+		type: "POST",
+		url: toURL,
+		data: Data,
+		async: false,
+		cache: false,
+		success: function(result){
+			// Contents 영역 삭제
+			$('#adminProduct_content').children().remove();
+			// Contents 영역 교체
+			$('#adminProduct_content').html(result);
+		},
+		error: function(error){
+			console.log(error)
+		}
+	});
+	return false;
+}
+
+
+// admin Delivery expand
+function expandToggle(id){
+	if($("#hiddenA"+id).css("display") == "table-row"){
+		$("#hiddenA"+id).css("display", "none");
+	}
+	else{
+		$("#hiddenA"+id).css("display", "table-row");
+	}
+	if($("#hiddenB"+id).css("display") == "table-row"){
+		$("#hiddenB"+id).css("display", "none");
+	}
+	else{
+		$("#hiddenB"+id).css("display", "table-row");
+	}
+}
+
+
+// admin 자바스크립트 검색
+function admin_filter(text_input_id){
+    var value, name, item, i, num_of_showingItem = 0;
+
+    value = document.getElementById(text_input_id).value.toUpperCase();
+    item = document.getElementsByClassName("adminProduct_listItem");
+
+    for(i=0;i<item.length;i++){
+      name = item[i].getElementsByClassName("adminProduct_itemName");
+      
+      if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+        item[i].style.display = "table-row";
+        num_of_showingItem++;
+      }else{
+        item[i].style.display = "none";
+      }
+    }
+    
+    if(num_of_showingItem == 0){
+    	$(".adminProduct_checkAll").prop("checked", false);
+    	$(".adminProduct_listNoData").css("display", "table-row");
+    }
+   else{
+    	$(".adminProduct_listNoData").css("display", "none");
+    } 
+}
+

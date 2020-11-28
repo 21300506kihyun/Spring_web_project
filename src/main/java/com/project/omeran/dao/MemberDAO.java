@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
+import com.project.omeran.dto.OrderVO;
 
 
 public interface MemberDAO {
@@ -54,6 +55,10 @@ public interface MemberDAO {
 	public int idCheck(UserVO userVO) throws Exception;
 	
 
+	//**** [ admin ] ****//
+	public int getSiteCountBySiteName(@Param("siteName")String siteName);
+	
+	
 	public List<Map<String, Object>> getAllProductList(int mall_id);
 
 	public List<Map<String, Object>> getProductList(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
@@ -70,11 +75,108 @@ public interface MemberDAO {
 
 	public void adminProduct_modifyDetail(Map<String, String> paramMap);
 
+	//**** [ superAdmin ] ****//
 	public int superAdmin_getMallCount(Map<String, String> paramMap);
 
 	public List<MallVO> superAdmin_getMalls(Map<String, String> paramMap);
 
 	public void superAdminMain_simpleDelete(int mall_id);
+
+	public void superAdmin_createNewMall(Map<String, String> paramMap);
+
+	public List<Map<String, Object>> superAdmin_getAllMalls_name_id();
+
+	public void superAdmin_createNewAdmin(Map<String, String> paramMap);
+
+	public Map<String, Object> superAdmin_getMallInfoById(int mall_id);
+
+	public void superAdmin_modifyMallDetail(Map<String, String> paramMap);
+
+	public int superAdmin_getAdminCount(Map<String, String> paramMap);
+
+	public List<UserVO> superAdmin_getAdminList(Map<String, String> paramMap);
+
+	public Map<String, Object> superAdmin_getUserInfoById(int u_id);
+
+	public void superAdmin_modifyDetailAdmin_withoutPW(Map<String, String> paramMap);
+
+	public void superAdmin_modifyDetailAdmin_withPW(Map<String, String> paramMap);
+
+	public void superAdmin_manager_simpleDelete(int u_id);
+
+	public void superAdmin_manager_simpleModify(Map<String, String> paramMap);
+
+	public int superAdmin_getCustomerCount(Map<String, String> paramMap);
+
+	public List<UserVO> superAdmin_getCustomerList(Map<String, String> paramMap);
+
+	public void superAdmin_customer_simpleDelete(int u_id);
+
+	public void superAdmin_customer_simpleModify(Map<String, String> paramMap);
+
+	public int superAdmin_mallNameCheck(MallVO mallVO);
+
+	public void superAdmin_modifyDetailCustomer_withoutPW(Map<String, String> paramMap);
+
+	public void superAdmin_modifyDetailCustomer_withPW(Map<String, String> paramMap);
+
+	// admin Order
+	public int adminOrder_getOrderCount(Map<String, String> paramMap);
+
+	public List<Map<String, String>> adminOrder_getOrders(Map<String, String> paramMap);
+
+	public List<UserVO> admin_getDeliverymanList(int mall_id);
+
+	public String getUserPassword(String id);
+
+	public int adminOrder_getOrderCountByState(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
+
+	public void adminOrder_simpleUpdate(Map<String, String> paramMap);
+
+	// admin Delivery
+	public int adminDelivery_getDeliveryCount(Map<String, String> paramMap);
+
+	public int adminDelivery_getDeliveryCountByState(@Param("state_id")String state_id, @Param("mall_id")int mall_id);
+
+	public List<Map<String, String>> adminDelivery_getDeliverys(Map<String, String> paramMap);
+
+	public void adminDelivery_setDeliveryman(Map<String, String> paramMap);
+
+	public void adminDelivery_setDeliveryLocation(Map<String, String> paramMap);
+
+	public void adminDelivery_setState_depature(Map<String, String> paramMap);
+
+	public void adminDelivery_setState_arrival(Map<String, String> paramMap);
+
+	public void adminDelivery_setState(Map<String, String> paramMap);
+
+	// admin Deliveryman
+	public int adminDeliveryman_getDeliverymanCount(Map<String, String> paramMap);
+
+	public List<Map<String, String>> adminDeliveryman_getDeliverymans(Map<String, String> paramMap);
+
+	public void adminDeliveryman_deleteById(Map<String, String> paramMap);
+
+	public void adminDeliveryman_simpleUpdate(Map<String, String> paramMap);
+
+	public void adminDeliveryman_createNew(Map<String, String> paramMap);
+
+	public void adminDeliveryman_modifyDetail_withoutPW(Map<String, String> paramMap);
+
+	public void adminDeliveryman_modifyDetail_withPW(Map<String, String> paramMap);
+
+	public List<Map<String, Object>> adminDeliveryman_getDeliveries(int u_id);
+
+	public List<Map<String, Object>> adminDeliveryman_getCurrDeliverise(int u_id);
+
+	public int adminDeliveryman_getCurrDeliveryCnt(@Param("u_id") int u_id);
+
+	// 플랫폼 메인
+	public List<Map<String, Object>> platform_getAllMallList();
+
+	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
+	public int siteNameValidityCheck(@Param("mall_id")int mall_id, @Param("siteName")String siteName);
+
 
 
 }

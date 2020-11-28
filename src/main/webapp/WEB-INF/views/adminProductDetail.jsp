@@ -114,10 +114,9 @@ function adminProduct_ModifyDetailSubmit(){
 				  				<c:set var="img" value="${productInfo.product_img}"/>
 								<c:choose>
 									<c:when test="${img != null}">
-										<img width="400" src="uploadFolder/${productInfo.product_img}"/>
+										<img width="400" src="${pageContext.request.contextPath}/uploadFolder/${productInfo.product_img}"/>
 									</c:when>
 									<c:otherwise>
-										<img width="400" src=""/>
 									</c:otherwise>
 								</c:choose> 
 				  			</div>

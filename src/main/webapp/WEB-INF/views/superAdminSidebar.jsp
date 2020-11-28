@@ -12,7 +12,7 @@
 	<div id="adminSide" class="adminSide_container <c:if test="${isSideOpen eq 'sideOff'}">adminSide_container_hide</c:if>">
 		<!-- LOGO -->
 		<div id="adminSide_logoDiv" class="adminSide_logoDiv <c:if test="${isSideOpen eq 'sideOff'}">adminSide_logoDiv_hide</c:if>">
-	 		<img src="<%= request.getContextPath() %>/img/p1_top_logo.png" class="adminSide_logo" onclick='location.href="<%= request.getContextPath() %>"'>
+	 		<img src="<%= request.getContextPath() %>/img/p1_top_logo.png" class="adminSide_logo" onclick='location.href="<%= request.getContextPath() %>/superAdmin"'>
 	 		<span class="adminSide_closeBtn" onclick="adminSide_hide()">
 	 			<a><i class="fas fa-angle-double-left fa-2x"></i></a>
 	 		</span>
@@ -28,7 +28,7 @@
 	 		<i class="fas fa-angle-double-right fa-fw adminSide_menu_icons"></i>
 	 	</a>
 	 	
-	 	<!-- 플랫폼 관리 -->
+	 	<!-- 가입 쇼핑몰 관리 -->
 	 	<a href="./superAdmin" class="
 		 	<% if((String)session.getAttribute("adminSideState") == "가입 쇼핑몰 관리"){ %>  
 		 		adminSide_menuActive
@@ -37,6 +37,28 @@
 		 	<% } %>">
 		 	<i class="fas fa-store fa-fw adminSide_menu_icons"></i>
 		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">가입 쇼핑몰 관리</div>
+		 </a>
+		 
+		<!-- 쇼핑몰 관리자 관리 -->
+	 	<a href="./superAdminMallManager" class="
+		 	<% if((String)session.getAttribute("adminSideState") == "쇼핑몰 관리자 관리"){ %>  
+		 		adminSide_menuActive
+		 	<% }else{ %>
+		 		adminSide_menus
+		 	<% } %>">
+		 	<i class="fas fa-user-tie fa-fw adminSide_menu_icons"></i>
+		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">쇼핑몰 관리자 관리</div>
+		 </a>
+		 
+		 <!-- 플랫폼 유저 관리 -->
+	 	<a href="./superAdminCustomer" class="
+		 	<% if((String)session.getAttribute("adminSideState") == "플랫폼 유저 관리"){ %>  
+		 		adminSide_menuActive
+		 	<% }else{ %>
+		 		adminSide_menus
+		 	<% } %>">
+		 	<i class="fas fa-users-cog fa-fw adminSide_menu_icons"></i>
+		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">플랫폼 유저 관리</div>
 		 </a>
 	 </div>
 </body>
