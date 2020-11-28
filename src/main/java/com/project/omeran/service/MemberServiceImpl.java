@@ -201,6 +201,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 
+	// 상품구매 관련
+	
+	public Map<String, Object> GetUserInfo(int u_id) {
+		return memberDao.GetUserInfo(u_id);
+	}
+	
+	public Map<String, Object> GetUserAddress(int u_id) {
+		return memberDao.GetUserAddress(u_id);
+	}
 	
 	// Admin
 	// 상품관리 

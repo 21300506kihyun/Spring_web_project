@@ -90,6 +90,16 @@
 		SELECT * FROM ProductTable WHERE p_id= ${p_id};
 	</select>
 	
+	<!-- ************ 상품구입 부분 ***************8  -->
+	
+	<select id="GetUserInfo" resultType="HashMap">
+		SELECT * FROM UserTable WHERE u_id= ${u_id};
+	</select>
+	
+	<select id="GetUserAddress" resultType="HashMap">
+		SELECT * FROM ShippingAddress WHERE u_id= ${u_id};
+	</select>
+	
 	<!-- ************ 회원가입 부분 ***************8  -->
 	
 	<select id="insertUserInfo" parameterType="com.project.omeran.dto.UserVO">

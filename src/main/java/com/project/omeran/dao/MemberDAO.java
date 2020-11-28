@@ -57,6 +57,12 @@ public interface MemberDAO {
 	public int getU_Id(String user_id);
 	public void insertAddress(UserVO userVO);
 	
+	
+	// ********* 상품구매 부분 ***************
+	
+	public Map<String, Object> GetUserInfo(@Param("u_id") int u_id);
+	public Map<String, Object> GetUserAddress(@Param("u_id") int u_id);
+	
 
 	//**** [ admin ] ****//
 	public int getSiteCountBySiteName(@Param("siteName")String siteName);

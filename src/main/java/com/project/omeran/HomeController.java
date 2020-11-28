@@ -125,7 +125,7 @@ public class HomeController {
 
 	
 	// 로그인 체크
-	@RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "omeran/login.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView login(@ModelAttribute UserVO vo, HttpSession session, @RequestParam("id")String id, @RequestParam("pw")String pw,
 			HttpServletRequest request) {
 		boolean result = memberService.loginCheck(vo, id, pw, session);
@@ -374,7 +374,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/product_detail", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="omeran/product_detail", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewproduct_detail(@RequestParam("p_id") int p_id) throws Exception{
 		ModelAndView mav = new ModelAndView("product_detail");
 	
@@ -384,28 +384,36 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/checkout", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView viewCheckout(@RequestParam("p_id") int p_id) throws Exception{
+	@RequestMapping(value="omeran/checkout", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView viewCheckout(HttpSession session, @RequestParam("p_id") int p_id) throws Exception{
 		ModelAndView mav = new ModelAndView("checkout");
+		logger.info("1111");
+		int u_id = (int) session.getAttribute("u_id");
+		logger.info(Integer.toString(u_id));
+		logger.info("2222");
 		
-	
+		Map<String, Object>  userVO = memberService.GetUserInfo(u_id);
+		Map<String, Object>  addressVO = memberService.GetUserAddress(u_id);
+			
 		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
 		
 		mav.addObject("detail", product_detail);
+		mav.addObject("userInfo",userVO);
+		mav.addObject("address",addressVO);
 		return mav;
 	}
 
 
 	/************** 회원가입 부분 ***********/
 	
-	@RequestMapping(value="/register", method = RequestMethod.GET)
+	@RequestMapping(value="omeran/register", method = RequestMethod.GET)
 	public ModelAndView register() throws Exception{
 		ModelAndView mav = new ModelAndView("register");
 		
 		return mav;
 	}
 
-	@RequestMapping(value="/register", method = RequestMethod.POST)
+	@RequestMapping(value="omeran/register", method = RequestMethod.POST)
 	public String register(UserVO userVO) throws Exception{
 		//logger.info(userVO.getUser_id());
 		//logger.info(userVO.getTelephone());
@@ -443,11 +451,11 @@ public class HomeController {
 		//memberService.insertAddress(addressVO);
 		
 		
-		return "redirect:/mall";
+		return "redirect:mall";
 	}
 	
 	@ResponseBody 
-	@RequestMapping(value="/register_idCheck",method = RequestMethod.POST)
+	@RequestMapping(value="omeran/register_idCheck",method = RequestMethod.POST)
 	public int idcheck(UserVO userVO) throws Exception{
 		//String a  = userVO.getUser_id();
 		

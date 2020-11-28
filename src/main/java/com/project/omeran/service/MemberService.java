@@ -40,6 +40,11 @@ public interface MemberService {
 	List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword);
 	Map<String, Object> mall_getProductDetail(int p_id);
 	
+	
+	// 상품구매 부분
+	Map<String, Object> GetUserInfo(int u_id);
+	Map<String, Object> GetUserAddress(int u_id);
+	
 	// 회원가입 부분
 	public void insertUserInfo(UserVO userVO) throws Exception;
 	public int idCheck(UserVO userVO) throws Exception;
