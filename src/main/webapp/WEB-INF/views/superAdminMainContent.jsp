@@ -84,7 +84,7 @@
 						<td class="adminProduct_itemName" onclick="location.href='superAdminDetailMall?mall_id=${row.mall_id}'">${row.mall_name}</td>
 						<td>${row.farm_name}</td>
 						<td>${row.tel}</td>
-						<td style="cursor: pointer" onclick="location.href='<%= request.getContextPath() %>/${row.mall_name}'">/${row.mall_name}</td>
+						<td style="cursor: pointer" onclick="location.href='<%= request.getContextPath() %>/${row.mall_name}/'">/${row.mall_name}</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.create_date}"/></td>
 					</tr>
 				</c:forEach>

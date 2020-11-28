@@ -36,20 +36,20 @@
 	</select>
 
 	<select id="getFaqCount" resultType="int">
-		SELECT COUNT(*) FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1;
+		SELECT COUNT(*) FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1 AND mall_id = #{mall_id};
 		
 	</select>
 	
 	
 	<select id="getFaqList" resultType="HashMap">
-		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%" AND status = 1 ORDER BY faq_id DESC LIMIT #{startIndex}, #{cntPerPage};
+		SELECT * FROM Faq_table WHERE title LIKE "%${keyword}%" AND mall_id = #{mall_id} AND status = 1 ORDER BY faq_id DESC LIMIT #{startIndex}, #{cntPerPage};
 	</select>
 	
 	<select id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ 
 			INSERT into 
-			Faq_table(title,content, writer, upload_date, status) 
-			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP, 1);
+			Faq_table(title,content, writer, upload_date, status, mall_id) 
+			values (#{TITLE}, #{CONTENTS}, #{writer}, CURRENT_TIMESTAMP, 1, #{mall_id});
 		]]> 
 	</select>
 
@@ -699,6 +699,10 @@
 	<!-- 관리자 페이지 접속을 위한 사이트 이름 유효성 체크 -->
 	<select id="siteNameValidityCheck" resultType="int">
 		SELECT COUNT(*) FROM MallTable WHERE mall_id = #{mall_id} AND mall_name = #{siteName};
+	</select>
+	
+	<select id="getMallIdByName" resultType="int">
+		SELECT mall_id FROM MallTable WHERE mall_name = #{siteName} LIMIT 1;
 	</select>
 </mapper>
 

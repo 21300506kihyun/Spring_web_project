@@ -15,7 +15,7 @@
   	.top-image{
   		width: 900px !important; 
   		height: 250px !important; 
-  		object-fit: contain;
+  		object-fit: cover;
   	}
   	.mall-image{
   		width: 700px !important;
@@ -95,10 +95,10 @@
 	          <c:forEach items="${mallList}" var="row" varStatus="idx">
 		          <div class="col-lg-4 col-md-6 mb-4">
 		            <div class="card h-100">
-		              <a href="./${row.mall_name}"><img class="card-img-top mall-image" src="${pageContext.request.contextPath}/uploadFolder/${row.represent_img}"></a>
+		              <a href="./${row.mall_name}/"><img class="card-img-top mall-image" src="${pageContext.request.contextPath}/uploadFolder/${row.represent_img}"></a>
 		              <div class="card-body">
 		                <h4 class="card-title">
-		                  <a href="./${row.mall_name}">${row.mall_name}</a>
+		                  <a href="./${row.mall_name}/">${row.mall_name}</a>
 		                </h4>
 		                <h5>${row.farm_name}</h5>
 		                <p class="card-text">${row.farm_detail}</p>

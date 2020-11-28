@@ -4,7 +4,8 @@
 <html lang="ko">
 
 <head>
-  <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
+  <title>${siteName}에 오신 것을 환영합니다.</title>
+  <!-- <title>고용량 오메가3 함요 : 자연방사유정란 오메란</title> -->
   <%@ include file="./header.jsp" %>
 </head>
 

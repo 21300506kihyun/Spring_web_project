@@ -131,6 +131,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override  // 게시글 입력 
 	public void insertBoard(Map<String, Object> map) throws Exception { 
+		System.out.println("map: "+map);
 		//nt u_id = (int)session.getAttribute("u_id");
 		memberDao.insertBoard(map); 
 	}
@@ -142,14 +143,14 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public int getFaqCount(String keyword) {
-		return memberDao.getFaqCount(keyword);
+	public int getFaqCount(String keyword, int mall_id) {
+		return memberDao.getFaqCount(keyword, mall_id);
 	}
 
 
 	@Override
-	public List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword) {
-		return memberDao.getFaqList(startIndex, cntPerPage, keyword);
+	public List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword, int mall_id) {
+		return memberDao.getFaqList(startIndex, cntPerPage, keyword, mall_id);
 	}
 
 	@Override
@@ -497,5 +498,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int siteNameValidityCheck(int mall_id, String siteName) {
 		return memberDao.siteNameValidityCheck(mall_id, siteName);
+	}
+
+	// 플랫폼 -> 쇼핑몰 (쇼핑몰 ID 알아오기)
+	@Override
+	public int getMallIdByName(String siteName) {
+		return memberDao.getMallIdByName(siteName);
 	}
 }
