@@ -19,6 +19,10 @@ public class UserVO {
 	private String recommander_id;
 	private int mall_id;
 	private String mall_name;
+	//주소 부분
+	private String postcode;
+	private String address;
+	private String detailAddress;
 	
 	// MemberVO랑 합치기
 	private boolean loginValidity;
@@ -141,5 +145,28 @@ public class UserVO {
 				+ ", recommander_id=" + recommander_id + ", mall_id=" + mall_id + ", mall_name=" + mall_name
 				+ ", loginValidity=" + loginValidity + "]";
 	}
+	
+	
+	//주소 부분
+
+	public String getPostcode() {
+		return postcode;
+	}
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDetailAddress() {
+		return detailAddress;
+	}
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
+	}
+
 	
 }

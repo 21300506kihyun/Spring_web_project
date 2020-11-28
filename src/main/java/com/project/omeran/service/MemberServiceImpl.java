@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.omeran.dao.MemberDAO;
+import com.project.omeran.dto.AddressVO;
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.dto.OrderVO;
@@ -185,9 +186,18 @@ public class MemberServiceImpl implements MemberService{
 //		System.out.println(userVO.getEmail());
 		memberDao.insertUserInfo(userVO);
 	}
+	
+	public int getU_Id(String user_id)  {
+		return memberDao.getU_Id(user_id);
+	}
+	
 	@Override
 	public int idCheck(UserVO userVO) throws Exception {
 		return memberDao.idCheck(userVO);
+	}
+	
+	public void insertAddress(UserVO userVO) {
+		memberDao.insertAddress(userVO);
 	}
 	
 

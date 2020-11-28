@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.project.omeran.dto.AddressVO;
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.dto.OrderVO;
@@ -39,8 +40,11 @@ public interface MemberService {
 	List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword);
 	Map<String, Object> mall_getProductDetail(int p_id);
 	
+	// 회원가입 부분
 	public void insertUserInfo(UserVO userVO) throws Exception;
 	public int idCheck(UserVO userVO) throws Exception;
+	public int getU_Id(String user_id);
+	public void insertAddress(UserVO userVO);
 
 
 	// Admin 
@@ -156,6 +160,10 @@ public interface MemberService {
 
 	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
 	public int siteNameValidityCheck(int mall_id, String siteName);
+	
+	
+	
+	
 
 
 	

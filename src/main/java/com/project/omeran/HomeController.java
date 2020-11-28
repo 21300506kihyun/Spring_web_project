@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.omeran.common.CommandMap;
+import com.project.omeran.dto.AddressVO;
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.dto.PaginationVO;
 import com.project.omeran.dto.UserVO;
@@ -92,6 +93,16 @@ public class HomeController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/omeran", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView mall_home() {
+		ModelAndView mav = new ModelAndView();
+			
+		mav.setViewName("index");
+		
+		return mav;
+	}
+	
 	@RequestMapping(value = {"/index", "/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home_2() {
 		return "index";
@@ -339,7 +350,7 @@ public class HomeController {
 
 	/**************** 쇼핑몰 페이지 ****************/
 
-	@RequestMapping(value="/mall", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="omeran/mall", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewproduct(@RequestParam(value="curPage", defaultValue="1")int curPage, 
 			@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
 		ModelAndView mav = new ModelAndView("mall");
@@ -396,13 +407,16 @@ public class HomeController {
 
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register(UserVO userVO) throws Exception{
-		logger.info("post register");
-		logger.info(userVO.getUser_id());
-		logger.info(userVO.getTelephone());
+		//logger.info(userVO.getUser_id());
+		//logger.info(userVO.getTelephone());
 		int check = memberService.idCheck(userVO);
 		logger.info(userVO.getUser_id());
 		logger.info(userVO.getEmail());
-		logger.info(Integer.toString(check));
+		logger.info(userVO.getPostcode());
+		logger.info(userVO.getAddress());
+		//logger.info(Integer.toString(check));
+		// memberService.insertAddress(userVO);
+		
 		try {  // 비밀번호암호화 한 이후 회원정보 저장
 			if(check == 1) {
 				logger.info("duplicate");
@@ -412,19 +426,21 @@ public class HomeController {
 			else if(check == 0) {
 				logger.info("회원가입 성공");
 				String inputPass = userVO.getPassword();
-				logger.info("111111");
 				// TODO: 
 				String pwd = pwdEncoder.encode(inputPass);
-				logger.info("222222");
-				//userVO.setPassword(pwd);
-				logger.info("3333333");
+				userVO.setPassword(pwd);
 				memberService.insertUserInfo(userVO);
-				logger.info("444444");
 				}
 		}catch(Exception e){
 				throw new RuntimeException();
 		} 
-		
+		int u_id = memberService.getU_Id(userVO.getUser_id());	
+		userVO.setU_id(u_id);
+		logger.info(Integer.toString(u_id));
+		memberService.insertAddress(userVO);
+		//int user_id = memberService.getUserId(userVO.getUser_id());	
+		//addressVO.setU_id(user_id);
+		//memberService.insertAddress(addressVO);
 		
 		
 		return "redirect:/mall";

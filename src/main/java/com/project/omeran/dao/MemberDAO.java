@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.project.omeran.dto.AddressVO;
 import com.project.omeran.dto.MallVO;
 import com.project.omeran.dto.MemberVO;
 import com.project.omeran.dto.OrderVO;
@@ -51,8 +52,10 @@ public interface MemberDAO {
 	
 	//*********** 회원가입 부분 *****************
 	
-	public int insertUserInfo(UserVO userVO) throws Exception;
+	public void insertUserInfo(UserVO userVO) throws Exception;
 	public int idCheck(UserVO userVO) throws Exception;
+	public int getU_Id(String user_id);
+	public void insertAddress(UserVO userVO);
 	
 
 	//**** [ admin ] ****//

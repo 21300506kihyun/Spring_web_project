@@ -100,6 +100,15 @@
 	<select id="idCheck" parameterType="com.project.omeran.dto.UserVO" resultType="int">
 		SELECT count(*) FROM UserTable WHERE user_id = #{user_id};
 	</select>
+	
+	<select id="getU_Id"  parameterType="String" resultType="int">
+		SELECT u_id FROM UserTable WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="insertAddress" parameterType="com.project.omeran.dto.UserVO">
+		INSERT INTO ShippingAddress(u_id,address01,address02,address03)
+			VALUES(#{u_id},#{postcode},#{address},#{detailAddress});
+	</select>
 
 	
 	
