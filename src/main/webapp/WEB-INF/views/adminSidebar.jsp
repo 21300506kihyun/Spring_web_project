@@ -19,7 +19,7 @@
 	 	
 	 	<!-- 관리자 사이트 바로가기 -->
 	 	<div id="adminSide_symlink" class="adminSide_symlink <c:if test="${isSideOpen eq 'sideOff'}">adminSide_symlnk_hide</c:if>">
-	 		<a href="<%= request.getContextPath() %>/${siteName}">${siteName} 바로가기</a>
+	 		<a href="<%= request.getContextPath() %>/${siteName}/">${siteName} 바로가기</a>
 	 	</div>
 	 	
 	 	<!-- 사이드바 열기버튼 -->

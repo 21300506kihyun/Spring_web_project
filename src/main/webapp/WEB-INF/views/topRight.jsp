@@ -22,7 +22,7 @@
   	<% }else if (status == -1){  %>
   		<a href="<%= request.getContextPath() %>/<% out.println(session.getAttribute("adminSiteName")); %>/admin"><% out.println(session.getAttribute("user_name")); %> 관리자님</a>
   	<% }else if (status == 0){  %>
-		<a href="<%= request.getContextPath() %>/#delivery"><% out.println(session.getAttribute("user_name")); %> 배송기사님</a>
+		<a href="https://ovenapp.io/view/RZoY9K1tJPXTYeXnfIw1T4RZcnbDLpEe/FZNkC"><% out.println(session.getAttribute("user_name")); %> 배송기사님</a>
 	<% }else{  %>
   		<a href="#mypage"><% out.println(session.getAttribute("user_name")); %> 고객님</a>
   	<% } %>
