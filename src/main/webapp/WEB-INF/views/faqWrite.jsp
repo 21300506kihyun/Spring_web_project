@@ -32,7 +32,7 @@
 
   function fn_insertBoard() {
     var comSubmit = new ComSubmit("frm");
-    comSubmit.setUrl("<c:url value='/insertBoard' />");
+    comSubmit.setUrl("<c:url value='insertBoard' />");
     comSubmit.submit();
   }
 
@@ -61,8 +61,8 @@
 
     <header id="p2_header">
       <!-- PC only 헤더 -->
-      <img src="img/p1_top_banner.png" class="p2_top_banner only-pc">
-      <a href="index" class="p2_top_logo only-pc" id="p1_top_logoc"><img src="img/p1_top_logo.png" alt=""></a>
+      <img src="${pageContext.request.contextPath}/img/p1_top_banner.png" class="p2_top_banner only-pc">
+      <a href="index" class="p2_top_logo only-pc" id="p1_top_logoc"><img src="${pageContext.request.contextPath}/img/p1_top_logo.png" alt=""></a>
       <div id="top_right" class="p2_util p1_util only-pc">
         <jsp:include page="./topRight.jsp"></jsp:include>
       </div>
@@ -74,7 +74,7 @@
       </div>
 
       <!-- Mobile only 헤더 -->
-      <img src="img/m_index.png" class="p2_top_banner only-mobile">
+      <img src="${pageContext.request.contextPath}/img/m_index.png" class="p2_top_banner only-mobile">
       <a href="index" id="m_logo_area" class="only-mobile"></a>
       <div id="m_p1_header" class="only-mobile">
         <jsp:include page="./mobMenu.jsp"></jsp:include>

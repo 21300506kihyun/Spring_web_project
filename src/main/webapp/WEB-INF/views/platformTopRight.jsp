@@ -40,7 +40,7 @@
   	    <a class="nav-link popup-btn" href="#login">로그인</a>
   	  </li>
   	  <li class="nav-item">
-  	    <a class="nav-link" href="#">회원가입</a>
+  	    <a class="nav-link" href="register">회원가입</a>
   	  </li>
     <% } %>
     <li class="nav-item">

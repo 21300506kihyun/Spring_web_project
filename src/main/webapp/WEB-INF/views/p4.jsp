@@ -17,8 +17,8 @@
     
     <header id="p2_header">
 	  <!-- PC only header -->
-      <img src="img/p4_top_banner.png" class="p2_top_banner only-pc">
-      <a href="index" class="p2_top_logo only-pc"><img src="img/p1_top_logo.png" alt=""></a>
+      <img src="${pageContext.request.contextPath}/img/p4_top_banner.png" class="p2_top_banner only-pc">
+      <a href="index" class="p2_top_logo only-pc"><img src="${pageContext.request.contextPath}/img/p1_top_logo.png" alt=""></a>
       <div class="p2_util only-pc">
         <jsp:include page="./topRight.jsp"></jsp:include>
       </div>
@@ -32,7 +32,7 @@
       <!-- Mobile only 헤더 -->      
       <div id="m_index" class="only-mobile">
       	<jsp:include page="./mobOpenSidebar.jsp"></jsp:include>
-        <img src="img/m_p4.png" id="m_p3_img">
+        <img src="${pageContext.request.contextPath}/img/m_p4.png" id="m_p3_img">
         <a href="index" id="m_logo_area" class="m_logo_area_p4"></a>
 
         <div id="m_p1_header" class="m_p3_header_only">
@@ -43,8 +43,8 @@
     
     <!-- p4 content -->
     <div id="p4_mid">
-      <img src="img/p4_mid_img.png" alt="" class="p4_mid_img">
-      <img src="img/p4_mid_img2.png" alt="" class="p4_mid_img2">
+      <img src="${pageContext.request.contextPath}/img/p4_mid_img.png" alt="" class="p4_mid_img">
+      <img src="${pageContext.request.contextPath}/img/p4_mid_img2.png" alt="" class="p4_mid_img2">
       
       <div class="p5_pra01">
         <p class="p5_pra_title">닭이 자라는 환경은?</p>

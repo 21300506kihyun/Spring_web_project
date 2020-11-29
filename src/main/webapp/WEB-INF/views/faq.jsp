@@ -5,14 +5,15 @@
 <html>
 
 <head>
-  <title>FAQ: 자연방사유정란 오메란</title>
+  <!-- <title>FAQ: 자연방사유정란 오메란</title> -->
+  <title>FAQ: ${siteName} 쇼핑몰</title>
   <%@ include file="./header.jsp" %>
   <style>
     input[id*="faq-answer"] {display: none;}
     input[id*="faq-answer"]+label {display: block; padding: 20px; border-bottom: 1px solid #bbb; margin-bottom: 0 !important;
       color: #000; background: #fdfdfd; cursor: pointer; position: relative; text-align: left; font-size: 20px;}
     input[id*="faq-answer"] + label em { position:absolute;top:30%;left:10px;width:50px; height:50px; margin-top:-15px;
-    display:inline-block; margin-right: 50px; background:url('img/qna.png') 0 0 no-repeat;  background-size: contain;;
+    display:inline-block; margin-right: 50px; background:url('${pageContext.request.contextPath}/img/qna.png') 0 0 no-repeat;  background-size: contain;;
     /*img source: https://www.clipartmax.com/middle/m2i8Z5b1K9G6N4K9_question-and-answer-icon-png-personal-injury/ */}
     input[id*="faq-answer"] + label p{ margin-left: 50px; font-size: 20px;}
     input[id*="faq-answer"]+label+div { max-height: 0; transition: all .35s; overflow: hidden; background: #eee;}
@@ -90,8 +91,8 @@
 
     <header id="p2_header">
       <!-- PC only 헤더 -->
-      <img src="img/p1_top_banner.png" class="p2_top_banner only-pc">
-      <a href="index" class="p2_top_logo only-pc" id="p1_top_logoc"><img src="img/p1_top_logo.png" alt=""></a>
+      <img src="${pageContext.request.contextPath}/img/p1_top_banner.png" class="p2_top_banner only-pc">
+      <a href="index" class="p2_top_logo only-pc" id="p1_top_logoc"><img src="${pageContext.request.contextPath}/img/p1_top_logo.png" alt=""></a>
       <div id="top_right" class="p2_util p1_util only-pc">
         <jsp:include page="./topRight.jsp"></jsp:include>
       </div>
@@ -103,7 +104,7 @@
       </div>
 
       <!-- Mobile only 헤더 -->
-      <img src="img/m_index.png" class="p2_top_banner only-mobile">
+      <img src="${pageContext.request.contextPath}/img/m_index.png" class="p2_top_banner only-mobile">
       <a href="index" id="m_logo_area" class="only-mobile"></a>
       <div id="m_p1_header" class="only-mobile">
         <jsp:include page="./mobMenu.jsp"></jsp:include>
@@ -122,13 +123,15 @@
             <input name="faqKeyword" type="text" id="find_input" class="faq-input" placeholder="제목을 검색해주세요." value="${keyword}">
             <input type="submit" class="faq-submit" value="검색하기">
             <% if(session.getAttribute("user_category") != null){
-  				        if((int)session.getAttribute("user_category") == -2){%>
+	              		if((int)session.getAttribute("user_category") == -2 || 
+	              				((int)session.getAttribute("user_category") == -1 && (int)session.getAttribute("mall_id") == (int)session.getAttribute("curr_mall_id"))){%>
             <input type="button" class="faq-submit" value="글쓰기" onclick="moveAjax('faqWrite')">
               		<%  }
 		       } %>
           </form>
         </div>
-
+<% out.println(session.getAttribute("curr_mall_id")); %>
+<% out.println(session.getAttribute("mall_id")); %>
         <div class="faq-table">
           <c:choose>
             <c:when test="${pagination.listCnt != 0}">
@@ -143,7 +146,8 @@
                       <p>${row.content}</p>
                     </div>
                     <% if(session.getAttribute("user_category") != null){
-			              		if((int)session.getAttribute("user_category") == -2){%>
+		              		if((int)session.getAttribute("user_category") == -2 || 
+		              				((int)session.getAttribute("user_category") == -1 && (int)session.getAttribute("mall_id") == (int)session.getAttribute("curr_mall_id"))){%>
                     <form name="faqContent${row.faq_id}" id="faqContent${row.faq_id}" onsubmit="faqModify('faqModify', '${row.faq_id}'); return false;" action="" method="post">
                       <input type="hidden" name="title" value="${row.title}">
                       <input type="hidden" name="faq_id" value="${row.faq_id}">

@@ -33,9 +33,10 @@ public interface MemberDAO {
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	
 	// FAQ load
-	public int getFaqCount(@Param("keyword")String keyword);
+	public int getFaqCount(@Param("keyword")String keyword, @Param("mall_id")int mall_id);
 	
-	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
+	public List<Map<String, Object>> getFaqList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, 
+						@Param("keyword")String keyword, @Param("mall_id")int mall_id);
 	// FAQ paging
 	public void insertBoard(Map<String, Object> map); // 게시글 입력
 	
@@ -185,6 +186,10 @@ public interface MemberDAO {
 
 	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
 	public int siteNameValidityCheck(@Param("mall_id")int mall_id, @Param("siteName")String siteName);
+
+	
+	// 플랫폼 to 쇼핑몰 
+	public int getMallIdByName(@Param("siteName")String siteName);
 
 
 

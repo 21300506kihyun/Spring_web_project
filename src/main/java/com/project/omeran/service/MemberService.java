@@ -29,8 +29,8 @@ public interface MemberService {
 
 
 	// FAQ 
-	int getFaqCount(String keyword);
-	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword);	
+	int getFaqCount(String keyword, int mall_id);
+	List<Map<String, Object>> getFaqList(int startIndex, int cntPerPage, String keyword, int mall_id);	
 	void deleteFaq(int faq_id);
 	void updateFaq(Map<String, Object> map);
 	
@@ -165,9 +165,12 @@ public interface MemberService {
 
 	// 관리자 페이지 접속을 위한 사이트 이름 유효성 체크
 	public int siteNameValidityCheck(int mall_id, String siteName);
+
 	
 	
 	
+	// 플랫폼 -> 쇼핑몰
+	public int getMallIdByName(String siteName);
 	
 
 

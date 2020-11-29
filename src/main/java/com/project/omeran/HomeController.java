@@ -29,6 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -80,7 +81,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = {"/","/index"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
 		
@@ -94,38 +95,9 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/omeran", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView mall_home() {
-		ModelAndView mav = new ModelAndView();
-			
-		mav.setViewName("index");
-		
-		return mav;
-	}
-	
-	@RequestMapping(value = {"/index", "/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
-	public String home_2() {
-		return "index";
-	}
-	@RequestMapping(value = "/p2", method = { RequestMethod.GET, RequestMethod.POST })
-	public String home2() {
-		
-		return "p2";
-	}
-	@RequestMapping(value = "/p3", method = { RequestMethod.GET, RequestMethod.POST })
-	public String home3() {
-		
-		return "p3";
-	}
-	@RequestMapping(value = "/p4", method = { RequestMethod.GET, RequestMethod.POST })
-	public String home4() {
-		
-		return "p4";
-	}
 
-	
-	// 로그인 체크
-	@RequestMapping(value = "omeran/login.do", method = { RequestMethod.GET, RequestMethod.POST })
+	// 플랫폼 > 로그인 체크
+	@RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView login(@ModelAttribute UserVO vo, HttpSession session, @RequestParam("id")String id, @RequestParam("pw")String pw,
 			HttpServletRequest request) {
 		boolean result = memberService.loginCheck(vo, id, pw, session);
@@ -148,7 +120,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	// 로그아웃 
+	// 플랫폼 > 로그아웃 
 	@RequestMapping(value = "/logout.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView logout(HttpSession session, @ModelAttribute UserVO vo, HttpServletRequest request) {
 		memberService.logout(session, vo);
@@ -210,22 +182,165 @@ public class HomeController {
             return -1;
         }
     }
- 
-    @RequestMapping(value="/faq", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView viewFaq(@RequestParam(value="curPage", defaultValue="1")int curPage, 
-    		@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
-    	ModelAndView mav = new ModelAndView("faq");
+	
+	
+	
+	
+	
+	// 쇼핑몰 매핑
+    private boolean siteNameValidityCheck(String siteName) {
+		// 해당 사이트가 존재하면 true 아니면 false
+		if(memberService.admin_getSiteCountBySiteName(siteName) == 0) {
+			return false;
+		}
+		return true;
+	}
+    
+    private ModelAndView redirectToPlatformMain() {
+    	ModelAndView mav = new ModelAndView("redirect:/");
+    	return mav;
+    }
+    
+    private int getMallIdByName(String siteName, HttpSession session) {
+    	int mall_id = memberService.getMallIdByName(siteName);
+    	session.setAttribute("curr_mall_id", mall_id);
+    	System.out.println("mallID : "+mall_id);
+    	return mall_id;
+    }
+    
+    
+    // 쇼핑몰 > 로그인 체크
+ 	@RequestMapping(value = "/{siteName}/login.do", method = { RequestMethod.GET, RequestMethod.POST })
+ 	public ModelAndView mall_login(@ModelAttribute UserVO vo, HttpSession session, @RequestParam("id")String id, @RequestParam("pw")String pw,
+ 			HttpServletRequest request, @PathVariable("siteName") String siteName) {
+ 		boolean result = memberService.loginCheck(vo, id, pw, session);
+ 		ModelAndView mav = new ModelAndView();
+ 		// System.out.println("login.do: "+ vo );
+ 		
+ 		if(result == true) {
+ 			mav.setViewName("moveWithoutAlert");
+ 			String referer = request.getHeader("referer");
+ 			mav.addObject("url", referer);
+ 		}
+ 		else {
+ 			mav.setViewName("moveWithAlert");
+ 			String referer = request.getHeader("referer");
+ 			// System.out.println("else / referer: "+referer);
+ 			String msg = "로그인에 실패하였습니다. 정보를 다시 확인해주세요.";
+ 			mav.addObject("msg", msg);
+ 			mav.addObject("url", referer);
+ 		}
+ 		return mav;
+ 	}
+ 	
+ 	// 플랫폼 > 로그아웃 
+ 	@RequestMapping(value = "/{siteName}/logout.do", method = { RequestMethod.GET, RequestMethod.POST })
+ 	public ModelAndView mall_logout(HttpSession session, @ModelAttribute UserVO vo, HttpServletRequest request, @PathVariable("siteName") String siteName) {
+ 		memberService.logout(session, vo);
+ 		ModelAndView mav = new ModelAndView();
+ 		
+ 		mav.setViewName("moveWithoutAlert");
+ 		String referer = request.getHeader("referer");
+ 		mav.addObject("url", referer);
+ 		return mav;
+ 	}
+
+    // index
+	@RequestMapping(value = {"/{siteName}/", "/{siteName}/index", "/{siteName}/p1"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView mall_home(HttpSession session, @PathVariable("siteName") String siteName) {
+		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+		
+		int mall_id = getMallIdByName(siteName, session);
+		
+		mav.addObject("siteName", siteName);
+		
+		mav.setViewName("index");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/{siteName}/p2", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView home2(HttpSession session, @PathVariable("siteName") String siteName) {
+		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+		
+		int mall_id = getMallIdByName(siteName, session);
+		
+		mav.addObject("siteName", siteName);
+		
+		mav.setViewName("p2");
+		
+		return mav;
+	}
+	@RequestMapping(value = "/{siteName}/p3", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView home3(HttpSession session, @PathVariable("siteName") String siteName) {
+		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+		
+		int mall_id = getMallIdByName(siteName, session);
+		
+		mav.addObject("siteName", siteName);
+		
+		mav.setViewName("p3");
+		
+		return mav;
+	}
+	@RequestMapping(value = "/{siteName}/p4", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView home4(HttpSession session, @PathVariable("siteName") String siteName) {
+		ModelAndView mav = new ModelAndView();
+		
+		if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+		
+		int mall_id = getMallIdByName(siteName, session);
+		
+		mav.addObject("siteName", siteName);
+		
+		mav.setViewName("p4");
+		
+		return mav;
+	}
+
+	
+	
+	// TODO: FAQ 각 사이트마다 동작하도록 
+    @RequestMapping(value="/{siteName}/faq", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView viewFaq(HttpSession session, @RequestParam(value="curPage", defaultValue="1")int curPage, 
+    		@RequestParam(value="faqKeyword", defaultValue="")String keyword, @PathVariable("siteName") String siteName) throws Exception{
+    	ModelAndView mav = new ModelAndView();
+
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	
+    	int mall_id = getMallIdByName(siteName, session);
+    	
+    	mav.addObject("siteName", siteName);
+    	
     	
     	// FAQ 리스트 개수 불러오기 (검색결과, 페이징)
-    	int listCnt = memberService.getFaqCount(keyword);
+    	int listCnt = memberService.getFaqCount(keyword, mall_id);
     	
     	PaginationVO pagination = new PaginationVO(listCnt, curPage);
     	
     	int startIndex = pagination.getStartIndex();
     	int cntPerPage = pagination.getPageSize();
 
-		List<Map<String, Object>> list = memberService.getFaqList(startIndex, cntPerPage, keyword);
+		List<Map<String, Object>> list = memberService.getFaqList(startIndex, cntPerPage, keyword, mall_id);
     	
+		mav.setViewName("faq");
+		
     	mav.addObject("listCnt", listCnt);
     	mav.addObject("list", list);
     	mav.addObject("pagination", pagination);
@@ -235,25 +350,44 @@ public class HomeController {
     	return mav;
     }
     
-    @RequestMapping(value = "/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView faqWrite(HttpSession session) throws Exception {
-		ModelAndView mav = new ModelAndView();
+    @RequestMapping(value = "/{siteName}/faqWrite", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView faqWrite(HttpSession session, @PathVariable("siteName") String siteName) throws Exception {
+    	ModelAndView mav = new ModelAndView();
+
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	
+    	int mall_id = getMallIdByName(siteName, session);
+    	
+    	mav.addObject("siteName", siteName);
+    	
 		if(sessionTest(session)) {
 			mav.setViewName("faqWrite");
 			return mav;
 		}
 		else {
-			return viewFaq(1, "");			
+			mav.setViewName(siteName+"/faq");
+			return mav;	
 		}
 	}
     
-    @RequestMapping(value="/faq.delete", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView faqDeleteAction(HttpServletRequest request, HttpSession session, @RequestParam(value="faq_id")int faq_id) throws Exception{
+    @RequestMapping(value="/{siteName}/faq.delete", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView faqDeleteAction(HttpServletRequest request, HttpSession session, 
+    		@RequestParam(value="faq_id")int faq_id, @PathVariable("siteName") String siteName) throws Exception{
     	ModelAndView mav = new ModelAndView();
 
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	
+    	int mall_id = getMallIdByName(siteName, session);
+    	mav.addObject("siteName", siteName);
+    	
     	if(sessionTest(session)) {
     		memberService.deleteFaq(faq_id);
-    		return viewFaq(1, "");
+    		mav.setViewName(siteName+"/faq");
+			return mav;	
     	}
     	else {
     		String referer = "faq";
@@ -267,10 +401,18 @@ public class HomeController {
     	return mav;
     }
     
-    @RequestMapping(value="/faqModify", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value="/{siteName}/faqModify", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView faqModify(HttpServletRequest request, HttpSession session, @RequestParam(value="title")String title,
-    		@RequestParam(value="faq_id")int faq_id, @RequestParam(value="content")String content) throws Exception{
+    		@RequestParam(value="faq_id")int faq_id, @RequestParam(value="content")String content, 
+    		@PathVariable("siteName") String siteName) throws Exception{
     	ModelAndView mav = new ModelAndView();
+    	
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	
+    	int mall_id = getMallIdByName(siteName, session);
+    	mav.addObject("siteName", siteName);
     	
     	if(sessionTest(session)) {
     		mav.setViewName("faqModify");
@@ -291,14 +433,25 @@ public class HomeController {
     	return mav;
     }
     
-    @RequestMapping(value="/faq.modify", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView faqModifyAction(HttpSession session, @RequestParam Map<String,Object> commandMap) throws Exception{
+    @RequestMapping(value="/{siteName}/faq.modify", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView faqModifyAction(HttpSession session, @RequestParam Map<String,Object> commandMap,
+    		@PathVariable("siteName") String siteName) throws Exception{
     	ModelAndView mav = new ModelAndView();
-    	System.out.println(".modify : "+commandMap);
+    	
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	
+    	int mall_id = getMallIdByName(siteName, session);
+    	mav.addObject("siteName", siteName);
+    	
+    	
     	if(sessionTest(session)) {
     		mav.setViewName("faq");    		
         	memberService.updateFaq(commandMap);
-    		return viewFaq(1, "");
+        	
+        	mav.setViewName("redirect:faq");
+			return mav;	
     	}
     	else {
     		String referer = "faq";
@@ -313,43 +466,77 @@ public class HomeController {
     }
     
     
-    @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
-    public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception{ 
-    	ModelAndView mv = new ModelAndView(""); 
-    	if(commandMap.isEmpty() == false){ 
-    		Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator(); 
-    		Entry<String,Object> entry = null; 
-    		while(iterator.hasNext()){ 
-    			entry = iterator.next(); 
-    			System.out.println("key : "+entry.getKey()+", value : "+entry.getValue()); 
-    		} 
-    	}  
-    	return mv; 
+//    @RequestMapping(value="/testMapArgumentResolver",  method = RequestMethod.GET)
+//    public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception{ 
+//    	ModelAndView mv = new ModelAndView(""); 
+//    	if(commandMap.isEmpty() == false){ 
+//    		Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator(); 
+//    		Entry<String,Object> entry = null; 
+//    		while(iterator.hasNext()){ 
+//    			entry = iterator.next(); 
+//    			System.out.println("key : "+entry.getKey()+", value : "+entry.getValue()); 
+//    		} 
+//    	}
+//    	return mv;
+//    }
+    
+    // TODO: 이거 쓰는거에요..?
+    @RequestMapping(value="/{siteName}/boardWrite") 
+    public ModelAndView openBoardWrite(HttpSession session, CommandMap commandMap, @PathVariable("siteName") String siteName) throws Exception{
+    	ModelAndView mav = new ModelAndView();
+    	
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	int mall_id = getMallIdByName(siteName, session);
+    	mav.addObject("siteName", siteName);
+    	
+    	mav.setViewName("boardWrite");
+    	return mav; 
     }
     
-    @RequestMapping(value="/boardWrite") 
-    public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception{ 
-    	ModelAndView mv = new ModelAndView("boardWrite"); 
-    	return mv; 
-    }
     
-    @RequestMapping(value="/insertBoard", method = RequestMethod.POST) 
-    public ModelAndView insertBoard( @RequestParam Map<String,Object> commandMap) throws Exception{
-    	ModelAndView mv = new ModelAndView("redirect:/faq"); 
+    
+    @RequestMapping(value="/{siteName}/insertBoard", method = RequestMethod.POST) 
+    public ModelAndView insertBoard(HttpSession session, @RequestParam Map<String,Object> commandMap, 
+    			@PathVariable("siteName") String siteName) throws Exception{
+    	ModelAndView mav = new ModelAndView();
+    	
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	int mall_id = getMallIdByName(siteName, session);
+    	mav.addObject("siteName", siteName);
+    	
+    	commandMap.put("mall_id", mall_id);
     	memberService.insertBoard(commandMap); 
-    	return mv; 
+
+    	mav.setViewName("redirect:faq"); 
+    	
+    	return mav; 
     }
 
-
-    @RequestMapping(value="updateBoard") 
-    public ModelAndView updateBoard(@RequestParam Map<String,Object> commandMap) throws Exception{ //map은 key와 value로 구성 여기서는 key= title, value = title 내용
-    	ModelAndView mv = new ModelAndView("redirect:/faq"); 
+    // TODO: 이거 쓰는거야???
+    @RequestMapping(value="/{siteName}/updateBoard") 
+    public ModelAndView updateBoard(HttpSession session, @RequestParam Map<String,Object> commandMap,
+    			@PathVariable("siteName") String siteName) throws Exception{ //map은 key와 value로 구성 여기서는 key= title, value = title 내용
+    	ModelAndView mav = new ModelAndView();
+    	
+    	if(!siteNameValidityCheck(siteName)) {
+    		return redirectToPlatformMain();
+    	}
+    	int mall_id = getMallIdByName(siteName, session);
+    	mav.addObject("siteName", siteName);
+    	
     	memberService.updateBoard(commandMap);
-    	return mv; 
+
+    	mav.setViewName("redirect:faq");
+    	
+    	return mav; 
     }
 
+    // TODO: path variable 매핑
 	/**************** 쇼핑몰 페이지 ****************/
-
 	@RequestMapping(value="omeran/mall", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewproduct(@RequestParam(value="curPage", defaultValue="1")int curPage, 
 			@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
@@ -374,7 +561,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value="omeran/product_detail", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="{siteName}/product_detail", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewproduct_detail(@RequestParam("p_id") int p_id) throws Exception{
 		ModelAndView mav = new ModelAndView("product_detail");
 	
@@ -384,7 +571,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value="omeran/checkout", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="{siteName}/checkout", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewCheckout(HttpSession session, @RequestParam("p_id") int p_id) throws Exception{
 		ModelAndView mav = new ModelAndView("checkout");
 		logger.info("1111");
@@ -405,15 +592,15 @@ public class HomeController {
 
 
 	/************** 회원가입 부분 ***********/
-	
-	@RequestMapping(value="omeran/register", method = RequestMethod.GET)
+
+	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public ModelAndView register() throws Exception{
 		ModelAndView mav = new ModelAndView("register");
 		
 		return mav;
 	}
 
-	@RequestMapping(value="omeran/register", method = RequestMethod.POST)
+	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register(UserVO userVO) throws Exception{
 		//logger.info(userVO.getUser_id());
 		//logger.info(userVO.getTelephone());
@@ -451,11 +638,11 @@ public class HomeController {
 		//memberService.insertAddress(addressVO);
 		
 		
-		return "redirect:mall";
+		return "redirect:/";
 	}
 	
 	@ResponseBody 
-	@RequestMapping(value="omeran/register_idCheck",method = RequestMethod.POST)
+	@RequestMapping(value="/register_idCheck",method = RequestMethod.POST)
 	public int idcheck(UserVO userVO) throws Exception{
 		//String a  = userVO.getUser_id();
 		

@@ -4,7 +4,7 @@
 <html lang="ko">
 
 <head>
-  <title>p3</title>
+  <title>${siteName}에 오신 것을 환영합니다.</title>
   <%@ include file="./header.jsp" %>
 </head>
 
@@ -17,8 +17,8 @@
     
     <header id="p2_header">
       <!-- PC only 헤더 -->
-      <img src="img/p3_top_banner.png" class="p2_top_banner only-pc">
-      <a href="index" class="p2_top_logo only-pc"><img src="img/p3_top_logo.png" alt=""></a>
+      <img src="${pageContext.request.contextPath}/img/p3_top_banner.png" class="p2_top_banner only-pc">
+      <a href="index" class="p2_top_logo only-pc"><img src="${pageContext.request.contextPath}/img/p3_top_logo.png" alt=""></a>
       <div class="p2_util only-pc">
         <jsp:include page="./topRight.jsp"></jsp:include>
       </div>
@@ -31,7 +31,7 @@
       
 	  <!-- Mobile only 헤더 -->      
       <div id="m_index" class="only-mobile">
-        <img src="img/m_p3.png" id="m_p3_img">
+        <img src="${pageContext.request.contextPath}/img/m_p3.png" id="m_p3_img">
         <a href="index" id="m_logo_area" class="m_logo_area_p3"></a>
 
         <div id="m_p1_header" class="m_p3_header_only">
@@ -59,8 +59,8 @@
           어린이와 동물 성장 및 발달에 필수 영양소로서 확고한 영양학적 지위와 함께 눈이나 신경의 정상적인<br>
           발달을 돕고 염증치료에 작용하는 등 다양한 효능에 더불어 중요성에 대한 인식이 확대되어 가고 있습니다.</p>
       </div>
-      <img src="img/p3_pra_img.png" alt="" class="p2_mid_img">
-      <img src="img/p3_pra_img2.png" alt="" class="p2_mid_img2">
+      <img src="${pageContext.request.contextPath}/img/p3_pra_img.png" alt="" class="p2_mid_img">
+      <img src="${pageContext.request.contextPath}/img/p3_pra_img2.png" alt="" class="p2_mid_img2">
       <div class="p3_pra01">
         <p>오메가3와 오메가6는 뇌혈관, 심혈관 질환 및 항염증에 경쟁적으로 작용하지만<br>
           오메가6의 높은 비율의 섭취는 오히려 질환에 단점으로 작용하며<br>
