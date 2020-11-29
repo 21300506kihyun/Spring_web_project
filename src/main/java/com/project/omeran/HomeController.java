@@ -537,7 +537,7 @@ public class HomeController {
 
     // TODO: path variable 매핑
 	/**************** 쇼핑몰 페이지 ****************/
-	@RequestMapping(value="omeran/mall", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/{siteName}/mall", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewproduct(@RequestParam(value="curPage", defaultValue="1")int curPage, 
 			@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
 		ModelAndView mav = new ModelAndView("mall");
