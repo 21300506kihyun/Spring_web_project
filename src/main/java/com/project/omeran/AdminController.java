@@ -1473,6 +1473,7 @@ public class AdminController {
 	private Map<String, String> admin_paramMap_defaultSetting(Map<String, String> paramMap, HttpSession session){
 		if(paramMap.get("mall_id") == null) {
 			paramMap.put("mall_id", String.valueOf(session.getAttribute("mall_id")));
+			System.out.println("mallID: "+paramMap.get("mall_id"));
 		}
 		if(paramMap.get("search_keyword") == null) {
     		paramMap.put("search_keyword", "");
@@ -1625,6 +1626,8 @@ public class AdminController {
 			// adminOrder_currTap = 1;
 			// adminOrder_curPage = 1;
 			mav = adminOrderContent(session, EmptyMap);
+			System.out.println("EmptyMap"+EmptyMap);
+			EmptyMap.clear();
 			
 			mav.setViewName("adminOrder");
 			mav.addObject("siteName", siteName);
@@ -1743,6 +1746,7 @@ public class AdminController {
 			
 			// 컨텐츠 채우기
 			mav = adminDeliveryContent(session, EmptyMap);
+			EmptyMap.clear();
 			
 			mav.setViewName("adminDelivery");
 			mav.addObject("siteName", siteName);
@@ -1946,6 +1950,7 @@ public class AdminController {
 			
 			// 컨텐츠 채우기
 			mav = adminDeliverymanContent(session, EmptyMap);
+			EmptyMap.clear();
 			
 			mav.setViewName("adminDeliveryman");
 			mav.addObject("siteName", siteName);
