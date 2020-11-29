@@ -51,7 +51,7 @@
 	
 	        <h1 class="my-4">Omeranmall</h1>
 	        <div class="list-group">
-	          <a href="/" class="list-group-item">전체</a>
+	          <a href="${pageContext.request.contextPath}/" class="list-group-item">전체</a>
 	        </div>
 	
 	      </div>
