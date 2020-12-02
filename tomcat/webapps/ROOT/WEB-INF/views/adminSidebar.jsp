@@ -5,57 +5,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script>
-		function adminSide_hide(){
-			$("#adminSide").removeClass("adminSide_openWidth");
-			$("#adminSide").addClass("adminSide_closeWidth");
-			$("#adminSide_logoDiv").css("display", "none");
-			$("#adminSide_symlink").css("display", "none");
-			$(".adminSide_menuText").css("display", "none");
-			$(".adminSide_openBtn").css("display", "block");
-
-			$.ajax({
-				url: "adminSidebar.toggle",
-				data: "isSideOpen=sideOff",
-				type: "POST",
-				success: function(data){
-
-				},
-				error: function(){
-
-				}
-			});
-
-		}
-		function adminSide_show(){
-			$("#adminSide").removeClass("adminSide_closeWidth");
-			$("#adminSide").addClass("adminSide_openWidth");
-			$("#adminSide_logoDiv").css("display", "block");
-			$("#adminSide_symlink").css("display", "block");
-			$(".adminSide_menuText").css("display", "inline-block");
-			$(".adminSide_openBtn").css("display", "none");
-
-			$.ajax({
-				url: "adminSidebar.toggle",
-				data: "isSideOpen=sideOn",
-				type: "POST",
-				success: function(data){
-
-				},
-				error: function(){
-
-				}
-			});
-		}
-	</script>
 </head>
 <body>
 	<c:set var="isSideOpen" value="${isOpen}" />
-
 	<div id="adminSide" class="adminSide_container <c:if test="${isSideOpen eq 'sideOff'}">adminSide_container_hide</c:if>">
 		<!-- LOGO -->
 		<div id="adminSide_logoDiv" class="adminSide_logoDiv <c:if test="${isSideOpen eq 'sideOff'}">adminSide_logoDiv_hide</c:if>">
-	 		<img src="img/p1_top_logo.png" class="adminSide_logo" onclick="location.href='admin'">
+	 		<img src="<%= request.getContextPath() %>/img/p1_top_logo.png" class="adminSide_logo" onclick='location.href="<%= request.getContextPath() %>/"'>
 	 		<span class="adminSide_closeBtn" onclick="adminSide_hide()">
 	 			<a><i class="fas fa-angle-double-left fa-2x"></i></a>
 	 		</span>
@@ -63,7 +19,7 @@
 
 	 	<!-- 관리자 사이트 바로가기 -->
 	 	<div id="adminSide_symlink" class="adminSide_symlink <c:if test="${isSideOpen eq 'sideOff'}">adminSide_symlnk_hide</c:if>">
-	 		<a href="<%= request.getContextPath() %>/">Omeranmall.com</a>
+	 		<a href="<%= request.getContextPath() %>/${siteName}/">${siteName} 바로가기</a>
 	 	</div>
 
 	 	<!-- 사이드바 열기버튼 -->
@@ -116,7 +72,7 @@
 		</a>
 
 	 	<!-- 고객관리 -->
-	 	<a href="./adminConsumer" class="
+	 	<%-- <a href="./adminConsumer" class="
 		 	<% if((String)session.getAttribute("adminSideState") == "고객관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
@@ -124,7 +80,7 @@
 		 	<% } %>">
 			<i class="fas fa-user-cog fa-fw adminSide_menu_icons"></i>
 			<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">고객관리</div>
-		</a>
+		</a> --%>
 
 	 	<!-- 배송자관리 -->
 	 	<a href="./adminDeliveryman" class="

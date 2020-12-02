@@ -33,7 +33,7 @@
   <% } %>
   <p>|</p>
   <!-- <a href="#form-mail-popup" class="popup-btn">회원가입</a> -->
-  <a href="<%= request.getContextPath() %>" class="popup-btn">플랫폼으로 돌아가기</a>
+  <a href="<%= request.getContextPath() %>/" class="popup-btn">플랫폼으로 돌아가기</a>
   <!-- <p>|</p> -->
   <!-- <a href="#form-mail-popup" class="popup-btn">문의하기</a> -->
 </body>
