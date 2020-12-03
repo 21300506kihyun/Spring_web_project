@@ -16,7 +16,7 @@
   if(session.getAttribute("user_category") != null){
 	  status = (int)session.getAttribute("user_category");
   }
-  if(userName != null){ 
+  if(userName != null){
   	if(status == -2){ %>
   		<a href="<%= request.getContextPath() %>/superAdmin"><% out.println(session.getAttribute("user_name")); %> 님</a>
   	<% }else if (status == -1){  %>

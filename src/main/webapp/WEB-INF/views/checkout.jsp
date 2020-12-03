@@ -6,12 +6,12 @@
 <head>
 	<title>고용량 오메가3 함요 : 자연방사유정란 오메란</title>
 	<%@ include file="./header.jsp" %>
-	
+
 <script>
 /* $(document).ready(function(){
 	$("#pay").click(function(){
 		var IMP = window.IMP; // 생략가능
-		IMP.init('imp79555503'); 
+		IMP.init('imp79555503');
 		IMP.request_pay({
 		    pg : 'inicis', // version 1.1.0부터 지원.
 		    pay_method : 'card',
@@ -39,10 +39,10 @@
 		});
 	});
 }); */
-	
-$(function pay() {
+
+ $(function pay() {
 	IMP.init('imp79555503'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-	
+
 	IMP.request_pay({
 	    pg : 'inicis', // version 1.1.0부터 지원.
 	    pay_method : 'card',
@@ -67,7 +67,7 @@ $(function pay() {
 	        msg += '에러내용 : ' + rsp.error_msg;
 	    }
 	    alert(msg);
-	}); 
+	});
 });
 
 
@@ -85,7 +85,7 @@ $(function pay() {
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <h1><a href="index">Omeran</a></h1>
+                        <h1><a href="index">${siteName}</a></h1>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
@@ -108,24 +108,24 @@ $(function pay() {
 							  <% String userName = (String)session.getAttribute("user_name");
   							if(userName != null){ %>
 							  	<a href="#mypage"><% out.println(session.getAttribute("user_name")); %> 님</a>
-								<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>
+							  	<!-- <a onclick="moveAjax('../logout.do')" class="popup-btn">로그아웃</a> -->
 							  <% }else{ %>
 							   	<a href="#login" class="popup-btn">로그인</a>
 							  <% } %>
-							  <a href="#form-mail-popup" class="popup-btn">회원가입</a>
-							  <a href="#form-mail-popup" class="popup-btn">리셀러 회원신청</a>
+							  <!-- <a href="#form-mail-popup" class="popup-btn">회원가입</a> -->
+							  <!-- <a href="#form-mail-popup" class="popup-btn">리셀러 회원신청</a> -->
 					      </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="canvas__open">
+            <!-- <div class="canvas__open">
                 <i class="fa fa-bars"></i>
-            </div>
+            </div> -->
         </div>
     </header>
     <!-- Header Section End -->
-    
+
         <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
@@ -165,14 +165,14 @@ $(function pay() {
                                     <p> 주소 : ${address.address02} </p>
                                     <p> 상세주소 : ${address.address03} </p>
                                 </div>
-                            </div>                   
+                            </div>
                        </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="checkout__order">
                                 <h5> 상품정보 </h5>
                                 <div class="checkout__order__product">
-                                <img class="card-img-top mall-image" src="${pageContext.request.contextPath}/uploadFolder/${detail.product_img}">	
+                                <img class="card-img-top mall-image" src="${pageContext.request.contextPath}/uploadFolder/${detail.product_img}">
                                     <ul>
                                         <li>
                                             <span class="top__text">상품 </span>
@@ -187,7 +187,7 @@ $(function pay() {
                                     </ul>
                                 </div>
                                 <button type="submit" class="site-btn" id="pay" onclick="pay()">구매하기 </button>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -207,11 +207,11 @@ $(function pay() {
         <script src="${pageContext.request.contextPath}/js/owl.carousel.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery.nicescroll.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/main.js"></script>
-        
+
   	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-	
-	
+
+
     </body>
 
     </html>

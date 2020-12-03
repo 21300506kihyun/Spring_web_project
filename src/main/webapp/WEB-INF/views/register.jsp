@@ -22,7 +22,7 @@
 	<!-- Navigation -->
 	  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 	    <div class="container">
-	      <a class="navbar-brand" href="#">지역기반 신선식품 유통 플랫폼</a>
+	      <a class="navbar-brand" href="${pageContext.request.contextPath}/">지역기반 신선식품 유통 플랫폼</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -44,30 +44,31 @@
 					<form action="register" method="POST">
 						<div class="form-row">
 							<div class="col form-group">
-								<label>아이디</label>   
-							  	<input name = "user_id" id = "u_id" type="text" class="form-control" placeholder="">
+								<label>아이디</label>
+								<div style="display: flex">
+								  	<input name = "user_id" id = "u_id" type="text" class="form-control" placeholder="" autocomplete="user-name">
+								  	<div class="form-group">
+					        			<button id="ckbt" type="button" class="btn btn-primary btn-block" style="margin: 2px;" onclick="idCheck()" value="N"> 중복체크 </button>
+					    			</div>
+								</div>   
 							</div> 
-					    	<div class="form-group">
-					    		<label>   </label> 
-					        	<button id="ckbt" type="button" class="btn btn-primary btn-block" onclick="idCheck()" value="N"> 중복체크 </button>
-					    	</div>
 						</div> 
 						<div class="form-row">
 							<div class="col form-group">
 								<label>비밀번호</label>   
-							  	<input name = "password" id = "pw" type="password" class="form-control" placeholder="">
+							  	<input name = "password" id = "pw" type="password" class="form-control" placeholder="" autocomplete="new-password">
 							</div> 
 						</div> 
 						<div class="form-row">
 							<div class="col form-group">
 								<label>비밀번호 확인</label>   
-							  	<input id = "pw_ck" type="password" class="form-control" placeholder="" required>
+							  	<input id = "pw_ck" type="password" class="form-control" placeholder="" autocomplete="new-password" required>
 							</div> 
 						</div> 
 						<div class="form-row">
 							<div class="col form-group">
 								<label>이름</label>   
-							  	<input name = "user_name" id = "name" type="text" class="form-control" placeholder="">
+							  	<input name = "user_name" id = "name" type="text" class="form-control" placeholder="" autocomplete="user-name">
 							</div> 
 						</div> 
 						<div class="form-group">
@@ -76,7 +77,7 @@
 						</div> 
 						<div class="form-group">
 							<label>휴대폰번호</label>
-							<input name = "telephone" id = "tel" type="tel" class="form-control" placeholder="000-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+							<input name = "telephone" id = "tel" type="tel" class="form-control" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
 						</div> 
 						<div class="form-group">
 								<label class="form-check form-check-inline">

@@ -79,11 +79,11 @@
   <!-- *********** 쇼핑몰 상품 부분 *************** -->
   
   	<select id="mall_getProductCount" resultType="int">
-		SELECT COUNT(*) FROM ProductTable WHERE product_name LIKE "%${keyword}%";	
+		SELECT COUNT(*) FROM ProductTable WHERE product_name LIKE "%${keyword}%" AND mall_id = #{mall_id} AND state_id = "P001";	
 	</select>
 	
 	<select id="mall_getProductList" resultType="HashMap">
-		SELECT * FROM ProductTable WHERE product_name LIKE "%${keyword}%" LIMIT #{startIndex}, #{cntPerPage};
+		SELECT * FROM ProductTable WHERE product_name LIKE "%${keyword}%" AND mall_id = #{curr_mall_id} AND state_id = "P001" LIMIT #{startIndex}, #{cntPerPage};
 	</select>
 	
 	<select id="mall_getProductDetail" resultType="HashMap">

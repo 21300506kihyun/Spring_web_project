@@ -36,8 +36,8 @@ public interface MemberService {
 	
 	// 쇼핑몰 상품 관련
 	
-	int mall_getProductCount(String keyword);
-	List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword);
+	int mall_getProductCount(String keyword, int mall_id);
+	List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword, int curr_mall_id);
 	Map<String, Object> mall_getProductDetail(int p_id);
 	
 	

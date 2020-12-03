@@ -47,8 +47,8 @@ public interface MemberDAO {
 	
 	// *********** 쇼핑몰 상품 부분 **************
 	
-	public int mall_getProductCount(@Param("keyword")String keyword);
-	public List<Map<String, Object>> mall_getProductList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword);
+	public int mall_getProductCount(@Param("keyword")String keyword, @Param("mall_id") int mall_id);
+	public List<Map<String, Object>> mall_getProductList(@Param("startIndex")int startIndex, @Param("cntPerPage")int cntPerPage, @Param("keyword")String keyword, @Param("curr_mall_id")int curr_mall_id);
 	Map<String, Object> mall_getProductDetail(@Param("p_id")int p_id);
 	
 	//*********** 회원가입 부분 *****************

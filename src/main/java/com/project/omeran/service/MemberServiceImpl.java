@@ -166,13 +166,13 @@ public class MemberServiceImpl implements MemberService{
 	
 	// 쇼핑몰 상품 관련
 	@Override
-	public int mall_getProductCount(String keyword) {
-		return memberDao.mall_getProductCount(keyword);
+	public int mall_getProductCount(String keyword, int mall_id) {
+		return memberDao.mall_getProductCount(keyword, mall_id);
 	}
 	
 	@Override
-	public List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword) {
-		return memberDao.mall_getProductList(startIndex, cntPerPage, keyword);
+	public List<Map<String, Object>> mall_getProductList(int startIndex, int cntPerPage, String keyword, int curr_mall_id) {
+		return memberDao.mall_getProductList(startIndex, cntPerPage, keyword, curr_mall_id);
 	}
 
 	@Override

@@ -539,19 +539,25 @@ public class HomeController {
 	/**************** 쇼핑몰 페이지 ****************/
 	@RequestMapping(value="/{siteName}/mall", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView viewproduct(@RequestParam(value="curPage", defaultValue="1")int curPage, 
-			@RequestParam(value="faqKeyword", defaultValue="")String keyword) throws Exception{
+			@RequestParam(value="faqKeyword", defaultValue="")String keyword,
+			@PathVariable("siteName")String siteName) throws Exception{
 		ModelAndView mav = new ModelAndView("mall");
 		
+		// Mall id 가져오기
+		int curr_mall_id = memberService.getMallIdByName(siteName);
+		
 		// FAQ 리스트 개수 불러오기 (검색결과, 페이징)
-		int listCnt = memberService.mall_getProductCount(keyword);
+		int listCnt = memberService.mall_getProductCount(keyword, curr_mall_id);
 		
 		PaginationVO pagination = new PaginationVO(listCnt, curPage);
 		
 		int startIndex = pagination.getStartIndex();
 		int cntPerPage = pagination.getPageSize();
 	
-		List<Map<String, Object>> list = memberService.mall_getProductList(startIndex, cntPerPage, keyword);
 		
+		List<Map<String, Object>> list = memberService.mall_getProductList(startIndex, cntPerPage, keyword, curr_mall_id);
+		
+		mav.addObject("siteName", siteName);
 		mav.addObject("listCnt", listCnt);
 		mav.addObject("list", list);
 		mav.addObject("pagination", pagination);
@@ -562,32 +568,48 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="{siteName}/product_detail", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView viewproduct_detail(@RequestParam("p_id") int p_id) throws Exception{
+	public ModelAndView viewproduct_detail(@RequestParam("p_id") int p_id,
+			@PathVariable("siteName")String siteName) throws Exception{
 		ModelAndView mav = new ModelAndView("product_detail");
 	
 		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
 		
+		mav.addObject("siteName", siteName);
 		mav.addObject("detail", product_detail);
 		return mav;
 	}
 	
 	@RequestMapping(value="{siteName}/checkout", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView viewCheckout(HttpSession session, @RequestParam("p_id") int p_id) throws Exception{
-		ModelAndView mav = new ModelAndView("checkout");
-		logger.info("1111");
-		int u_id = (int) session.getAttribute("u_id");
-		logger.info(Integer.toString(u_id));
-		logger.info("2222");
+	public ModelAndView viewCheckout(HttpSession session, HttpServletRequest request, 
+			@RequestParam("p_id") int p_id,
+			@PathVariable("siteName")String siteName) throws Exception{
+		ModelAndView mav = new ModelAndView();
 		
-		Map<String, Object>  userVO = memberService.GetUserInfo(u_id);
-		Map<String, Object>  addressVO = memberService.GetUserAddress(u_id);
+		System.out.println("session: "+ session.getAttribute("u_id"));
+		if(session.getAttribute("u_id") == null) {
+			mav.setViewName("moveWithAlert");
+			String referer = request.getHeader("referer");
+			String msg = "로그인이 필요한 서비스입니다.";
+			mav.addObject("msg", msg);
+			mav.addObject("url", referer);
+			return mav;
+		}
+		else {
+			mav.setViewName("checkout");
+			int u_id = (int) session.getAttribute("u_id");
 			
-		Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
+			Map<String, Object>  userVO = memberService.GetUserInfo(u_id);
+			Map<String, Object>  addressVO = memberService.GetUserAddress(u_id);
+			
+			Map<String, Object> product_detail = memberService.mall_getProductDetail(p_id);
+			
+			mav.addObject("siteName", siteName);
+			mav.addObject("detail", product_detail);
+			mav.addObject("userInfo",userVO);
+			mav.addObject("address",addressVO);
+			return mav;
+		}
 		
-		mav.addObject("detail", product_detail);
-		mav.addObject("userInfo",userVO);
-		mav.addObject("address",addressVO);
-		return mav;
 	}
 
 
@@ -605,10 +627,10 @@ public class HomeController {
 		//logger.info(userVO.getUser_id());
 		//logger.info(userVO.getTelephone());
 		int check = memberService.idCheck(userVO);
-		logger.info(userVO.getUser_id());
-		logger.info(userVO.getEmail());
-		logger.info(userVO.getPostcode());
-		logger.info(userVO.getAddress());
+//		logger.info(userVO.getUser_id());
+//		logger.info(userVO.getEmail());
+//		logger.info(userVO.getPostcode());
+//		logger.info(userVO.getAddress());
 		//logger.info(Integer.toString(check));
 		// memberService.insertAddress(userVO);
 		
@@ -625,13 +647,13 @@ public class HomeController {
 				String pwd = pwdEncoder.encode(inputPass);
 				userVO.setPassword(pwd);
 				memberService.insertUserInfo(userVO);
-				}
+			}
 		}catch(Exception e){
 				throw new RuntimeException();
 		} 
 		int u_id = memberService.getU_Id(userVO.getUser_id());	
 		userVO.setU_id(u_id);
-		logger.info(Integer.toString(u_id));
+//		logger.info(Integer.toString(u_id));
 		memberService.insertAddress(userVO);
 		//int user_id = memberService.getUserId(userVO.getUser_id());	
 		//addressVO.setU_id(user_id);

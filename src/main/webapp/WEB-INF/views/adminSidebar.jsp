@@ -16,20 +16,20 @@
 	 			<a><i class="fas fa-angle-double-left fa-2x"></i></a>
 	 		</span>
 	 	</div>
-	 	
+
 	 	<!-- 관리자 사이트 바로가기 -->
 	 	<div id="adminSide_symlink" class="adminSide_symlink <c:if test="${isSideOpen eq 'sideOff'}">adminSide_symlnk_hide</c:if>">
 	 		<a href="<%= request.getContextPath() %>/${siteName}/">${siteName} 바로가기</a>
 	 	</div>
-	 	
+
 	 	<!-- 사이드바 열기버튼 -->
 	 	<a onclick="adminSide_show()" class="adminSide_menus adminSide_openBtn <c:if test="${isSideOpen eq 'sideOff'}">adminSide_openBtn_hide</c:if>">
 	 		<i class="fas fa-angle-double-right fa-fw adminSide_menu_icons"></i>
 	 	</a>
-	 	
+
 	 	<!-- 메인(대시보드) -->
 	 	<a href="./adminDashboard" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "대시보드"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "대시보드"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -40,7 +40,7 @@
 
 	 	<!-- 상품관리 -->
 	 	<a href="./adminProduct" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "상품관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "상품관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -51,7 +51,7 @@
 
 	 	<!-- 주문관리 -->
 	 	<a href="./adminOrder" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "주문관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "주문관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -62,7 +62,7 @@
 
 	 	<!-- 배송관리 -->
 	 	<a href="./adminDelivery" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "배송관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "배송관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -73,7 +73,7 @@
 
 	 	<!-- 고객관리 -->
 	 	<%-- <a href="./adminConsumer" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "고객관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "고객관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -81,10 +81,10 @@
 			<i class="fas fa-user-cog fa-fw adminSide_menu_icons"></i>
 			<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">고객관리</div>
 		</a> --%>
-	 	
+
 	 	<!-- 배송자관리 -->
 	 	<a href="./adminDeliveryman" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "배송자관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "배송자관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus
@@ -92,10 +92,10 @@
 		 	<i class="fas fa-people-carry fa-fw adminSide_menu_icons"></i>
 		 	<div class="adminSide_menuText <c:if test="${isSideOpen eq 'sideOff'}">adminSide_menuText_hide</c:if>">배송자관리</div>
 		 	</a>
-	 	
+
 	 	<!-- 사이트관리 -->
 	 	<a href="./adminSite" class="
-		 	<% if((String)session.getAttribute("adminSideState") == "사이트관리"){ %>  
+		 	<% if((String)session.getAttribute("adminSideState") == "사이트관리"){ %>
 		 		adminSide_menuActive
 		 	<% }else{ %>
 		 		adminSide_menus

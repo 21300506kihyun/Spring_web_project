@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -10,6 +11,7 @@
 </head>
 
 <body>
+<div id="body_wrapper">
     <jsp:include page="./popupMail.jsp"></jsp:include>
     <jsp:include page="./mobSidebar.jsp"></jsp:include>
     <jsp:include page="./login.jsp"></jsp:include>
@@ -21,7 +23,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <h1><a href="index">Omeran</a></h1>
+                        <h1><a href="index">${siteName}</a></h1>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
@@ -44,20 +46,21 @@
 							  <% String userName = (String)session.getAttribute("user_name");
   							if(userName != null){ %>
 							  	<a href="#mypage"><% out.println(session.getAttribute("user_name")); %> 님</a>
-								<a onclick="moveAjax('logout.do')" class="popup-btn">로그아웃</a>
+							  	<!-- <a onclick="moveAjax('../logout.do')" class="popup-btn">로그아웃</a> -->
 							  <% }else{ %>
 							   	<a href="#login" class="popup-btn">로그인</a>
 							  <% } %>
-							  <a href="#form-mail-popup" class="popup-btn">회원가입</a>
-							  <a href="#form-mail-popup" class="popup-btn">리셀러 회원신청</a>
+							  <a href="<%= request.getContextPath() %>/" class="popup-btn">플랫폼 메인</a>
+							  <!-- <a href="#form-mail-popup" class="popup-btn">회원가입</a> -->
+							  <!-- <a href="#form-mail-popup" class="popup-btn">리셀러 회원신청</a> -->
 					      </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="canvas__open">
+            <!-- <div class="canvas__open">
                 <i class="fa fa-bars"></i>
-            </div>
+            </div> -->
         </div>
     </header>
     <!-- Header Section End -->
@@ -84,17 +87,12 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
-                        <div class="product__details__slider__content">
-                            <div class="product__details__pic__slider owl-carousel">
-                            <img class="card-img-top mall-image" src="${pageContext.request.contextPath}/uploadFolder/${detail.product_img}">
-                            </div>
-                        </div>
+<img src="${pageContext.request.contextPath}/uploadFolder/${detail.product_img}">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
                         <h3>${detail.product_name }</h3>
-                        <%= request.getRealPath("/") %>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -102,7 +100,10 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                         </div>
-                        <div class="product__details__price">${detail.discount_price}원<span>${detail.price}원</span></div>
+                        <div class="product__details__price">
+                        	<fmt:formatNumber type="number" maxFractionDigits="3" value="${detail.discount_price}"/>원
+                        	<span><fmt:formatNumber type="number" maxFractionDigits="3" value="${detail.price}"/>원</span>
+                        </div>
                         <p>${detail.summary }</p>
                         <div class="product__details__button">
                             <div class="quantity">
@@ -126,7 +127,7 @@
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>상품설명</h6>
                                 <p>${detail.detail}</p>
-                            </div>                                         
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,6 +148,7 @@
     <script src="${pageContext.request.contextPath}/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery.nicescroll.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/main.js"></script>
+</div>
 </body>
 
 </html>
