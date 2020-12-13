@@ -225,7 +225,7 @@
 		
 		
 		<div class="adminProductDetail_content">
-			<a href="superAdmin" class="adminTop_btn adminTop_btnWhite">취소</a>
+			<a href="superAdminMallManager" class="adminTop_btn adminTop_btnWhite">취소</a>
 			<a id="superAdmin_submit01" class="adminTop_btn adminTop_btnGrey superAdminSubmitButton">저장</a>
 		</div>
 	</form>
