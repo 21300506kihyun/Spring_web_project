@@ -130,8 +130,8 @@
 		       } %>
           </form>
         </div>
-<% out.println(session.getAttribute("curr_mall_id")); %>
-<% out.println(session.getAttribute("mall_id")); %>
+<%-- <% out.println(session.getAttribute("curr_mall_id")); %>
+<% out.println(session.getAttribute("mall_id")); %> --%>
         <div class="faq-table">
           <c:choose>
             <c:when test="${pagination.listCnt != 0}">
